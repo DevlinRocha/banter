@@ -8,15 +8,21 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.6.2",
     "next": "12.0.4",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "react-redux": "^7.2.6"
   },
   "devDependencies": {
     "@types/node": "16.11.9",
     "@types/react": "17.0.36",
+    "autoprefixer": "^10.4.0",
     "eslint": "7",
     "eslint-config-next": "12.0.4",
+    "postcss": "^8.3.11",
+    "tailwind-styled-components": "^2.0.3",
+    "tailwindcss": "^2.2.19",
     "typescript": "4.5.2"
   }
 }
