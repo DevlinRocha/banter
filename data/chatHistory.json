@@ -1,0 +1,22 @@
+{
+  "messages": {
+    "a": {
+      "user": {
+        "img": "https://pbs.twimg.com/profile_images/1369982148682215427/dbS7T1nr_400x400.jpg",
+        "username": "Devlin"
+      },
+      "content": "Hello world!",
+      "edited": false,
+      "reactions": null
+    },
+    "b": {
+      "user": {
+        "img": "https://pbs.twimg.com/profile_images/1369982148682215427/dbS7T1nr_400x400.jpg",
+        "username": "Devlin"
+      },
+      "content": "My name is Devlin, nice to meet you!",
+      "edited": false,
+      "reactions": null
+    }
+  }
+}
