@@ -42,7 +42,7 @@ const Container = tw.li`
 `;
 
 const ProfilePicture = tw.div`
-  absolute left-16px
+  absolute left-4
 `;
 
 const MessageContent = tw.div`
@@ -54,7 +54,7 @@ const StyledImage = tw(Image)`
 `;
 
 const MessageInfo = tw.div`
-  flex gap-1
+  flex flex-wrap gap-1
 `;
 
 const Username = tw.span`
