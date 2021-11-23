@@ -10,6 +10,7 @@ interface Messages {
       username: string;
     };
     content: string;
+    date: string;
     edited: boolean;
     reactions: null;
   };
@@ -26,8 +27,8 @@ function displayMessages(messages: Messages) {
 export default function Chat() {
   const messages = chatHistory.messages;
 
-  return <Main>{displayMessages(messages)}</Main>;
+  return <ChatList>{displayMessages(messages)}</ChatList>;
 }
 
-const Main = tw.main`
+const ChatList = tw.ol`
 `;
