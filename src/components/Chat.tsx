@@ -1,5 +1,7 @@
 import tw from "tailwind-styled-components";
+import Title from "./Title";
 import Message from "./Message";
+import TextArea from "./TextArea";
 
 import chatHistory from "../../data/chatHistory.json";
 
@@ -27,7 +29,13 @@ function displayMessages(messages: Messages) {
 export default function Chat() {
   const messages = chatHistory.messages;
 
-  return <ChatList>{displayMessages(messages)}</ChatList>;
+  return (
+    <>
+      <Title />
+      <ChatList>{displayMessages(messages)}</ChatList>
+      <TextArea />
+    </>
+  );
 }
 
 const ChatList = tw.ol`
