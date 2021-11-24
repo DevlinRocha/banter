@@ -5,12 +5,15 @@ interface MessageProps {
   message: {
     user: {
       img: string;
-      username: string;
+      name: string;
     };
     content: string;
-    date: string;
+    date: {
+      seconds: number;
+      nanoseconds: number;
+    };
     edited: boolean;
-    reactions: null;
+    reactions: never[];
   };
 }
 
@@ -28,8 +31,8 @@ export default function Message(props: MessageProps) {
       </ProfilePicture>
       <MessageContent>
         <MessageInfo>
-          <Username>{props.message.user.username}</Username>
-          <Date>{props.message.date}</Date>
+          <Username>{props.message.user.name}</Username>
+          {/* <Date>{props.message.date.seconds}</Date> */}
         </MessageInfo>
         <Content>{props.message.content}</Content>
       </MessageContent>

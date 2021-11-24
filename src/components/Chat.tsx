@@ -1,9 +1,10 @@
+import { useState, useEffect } from "react";
+import { collection, query, onSnapshot } from "firebase/firestore";
+import { db } from "../../firebase";
 import tw from "tailwind-styled-components";
 import Title from "./Title";
 import Message from "./Message";
 import TextArea from "./TextArea";
-
-import chatHistory from "../../data/chatHistory.json";
 
 interface Messages {
   [key: string]: {
@@ -14,25 +15,46 @@ interface Messages {
     content: string;
     date: string;
     edited: boolean;
-    reactions: null;
+    reactions: never[];
   };
 }
 
-function displayMessages(messages: Messages) {
-  const messageList = [];
-  for (let message in messages) {
-    messageList.push(<Message message={messages[message]} key={message} />);
-  }
-  return messageList;
-}
-
 export default function Chat() {
-  const messages = chatHistory.messages;
+  const [messages, setMessages] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetchMessages();
+  }, []);
+
+  useEffect(() => {
+    displayMessages();
+  }, [messages]);
+
+  function fetchMessages() {
+    const q = query(
+      collection(db, "serverList", "public", "servers", "global", "messages")
+    );
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const messages: any[] = [];
+      querySnapshot.forEach((doc) => {
+        messages.push(doc.data());
+      });
+      setMessages(messages);
+    });
+  }
+
+  function displayMessages() {
+    const chat: any = [];
+    messages.map((message: any, index) => {
+      chat.push(<Message message={message} key={index} />);
+    });
+    return chat;
+  }
 
   return (
     <>
       <Title />
-      <ChatList>{displayMessages(messages)}</ChatList>
+      <ChatList>{displayMessages()}</ChatList>
       <TextArea />
     </>
   );
