@@ -14,7 +14,14 @@ export default function TextArea() {
   }
   async function sendMessage(e: any) {
     e.preventDefault();
-    console.log(Date());
+
+    // Shim for compatibility for older browsers, such as IE8 and earlier:
+    if (!Date.now) {
+      Date.now = function () {
+        return new Date().getTime();
+      };
+    }
+
     try {
       const docRef = await addDoc(
         collection(db, "serverList", "public", "servers", "global", "messages"),
@@ -23,6 +30,7 @@ export default function TextArea() {
           date: Date(),
           edited: false,
           reactions: [],
+          timestamp: Date.now(),
           user: {
             img: "https://pbs.twimg.com/profile_images/1369982148682215427/dbS7T1nr_400x400.jpg",
             name: "Devlin",

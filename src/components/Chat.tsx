@@ -16,6 +16,7 @@ interface Messages {
     date: string;
     edited: boolean;
     reactions: never[];
+    timestamp: number;
   };
 }
 
@@ -45,7 +46,10 @@ export default function Chat() {
 
   function displayMessages() {
     const chat: any = [];
-    messages.map((message: any, index) => {
+    const sortedMessages = messages.sort((a, b) => {
+      return a.timestamp - b.timestamp;
+    });
+    sortedMessages.map((message: any, index) => {
       chat.push(<Message message={message} key={index} />);
     });
     return chat;

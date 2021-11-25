@@ -14,6 +14,7 @@ interface MessageProps {
     };
     edited: boolean;
     reactions: never[];
+    timestamp: number;
   };
 }
 
