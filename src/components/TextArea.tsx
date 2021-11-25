@@ -51,7 +51,7 @@ export default function TextArea() {
 }
 
 const Container = tw.form`
-
+  sticky bottom-0 z-10
 `;
 
 const TextInput = tw.input`

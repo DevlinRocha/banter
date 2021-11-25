@@ -5,5 +5,5 @@ export default function Title() {
 }
 
 const Header = tw.section`
-    flex h-10
+  flex sticky top-0 h-10 bg-white z-10
 `;
