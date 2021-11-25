@@ -9,13 +9,14 @@ export default function TextArea() {
     let messageContent;
     if (inputRef.current) {
       messageContent = inputRef.current.value;
+      inputRef.current.value = "";
     }
     return messageContent;
   }
   async function sendMessage(e: any) {
     e.preventDefault();
 
-    // Shim for compatibility for older browsers, such as IE8 and earlier:
+    // Compatibility shim for older browsers, such as IE8 and earlier:
     if (!Date.now) {
       Date.now = function () {
         return new Date().getTime();
@@ -54,5 +55,5 @@ const Container = tw.form`
 `;
 
 const TextInput = tw.input`
-  border-black border-2 rounded-md
+  border-black border-2 rounded-full pl-4
 `;
