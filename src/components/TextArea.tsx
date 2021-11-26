@@ -55,5 +55,5 @@ const Container = tw.form`
 `;
 
 const TextInput = tw.input`
-  border-black border-2 rounded-full pl-4
+  border-black border-2 rounded-full p-1 pl-4
 `;
