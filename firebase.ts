@@ -1,6 +1,11 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+  onAuthStateChanged,
+} from "firebase/auth";
 import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
@@ -13,13 +18,26 @@ const firebaseConfig = {
   measurementId: "G-YCR3GD7Y6V",
 };
 
-export function createAccount(email: string, password: string) {
-  const auth = getAuth();
+export function createAccount(
+  email: string,
+  password: string,
+  username: string
+) {
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in
       const user = userCredential.user;
-      console.log(user);
+      updateProfile(user, {
+        displayName: username,
+        photoURL:
+          "https://firebasestorage.googleapis.com/v0/b/banter-69832.appspot.com/o/Account.png?alt=media&token=32d8543b-cc91-4006-b014-ab93d128441a",
+      })
+        .then(() => {
+          // Profile updated
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -29,4 +47,17 @@ export function createAccount(email: string, password: string) {
 
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore();
+export const auth = getAuth();
+const user = auth.currentUser;
+type User = typeof user;
 export const analytics = getAnalytics(app);
+
+onAuthStateChanged(auth, (user: User) => {
+  if (user) {
+    // User is signed in
+    // https://firebase.google.com/docs/reference/js/firebase.User
+    const uid = user.uid;
+  } else {
+    // User is signed out
+  }
+});

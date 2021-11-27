@@ -6,19 +6,24 @@ import tw from "tailwind-styled-components/dist/tailwind";
 export default function RegistrationForm() {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const usernameRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
   function handleSubmit(e: any) {
     e.preventDefault();
     let email = "";
     let password = "";
+    let username = "";
     if (emailRef.current) {
       email = emailRef.current.value;
     }
     if (passwordRef.current) {
       password = passwordRef.current.value;
     }
-    createAccount(email, password);
+    if (usernameRef.current) {
+      username = usernameRef.current.value;
+    }
+    createAccount(email, password, username);
     router.push("/register-complete");
   }
 
@@ -39,6 +44,7 @@ export default function RegistrationForm() {
       <UsernameField>
         <UsernameLabel htmlFor="usernameInput">Username</UsernameLabel>
         <UsernameInput
+          ref={usernameRef}
           type="text"
           required
           placeholder="What should everyone call you?"

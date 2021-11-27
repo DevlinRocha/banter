@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { addDoc, collection } from "firebase/firestore";
-import { db } from "../../firebase";
+import { db, auth } from "../../firebase";
 import tw from "tailwind-styled-components";
 
 export default function TextArea() {
@@ -33,8 +33,8 @@ export default function TextArea() {
           reactions: [],
           timestamp: Date.now(),
           user: {
-            img: "https://pbs.twimg.com/profile_images/1369982148682215427/dbS7T1nr_400x400.jpg",
-            name: "Devlin",
+            img: auth.currentUser?.photoURL,
+            name: auth.currentUser?.displayName,
           },
         }
       );
