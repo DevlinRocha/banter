@@ -1,13 +1,40 @@
+import { useRef } from "react";
+import { useRouter } from "next/router";
+import { createAccount } from "../../firebase";
 import tw from "tailwind-styled-components/dist/tailwind";
 
 export default function RegistrationForm() {
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
+
+  function handleSubmit(e: any) {
+    e.preventDefault();
+    let email = "";
+    let password = "";
+    if (emailRef.current) {
+      email = emailRef.current.value;
+    }
+    if (passwordRef.current) {
+      password = passwordRef.current.value;
+    }
+    createAccount(email, password);
+    router.push("/register-complete");
+  }
+
   return (
-    <FormContainer>
+    <FormContainer onSubmit={handleSubmit}>
       <FormTitle>Create an account</FormTitle>
 
       <EmailField>
         <EmailLabel htmlFor="emailInput">Email</EmailLabel>
-        <EmailInput type="email" required placeholder="Email" id="emailInput" />
+        <EmailInput
+          ref={emailRef}
+          type="email"
+          required
+          placeholder="Email"
+          id="emailInput"
+        />
       </EmailField>
       <UsernameField>
         <UsernameLabel htmlFor="usernameInput">Username</UsernameLabel>
@@ -22,13 +49,13 @@ export default function RegistrationForm() {
       <PasswordField>
         <PasswordLabel htmlFor="passwordInput">Password</PasswordLabel>
         <PasswordInput
+          ref={passwordRef}
           type="pasword"
           required
           placeholder="Password"
           id="passwordInput"
         />
       </PasswordField>
-
       <SubmitButton type="submit" value="Continue" />
     </FormContainer>
   );
