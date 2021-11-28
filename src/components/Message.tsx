@@ -19,6 +19,49 @@ interface MessageProps {
 }
 
 export default function Message(props: MessageProps) {
+  function getDate() {
+    const timestamp = props.message.timestamp;
+    const date = new Date(timestamp);
+    const dayNumber = date.getDay();
+    const day = getDay(dayNumber);
+    const minutes = date.getMinutes();
+
+    let hours = date.getHours();
+    let period = "";
+
+    if (hours > 12) {
+      period = "PM";
+      hours = hours - 12;
+    } else {
+      period = "AM";
+    }
+
+    const format = `${day} at ${hours}:${minutes} ${period}`;
+    return format;
+  }
+
+  function getDay(day: number) {
+    const today = new Date().getDay();
+    switch (day) {
+      case today:
+        return "Today";
+      case 1:
+        return "Monday";
+      case 2:
+        return "Tuesday";
+      case 3:
+        return "Wednesday";
+      case 4:
+        return "Thursday";
+      case 5:
+        return "Friday";
+      case 6:
+        return "Saturday";
+      case 7:
+        return "Sunday";
+    }
+  }
+
   return (
     <Container>
       <ProfilePicture>
@@ -33,7 +76,7 @@ export default function Message(props: MessageProps) {
       <MessageContent>
         <MessageInfo>
           <Username>{props.message.user.name}</Username>
-          {/* <Date>{props.message.date.seconds}</Date> */}
+          <MessageDate>{getDate()}</MessageDate>
         </MessageInfo>
         <Content>{props.message.content}</Content>
       </MessageContent>
@@ -64,7 +107,7 @@ const MessageInfo = tw.div`
 const Username = tw.span`
 `;
 
-const Date = tw.span`
+const MessageDate = tw.span`
 `;
 
 const Content = tw.p`
