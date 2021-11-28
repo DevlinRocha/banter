@@ -8,6 +8,7 @@ export default function TextArea() {
   function getText() {
     let messageContent;
     if (inputRef.current) {
+      if (inputRef.current.value.trim() === "") return;
       messageContent = inputRef.current.value;
       inputRef.current.value = "";
     }
@@ -51,7 +52,7 @@ export default function TextArea() {
 }
 
 const Container = tw.form`
-  sticky bottom-0 z-10
+  sticky bottom-0 z-10 w-full bg-white
 `;
 
 const TextInput = tw.input`
