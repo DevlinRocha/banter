@@ -56,13 +56,18 @@ export default function Chat() {
   }
 
   return (
-    <>
+    <Container>
       <Title />
       <ChatList>{displayMessages()}</ChatList>
       <TextArea />
-    </>
+    </Container>
   );
 }
 
+const Container = tw.div`
+  flex flex-col h-screen
+`;
+
 const ChatList = tw.ol`
+  flex-grow flex flex-col justify-end
 `;
