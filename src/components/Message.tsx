@@ -22,11 +22,13 @@ export default function Message(props: MessageProps) {
   function getDate() {
     const timestamp = props.message.timestamp;
     const date = new Date(timestamp);
+    const year = date.getFullYear();
+    const month = date.getMonth();
     const dayNumber = date.getDay();
-    const day = getDay(dayNumber);
-    const minutes = date.getMinutes();
+    const day = getDay(date, dayNumber);
 
     let hours = date.getHours();
+    let minutes: number | string = date.getMinutes();
     let period = "";
 
     if (hours > 12) {
@@ -36,29 +38,38 @@ export default function Message(props: MessageProps) {
       period = "AM";
     }
 
-    const format = `${day} at ${hours}:${minutes} ${period}`;
+    if (minutes < 10) {
+      minutes = "0" + minutes;
+    }
+
+    let format = "";
+
+    if (day === "Today" || day === "Yesterday") {
+      format = `${day} at ${hours}:${minutes} ${period}`;
+    } else {
+      format = `${month}/${day}/${year}`;
+    }
+
     return format;
   }
 
-  function getDay(day: number) {
+  function getDay(dateSent: Date, day: number) {
+    const date = new Date();
     const today = new Date().getDay();
-    switch (day) {
-      case today:
-        return "Today";
-      case 1:
-        return "Monday";
-      case 2:
-        return "Tuesday";
-      case 3:
-        return "Wednesday";
-      case 4:
-        return "Thursday";
-      case 5:
-        return "Friday";
-      case 6:
-        return "Saturday";
-      case 7:
-        return "Sunday";
+    if (
+      dateSent.getFullYear() === date.getFullYear() &&
+      dateSent.getMonth() === date.getMonth()
+    ) {
+      switch (day) {
+        case today:
+          return "Today";
+        case today - 1:
+          return "Yesterday";
+        default:
+          return day;
+      }
+    } else {
+      return day;
     }
   }
 
