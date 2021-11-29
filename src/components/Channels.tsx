@@ -19,9 +19,12 @@ export default function Channels(props: ChannelsProps) {
     const q = query(collection(db, "servers", props.server, "channels"));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      channelList.push(doc.id);
+      const channel = {
+        path: `/channels/${props.server}/${doc.id}`,
+        name: doc.data().name,
+      };
+      channelList.push(channel);
     });
-    console.log(channelList);
     setChannels(channelList);
   }
   return (
@@ -30,7 +33,7 @@ export default function Channels(props: ChannelsProps) {
         {channels.map((channel, index) => {
           return (
             <Link href="/" key={index}>
-              <Channel>{channel}</Channel>
+              <Channel>{channel.name}</Channel>
             </Link>
           );
         })}
