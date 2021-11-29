@@ -96,15 +96,15 @@ export default function Message(props: MessageProps) {
 }
 
 const Container = tw.li`
-  flex mt-2
+  flex mt-2 gap-4
 `;
 
 const ProfilePicture = tw.div`
-  absolute left-4
+  mt-1
 `;
 
 const MessageContent = tw.div`
-  flex flex-col ml-72px
+  flex flex-col
 `;
 
 const StyledImage = tw(Image)`
