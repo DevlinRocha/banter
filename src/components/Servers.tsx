@@ -1,33 +1,15 @@
-import { useState, useEffect } from "react";
 import Link from "next/link";
-import { query, collection, getDocs } from "firebase/firestore";
-import { db } from "../../firebase";
-
+import { useEffect } from "react";
 import tw from "tailwind-styled-components/dist/tailwind";
-
-interface ServerList {
-  path: string;
-  name: string;
-}
+import { useAppSelector, useAppDispatch } from "../redux/hooks";
+import { getServers } from "../redux/servers";
 
 export default function Servers() {
-  const [servers, setServers] = useState<ServerList[]>([]);
+  const { servers } = useAppSelector((state) => state.servers);
+  const dispatch = useAppDispatch();
   useEffect(() => {
-    getServers();
+    dispatch(getServers());
   }, []);
-  async function getServers() {
-    let serverList: any[] = [];
-    const q = query(collection(db, "servers"));
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      const server = {
-        path: `/channels/${doc.id}/`,
-        name: doc.data().name,
-      };
-      serverList.push(server);
-    });
-    setServers(serverList);
-  }
 
   return (
     <Nav>
