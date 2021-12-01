@@ -8,7 +8,7 @@ const Home: NextPage = () => {
   return (
     <Container>
       <Servers />
-      <Channels server={"global"} />
+      <Channels />
       <Chat />
     </Container>
   );

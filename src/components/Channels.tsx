@@ -1,39 +1,25 @@
-import { useState, useEffect } from "react";
+import { useAppSelector, useAppDispatch } from "../redux/hooks";
+import { Channel, setChannel } from "../redux/servers";
 import Link from "next/link";
-import { query, collection, getDocs } from "firebase/firestore";
-import { db } from "../../firebase";
-
 import tw from "tailwind-styled-components/dist/tailwind";
 
-interface ChannelsProps {
-  server: string;
-}
+export default function Channels() {
+  const { channels } = useAppSelector((state) => state.servers);
+  const dispatch = useAppDispatch();
 
-export default function Channels(props: ChannelsProps) {
-  const [channels, setChannels] = useState<any[]>([]);
-  useEffect(() => {
-    getChannels();
-  }, []);
-  async function getChannels() {
-    const channelList: any[] = [];
-    const q = query(collection(db, "servers", props.server, "channels"));
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      const channel = {
-        path: `/channels/${props.server}/${doc.id}`,
-        name: doc.data().name,
-      };
-      channelList.push(channel);
-    });
-    setChannels(channelList);
+  function handleClick(channel: Channel) {
+    dispatch(setChannel(channel));
   }
+
   return (
     <Nav>
       <Sidebar>
         {channels.map((channel, index) => {
           return (
-            <Link href="/" key={index}>
-              <Channel>{channel.name}</Channel>
+            <Link href={channel.path} key={index}>
+              <a onClick={() => handleClick(channel)}>
+                <Channel>{channel.name}</Channel>
+              </a>
             </Link>
           );
         })}
