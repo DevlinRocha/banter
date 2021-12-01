@@ -2,14 +2,23 @@ import Link from "next/link";
 import { useEffect } from "react";
 import tw from "tailwind-styled-components/dist/tailwind";
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
-import { getServers } from "../redux/servers";
+import { getServers, Server, setServer, getChannels } from "../redux/servers";
 
 export default function Servers() {
-  const { servers } = useAppSelector((state) => state.servers);
+  const { servers, server } = useAppSelector((state) => state.servers);
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     dispatch(getServers());
   }, []);
+
+  useEffect(() => {
+    dispatch(getChannels());
+  }, [server]);
+
+  function handleClick(server: Server) {
+    dispatch(setServer(server));
+  }
 
   return (
     <Nav>
@@ -17,7 +26,9 @@ export default function Servers() {
         {servers.map((server, index) => {
           return (
             <Link href={server.path} key={index}>
-              <Server>{server.name}</Server>
+              <a onClick={() => handleClick(server)}>
+                <Server>{server.name}</Server>
+              </a>
             </Link>
           );
         })}
