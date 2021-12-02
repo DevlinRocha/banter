@@ -1,10 +1,13 @@
 import { useRef } from "react";
+import { useAppSelector, useAppDispatch } from "../redux/hooks";
 import { addDoc, collection } from "firebase/firestore";
 import { db, auth } from "../../firebase";
 import tw from "tailwind-styled-components";
 
 export default function TextArea() {
   const inputRef = useRef<HTMLInputElement>(null);
+  const { server, channel } = useAppSelector((state) => state.servers);
+
   function getText() {
     let messageContent;
     if (inputRef.current) {
@@ -14,6 +17,7 @@ export default function TextArea() {
     }
     return messageContent;
   }
+
   async function sendMessage(e: any) {
     e.preventDefault();
 
@@ -26,7 +30,14 @@ export default function TextArea() {
 
     try {
       const docRef = await addDoc(
-        collection(db, "serverList", "public", "servers", "global", "messages"),
+        collection(
+          db,
+          "servers",
+          server.id,
+          "channels",
+          channel.id,
+          "messages"
+        ),
         {
           content: getText(),
           date: Date(),
@@ -34,8 +45,8 @@ export default function TextArea() {
           reactions: [],
           timestamp: Date.now(),
           user: {
-            img: auth.currentUser?.photoURL,
             name: auth.currentUser?.displayName,
+            img: auth.currentUser?.photoURL,
           },
         }
       );
