@@ -1,32 +1,20 @@
-import { useState, useEffect } from "react";
-import { collection, query, onSnapshot } from "firebase/firestore";
-import { db } from "../../firebase";
+import { useEffect } from "react";
+import { useAppSelector, useAppDispatch } from "../redux/hooks";
+import { fetchMessages } from "../redux/servers";
 import tw from "tailwind-styled-components";
 import Message from "./Message";
 
 export default function Messages() {
-  const [messages, setMessages] = useState<any[]>([]);
+  const { channel, messages } = useAppSelector((state) => state.servers);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    fetchMessages();
-  }, []);
+    dispatch(fetchMessages());
+  }, [channel]);
 
   useEffect(() => {
     displayMessages();
   }, [messages]);
-
-  function fetchMessages() {
-    const q = query(
-      collection(db, "serverList", "public", "servers", "global", "messages")
-    );
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const messages: any[] = [];
-      querySnapshot.forEach((doc) => {
-        messages.push(doc.data());
-      });
-      setMessages(messages);
-    });
-  }
 
   function displayMessages() {
     const chat: any = [];

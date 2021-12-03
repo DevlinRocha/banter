@@ -1,5 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { query, collection, getDocs } from "firebase/firestore";
+import {
+  query,
+  collection,
+  getDocs,
+  onSnapshot,
+  DocumentData,
+} from "firebase/firestore";
+
 import { db } from "../../firebase";
 
 export interface Server {
@@ -15,11 +22,24 @@ export interface Channel {
   id: string;
 }
 
+export interface MessageData {
+  content: string;
+  date: string;
+  edited: boolean;
+  reactions: [];
+  timestamp: number;
+  user: {
+    name: string;
+    img: string;
+  };
+}
+
 export interface ServersState {
   server: Server;
   servers: Server[];
   channel: Channel;
   channels: Channel[];
+  messages: DocumentData[];
   loading: "idle" | "pending" | "succeeded" | "failed";
 }
 
@@ -37,6 +57,7 @@ const initialState: ServersState = {
     id: "",
   },
   channels: [],
+  messages: [],
   loading: "idle",
 };
 
@@ -76,6 +97,42 @@ export const getChannels = createAsyncThunk(
   }
 );
 
+export const fetchMessages = createAsyncThunk(
+  "servers/fetchMessages",
+  async (blank, { getState }) => {
+    const { servers } = getState() as { servers: ServersState };
+
+    const q = query(
+      collection(
+        db,
+        "servers",
+        servers.server.id,
+        "channels",
+        servers.channel.id,
+        "messages"
+      )
+    );
+    const messageList: DocumentData[] = [];
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        // const message: MessageData = {
+        //   content: doc.data().content,
+        //   date: doc.data().date,
+        //   edited: doc.data().edited,
+        //   reactions: doc.data().reactions,
+        //   timestamp: doc.data().timestamp,
+        //   user: {
+        //     name: doc.data().user.name,
+        //     img: doc.data().user.img,
+        //   },
+        // };
+        messageList.push(doc.data());
+      });
+    });
+    return messageList;
+  }
+);
+
 export const serversSlice = createSlice({
   name: "servers",
   initialState,
@@ -101,6 +158,13 @@ export const serversSlice = createSlice({
     });
     builder.addCase(getChannels.fulfilled, (state, action) => {
       state.channels = action.payload;
+      state.loading = "succeeded";
+    });
+    builder.addCase(fetchMessages.pending, (state, action) => {
+      state.loading = "succeeded";
+    });
+    builder.addCase(fetchMessages.fulfilled, (state, action) => {
+      state.messages = action.payload;
       state.loading = "succeeded";
     });
   },
