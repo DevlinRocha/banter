@@ -17,9 +17,9 @@ Open [http://localhost:3000](http://localhost:3000) with your browser.
 ## Development
 
 - [React](https://reactjs.org/)
-- Redux Toolkit(https://redux-toolkit.js.org/)
-- Next.JS(https://nextjs.org/)
+- [Redux Toolkit](https://redux-toolkit.js.org/)
+- [Next.JS](https://nextjs.org/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [styled-components](https://styled-components.com/)
-- Tailwind CSS(https://tailwindcss.com/)
+- [Tailwind CSS](https://tailwindcss.com/)
 - [Firebase](https://firebase.google.com/)
