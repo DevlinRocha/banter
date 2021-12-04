@@ -1,12 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import {
-  query,
-  collection,
-  getDocs,
-  onSnapshot,
-  DocumentData,
-} from "firebase/firestore";
-
+import { query, collection, getDocs, DocumentData } from "firebase/firestore";
+import { useAppSelector } from "../redux/hooks";
 import { db } from "../../firebase";
 
 export interface Server {
@@ -97,42 +91,6 @@ export const getChannels = createAsyncThunk(
   }
 );
 
-export const fetchMessages = createAsyncThunk(
-  "servers/fetchMessages",
-  async (blank, { getState }) => {
-    const { servers } = getState() as { servers: ServersState };
-
-    const q = query(
-      collection(
-        db,
-        "servers",
-        servers.server.id,
-        "channels",
-        servers.channel.id,
-        "messages"
-      )
-    );
-    const messageList: DocumentData[] = [];
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        // const message: MessageData = {
-        //   content: doc.data().content,
-        //   date: doc.data().date,
-        //   edited: doc.data().edited,
-        //   reactions: doc.data().reactions,
-        //   timestamp: doc.data().timestamp,
-        //   user: {
-        //     name: doc.data().user.name,
-        //     img: doc.data().user.img,
-        //   },
-        // };
-        messageList.push(doc.data());
-      });
-    });
-    return messageList;
-  }
-);
-
 export const serversSlice = createSlice({
   name: "servers",
   initialState,
@@ -142,6 +100,9 @@ export const serversSlice = createSlice({
     },
     setChannel(state, action) {
       state.channel = action.payload;
+    },
+    setMessages(state, action) {
+      state.messages = action.payload;
     },
   },
 
@@ -160,16 +121,11 @@ export const serversSlice = createSlice({
       state.channels = action.payload;
       state.loading = "succeeded";
     });
-    builder.addCase(fetchMessages.pending, (state, action) => {
-      state.loading = "succeeded";
-    });
-    builder.addCase(fetchMessages.fulfilled, (state, action) => {
-      state.messages = action.payload;
-      state.loading = "succeeded";
-    });
   },
 });
 
-export const { setServer, setChannel } = serversSlice.actions;
+export const { setServer, setChannel, setMessages } = serversSlice.actions;
+
+export const useServersState = () => useAppSelector((state) => state.servers);
 
 export default serversSlice.reducer;
