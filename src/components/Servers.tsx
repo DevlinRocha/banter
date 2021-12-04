@@ -5,16 +5,12 @@ import { useAppSelector, useAppDispatch } from "../redux/hooks";
 import { getServers, Server, setServer, getChannels } from "../redux/servers";
 
 export default function Servers() {
-  const { servers, server } = useAppSelector((state) => state.servers);
+  const { servers } = useAppSelector((state) => state.servers);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(getServers());
   }, []);
-
-  useEffect(() => {
-    dispatch(getChannels());
-  }, [server]);
 
   function handleClick(server: Server) {
     dispatch(setServer(server));
