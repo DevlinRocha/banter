@@ -12,10 +12,6 @@ export default function Channels() {
     dispatch(getChannels());
   }, [server]);
 
-  useEffect(() => {
-    dispatch(setChannel(channels[0]));
-  }, [channels]);
-
   function handleClick(channel: Channel) {
     dispatch(setChannel(channel));
   }

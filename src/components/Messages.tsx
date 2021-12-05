@@ -3,13 +3,7 @@ import { useAppSelector, useAppDispatch } from "../redux/hooks";
 import { setMessages, useServersState } from "../redux/servers";
 import tw from "tailwind-styled-components";
 import Message from "./Message";
-import {
-  query,
-  collection,
-  getDocs,
-  onSnapshot,
-  DocumentData,
-} from "firebase/firestore";
+import { query, collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase";
 
 export default function Messages() {
@@ -66,7 +60,8 @@ export default function Messages() {
 
   function displayMessages() {
     const chat: any = [];
-    const sortedMessages = messages.sort((a, b) => {
+    const sortedMessages = [...messages];
+    sortedMessages.sort((a, b) => {
       return a.timestamp - b.timestamp;
     });
     sortedMessages.map((message: any, index) => {
