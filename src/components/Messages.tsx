@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useAppSelector, useAppDispatch } from "../redux/hooks";
+import { useAppDispatch } from "../redux/hooks";
 import { setMessages, useServersState } from "../redux/servers";
 import tw from "tailwind-styled-components";
 import Message from "./Message";
@@ -7,8 +7,7 @@ import { query, collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase";
 
 export default function Messages() {
-  const { channel, messages } = useAppSelector((state) => state.servers);
-  const serversState = useServersState();
+  const { server, channel, messages } = useServersState();
   const dispatch = useAppDispatch();
   const firstRender = useRef(true);
 
@@ -23,14 +22,7 @@ export default function Messages() {
     }
 
     const q = query(
-      collection(
-        db,
-        "servers",
-        serversState.server.id,
-        "channels",
-        serversState.channel.id,
-        "messages"
-      )
+      collection(db, "servers", server.id, "channels", channel.id, "messages")
     );
 
     const messageList: any[] = [];

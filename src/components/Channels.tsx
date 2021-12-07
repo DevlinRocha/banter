@@ -1,11 +1,16 @@
 import { useEffect } from "react";
-import { useAppSelector, useAppDispatch } from "../redux/hooks";
-import { Channel, getChannels, setChannel } from "../redux/servers";
+import { useAppDispatch } from "../redux/hooks";
+import {
+  Channel,
+  getChannels,
+  setChannel,
+  useServersState,
+} from "../redux/servers";
 import Link from "next/link";
 import tw from "tailwind-styled-components/dist/tailwind";
 
 export default function Channels() {
-  const { server, channels } = useAppSelector((state) => state.servers);
+  const { server, channels } = useServersState();
   const dispatch = useAppDispatch();
 
   useEffect(() => {

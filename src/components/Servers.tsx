@@ -1,11 +1,16 @@
 import Link from "next/link";
 import { useEffect } from "react";
 import tw from "tailwind-styled-components/dist/tailwind";
-import { useAppSelector, useAppDispatch } from "../redux/hooks";
-import { getServers, Server, setServer, getChannels } from "../redux/servers";
+import { useAppDispatch } from "../redux/hooks";
+import {
+  getServers,
+  Server,
+  setServer,
+  useServersState,
+} from "../redux/servers";
 
 export default function Servers() {
-  const { servers } = useAppSelector((state) => state.servers);
+  const { servers } = useServersState();
   const dispatch = useAppDispatch();
 
   useEffect(() => {

@@ -1,12 +1,12 @@
 import { useRef } from "react";
-import { useAppSelector, useAppDispatch } from "../redux/hooks";
 import { addDoc, collection } from "firebase/firestore";
 import { db, auth } from "../../firebase";
 import tw from "tailwind-styled-components";
+import { useServersState } from "../redux/servers";
 
 export default function TextArea() {
   const inputRef = useRef<HTMLInputElement>(null);
-  const { server, channel } = useAppSelector((state) => state.servers);
+  const { server, channel } = useServersState();
 
   function getText() {
     let messageContent;
