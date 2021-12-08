@@ -7,7 +7,7 @@ import {
   Server,
   setServer,
   useServersState,
-} from "../redux/servers";
+} from "../features/servers";
 
 export default function Servers() {
   const { servers } = useServersState();

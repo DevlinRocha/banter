@@ -5,7 +5,7 @@ import {
   getChannels,
   setChannel,
   useServersState,
-} from "../redux/servers";
+} from "../features/servers";
 import Link from "next/link";
 import tw from "tailwind-styled-components/dist/tailwind";
 

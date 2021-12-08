@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useAppDispatch } from "../redux/hooks";
-import { setMessages, useServersState } from "../redux/servers";
+import { setMessages, useServersState } from "../features/servers";
 import tw from "tailwind-styled-components";
 import Message from "./Message";
 import { query, collection, onSnapshot } from "firebase/firestore";

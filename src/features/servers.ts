@@ -1,5 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { query, collection, getDocs, DocumentData } from "firebase/firestore";
+import {
+  query,
+  collection,
+  onSnapshot,
+  getDocs,
+  DocumentData,
+} from "firebase/firestore";
 import { useAppSelector } from "../redux/hooks";
 import { db } from "../../firebase";
 
