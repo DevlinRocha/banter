@@ -25,9 +25,8 @@ export default function Messages() {
       collection(db, "servers", server.id, "channels", channel.id, "messages")
     );
 
-    const messageList: any[] = [];
-
     const unsubscribe = onSnapshot(q, (querySnapshot: any) => {
+      const messageList: any[] = [];
       querySnapshot.forEach((doc: any) => {
         const message: any = {
           content: doc.data().content,
@@ -40,9 +39,9 @@ export default function Messages() {
             img: doc.data().user.img,
           },
         };
-        messageList.push(doc.data());
+        messageList.push(message);
       });
-      dispatch(setMessages(messageList));
+      dispatch(setMessages([...messageList]));
     });
 
     return () => {
