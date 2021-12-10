@@ -1,21 +1,9 @@
 import tw from "tailwind-styled-components";
 import Image from "next/image";
+import { MessageData } from "../features/servers";
 
 interface MessageProps {
-  message: {
-    user: {
-      img: string;
-      name: string;
-    };
-    content: string;
-    date: {
-      seconds: number;
-      nanoseconds: number;
-    };
-    edited: boolean;
-    reactions: never[];
-    timestamp: number;
-  };
+  message: MessageData;
 }
 
 export default function Message(props: MessageProps) {

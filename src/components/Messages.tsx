@@ -1,14 +1,9 @@
 import { useEffect } from "react";
 import { useAppDispatch } from "../redux/hooks";
-import { setMessages, useServersState } from "../features/servers";
+import { setMessages, useServersState, MessageData } from "../features/servers";
 import tw from "tailwind-styled-components";
 import Message from "./Message";
-import {
-  query,
-  collection,
-  onSnapshot,
-  DocumentData,
-} from "firebase/firestore";
+import { query, collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase";
 
 export default function Messages() {
@@ -33,9 +28,20 @@ export default function Messages() {
       );
 
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
-        const messageList: DocumentData[] = [];
+        const messageList: MessageData[] = [];
         querySnapshot.forEach((doc) => {
-          messageList.push(doc.data());
+          const message: MessageData = {
+            content: doc.data().content,
+            date: doc.data().date,
+            edited: doc.data().edited,
+            reactions: doc.data().reactions,
+            timestamp: doc.data().timestamp,
+            user: {
+              name: doc.data().user.name,
+              img: doc.data().user.img,
+            },
+          };
+          messageList.push(message);
         });
         dispatch(setMessages([...messageList]));
       });
@@ -52,7 +58,7 @@ export default function Messages() {
     sortedMessages.sort((a, b) => {
       return a.timestamp - b.timestamp;
     });
-    sortedMessages.map((message: any, index) => {
+    sortedMessages.map((message, index) => {
       chat.push(<Message message={message} key={index} />);
     });
     return chat;
@@ -62,5 +68,5 @@ export default function Messages() {
 }
 
 const List = tw.ol`
-  flex-1 flex flex-col justify-end
+  flex-1 flex flex-col justify-end overflow-y-auto
 `;

@@ -1,11 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import {
-  query,
-  collection,
-  onSnapshot,
-  getDocs,
-  DocumentData,
-} from "firebase/firestore";
+import { query, collection, getDocs } from "firebase/firestore";
 import { useAppSelector } from "../redux/hooks";
 import { db } from "../../firebase";
 
@@ -39,7 +33,7 @@ export interface ServersState {
   servers: Server[];
   channel: Channel;
   channels: Channel[];
-  messages: DocumentData[];
+  messages: MessageData[];
   loading: "idle" | "pending" | "succeeded" | "failed";
 }
 
