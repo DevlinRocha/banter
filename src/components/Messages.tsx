@@ -1,56 +1,53 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useAppDispatch } from "../redux/hooks";
 import { setMessages, useServersState } from "../features/servers";
 import tw from "tailwind-styled-components";
 import Message from "./Message";
-import { query, collection, onSnapshot } from "firebase/firestore";
+import {
+  query,
+  collection,
+  onSnapshot,
+  DocumentData,
+} from "firebase/firestore";
 import { db } from "../../firebase";
 
 export default function Messages() {
   const { server, channel, messages } = useServersState();
   const dispatch = useAppDispatch();
-  const firstRender = useRef(true);
 
   useEffect(() => {
     displayMessages();
   }, [messages]);
 
   useEffect(() => {
-    if (firstRender.current) {
-      firstRender.current = false;
-      return;
-    }
+    if (server.id && channel.id) {
+      const q = query(
+        collection(
+          db,
+          "servers",
+          server?.id,
+          "channels",
+          channel?.id,
+          "messages"
+        )
+      );
 
-    const q = query(
-      collection(db, "servers", server.id, "channels", channel.id, "messages")
-    );
-
-    const unsubscribe = onSnapshot(q, (querySnapshot: any) => {
-      const messageList: any[] = [];
-      querySnapshot.forEach((doc: any) => {
-        const message: any = {
-          content: doc.data().content,
-          date: doc.data().date,
-          edited: doc.data().edited,
-          reactions: doc.data().reactions,
-          timestamp: doc.data().timestamp,
-          user: {
-            name: doc.data().user.name,
-            img: doc.data().user.img,
-          },
-        };
-        messageList.push(message);
+      const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        const messageList: DocumentData[] = [];
+        querySnapshot.forEach((doc) => {
+          messageList.push(doc.data());
+        });
+        dispatch(setMessages([...messageList]));
       });
-      dispatch(setMessages([...messageList]));
-    });
 
-    return () => {
-      unsubscribe();
-    };
+      return () => {
+        unsubscribe();
+      };
+    }
   }, [channel]);
 
   function displayMessages() {
-    const chat: any = [];
+    const chat: JSX.Element[] = [];
     const sortedMessages = [...messages];
     sortedMessages.sort((a, b) => {
       return a.timestamp - b.timestamp;
