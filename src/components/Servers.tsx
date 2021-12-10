@@ -15,7 +15,7 @@ export default function Servers() {
 
   useEffect(() => {
     dispatch(getServers());
-  }, []);
+  }, [servers]);
 
   function handleClick(server: Server) {
     dispatch(setServer(server));
