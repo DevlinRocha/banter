@@ -3,6 +3,7 @@ import { getFirestore } from "firebase/firestore";
 import {
   getAuth,
   createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
   updateProfile,
   onAuthStateChanged,
 } from "firebase/auth";
@@ -42,13 +43,28 @@ export function createAccount(
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
+      console.error(`${errorCode} ${errorMessage}`);
+    });
+}
+
+export function signIn(email: string, password: string) {
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in
+      const user = userCredential.user;
+      return user;
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.error(`${errorCode} ${errorMessage}`);
     });
 }
 
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore();
 export const auth = getAuth();
-const user = auth.currentUser;
+export const user = auth.currentUser;
 type User = typeof user;
 export const analytics = getAnalytics(app);
 
