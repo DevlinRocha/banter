@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { createAccount } from "../../firebase";
 import tw from "tailwind-styled-components/dist/tailwind";
@@ -28,8 +29,8 @@ export default function RegistrationForm() {
   }
 
   return (
-    <FormContainer onSubmit={handleSubmit}>
-      <FormTitle>Create an account</FormTitle>
+    <Container onSubmit={handleSubmit}>
+      <Header>Create an account</Header>
 
       <EmailField>
         <EmailLabel htmlFor="emailInput">Email</EmailLabel>
@@ -63,15 +64,18 @@ export default function RegistrationForm() {
         />
       </PasswordField>
       <SubmitButton type="submit" value="Continue" />
-    </FormContainer>
+      <Link href="/login">Already have an account?</Link>
+      <Fine>By registering, you agree not to sue Banter.</Fine>
+    </Container>
   );
 }
 
-const FormContainer = tw.form`
+const Container = tw.form`
   flex flex-col justify-center gap-4 w-80
 `;
 
-const FormTitle = tw.h3`
+const Header = tw.h3`
+  text-center
 `;
 
 const GenericFieldset = tw.fieldset`
@@ -114,4 +118,7 @@ const PasswordInput = tw(GenericInput)`
 
 const SubmitButton = tw.input`
   p-2 rounded-md
+`;
+
+const Fine = tw.span`
 `;
