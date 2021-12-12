@@ -64,8 +64,8 @@ export function signIn(email: string, password: string) {
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore();
 export const auth = getAuth();
-export const user = auth.currentUser;
-type User = typeof user;
+const user = auth.currentUser;
+export type User = typeof user;
 export const analytics = getAnalytics(app);
 
 onAuthStateChanged(auth, (user: User) => {
