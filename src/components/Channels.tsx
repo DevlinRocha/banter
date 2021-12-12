@@ -6,6 +6,7 @@ import {
   setChannel,
   useServersState,
 } from "../features/servers";
+import UserPanel from "./UserPanel";
 import Link from "next/link";
 import tw from "tailwind-styled-components/dist/tailwind";
 
@@ -22,27 +23,34 @@ export default function Channels() {
   }
 
   return (
-    <Nav>
-      <Sidebar>
-        {channels.map((channel, index) => {
-          return (
-            <Link href={channel.path} key={index}>
-              <a onClick={() => handleClick(channel)}>
-                <Channel>{channel.name}</Channel>
-              </a>
-            </Link>
-          );
-        })}
-      </Sidebar>
-    </Nav>
+    <Container>
+      <Nav>
+        <ServerList>
+          {channels.map((channel, index) => {
+            return (
+              <Link href={channel.path} key={index}>
+                <a onClick={() => handleClick(channel)}>
+                  <Channel>{channel.name}</Channel>
+                </a>
+              </Link>
+            );
+          })}
+        </ServerList>
+      </Nav>
+      <UserPanel />
+    </Container>
   );
 }
 
-const Nav = tw.nav`
-    hidden lg:block h-screen
+const Container = tw.div`
+  flex flex-col justify-between w-240px h-screen
 `;
 
-const Sidebar = tw.ol`
+const Nav = tw.nav`
+  hidden lg:block
+`;
+
+const ServerList = tw.ol`
 `;
 
 const Channel = tw.li`

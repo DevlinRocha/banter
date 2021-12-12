@@ -39,7 +39,7 @@ export default function Servers() {
 }
 
 const Nav = tw.nav`
-  hidden lg:block h-screen
+  hidden lg:block w-72px h-screen
 `;
 
 const Sidebar = tw.ol`
