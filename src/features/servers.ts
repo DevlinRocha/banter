@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { query, collection, getDocs } from "firebase/firestore";
 import { useAppSelector } from "../redux/hooks";
-import { db } from "../../firebase";
+import { db, User } from "../../firebase";
 
 export interface Server {
   name: string;
@@ -33,6 +33,10 @@ export interface ServersState {
   servers: Server[];
   channel: Channel;
   channels: Channel[];
+  user: {
+    name: string;
+    img: string;
+  };
   messages: MessageData[];
   loading: "idle" | "pending" | "succeeded" | "failed";
 }
@@ -51,6 +55,10 @@ const initialState: ServersState = {
     id: "",
   },
   channels: [],
+  user: {
+    name: "Anonymous",
+    img: "https://firebasestorage.googleapis.com/v0/b/banter-69832.appspot.com/o/Account.png?alt=media&token=32d8543b-cc91-4006-b014-ab93d128441a",
+  },
   messages: [],
   loading: "idle",
 };
@@ -104,6 +112,9 @@ export const serversSlice = createSlice({
     setMessages(state, action) {
       state.messages = action.payload;
     },
+    setUser(state, action) {
+      state.user = action.payload;
+    },
   },
 
   extraReducers: (builder) => {
@@ -124,7 +135,8 @@ export const serversSlice = createSlice({
   },
 });
 
-export const { setServer, setChannel, setMessages } = serversSlice.actions;
+export const { setServer, setChannel, setMessages, setUser } =
+  serversSlice.actions;
 
 export const useServersState = () => useAppSelector((state) => state.servers);
 
