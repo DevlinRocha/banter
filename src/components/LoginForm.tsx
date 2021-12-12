@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { signIn, user } from "../../firebase";
+import { signIn } from "../../firebase";
 import tw from "tailwind-styled-components/dist/tailwind";
 
 export default function LoginForm() {
@@ -23,7 +23,7 @@ export default function LoginForm() {
   }
 
   return (
-    <FormContainer onSubmit={handleSubmit}>
+    <Container onSubmit={handleSubmit}>
       <Heading>Welcome back!</Heading>
       <Subheading>{"We're so excited to see you again!"}</Subheading>
 
@@ -48,11 +48,11 @@ export default function LoginForm() {
       <Fine>
         Need an account? <Link href="/register">Register</Link>
       </Fine>
-    </FormContainer>
+    </Container>
   );
 }
 
-const FormContainer = tw.form`
+const Container = tw.form`
   flex flex-col justify-center gap-4 w-80
 `;
 
