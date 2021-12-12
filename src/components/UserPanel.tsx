@@ -49,6 +49,7 @@ const ProfilePicture = tw.div`
 `;
 
 const StyledImage = tw(Image)`
+  object-contain rounded-full
 `;
 
 const Username = tw.span`
