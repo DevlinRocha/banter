@@ -11,10 +11,6 @@ export default function Messages() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    displayMessages();
-  }, [messages]);
-
-  useEffect(() => {
     if (server.id && channel.id) {
       const q = query(
         collection(
@@ -43,7 +39,10 @@ export default function Messages() {
           };
           messageList.push(message);
         });
-        dispatch(setMessages([...messageList]));
+        messageList.sort((a, b) => {
+          return a.timestamp - b.timestamp;
+        });
+        dispatch(setMessages(messageList));
       });
 
       return () => {
@@ -52,19 +51,13 @@ export default function Messages() {
     }
   }, [channel]);
 
-  function displayMessages() {
-    const chat: JSX.Element[] = [];
-    const sortedMessages = [...messages];
-    sortedMessages.sort((a, b) => {
-      return a.timestamp - b.timestamp;
-    });
-    sortedMessages.map((message, index) => {
-      chat.push(<Message message={message} key={index} />);
-    });
-    return chat;
-  }
-
-  return <List>{displayMessages()}</List>;
+  return (
+    <List>
+      {messages.map((message, index) => {
+        return <Message message={message} key={index} />;
+      })}
+    </List>
+  );
 }
 
 const List = tw.ol`
