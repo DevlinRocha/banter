@@ -57,7 +57,11 @@ export default function TextArea() {
 
   return (
     <Container onSubmit={sendMessage}>
-      <TextInput ref={inputRef} type="text" placeholder="Message" />
+      <TextInput
+        ref={inputRef}
+        type="text"
+        placeholder={`Message #${channel.name}`}
+      />
     </Container>
   );
 }
