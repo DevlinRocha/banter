@@ -5,6 +5,9 @@ import tw from "tailwind-styled-components/dist/tailwind";
 import { auth } from "../../firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useServersState, setUser } from "../features/servers";
+import muteIcon from "../../assets/muteIcon.png";
+import deafenIcon from "../../assets/deafenIcon.png";
+import settingsIcon from "../../assets/settingsIcon.svg";
 
 export default function UserPanel() {
   const { user } = useServersState();
@@ -25,23 +28,38 @@ export default function UserPanel() {
     });
   }, []);
 
+  function handleClick() {}
+
   return (
     <Container>
-      <ProfilePicture>
-        <StyledImage
-          loader={() => user.img}
-          src={user.img}
-          width={40}
-          height={40}
-          alt="Profile picture"
-        />
-      </ProfilePicture>
-      <Username>{user.name}</Username>
+      <UserInfo>
+        <ProfilePicture>
+          <StyledImage
+            loader={() => user.img}
+            src={user.img}
+            width={32}
+            height={32}
+            alt="Profile picture"
+          />
+        </ProfilePicture>
+
+        <Username>{user.name}</Username>
+      </UserInfo>
+
+      <IconsPanel>
+        <Icon src={muteIcon} width={20} height={20} />
+        <Icon src={deafenIcon} width={20} height={20} />
+        <Icon onClick={handleClick} src={settingsIcon} width={20} height={20} />
+      </IconsPanel>
     </Container>
   );
 }
 
 const Container = tw.section`
+  flex justify-between px-2
+`;
+
+const UserInfo = tw.section`
   flex
 `;
 
@@ -53,4 +71,12 @@ const StyledImage = tw(Image)`
 `;
 
 const Username = tw.span`
+`;
+
+const IconsPanel = tw.section`
+  flex justify-between align-center w-24
+`;
+
+const Icon = tw(Image)`
+  cursor-pointer object-contain
 `;
