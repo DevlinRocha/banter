@@ -14,5 +14,5 @@ export default function Chat() {
 }
 
 const Container = tw.main`
-  flex flex-col min-h-screen
+  flex flex-col h-screen overflow-hidden
 `;

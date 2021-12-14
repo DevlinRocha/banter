@@ -1,10 +1,14 @@
 import { useEffect } from "react";
-import { useAppDispatch } from "../redux/hooks";
-import { setMessages, useServersState, MessageData } from "../features/servers";
+import { useAppDispatch } from "../../redux/hooks";
+import {
+  setMessages,
+  useServersState,
+  MessageData,
+} from "../../features/servers";
 import tw from "tailwind-styled-components";
-import Message from "./Message";
+import Message from "../Message";
 import { query, collection, onSnapshot } from "firebase/firestore";
-import { db } from "../../firebase";
+import { db } from "../../../firebase";
 
 export default function Messages() {
   const { server, channel, messages } = useServersState();
