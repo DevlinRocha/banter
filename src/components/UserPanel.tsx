@@ -8,9 +8,11 @@ import { useServersState, setUser } from "../features/servers";
 import muteIcon from "../../assets/muteIcon.png";
 import deafenIcon from "../../assets/deafenIcon.png";
 import settingsIcon from "../../assets/settingsIcon.svg";
+import { setUserSettingsOpen, useSettingsState } from "../features/settings";
 
 export default function UserPanel() {
   const { user } = useServersState();
+  const { userSettingsOpen } = useSettingsState();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -28,7 +30,9 @@ export default function UserPanel() {
     });
   }, []);
 
-  function handleClick() {}
+  function handleClick() {
+    dispatch(setUserSettingsOpen(!userSettingsOpen));
+  }
 
   return (
     <Container>
