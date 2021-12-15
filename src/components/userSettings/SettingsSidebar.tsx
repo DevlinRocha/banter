@@ -11,13 +11,8 @@ import {
 } from "../../features/settings";
 
 export default function SettingsSidebar() {
-  const { settings, logoutConfirmOpen } = useSettingsState();
+  const { logoutConfirmOpen } = useSettingsState();
   const dispatch = useAppDispatch();
-
-  function openLogoutConfirm() {
-    dispatch(setLogoutConfirmOpen(!logoutConfirmOpen));
-    dispatch(setSettings(settings));
-  }
 
   return (
     <Container>
@@ -32,7 +27,11 @@ export default function SettingsSidebar() {
       </SettingsList>
 
       <SettingsList>
-        <ListItem onClick={openLogoutConfirm}>Log Out</ListItem>
+        <ListItem
+          onClick={() => dispatch(setLogoutConfirmOpen(!logoutConfirmOpen))}
+        >
+          Log Out
+        </ListItem>
       </SettingsList>
 
       <SocialLinks>

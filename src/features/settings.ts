@@ -26,7 +26,7 @@ export const settingsSlice = createSlice({
       state.settings = action.payload;
     },
     setLogoutConfirmOpen(state, action) {
-      state.settings = action.payload;
+      state.logoutConfirmOpen = action.payload;
     },
   },
 
