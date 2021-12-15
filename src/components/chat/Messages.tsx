@@ -6,7 +6,7 @@ import {
   MessageData,
 } from "../../features/servers";
 import tw from "tailwind-styled-components";
-import Message from "../Message";
+import Message from "./Message";
 import { query, collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../../firebase";
 

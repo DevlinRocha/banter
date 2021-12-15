@@ -1,6 +1,6 @@
 import tw from "tailwind-styled-components";
 import Image from "next/image";
-import { MessageData } from "../features/servers";
+import { MessageData } from "../../features/servers";
 
 interface MessageProps {
   message: MessageData;
