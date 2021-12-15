@@ -36,6 +36,7 @@ export interface ServersState {
   user: {
     name: string;
     img: string;
+    id: string;
   };
   messages: MessageData[];
   loading: "idle" | "pending" | "succeeded" | "failed";
@@ -58,6 +59,7 @@ const initialState: ServersState = {
   user: {
     name: "Anonymous",
     img: "https://firebasestorage.googleapis.com/v0/b/banter-69832.appspot.com/o/Account.png?alt=media&token=32d8543b-cc91-4006-b014-ab93d128441a",
+    id: "0000",
   },
   messages: [],
   loading: "idle",
