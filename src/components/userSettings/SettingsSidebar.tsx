@@ -3,18 +3,36 @@ import Image from "next/image";
 import twitterIcon from "../../../assets/twitterIcon.svg";
 import githubIcon from "../../../assets/githubIcon.svg";
 import instagramIcon from "../../../assets/instagramIcon.svg";
+import { useAppDispatch } from "../../redux/hooks";
+import {
+  setLogoutConfirmOpen,
+  setSettings,
+  useSettingsState,
+} from "../../features/settings";
 
 export default function SettingsSidebar() {
+  const { settings, logoutConfirmOpen } = useSettingsState();
+  const dispatch = useAppDispatch();
+
+  function openLogoutConfirm() {
+    dispatch(setLogoutConfirmOpen(!logoutConfirmOpen));
+    dispatch(setSettings(settings));
+  }
+
   return (
     <Container>
       <ListHeading>USER SETTINGS</ListHeading>
       <SettingsList>
-        <ListItem>My Account</ListItem>
-        <ListItem>User Profile</ListItem>
+        <ListItem onClick={() => dispatch(setSettings("My Account"))}>
+          My Account
+        </ListItem>
+        <ListItem onClick={() => dispatch(setSettings("User Profile"))}>
+          User Profile
+        </ListItem>
       </SettingsList>
 
       <SettingsList>
-        <ListItem>Log Out</ListItem>
+        <ListItem onClick={openLogoutConfirm}>Log Out</ListItem>
       </SettingsList>
 
       <SocialLinks>
