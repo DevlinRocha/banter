@@ -1,8 +1,15 @@
 import tw from "tailwind-styled-components/dist/tailwind";
 
 export default function UserProfileSettings() {
-  return <Container></Container>;
+  return (
+    <Container>
+      <Heading>User Profile</Heading>
+    </Container>
+  );
 }
 
-const Container = tw.div`
+const Container = tw.main`
+`;
+
+const Heading = tw.h2`
 `;
