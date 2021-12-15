@@ -10,5 +10,7 @@ export default function SettingsView() {
       return <MyAccountSettings />;
     case "User Profile":
       return <UserProfileSettings />;
+    default:
+      return <MyAccountSettings />;
   }
 }
