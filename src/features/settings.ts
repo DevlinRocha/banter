@@ -1,17 +1,17 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { query, collection, getDocs } from "firebase/firestore";
+import { createSlice } from "@reduxjs/toolkit";
 import { useAppSelector } from "../redux/hooks";
-import { db, User } from "../../firebase";
 
 export interface SettingsState {
   userSettingsOpen: boolean;
   settings: "My Account" | "User Profile";
+  logoutConfirmOpen: boolean;
   loading: "idle" | "pending" | "succeeded" | "failed";
 }
 
 const initialState: SettingsState = {
   userSettingsOpen: false,
   settings: "My Account",
+  logoutConfirmOpen: false,
   loading: "idle",
 };
 
@@ -25,12 +25,16 @@ export const settingsSlice = createSlice({
     setSettings(state, action) {
       state.settings = action.payload;
     },
+    setLogoutConfirmOpen(state, action) {
+      state.settings = action.payload;
+    },
   },
 
   extraReducers: (builder) => {},
 });
 
-export const { setUserSettingsOpen, setSettings } = settingsSlice.actions;
+export const { setUserSettingsOpen, setSettings, setLogoutConfirmOpen } =
+  settingsSlice.actions;
 
 export const useSettingsState = () => useAppSelector((state) => state.settings);
 
