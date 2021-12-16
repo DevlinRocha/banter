@@ -50,21 +50,8 @@ const Home: NextPage = () => {
 
 export async function getServerSideProps() {
   const auth = getAuth();
-  // const currentUser = auth.currentUser;
-  let signedIn;
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      // User is signed in
-      signedIn = true;
-    } else {
-      // User is signed out
-      signedIn = false;
-    }
-    return signedIn;
-  });
-
-  if (!signedIn) {
+  if (!auth) {
     return {
       redirect: {
         destination: "/register",

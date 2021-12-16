@@ -10,7 +10,9 @@ export default function UserSettings() {
   return (
     <Container>
       {logoutConfirmOpen ? <LogoutConfirm /> : null}
+
       <SettingsSidebar />
+
       <SettingsView />
     </Container>
   );
