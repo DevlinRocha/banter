@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import tw from "tailwind-styled-components/dist/tailwind";
 import { useAppDispatch } from "../redux/hooks";
 import {
-  Server,
+  ServerData,
   setServers,
   setServer,
   useServersState,
@@ -19,10 +19,10 @@ export default function Servers() {
     const q = query(collection(db, "servers"));
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const serverList: Server[] = [];
+      const serverList: ServerData[] = [];
 
       querySnapshot.forEach((doc) => {
-        const server: Server = {
+        const server: ServerData = {
           name: doc.data().name,
           path: `/channels/${doc.id}/`,
           id: doc.id,
@@ -39,7 +39,7 @@ export default function Servers() {
     };
   }, []);
 
-  function handleClick(server: Server) {
+  function handleClick(server: ServerData) {
     dispatch(setServer(server));
   }
 

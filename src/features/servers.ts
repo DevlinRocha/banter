@@ -1,14 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { useAppSelector } from "../redux/hooks";
 
-export interface Server {
+export interface ServerData {
   name: string;
   path: string;
   // img: string; Add server images
   id: string;
 }
 
-export interface Channel {
+export interface ChannelData {
   name: string;
   path: string;
   id: string;
@@ -28,10 +28,10 @@ export interface MessageData {
 }
 
 export interface ServersState {
-  server: Server;
-  servers: Server[];
-  channel: Channel;
-  channels: Channel[];
+  server: ServerData;
+  servers: ServerData[];
+  channel: ChannelData;
+  channels: ChannelData[];
   messages: MessageData[];
   loading: "idle" | "pending" | "succeeded" | "failed";
 }

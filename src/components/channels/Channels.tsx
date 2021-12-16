@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useAppDispatch } from "../../redux/hooks";
 import {
-  Channel,
+  ChannelData,
   setChannel,
   setChannels,
   useServersState,
@@ -21,9 +21,9 @@ export default function Channels() {
       const q = query(collection(db, "servers", server.id, "channels"));
 
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
-        const channelList: Channel[] = [];
+        const channelList: ChannelData[] = [];
         querySnapshot.forEach((doc) => {
-          const channel: Channel = {
+          const channel: ChannelData = {
             name: doc.data().name,
             path: `${server.path}${doc.id}/`,
             id: doc.id,
@@ -41,7 +41,7 @@ export default function Channels() {
     }
   }, [server]);
 
-  function handleClick(channel: Channel) {
+  function handleClick(channel: ChannelData) {
     dispatch(setChannel(channel));
   }
 
