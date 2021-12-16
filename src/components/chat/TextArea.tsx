@@ -1,15 +1,18 @@
 import { useRef } from "react";
 import { addDoc, collection } from "firebase/firestore";
-import { db, auth } from "../../../firebase";
+import { db } from "../../../firebase";
 import tw from "tailwind-styled-components";
 import { useServersState } from "../../features/servers";
+import { useUserState } from "../../features/user";
 
 export default function TextArea() {
   const inputRef = useRef<HTMLInputElement>(null);
   const { server, channel } = useServersState();
+  const { user } = useUserState();
 
   function getText() {
     let messageContent;
+
     if (inputRef.current) {
       if (inputRef.current.value.trim() === "") return;
       messageContent = inputRef.current.value;
@@ -45,8 +48,8 @@ export default function TextArea() {
           reactions: [],
           timestamp: Date.now(),
           user: {
-            name: auth.currentUser?.displayName,
-            img: auth.currentUser?.photoURL,
+            name: user.name,
+            img: user.img,
           },
         }
       );
