@@ -22,6 +22,7 @@ export interface MessageData {
   edited: boolean;
   reactions: [];
   timestamp: number;
+
   user: {
     name: string;
     img: string;
@@ -33,34 +34,27 @@ export interface ServersState {
   servers: Server[];
   channel: Channel;
   channels: Channel[];
-  user: {
-    name: string;
-    img: string;
-    id: string;
-  };
   messages: MessageData[];
   loading: "idle" | "pending" | "succeeded" | "failed";
 }
 
 const initialState: ServersState = {
   servers: [],
+
   server: {
     name: "",
     path: "",
     id: "",
     // img: "", Add server images
   },
+
   channel: {
     name: "",
     path: "",
     id: "",
   },
+
   channels: [],
-  user: {
-    name: "Anonymous",
-    img: "https://firebasestorage.googleapis.com/v0/b/banter-69832.appspot.com/o/Account.png?alt=media&token=32d8543b-cc91-4006-b014-ab93d128441a",
-    id: "0000",
-  },
   messages: [],
   loading: "idle",
 };
@@ -76,13 +70,16 @@ export const getServers = createAsyncThunk("servers/getServers", async () => {
       path: `/channels/${doc.id}/`,
       id: doc.id,
     };
+
     serverList.push(server);
   });
+
   return serverList;
 });
 
 export const getChannels = createAsyncThunk(
   "servers/getChannels",
+
   async (blank, { getState }) => {
     const { servers } = getState() as { servers: ServersState };
     const channelList: Channel[] = [];
@@ -95,8 +92,10 @@ export const getChannels = createAsyncThunk(
         path: `${servers.server.path}${doc.id}/`,
         id: doc.id,
       };
+
       channelList.push(channel);
     });
+
     return channelList;
   }
 );
@@ -104,18 +103,22 @@ export const getChannels = createAsyncThunk(
 export const serversSlice = createSlice({
   name: "servers",
   initialState,
+
   reducers: {
+    setServers(state, action) {
+      state.servers = action.payload;
+    },
+
     setServer(state, action) {
       state.server = action.payload;
     },
+
     setChannel(state, action) {
       state.channel = action.payload;
     },
+
     setMessages(state, action) {
       state.messages = action.payload;
-    },
-    setUser(state, action) {
-      state.user = action.payload;
     },
   },
 
@@ -123,13 +126,16 @@ export const serversSlice = createSlice({
     builder.addCase(getServers.pending, (state, action) => {
       state.loading = "pending";
     });
+
     builder.addCase(getServers.fulfilled, (state, action) => {
       state.servers = action.payload;
       state.loading = "succeeded";
     });
+
     builder.addCase(getChannels.pending, (state, action) => {
       state.loading = "pending";
     });
+
     builder.addCase(getChannels.fulfilled, (state, action) => {
       state.channels = action.payload;
       state.loading = "succeeded";
@@ -137,7 +143,7 @@ export const serversSlice = createSlice({
   },
 });
 
-export const { setServer, setChannel, setMessages, setUser } =
+export const { setServers, setServer, setChannel, setMessages } =
   serversSlice.actions;
 
 export const useServersState = () => useAppSelector((state) => state.servers);
