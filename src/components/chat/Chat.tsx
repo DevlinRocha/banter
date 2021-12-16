@@ -7,7 +7,9 @@ export default function Chat() {
   return (
     <Container>
       <Title />
+
       <Messages />
+
       <TextArea />
     </Container>
   );

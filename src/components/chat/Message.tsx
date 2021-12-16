@@ -44,6 +44,7 @@ export default function Message(props: MessageProps) {
   function getDay(dateSent: Date, day: number) {
     const date = new Date();
     const today = new Date().getDay();
+
     if (
       dateSent.getFullYear() === date.getFullYear() &&
       dateSent.getMonth() === date.getMonth()
@@ -72,11 +73,14 @@ export default function Message(props: MessageProps) {
           alt="Profile picture"
         />
       </ProfilePicture>
+
       <MessageContent>
         <MessageInfo>
           <Username>{props.message.user.name}</Username>
+
           <MessageDate>{getDate()}</MessageDate>
         </MessageInfo>
+
         <Content>{props.message.content}</Content>
       </MessageContent>
     </Container>

@@ -22,15 +22,15 @@ export const settingsSlice = createSlice({
     setUserSettingsOpen(state, action) {
       state.userSettingsOpen = action.payload;
     },
+
     setSettings(state, action) {
       state.settings = action.payload;
     },
+
     setLogoutConfirmOpen(state, action) {
       state.logoutConfirmOpen = action.payload;
     },
   },
-
-  extraReducers: (builder) => {},
 });
 
 export const { setUserSettingsOpen, setSettings, setLogoutConfirmOpen } =

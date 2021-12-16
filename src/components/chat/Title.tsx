@@ -4,8 +4,11 @@ export default function Title() {
   return (
     <Section>
       <Hamburger />
+
       <Heading>Global Chat</Heading>
+
       <Divider>|</Divider>
+
       <Topic>Welcome to Banter</Topic>
     </Section>
   );

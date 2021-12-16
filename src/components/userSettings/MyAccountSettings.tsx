@@ -5,8 +5,11 @@ export default function MyAccountSettings() {
   return (
     <Container>
       <Heading>My Account</Heading>
+
       <UserProfileCard />
+
       <Heading>Password</Heading>
+
       <SubHeading>ACCOUNT REMOVAL</SubHeading>
     </Container>
   );

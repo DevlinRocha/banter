@@ -17,10 +17,12 @@ export default function SettingsSidebar() {
   return (
     <Container>
       <ListHeading>USER SETTINGS</ListHeading>
+
       <SettingsList>
         <ListItem onClick={() => dispatch(setSettings("My Account"))}>
           My Account
         </ListItem>
+
         <ListItem onClick={() => dispatch(setSettings("User Profile"))}>
           User Profile
         </ListItem>
@@ -38,12 +40,14 @@ export default function SettingsSidebar() {
         <SocialLink href="https://twitter.com/DevlinRocha" target="_blank">
           <StyledImage src={twitterIcon} width={16} height={16} />
         </SocialLink>
+
         <SocialLink
           href="https://github.com/DevlinRocha/banter"
           target="_blank"
         >
           <StyledImage src={githubIcon} width={16} height={16} />
         </SocialLink>
+
         <SocialLink
           href="https://www.instagram.com/devlinrocha/"
           target="_blank"

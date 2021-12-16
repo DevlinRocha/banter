@@ -5,7 +5,6 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
-  onAuthStateChanged,
 } from "firebase/auth";
 import { getAnalytics } from "firebase/analytics";
 
@@ -28,6 +27,7 @@ export function createAccount(
     .then((userCredential) => {
       // Signed in
       const user = userCredential.user;
+
       updateProfile(user, {
         displayName: username,
         photoURL:
@@ -36,10 +36,12 @@ export function createAccount(
         .then(() => {
           // Profile updated
         })
+
         .catch((error) => {
           console.error(error);
         });
     })
+
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
@@ -54,6 +56,7 @@ export function signIn(email: string, password: string) {
       const user = userCredential.user;
       return user;
     })
+
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
@@ -63,17 +66,7 @@ export function signIn(email: string, password: string) {
 
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore();
-export const auth = getAuth();
+const auth = getAuth();
 const user = auth.currentUser;
 export type User = typeof user;
 export const analytics = getAnalytics(app);
-
-onAuthStateChanged(auth, (user: User) => {
-  if (user) {
-    // User is signed in
-    // https://firebase.google.com/docs/reference/js/firebase.User
-    const uid = user.uid;
-  } else {
-    // User is signed out
-  }
-});

@@ -12,18 +12,23 @@ export default function RegistrationForm() {
 
   function handleSubmit(e: any) {
     e.preventDefault();
+
     let email = "";
     let password = "";
     let username = "";
+
     if (emailRef.current) {
       email = emailRef.current.value;
     }
+
     if (passwordRef.current) {
       password = passwordRef.current.value;
     }
+
     if (usernameRef.current) {
       username = usernameRef.current.value;
     }
+
     createAccount(email, password, username);
     router.push("/register-complete");
   }
@@ -34,6 +39,7 @@ export default function RegistrationForm() {
 
       <EmailField>
         <EmailLabel htmlFor="emailInput">Email</EmailLabel>
+
         <EmailInput
           ref={emailRef}
           type="email"
@@ -42,8 +48,10 @@ export default function RegistrationForm() {
           id="emailInput"
         />
       </EmailField>
+
       <UsernameField>
         <UsernameLabel htmlFor="usernameInput">Username</UsernameLabel>
+
         <UsernameInput
           ref={usernameRef}
           type="text"
@@ -55,6 +63,7 @@ export default function RegistrationForm() {
 
       <PasswordField>
         <PasswordLabel htmlFor="passwordInput">Password</PasswordLabel>
+
         <PasswordInput
           ref={passwordRef}
           type="pasword"
@@ -63,8 +72,11 @@ export default function RegistrationForm() {
           id="passwordInput"
         />
       </PasswordField>
+
       <SubmitButton type="submit" value="Continue" />
+
       <Link href="/login">Already have an account?</Link>
+
       <Fine>By registering, you agree not to sue Banter.</Fine>
     </Container>
   );

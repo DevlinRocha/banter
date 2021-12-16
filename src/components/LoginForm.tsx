@@ -11,29 +11,36 @@ export default function LoginForm() {
 
   function handleSubmit(e: any) {
     e.preventDefault();
+
     let email = "";
     let password = "";
+
     if (emailRef.current) {
       email = emailRef.current.value;
     }
+
     if (passwordRef.current) {
       password = passwordRef.current.value;
     }
+
     signIn(email, password);
   }
 
   return (
     <Container onSubmit={handleSubmit}>
       <Heading>Welcome back!</Heading>
+
       <Subheading>{"We're so excited to see you again!"}</Subheading>
 
       <EmailField>
         <EmailLabel htmlFor="emailInput">Email</EmailLabel>
+
         <EmailInput ref={emailRef} type="email" required id="emailInput" />
       </EmailField>
 
       <PasswordField>
         <PasswordLabel htmlFor="passwordInput">Password</PasswordLabel>
+
         <PasswordInput
           ref={passwordRef}
           type="pasword"
@@ -45,6 +52,7 @@ export default function LoginForm() {
       <SubmitButton type="submit" value="Login" />
 
       <Link href="/login">Forgot your password?</Link>
+
       <Fine>
         Need an account? <Link href="/register">Register</Link>
       </Fine>

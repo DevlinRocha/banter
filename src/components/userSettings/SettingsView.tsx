@@ -8,8 +8,10 @@ export default function SettingsView() {
   switch (settings) {
     case "My Account":
       return <MyAccountSettings />;
+
     case "User Profile":
       return <UserProfileSettings />;
+
     default:
       return <MyAccountSettings />;
   }
