@@ -60,6 +60,7 @@ export default function SettingsSidebar() {
 }
 
 const Container = tw.nav`
+  py-15 pr-1.5 pl-5
 `;
 
 const SettingsList = tw.ol`
