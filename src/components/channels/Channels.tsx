@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import { useAppDispatch } from "../redux/hooks";
+import { useAppDispatch } from "../../redux/hooks";
 import {
   Channel,
   getChannels,
   setChannel,
   useServersState,
-} from "../features/servers";
+} from "../../features/servers";
 import UserPanel from "./UserPanel";
 import Link from "next/link";
 import tw from "tailwind-styled-components/dist/tailwind";
@@ -37,6 +37,7 @@ export default function Channels() {
           })}
         </ServerList>
       </Nav>
+
       <UserPanel />
     </Container>
   );

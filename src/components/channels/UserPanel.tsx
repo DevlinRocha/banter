@@ -1,34 +1,16 @@
-import { useEffect } from "react";
-import { useAppDispatch } from "../redux/hooks";
+import { useAppDispatch } from "../../redux/hooks";
 import Image from "next/image";
 import tw from "tailwind-styled-components/dist/tailwind";
-import { auth } from "../../firebase";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { useServersState, setUser } from "../features/servers";
-import muteIcon from "../../assets/muteIcon.png";
-import deafenIcon from "../../assets/deafenIcon.png";
-import settingsIcon from "../../assets/settingsIcon.svg";
-import { setUserSettingsOpen, useSettingsState } from "../features/settings";
+import { useUserState } from "../../features/user";
+import muteIcon from "../../../assets/muteIcon.png";
+import deafenIcon from "../../../assets/deafenIcon.png";
+import settingsIcon from "../../../assets/settingsIcon.svg";
+import { setUserSettingsOpen, useSettingsState } from "../../features/settings";
 
 export default function UserPanel() {
-  const { user } = useServersState();
+  const { user } = useUserState();
   const { userSettingsOpen } = useSettingsState();
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is signed in
-        const currentUser = {
-          name: user.displayName,
-          img: user.photoURL,
-        };
-        dispatch(setUser(currentUser));
-      } else {
-        // User is signed out
-      }
-    });
-  }, []);
 
   function handleClick() {
     dispatch(setUserSettingsOpen(!userSettingsOpen));
@@ -52,7 +34,9 @@ export default function UserPanel() {
 
       <IconsPanel>
         <Icon src={muteIcon} width={20} height={20} />
+
         <Icon src={deafenIcon} width={20} height={20} />
+
         <Icon onClick={handleClick} src={settingsIcon} width={20} height={20} />
       </IconsPanel>
     </Container>
