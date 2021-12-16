@@ -1,7 +1,5 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { query, collection, getDocs } from "firebase/firestore";
+import { createSlice } from "@reduxjs/toolkit";
 import { useAppSelector } from "../redux/hooks";
-import { db, User } from "../../firebase";
 
 export interface Server {
   name: string;
