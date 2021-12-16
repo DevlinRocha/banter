@@ -16,9 +16,11 @@ export default function MyAccountSettings() {
 }
 
 const Container = tw.main`
+  pt-15 px-10 pb-20
 `;
 
 const Heading = tw.h2`
+  mb-5
 `;
 
 const SubHeading = tw(Heading)`
