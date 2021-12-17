@@ -11,6 +11,7 @@ import {
 import { query, collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase";
 import Image from "next/image";
+import banterIcon from "../../assets/banterIcon.svg";
 
 export default function Servers() {
   const { servers, server } = useServersState();
@@ -48,6 +49,15 @@ export default function Servers() {
   return (
     <Nav>
       <Sidebar>
+        <BanterIcon>
+          <StyledImage
+            src={banterIcon}
+            width={48}
+            height={48}
+            alt="Banter logo"
+          />
+        </BanterIcon>
+
         {servers.map((server, index) => {
           return (
             <Link href={server.path} key={index}>
@@ -76,7 +86,11 @@ const Nav = tw.nav`
 `;
 
 const Sidebar = tw.ol`
-  bg-gray-300 w-full h-full
+  bg-gray-300 pt-3 w-full h-full
+`;
+
+const BanterIcon = tw.figure`
+  flex justify-center mb-2
 `;
 
 const Server = tw.li`
