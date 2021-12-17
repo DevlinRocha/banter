@@ -3,8 +3,8 @@ import { useAppSelector } from "../redux/hooks";
 
 export interface ServerData {
   name: string;
+  img: string;
   path: string;
-  // img: string; Add server images
   id: string;
 }
 
@@ -41,9 +41,9 @@ const initialState: ServersState = {
 
   server: {
     name: "",
+    img: "",
     path: "",
     id: "",
-    // img: "", Add server images
   },
 
   channel: {
