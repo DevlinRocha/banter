@@ -86,7 +86,7 @@ const Nav = tw.nav`
 `;
 
 const Sidebar = tw.ol`
-  bg-gray-200 pt-3 w-full h-full
+  bg-gray-200 pt-3 w-18 h-full
 `;
 
 const BanterIcon = tw.figure`

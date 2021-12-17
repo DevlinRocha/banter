@@ -74,5 +74,5 @@ const Container = tw.form`
 `;
 
 const TextInput = tw.input`
-  bg-gray-200 rounded-md p-2.5 pl-4 w-full h-full placeholder-gray-500
+  bg-gray-100 rounded-md p-2.5 pl-4 w-full h-full placeholder-gray-500
 `;

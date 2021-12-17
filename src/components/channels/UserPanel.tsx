@@ -44,7 +44,7 @@ export default function UserPanel() {
 }
 
 const Container = tw.section`
-  flex justify-between px-2
+  flex justify-between align-center w-60 h-14 px-2 bg-gray-100
 `;
 
 const UserInfo = tw.section`
@@ -52,6 +52,7 @@ const UserInfo = tw.section`
 `;
 
 const ProfilePicture = tw.div`
+  flex justify-center align-center mr-2
 `;
 
 const StyledImage = tw(Image)`

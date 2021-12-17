@@ -69,7 +69,7 @@ export default function Channels() {
 }
 
 const Container = tw.div`
-  flex flex-col justify-between bg-gray-100 w-60 h-full
+  flex flex-col justify-between bg-gray-50 w-60 h-full
 `;
 
 const Nav = tw.nav`
