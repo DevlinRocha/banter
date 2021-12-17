@@ -63,7 +63,6 @@ export default function Servers() {
             <Link href={server.path} key={index}>
               <a onClick={() => handleClick(server)}>
                 <Server>
-                  {" "}
                   <StyledImage
                     loader={() => server.img}
                     src={server.img}
@@ -82,11 +81,12 @@ export default function Servers() {
 }
 
 const Nav = tw.nav`
-  hidden lg:block w-18 h-full
+  hidden w-18 h-full
+  lg:block
 `;
 
 const Sidebar = tw.ol`
-  bg-gray-300 pt-3 w-full h-full
+  bg-gray-200 pt-3 w-full h-full
 `;
 
 const BanterIcon = tw.figure`
@@ -99,4 +99,5 @@ const Server = tw.li`
 
 const StyledImage = tw(Image)`
   rounded-full
+  hover:rounded-md
 `;

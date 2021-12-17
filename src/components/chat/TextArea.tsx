@@ -70,9 +70,9 @@ export default function TextArea() {
 }
 
 const Container = tw.form`
-  sticky bottom-0 z-10 w-full bg-white
+  sticky bottom-6 w-full h-11 px-4 z-10
 `;
 
 const TextInput = tw.input`
-  border-black border-2 rounded-md p-1 pl-4
+  bg-gray-200 rounded-md p-2.5 pl-4 w-full h-full placeholder-gray-500
 `;

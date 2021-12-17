@@ -15,7 +15,7 @@ export default function Title() {
 }
 
 const Section = tw.section`
-  flex sticky top-0 h-10 bg-white z-10
+  flex sticky top-0 w-full h-10 bg-white z-10
 `;
 
 const Hamburger = tw.div`

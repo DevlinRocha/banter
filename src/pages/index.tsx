@@ -65,7 +65,7 @@ export async function getServerSideProps() {
 }
 
 const Container = tw.div`
-  flex
+  flex w-screen h-screen
 `;
 
 export default Home;

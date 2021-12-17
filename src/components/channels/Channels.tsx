@@ -48,12 +48,14 @@ export default function Channels() {
   return (
     <Container>
       <Nav>
+        <Header>{server.name}</Header>
+
         <ServerList>
           {channels.map((channel, index) => {
             return (
               <Link href={channel.path} key={index}>
                 <a onClick={() => handleClick(channel)}>
-                  <Channel>{channel.name}</Channel>
+                  <Channel># {channel.name}</Channel>
                 </a>
               </Link>
             );
@@ -67,16 +69,22 @@ export default function Channels() {
 }
 
 const Container = tw.div`
-  flex flex-col justify-between w-60 h-screen
+  flex flex-col justify-between bg-gray-100 w-60 h-full
 `;
 
 const Nav = tw.nav`
-  hidden lg:block
+  hidden
+  lg:block
+`;
+
+const Header = tw.h2`
 `;
 
 const ServerList = tw.ol`
+  overflow-y-scroll
 `;
 
 const Channel = tw.li`
-  cursor-pointer
+  flex cursor-pointer py-1 pr-2 ml-2 pl-2 rounded-md
+  hover:bg-gray-200
 `;
