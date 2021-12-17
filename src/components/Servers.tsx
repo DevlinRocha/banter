@@ -10,6 +10,7 @@ import {
 } from "../features/servers";
 import { query, collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase";
+import Image from "next/image";
 
 export default function Servers() {
   const { servers, server } = useServersState();
@@ -24,6 +25,7 @@ export default function Servers() {
       querySnapshot.forEach((doc) => {
         const server: ServerData = {
           name: doc.data().name,
+          img: doc.data().img,
           path: `/channels/${doc.id}/`,
           id: doc.id,
         };
@@ -50,7 +52,16 @@ export default function Servers() {
           return (
             <Link href={server.path} key={index}>
               <a onClick={() => handleClick(server)}>
-                <Server>{server.name}</Server>
+                <Server>
+                  {" "}
+                  <StyledImage
+                    loader={() => server.img}
+                    src={server.img}
+                    width={48}
+                    height={48}
+                    alt="Server icon"
+                  />
+                </Server>
               </a>
             </Link>
           );
@@ -61,12 +72,17 @@ export default function Servers() {
 }
 
 const Nav = tw.nav`
-  hidden lg:block w-18 h-screen
+  hidden lg:block w-18 h-full
 `;
 
 const Sidebar = tw.ol`
+  bg-gray-300 w-full h-full
 `;
 
 const Server = tw.li`
-  cursor-pointer
+  flex justify-center align-center mb-2 cursor-pointer
+`;
+
+const StyledImage = tw(Image)`
+  rounded-full
 `;
