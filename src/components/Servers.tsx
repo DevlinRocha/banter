@@ -98,6 +98,6 @@ const Server = tw.li`
 `;
 
 const StyledImage = tw(Image)`
-  rounded-full
+  rounded-full transition-all
   hover:rounded-md
 `;
