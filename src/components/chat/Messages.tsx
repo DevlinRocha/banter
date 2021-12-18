@@ -65,5 +65,5 @@ export default function Messages() {
 }
 
 const List = tw.ol`
-  flex flex-col justify-end h-full overflow-y-scroll
+  flex flex-col h-full overflow-auto
 `;
