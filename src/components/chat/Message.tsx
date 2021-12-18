@@ -66,8 +66,8 @@ export default function Message(props: MessageProps) {
     <Container>
       <ProfilePicture>
         <StyledImage
-          loader={() => props.message.user.img}
-          src={props.message.user.img}
+          loader={() => props.message.user.avatar}
+          src={props.message.user.avatar}
           width={40}
           height={40}
           alt="Profile picture"
@@ -76,7 +76,7 @@ export default function Message(props: MessageProps) {
 
       <MessageContent>
         <MessageInfo>
-          <Username>{props.message.user.name}</Username>
+          <Username>{props.message.user.username}</Username>
 
           <MessageDate>{getDate()}</MessageDate>
         </MessageInfo>

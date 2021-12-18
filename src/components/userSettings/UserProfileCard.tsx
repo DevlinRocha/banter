@@ -16,8 +16,8 @@ export default function UserProfileCard() {
       <Container>
         <ProfilePicture>
           <StyledImage
-            loader={() => user.img}
-            src={user.img}
+            loader={() => user.avatar}
+            src={user.avatar}
             width={80}
             height={80}
             alt="Profile picture"
@@ -25,9 +25,9 @@ export default function UserProfileCard() {
         </ProfilePicture>
 
         <Username>
-          <DisplayName>{user.name}</DisplayName>
+          <DisplayName>{user.username}</DisplayName>
 
-          <Discriminator>#{user.id}</Discriminator>
+          <Tag>#{user.tag}</Tag>
         </Username>
       </Container>
     </ContainerCol>
@@ -60,5 +60,5 @@ const Username = tw.span`
 const DisplayName = tw(Username)`
 `;
 
-const Discriminator = tw(Username)`
+const Tag = tw(Username)`
 `;

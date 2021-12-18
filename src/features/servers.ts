@@ -15,16 +15,15 @@ export interface ChannelData {
 }
 
 export interface MessageData {
+  user: {
+    username: string;
+    avatar: string;
+  };
   content: string;
   date: string;
-  edited: boolean;
-  reactions: [];
   timestamp: number;
-
-  user: {
-    name: string;
-    img: string;
-  };
+  reactions: [];
+  edited: boolean;
 }
 
 export interface ServersState {

@@ -16,5 +16,5 @@ export default function Chat() {
 }
 
 const Container = tw.main`
-  flex flex-col w-full h-full overflow-y-scroll
+  flex flex-col w-full h-full
 `;

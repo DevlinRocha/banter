@@ -21,15 +21,19 @@ export default function UserPanel() {
       <UserInfo>
         <ProfilePicture>
           <StyledImage
-            loader={() => user.img}
-            src={user.img}
+            loader={() => user.avatar}
+            src={user.avatar}
             width={32}
             height={32}
             alt="Profile picture"
           />
         </ProfilePicture>
 
-        <Username>{user.name}</Username>
+        <Username>
+          <DisplayName>{user.username}</DisplayName>
+
+          <Tag>#{user.tag}</Tag>
+        </Username>
       </UserInfo>
 
       <IconsPanel>
@@ -60,6 +64,13 @@ const StyledImage = tw(Image)`
 `;
 
 const Username = tw.span`
+  flex flex-col
+`;
+
+const DisplayName = tw.span`
+`;
+
+const Tag = tw.span`
 `;
 
 const IconsPanel = tw.div`

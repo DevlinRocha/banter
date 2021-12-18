@@ -31,15 +31,15 @@ export default function Messages() {
         const messageList: MessageData[] = [];
         querySnapshot.forEach((doc) => {
           const message: MessageData = {
+            user: {
+              username: doc.data().user.name,
+              avatar: doc.data().user.img,
+            },
             content: doc.data().content,
             date: doc.data().date,
-            edited: doc.data().edited,
-            reactions: doc.data().reactions,
             timestamp: doc.data().timestamp,
-            user: {
-              name: doc.data().user.name,
-              img: doc.data().user.img,
-            },
+            reactions: doc.data().reactions,
+            edited: doc.data().edited,
           };
           messageList.push(message);
         });
@@ -65,5 +65,5 @@ export default function Messages() {
 }
 
 const List = tw.ol`
-  flex flex-col justify-end h-full
+  flex flex-col justify-end h-full overflow-y-scroll
 `;

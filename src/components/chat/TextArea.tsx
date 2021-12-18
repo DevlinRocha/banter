@@ -48,8 +48,8 @@ export default function TextArea() {
           reactions: [],
           timestamp: Date.now(),
           user: {
-            name: user.name,
-            img: user.img,
+            name: user.username,
+            img: user.avatar,
           },
         }
       );
