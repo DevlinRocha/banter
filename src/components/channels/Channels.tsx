@@ -50,7 +50,7 @@ export default function Channels() {
       <Nav>
         <Header>{server.name}</Header>
 
-        <ServerList>
+        <ChannelList>
           {channels.map((channel, index) => {
             return (
               <Link href={channel.path} key={index}>
@@ -60,7 +60,7 @@ export default function Channels() {
               </Link>
             );
           })}
-        </ServerList>
+        </ChannelList>
       </Nav>
 
       <UserPanel />
@@ -80,11 +80,11 @@ const Nav = tw.nav`
 const Header = tw.h2`
 `;
 
-const ServerList = tw.ol`
-  overflow-y-scroll
+const ChannelList = tw.ol`
+  overflow-y-auto
 `;
 
 const Channel = tw.li`
-  flex cursor-pointer py-1 pr-2 ml-2 pl-2 rounded-md
+  flex cursor-pointer py-1 pr-2 mx-2 pl-2 rounded-md
   hover:bg-gray-200
 `;
