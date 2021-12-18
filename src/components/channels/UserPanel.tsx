@@ -47,7 +47,7 @@ const Container = tw.section`
   flex justify-between align-center w-60 h-14 px-2 bg-gray-100
 `;
 
-const UserInfo = tw.section`
+const UserInfo = tw.div`
   flex
 `;
 
@@ -62,7 +62,7 @@ const StyledImage = tw(Image)`
 const Username = tw.span`
 `;
 
-const IconsPanel = tw.section`
+const IconsPanel = tw.div`
   flex justify-between align-center w-24
 `;
 

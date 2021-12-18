@@ -68,7 +68,7 @@ export default function Channels() {
   );
 }
 
-const Container = tw.div`
+const Container = tw.section`
   flex flex-col justify-between bg-gray-50 w-60 h-full
 `;
 
