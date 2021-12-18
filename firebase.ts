@@ -47,6 +47,8 @@ export function createAccount(
 
             about: "I'm new to Banter :)",
 
+            servers: ["ke6NqegIvJEOa9cLzUEp"],
+
             banner: "7CC6FE",
 
             email: user.email,
