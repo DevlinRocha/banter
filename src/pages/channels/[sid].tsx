@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import Servers from "../../components/Servers";
@@ -18,20 +17,18 @@ const Home: NextPage = () => {
   const { userSettingsOpen } = useSettingsState();
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is signed in
-        const currentUser = {
-          name: user.displayName,
-          img: user.photoURL,
-        };
-        dispatch(setUser(currentUser));
-      } else {
-        // User is signed out
-      }
-    });
-  }, []);
+  onAuthStateChanged(auth, (user) => {
+    if (user?.displayName && user?.photoURL) {
+      // User is signed in
+      const currentUser = {
+        name: user.displayName,
+        img: user.photoURL,
+      };
+      dispatch(setUser(currentUser));
+    } else {
+      // User is signed out
+    }
+  });
 
   return (
     <Container>

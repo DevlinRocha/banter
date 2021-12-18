@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -26,15 +26,31 @@ export function createAccount(
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in
+
       const user = userCredential.user;
 
       updateProfile(user, {
         displayName: username,
+
         photoURL:
           "https://firebasestorage.googleapis.com/v0/b/banter-69832.appspot.com/o/Account.png?alt=media&token=32d8543b-cc91-4006-b014-ab93d128441a",
       })
-        .then(() => {
+        .then(async () => {
           // Profile updated
+
+          await setDoc(doc(db, "users", user.uid), {
+            username: user.displayName,
+
+            avatar: user.photoURL,
+
+            tag: "0000", // Create function to generate unique tag for each username
+
+            about: "I'm new to Banter :)",
+
+            banner: "7CC6FE",
+
+            email: user.email,
+          });
         })
 
         .catch((error) => {
