@@ -56,14 +56,20 @@ export default function Messages() {
   }, [channel]);
 
   return (
-    <List>
-      {messages.map((message, index) => {
-        return <Message message={message} key={index} />;
-      })}
-    </List>
+    <Container>
+      <List>
+        {messages.map((message, index) => {
+          return <Message message={message} key={index} />;
+        })}
+      </List>
+    </Container>
   );
 }
 
+const Container = tw.div`
+  flex w-full h-full overflow-y-scroll
+`;
+
 const List = tw.ol`
-  flex flex-col h-full mt-auto overflow-y-scroll
+  flex flex-col mt-auto
 `;
