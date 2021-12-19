@@ -1,15 +1,18 @@
 import tw from "tailwind-styled-components";
+import { useServersState } from "../../features/servers";
 
 export default function Title() {
+  const { channel } = useServersState();
+
   return (
     <Section>
       <Hamburger />
 
-      <Heading>Global Chat</Heading>
+      <Heading># {channel.name}</Heading>
 
       <Divider>|</Divider>
 
-      <Topic>Welcome to Banter</Topic>
+      <Topic>{channel.topic}</Topic>
     </Section>
   );
 }
