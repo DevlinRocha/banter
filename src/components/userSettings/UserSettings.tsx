@@ -17,29 +17,35 @@ export default function UserSettings() {
 
       <SettingsSidebar />
 
-      <SettingsView />
+      <SettingsContainer>
+        <SettingsView />
 
-      <CloseButton>
-        <StyledImage
-          onClick={() => dispatch(setUserSettingsOpen(!userSettingsOpen))}
-          src={closeButton}
-          width={36}
-          height={36}
-          alt={"Close button"}
-        />
+        <CloseButton>
+          <StyledImage
+            onClick={() => dispatch(setUserSettingsOpen(!userSettingsOpen))}
+            src={closeButton}
+            width={36}
+            height={36}
+            alt={"Close button"}
+          />
 
-        <Caption>ESC</Caption>
-      </CloseButton>
+          <Caption>ESC</Caption>
+        </CloseButton>
+      </SettingsContainer>
     </Container>
   );
 }
 
 const Container = tw.div`
-  flex w-screen h-screen
+  flex w-full h-full
+`;
+
+const SettingsContainer = tw(Container)`
+  justify-around
 `;
 
 const CloseButton = tw.figure`
-  pt-15 text-center
+  pt-15 text-center mr-5
 `;
 
 const StyledImage = tw(Image)`
