@@ -17,8 +17,8 @@ export default function Channels() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (server.id) {
-      const q = query(collection(db, "servers", server.id, "channels"));
+    if (server.serverID) {
+      const q = query(collection(db, "servers", server.serverID, "channels"));
 
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
         const channelList: ChannelData[] = [];
@@ -31,7 +31,7 @@ export default function Channels() {
 
             path: `${server.path}${doc.id}/`,
 
-            id: doc.id,
+            channelID: doc.id,
           };
 
           channelList.push(channel);

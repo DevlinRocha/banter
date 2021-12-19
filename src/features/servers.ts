@@ -5,14 +5,14 @@ export interface ServerData {
   name: string;
   img: string;
   path: string;
-  id: string;
+  serverID: string;
 }
 
 export interface ChannelData {
   name: string;
   topic: string;
   path: string;
-  id: string;
+  channelID: string;
 }
 
 export interface MessageData {
@@ -43,14 +43,14 @@ const initialState: ServersState = {
     name: "",
     img: "",
     path: "",
-    id: "",
+    serverID: "",
   },
 
   channel: {
     name: "",
     topic: "",
     path: "",
-    id: "",
+    channelID: "",
   },
 
   channels: [],

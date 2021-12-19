@@ -31,7 +31,7 @@ export default function Servers() {
 
           path: `/channels/${doc.id}/`,
 
-          id: doc.id,
+          serverID: doc.id,
         };
 
         serverList.push(server);

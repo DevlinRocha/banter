@@ -15,9 +15,12 @@ export default function TextArea() {
 
     if (inputRef.current) {
       if (inputRef.current.value.trim() === "") return;
+
       messageContent = inputRef.current.value;
+
       inputRef.current.value = "";
     }
+
     return messageContent;
   }
 
@@ -36,9 +39,9 @@ export default function TextArea() {
         collection(
           db,
           "servers",
-          server.id,
+          server.serverID,
           "channels",
-          channel.id,
+          channel.channelID,
           "messages"
         ),
         {

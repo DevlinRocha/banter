@@ -15,14 +15,14 @@ export default function Messages() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (server.id && channel.id) {
+    if (server.serverID && channel.channelID) {
       const q = query(
         collection(
           db,
           "servers",
-          server?.id,
+          server?.serverID,
           "channels",
-          channel?.id,
+          channel?.channelID,
           "messages"
         )
       );
