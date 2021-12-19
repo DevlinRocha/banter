@@ -90,11 +90,11 @@ const Sidebar = tw.ol`
 `;
 
 const BanterIcon = tw.figure`
-  flex justify-center mb-2
+  flex justify-center mb-2 cursor-pointer
 `;
 
 const Server = tw.li`
-  flex justify-center align-center mb-2 cursor-pointer
+  flex justify-center mb-2 cursor-pointer
 `;
 
 const StyledImage = tw(Image)`
