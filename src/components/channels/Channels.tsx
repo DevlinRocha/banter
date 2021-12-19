@@ -22,10 +22,15 @@ export default function Channels() {
 
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
         const channelList: ChannelData[] = [];
+
         querySnapshot.forEach((doc) => {
           const channel: ChannelData = {
             name: doc.data().name,
+
+            topic: doc.data().topic,
+
             path: `${server.path}${doc.id}/`,
+
             id: doc.id,
           };
 

@@ -26,8 +26,11 @@ export default function Servers() {
       querySnapshot.forEach((doc) => {
         const server: ServerData = {
           name: doc.data().name,
+
           img: doc.data().img,
+
           path: `/channels/${doc.id}/`,
+
           id: doc.id,
         };
 

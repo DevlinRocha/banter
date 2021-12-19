@@ -10,6 +10,7 @@ export interface ServerData {
 
 export interface ChannelData {
   name: string;
+  topic: string;
   path: string;
   id: string;
 }
@@ -47,6 +48,7 @@ const initialState: ServersState = {
 
   channel: {
     name: "",
+    topic: "",
     path: "",
     id: "",
   },
