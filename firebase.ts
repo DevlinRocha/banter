@@ -6,6 +6,7 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
+
 import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
@@ -20,7 +21,9 @@ const firebaseConfig = {
 
 export function createAccount(
   email: string,
+
   password: string,
+
   username: string
 ) {
   createUserWithEmailAndPassword(auth, email, password)
@@ -47,12 +50,13 @@ export function createAccount(
 
             about: "I'm new to Banter :)",
 
-            servers: ["ke6NqegIvJEOa9cLzUEp"],
-
             banner: "7CC6FE",
 
             email: user.email,
           });
+
+          // User joins global chat
+          await joinServer("ke6NqegIvJEOa9cLzUEp", user.uid);
         })
 
         .catch((error) => {
@@ -62,7 +66,9 @@ export function createAccount(
 
     .catch((error) => {
       const errorCode = error.code;
+
       const errorMessage = error.message;
+
       console.error(`${errorCode} ${errorMessage}`);
     });
 }
@@ -71,15 +77,25 @@ export function signIn(email: string, password: string) {
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in
+
       const user = userCredential.user;
+
       return user;
     })
 
     .catch((error) => {
       const errorCode = error.code;
+
       const errorMessage = error.message;
+
       console.error(`${errorCode} ${errorMessage}`);
     });
+}
+
+export async function joinServer(serverID: string, userID: string) {
+  await setDoc(doc(db, "servers", serverID, "members", userID), {});
+
+  await setDoc(doc(db, "users", userID, "servers", serverID), {});
 }
 
 export const app = initializeApp(firebaseConfig);
