@@ -4,6 +4,10 @@ import type { NextFetchEvent, NextRequest } from "next/server";
 export async function middleware(req: NextRequest, ev: NextFetchEvent) {
   const { pathname } = req.nextUrl;
 
+  if (pathname === "/") {
+    return NextResponse.redirect("/channels/@me");
+  }
+
   if (pathname === "/register-complete") {
     return NextResponse.redirect("/");
   }
