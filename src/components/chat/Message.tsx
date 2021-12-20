@@ -108,11 +108,12 @@ const MessageInfo = tw.div`
   flex flex-wrap gap-1
 `;
 
-const Username = tw.span`
+const Username = tw.h2`
   font-bold
 `;
 
 const MessageDate = tw.span`
+  flex items-center text-xs
 `;
 
 const Content = tw.p`

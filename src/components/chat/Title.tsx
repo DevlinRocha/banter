@@ -38,5 +38,5 @@ const Divider = tw.div`
 `;
 
 const Topic = tw.span`
-  p-2
+  p-2 text-xs
 `;
