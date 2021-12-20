@@ -88,11 +88,12 @@ export default function Message(props: MessageProps) {
 }
 
 const Container = tw.li`
-  flex mt-2 gap-4
+  flex mt-[17px] pl-4 gap-4
+  hover:bg-gray-200
 `;
 
 const ProfilePicture = tw.div`
-  mt-1
+  mt-0.5
 `;
 
 const MessageContent = tw.div`
@@ -108,6 +109,7 @@ const MessageInfo = tw.div`
 `;
 
 const Username = tw.span`
+  font-bold
 `;
 
 const MessageDate = tw.span`

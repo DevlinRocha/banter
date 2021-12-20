@@ -53,7 +53,9 @@ export default function Channels() {
   return (
     <Container>
       <Nav>
-        <Header>{server.name}</Header>
+        <Header>
+          <Heading>{server.name}</Heading>
+        </Header>
 
         <ChannelList>
           {channels.map((channel, index) => {
@@ -82,7 +84,12 @@ const Nav = tw.nav`
   lg:block
 `;
 
-const Header = tw.h2`
+const Header = tw.header`
+  flex items-center w-60 h-12 mb-4 px-4 border-b border-gray-300
+`;
+
+const Heading = tw.h1`
+  font-semibold
 `;
 
 const ChannelList = tw.ol`

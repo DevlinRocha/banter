@@ -61,6 +61,8 @@ export default function Servers() {
           />
         </BanterIcon>
 
+        <Separator />
+
         {servers.map((server, index) => {
           return (
             <Link href={server.path} key={index}>
@@ -89,11 +91,11 @@ const Nav = tw.nav`
 `;
 
 const Sidebar = tw.ol`
-  bg-gray-200 pt-3 w-18 h-full
+  flex flex-col bg-gray-200 pt-3 w-18 h-full items-center
 `;
 
 const BanterIcon = tw.figure`
-  flex justify-center mb-2 cursor-pointer
+  flex justify-center cursor-pointer
 `;
 
 const Server = tw.li`
@@ -103,4 +105,8 @@ const Server = tw.li`
 const StyledImage = tw(Image)`
   rounded-3xl transition-all ease-linear
   hover:rounded-xl
+`;
+
+const Separator = tw.div`
+  w-8 h-0.5 my-2 bg-gray-300
 `;

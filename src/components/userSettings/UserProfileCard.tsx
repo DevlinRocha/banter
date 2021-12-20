@@ -47,7 +47,7 @@ const Banner = tw.span`
 `;
 
 const ProfilePicture = tw.div`
-  flex t-19 l-4 border-8 rounded-full
+  flex t-19 l-4 border-[7px] rounded-full
 `;
 
 const StyledImage = tw(Image)`
