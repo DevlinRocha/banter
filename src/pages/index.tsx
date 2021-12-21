@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import Servers from "../components/Servers";
+import Servers from "../components/Servers/Servers";
 import Channels from "../components/channels/Channels";
 import Chat from "../components/chat/Chat";
 import UserSettings from "../components/userSettings/UserSettings";

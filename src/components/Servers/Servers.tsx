@@ -1,17 +1,18 @@
 import Link from "next/link";
 import { useEffect } from "react";
 import tw from "tailwind-styled-components/dist/tailwind";
-import { useAppDispatch } from "../redux/hooks";
+import { useAppDispatch } from "../../redux/hooks";
 import {
   ServerData,
   setServers,
   setServer,
   useServersState,
-} from "../features/servers";
+} from "../../features/servers";
 import { query, collection, onSnapshot } from "firebase/firestore";
-import { db } from "../../firebase";
+import { db } from "../../../firebase";
 import Image from "next/image";
-import banterIcon from "../../assets/banterIcon.svg";
+import banterIcon from "../../../assets/banterIcon.svg";
+import DefaultServerIcon from "./DefaultServerIcon";
 
 export default function Servers() {
   const { servers, server } = useServersState();
@@ -68,13 +69,17 @@ export default function Servers() {
             <Link href={server.path} key={index}>
               <a onClick={() => handleClick(server)}>
                 <Server>
-                  <StyledImage
-                    loader={() => server.img}
-                    src={server.img}
-                    width={48}
-                    height={48}
-                    alt="Server icon"
-                  />
+                  {server.img ? (
+                    <StyledImage
+                      loader={() => server.img}
+                      src={server.img}
+                      width={48}
+                      height={48}
+                      alt="Server icon"
+                    />
+                  ) : (
+                    <ServerIcon server={server} />
+                  )}
                 </Server>
               </a>
             </Link>
@@ -103,8 +108,14 @@ const Server = tw.li`
 `;
 
 const StyledImage = tw(Image)`
-  rounded-3xl transition-all ease-linear
+  rounded-3xl transition-all ease-linear fill-cyan-300
   hover:rounded-xl
+`;
+
+const ServerIcon = tw(DefaultServerIcon)`
+  rounded-3xl transition-all ease-linear
+  group fill-white
+  hover:rounded-xl hover:fill-primary
 `;
 
 const Separator = tw.div`
