@@ -25,13 +25,11 @@ export default function DefaultServerIcon(props: DefaultServerIconProps) {
     <svg width={48} height={48} xmlns="http://www.w3.org/2000/svg" {...props}>
       <rect width={48} height={48} />
       <text
-        className={"group-hover:fill-white"}
+        className={"fill-gray-800 text-lg group-hover:fill-white"}
         x="50%"
         y="50%"
         dominantBaseline="middle"
         textAnchor="middle"
-        fontSize="1.125rem"
-        fill="dimgray"
       >
         {initials}
       </text>

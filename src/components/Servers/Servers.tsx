@@ -15,7 +15,7 @@ import banterIcon from "../../../assets/banterIcon.svg";
 import DefaultServerIcon from "./DefaultServerIcon";
 
 export default function Servers() {
-  const { servers, server } = useServersState();
+  const { servers } = useServersState();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -108,7 +108,7 @@ const Server = tw.li`
 `;
 
 const StyledImage = tw(Image)`
-  rounded-3xl transition-all ease-linear fill-cyan-300
+  rounded-3xl transition-all ease-linear
   hover:rounded-xl
 `;
 
