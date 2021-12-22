@@ -7,6 +7,7 @@ import {
   setServers,
   setServer,
   useServersState,
+  resetServerState,
 } from "../../features/servers";
 import { query, collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../../firebase";
@@ -30,11 +31,12 @@ export default function Servers() {
 
           img: doc.data().img,
 
-          path: `/channels/${doc.id}/`,
+          path: `/channels/${doc.id}/${doc.data().defaultChannel}/`,
 
           serverID: doc.id,
-        };
 
+          defaultChannel: doc.data()?.defaultChannel,
+        };
         serverList.push(server);
       });
 
@@ -53,35 +55,35 @@ export default function Servers() {
   return (
     <Nav>
       <Sidebar>
-        <BanterIcon>
-          <StyledImage
-            src={banterIcon}
-            width={48}
-            height={48}
-            alt="Banter logo"
-          />
-        </BanterIcon>
+        <Link href="/channels/@me" passHref>
+          <BanterIcon onClick={() => dispatch(resetServerState())}>
+            <StyledImage
+              src={banterIcon}
+              width={48}
+              height={48}
+              alt="Banter logo"
+            />
+          </BanterIcon>
+        </Link>
 
         <Separator />
 
         {servers.map((server, index) => {
           return (
             <Link href={server.path} key={index}>
-              <a onClick={() => handleClick(server)}>
-                <Server>
-                  {server.img ? (
-                    <StyledImage
-                      loader={() => server.img}
-                      src={server.img}
-                      width={48}
-                      height={48}
-                      alt="Server icon"
-                    />
-                  ) : (
-                    <ServerIcon server={server} />
-                  )}
-                </Server>
-              </a>
+              <Server onClick={() => handleClick(server)}>
+                {server.img ? (
+                  <StyledImage
+                    loader={() => server.img}
+                    src={server.img}
+                    width={48}
+                    height={48}
+                    alt="Server icon"
+                  />
+                ) : (
+                  <ServerIcon server={server} />
+                )}
+              </Server>
             </Link>
           );
         })}
