@@ -6,6 +6,7 @@ export interface ServerData {
   img: string;
   path: string;
   serverID: string;
+  defaultChannel: string;
 }
 
 export interface ChannelData {
@@ -44,6 +45,7 @@ const initialState: ServersState = {
     img: "",
     path: "",
     serverID: "",
+    defaultChannel: "",
   },
 
   channel: {
@@ -82,11 +84,23 @@ export const serversSlice = createSlice({
     setMessages(state, action) {
       state.messages = action.payload;
     },
+    resetServerState(state) {
+      state.server = initialState.server;
+      state.channels = initialState.channels;
+      state.channel = initialState.channel;
+      state.messages = initialState.messages;
+    },
   },
 });
 
-export const { setServers, setServer, setChannels, setChannel, setMessages } =
-  serversSlice.actions;
+export const {
+  setServers,
+  setServer,
+  setChannels,
+  setChannel,
+  setMessages,
+  resetServerState,
+} = serversSlice.actions;
 
 export const useServersState = () => useAppSelector((state) => state.servers);
 
