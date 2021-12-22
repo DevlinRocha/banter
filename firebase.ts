@@ -19,14 +19,14 @@ const firebaseConfig = {
   measurementId: "G-YCR3GD7Y6V",
 };
 
-export function createAccount(
+export async function createAccount(
   email: string,
 
   password: string,
 
   username: string
 ) {
-  createUserWithEmailAndPassword(auth, email, password)
+  await createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in
 

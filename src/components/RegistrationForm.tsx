@@ -10,7 +10,7 @@ export default function RegistrationForm() {
   const usernameRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
-  function handleSubmit(e: any) {
+  async function handleSubmit(e: any) {
     e.preventDefault();
 
     let email = "";
@@ -29,7 +29,7 @@ export default function RegistrationForm() {
       username = usernameRef.current.value;
     }
 
-    createAccount(email, password, username);
+    await createAccount(email, password, username);
     router.push("/register-complete");
   }
 
