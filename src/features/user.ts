@@ -33,10 +33,17 @@ export const userSlice = createSlice({
     setUser(state, action) {
       state.user = action.payload;
     },
+    resetUserState(state) {
+      state.user.username = initialState.user.username;
+      state.user.tag = initialState.user.tag;
+      state.user.avatar = initialState.user.avatar;
+      state.user.about = initialState.user.about;
+      state.user.userID = initialState.user.userID;
+    },
   },
 });
 
-export const { setUser } = userSlice.actions;
+export const { setUser, resetUserState } = userSlice.actions;
 
 export const useUserState = () => useAppSelector((state) => state.user);
 
