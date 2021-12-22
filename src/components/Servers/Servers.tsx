@@ -8,16 +8,39 @@ import {
   setServer,
   useServersState,
   resetServerState,
+  setServerIDs,
 } from "../../features/servers";
 import { query, collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../../firebase";
 import Image from "next/image";
 import banterIcon from "../../../assets/banterIcon.svg";
 import DefaultServerIcon from "./DefaultServerIcon";
+import { useUserState } from "../../features/user";
 
 export default function Servers() {
-  const { servers } = useServersState();
+  const { servers, serverIDs } = useServersState();
+  const { user } = useUserState();
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (user.userID) {
+      const q = query(collection(db, "users", user.userID, "servers"));
+
+      const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        const serverIDs: string[] = [];
+
+        querySnapshot.forEach((doc) => {
+          serverIDs.push(doc.id);
+        });
+
+        dispatch(setServerIDs(serverIDs));
+      });
+
+      return () => {
+        unsubscribe();
+      };
+    }
+  }, [user]);
 
   useEffect(() => {
     const q = query(collection(db, "servers"));
@@ -26,18 +49,20 @@ export default function Servers() {
       const serverList: ServerData[] = [];
 
       querySnapshot.forEach((doc) => {
-        const server: ServerData = {
-          name: doc.data().name,
+        if (serverIDs.includes(doc.id)) {
+          const server: ServerData = {
+            name: doc.data().name,
 
-          img: doc.data().img,
+            img: doc.data().img,
 
-          path: `/channels/${doc.id}/${doc.data().defaultChannel}/`,
+            path: `/channels/${doc.id}/${doc.data().defaultChannel}/`,
 
-          serverID: doc.id,
+            serverID: doc.id,
 
-          defaultChannel: doc.data()?.defaultChannel,
-        };
-        serverList.push(server);
+            defaultChannel: doc.data()?.defaultChannel,
+          };
+          serverList.push(server);
+        }
       });
 
       dispatch(setServers(serverList));
@@ -46,7 +71,7 @@ export default function Servers() {
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [serverIDs]);
 
   function handleClick(server: ServerData) {
     dispatch(setServer(server));

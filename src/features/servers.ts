@@ -29,11 +29,12 @@ export interface MessageData {
 }
 
 export interface ServersState {
-  server: ServerData;
   servers: ServerData[];
-  channel: ChannelData;
+  server: ServerData;
   channels: ChannelData[];
+  channel: ChannelData;
   messages: MessageData[];
+  serverIDs: string[];
   loading: "idle" | "pending" | "succeeded" | "failed";
 }
 
@@ -48,6 +49,8 @@ const initialState: ServersState = {
     defaultChannel: "",
   },
 
+  channels: [],
+
   channel: {
     name: "",
     topic: "",
@@ -55,8 +58,8 @@ const initialState: ServersState = {
     channelID: "",
   },
 
-  channels: [],
   messages: [],
+  serverIDs: [],
   loading: "idle",
 };
 
@@ -84,6 +87,9 @@ export const serversSlice = createSlice({
     setMessages(state, action) {
       state.messages = action.payload;
     },
+    setServerIDs(state, action) {
+      state.serverIDs = action.payload;
+    },
     resetServerState(state) {
       state.server = initialState.server;
       state.channels = initialState.channels;
@@ -99,6 +105,7 @@ export const {
   setChannels,
   setChannel,
   setMessages,
+  setServerIDs,
   resetServerState,
 } = serversSlice.actions;
 
