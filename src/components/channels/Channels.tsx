@@ -6,7 +6,7 @@ import {
   setChannels,
   useServersState,
 } from "../../features/servers";
-import { query, collection, onSnapshot } from "firebase/firestore";
+import { query, collection, onSnapshot, doc } from "firebase/firestore";
 import UserPanel from "./UserPanel";
 import Link from "next/link";
 import tw from "tailwind-styled-components/dist/tailwind";
@@ -29,7 +29,7 @@ export default function Channels() {
 
             topic: doc.data().topic,
 
-            path: `${server.path}${doc.id}/`,
+            path: `/channels/${server.serverID}/${doc.id}/`,
 
             channelID: doc.id,
           };
@@ -39,6 +39,27 @@ export default function Channels() {
 
         dispatch(setChannels(channelList));
       });
+
+      return () => {
+        unsubscribe();
+      };
+    }
+  }, [server]);
+
+  useEffect(() => {
+    if (server.serverID && server.defaultChannel) {
+      const unsubscribe = onSnapshot(
+        doc(db, "servers", server.serverID, "channels", server.defaultChannel),
+        (doc) => {
+          const channel: ChannelData = {
+            name: doc.data()?.name,
+            topic: doc.data()?.topic,
+            path: `${server.serverID}/${doc.id}/`,
+            channelID: doc.id,
+          };
+          dispatch(setChannel(channel));
+        }
+      );
 
       return () => {
         unsubscribe();
