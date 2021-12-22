@@ -19,10 +19,15 @@ export default function Messages() {
       const q = query(
         collection(
           db,
+
           "servers",
+
           server?.serverID,
+
           "channels",
+
           channel?.channelID,
+
           "messages"
         )
       );
@@ -33,19 +38,27 @@ export default function Messages() {
           const message: MessageData = {
             user: {
               username: doc.data().user.name,
+
               avatar: doc.data().user.img,
             },
+
             content: doc.data().content,
+
             date: doc.data().date,
+
             timestamp: doc.data().timestamp,
+
             reactions: doc.data().reactions,
+
             edited: doc.data().edited,
           };
           messageList.push(message);
         });
+
         messageList.sort((a, b) => {
           return a.timestamp - b.timestamp;
         });
+
         dispatch(setMessages(messageList));
       });
 

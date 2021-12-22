@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import { useRouter } from "next/router";
 import Servers from "../../../components/Servers/Servers";
 import Channels from "../../../components/channels/Channels";
 import Chat from "../../../components/chat/Chat";
@@ -14,8 +13,6 @@ import { db } from "../../../../firebase";
 
 const Home: NextPage = () => {
   const auth = getAuth();
-  const router = useRouter();
-  const { sid, cid } = router.query;
   const { userSettingsOpen } = useSettingsState();
   const dispatch = useAppDispatch();
 
@@ -27,14 +24,22 @@ const Home: NextPage = () => {
       if (docSnap.exists()) {
         const currentUser = {
           username: docSnap.data().username,
-          avatar: docSnap.data().avatar,
+
           tag: docSnap.data().tag,
+
+          avatar: docSnap.data().avatar,
+
           about: docSnap.data().about,
+
           banner: docSnap.data().banner,
+
+          userID: user.uid,
         };
+
         dispatch(setUser(currentUser));
       } else {
         // doc.data() will be undefined in this case
+
         console.log("No such document!");
       }
     }

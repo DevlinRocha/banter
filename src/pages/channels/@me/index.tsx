@@ -1,21 +1,17 @@
 import type { NextPage } from "next";
-import { useRouter } from "next/router";
-import Servers from "../components/Servers/Servers";
-import Channels from "../components/channels/Channels";
-import Chat from "../components/chat/Chat";
-import UserSettings from "../components/userSettings/UserSettings";
+import Servers from "../../../components/Servers/Servers";
+import Channels from "../../../components/channels/Channels";
+import UserSettings from "../../../components/userSettings/UserSettings";
 import tw from "tailwind-styled-components/dist/tailwind";
-import { setUser } from "../features/user";
-import { useAppDispatch } from "../redux/hooks";
+import { setUser } from "../../../features/user";
+import { useAppDispatch } from "../../../redux/hooks";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
-import { useSettingsState } from "../features/settings";
-import { db } from "../../firebase";
+import { useSettingsState } from "../../../features/settings";
+import { db } from "../../../../firebase";
 
 const Home: NextPage = () => {
   const auth = getAuth();
-  const router = useRouter();
-  const { sid, cid } = router.query;
   const { userSettingsOpen } = useSettingsState();
   const dispatch = useAppDispatch();
 
@@ -27,14 +23,22 @@ const Home: NextPage = () => {
       if (docSnap.exists()) {
         const currentUser = {
           username: docSnap.data().username,
-          avatar: docSnap.data().avatar,
+
           tag: docSnap.data().tag,
+
+          avatar: docSnap.data().avatar,
+
           about: docSnap.data().about,
+
           banner: docSnap.data().banner,
+
+          userID: user.uid,
         };
+
         dispatch(setUser(currentUser));
       } else {
         // doc.data() will be undefined in this case
+
         console.log("No such document!");
       }
     }
@@ -48,7 +52,6 @@ const Home: NextPage = () => {
         <Container>
           <Servers />
           <Channels />
-          <Chat />
         </Container>
       )}
     </Container>
