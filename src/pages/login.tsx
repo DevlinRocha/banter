@@ -10,5 +10,5 @@ export default function Register() {
 }
 
 const Container = tw.div`
-  flex justify-center
+  flex justify-center items-center w-screen h-screen bg-indigo-500
 `;
