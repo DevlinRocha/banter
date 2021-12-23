@@ -48,11 +48,12 @@ export default function LoginForm() {
             required
             id="passwordInput"
           />
+          <Link href="/login">
+            <Fine>
+              <LinkText>Forgot your password?</LinkText>
+            </Fine>
+          </Link>
         </PasswordField>
-
-        <Link href="/login">
-          <LinkText>Forgot your password?</LinkText>
-        </Link>
 
         <LoginButton>
           <LoginText>Login</LoginText>
@@ -88,26 +89,28 @@ const Container = tw.form`
 `;
 
 const LoginContainer = tw.div`
-  flex flex-col justify-center gap-4 w-full h-full
+  flex flex-col justify-center w-full h-full
 `;
 
 const Heading = tw.h3`
-  text-center font-bold
+  text-2xl text-center font-semibold mb-2
 `;
 
 const Subheading = tw.span`
-  text-center
+  text-center mb-5
 `;
 
 const LinkText = tw.span`
-  text-blue-600 cursor-pointer
+  text-blue-600 font-medium cursor-pointer
+  hover:underline hover:decoration-blue-600
 `;
 
 const GenericFieldset = tw.fieldset`
-  flex flex-col gap-1
+  flex flex-col mb-5
 `;
 
 const GenericLabel = tw.label`
+  mb-2 text-xs font-semibold
 `;
 
 const GenericInput = tw.input`
@@ -141,6 +144,7 @@ const LoginText = tw.span`
 `;
 
 const Fine = tw.span`
+  text-sm mt-1
 `;
 
 const Separator = tw.div`
