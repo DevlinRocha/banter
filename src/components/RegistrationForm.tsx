@@ -36,64 +36,76 @@ export default function RegistrationForm() {
     <Container onSubmit={handleSubmit}>
       <Header>Create an account</Header>
 
-      <EmailField>
-        <EmailLabel htmlFor="emailInput">Email</EmailLabel>
+      <RegisterContainer>
+        <EmailField>
+          <EmailLabel htmlFor="emailInput">Email</EmailLabel>
 
-        <EmailInput
-          ref={emailRef}
-          type="email"
-          required
-          placeholder="Email"
-          id="emailInput"
-        />
-      </EmailField>
+          <EmailInput
+            ref={emailRef}
+            type="email"
+            required
+            placeholder="Email"
+            id="emailInput"
+          />
+        </EmailField>
 
-      <UsernameField>
-        <UsernameLabel htmlFor="usernameInput">Username</UsernameLabel>
+        <UsernameField>
+          <UsernameLabel htmlFor="usernameInput">Username</UsernameLabel>
 
-        <UsernameInput
-          ref={usernameRef}
-          type="text"
-          required
-          placeholder="What should everyone call you?"
-          id="usernameInput"
-        />
-      </UsernameField>
+          <UsernameInput
+            ref={usernameRef}
+            type="text"
+            required
+            placeholder="What should everyone call you?"
+            id="usernameInput"
+          />
+        </UsernameField>
 
-      <PasswordField>
-        <PasswordLabel htmlFor="passwordInput">Password</PasswordLabel>
+        <PasswordField>
+          <PasswordLabel htmlFor="passwordInput">Password</PasswordLabel>
 
-        <PasswordInput
-          ref={passwordRef}
-          type="pasword"
-          required
-          placeholder="Password"
-          id="passwordInput"
-        />
-      </PasswordField>
+          <PasswordInput
+            ref={passwordRef}
+            type="pasword"
+            required
+            placeholder="Password"
+            id="passwordInput"
+          />
+        </PasswordField>
 
-      <SubmitButton type="submit" value="Continue" />
+        <ContinueButton type="submit" value="Continue" />
 
-      <Link href="/login">Already have an account?</Link>
+        <Link href="/login" passHref>
+          <LinkText>Already have an account?</LinkText>
+        </Link>
 
-      <Fine>By registering, you agree not to sue Banter.</Fine>
+        <Fine>
+          By registering, you agree to be respectful to others and not sue
+          Banter.
+        </Fine>
+      </RegisterContainer>
     </Container>
   );
 }
 
 const Container = tw.form`
-  flex flex-col justify-center gap-4 w-80
+  flex flex-col w-120 h-140.5 bg-white rounded-md p-8
 `;
 
 const Header = tw.h3`
-  text-center
+  text-center text-2xl leading-[1.875rem] font-semibold
+`;
+
+const RegisterContainer = tw.div`
+  flex flex-col w-full h-full mt-5
 `;
 
 const GenericFieldset = tw.fieldset`
-  flex flex-col gap-1
+  flex flex-col mb-5
 `;
 
 const GenericLabel = tw.label`
+  mb-2
 `;
 
 const GenericInput = tw.input`
@@ -127,9 +139,15 @@ const PasswordLabel = tw(GenericLabel)`
 const PasswordInput = tw(GenericInput)`
 `;
 
-const SubmitButton = tw.input`
-  p-2 rounded-md
+const ContinueButton = tw.input`
+  w-full h-10 mt-16 px-4 py-0.5 bg-indigo-500 rounded text-white cursor-pointer
+`;
+
+const LinkText = tw.button`
+  text-blue-600 cursor-pointer w-fit mt-2
+  hover:underline hover:decoration-blue-600
 `;
 
 const Fine = tw.span`
+  mt-5 text-xs
 `;
