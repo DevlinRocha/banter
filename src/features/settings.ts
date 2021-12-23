@@ -21,6 +21,7 @@ export const settingsSlice = createSlice({
   reducers: {
     setUserSettingsOpen(state, action) {
       state.userSettingsOpen = action.payload;
+      state.logoutConfirmOpen = false;
     },
 
     setSettings(state, action) {
