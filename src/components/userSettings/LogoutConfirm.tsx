@@ -1,14 +1,20 @@
+import { useRouter } from "next/router";
 import tw from "tailwind-styled-components/dist/tailwind";
 import { logOut } from "../../../firebase";
-import {
-  setLogoutConfirmOpen,
-  useSettingsState,
-} from "../../features/settings";
+import { setLogoutConfirmOpen } from "../../features/settings";
 import { useAppDispatch } from "../../redux/hooks";
-
 export default function LogoutConfirm() {
-  const { logoutConfirmOpen } = useSettingsState();
+  const router = useRouter();
   const dispatch = useAppDispatch();
+
+  function closeWindow() {
+    dispatch(setLogoutConfirmOpen(false));
+  }
+
+  function handleLogOut() {
+    logOut();
+    router.push("/login");
+  }
 
   return (
     <Container>
@@ -16,12 +22,8 @@ export default function LogoutConfirm() {
 
       <Body>Are you sure you want to log out?</Body>
       <Buttons>
-        <CancelButton
-          onClick={() => dispatch(setLogoutConfirmOpen(!logoutConfirmOpen))}
-        >
-          Cancel
-        </CancelButton>
-        <LogOutButton onClick={() => logOut()}>Log Out</LogOutButton>
+        <CancelButton onClick={closeWindow}>Cancel</CancelButton>
+        <LogOutButton onClick={handleLogOut}>Log Out</LogOutButton>
       </Buttons>
     </Container>
   );
