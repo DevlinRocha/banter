@@ -12,9 +12,5 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
     return NextResponse.redirect("/channels/@me");
   }
 
-  if (pathname === "/register-complete") {
-    return NextResponse.redirect("/");
-  }
-
   return NextResponse.next();
 }

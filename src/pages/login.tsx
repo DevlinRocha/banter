@@ -35,7 +35,7 @@ export default function Register() {
           };
 
           dispatch(setUser(currentUser));
-          router.push("/app");
+          router.push("/channels/@me");
         } else {
           // doc.data() will be undefined in this case
 

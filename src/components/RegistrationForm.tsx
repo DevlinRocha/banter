@@ -30,7 +30,6 @@ export default function RegistrationForm() {
     }
 
     await createAccount(email, password, username);
-    router.push("/register-complete");
   }
 
   return (
