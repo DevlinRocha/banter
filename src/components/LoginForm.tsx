@@ -1,7 +1,6 @@
 import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import { signIn } from "../../firebase";
 import tw from "tailwind-styled-components/dist/tailwind";
 import banterIcon from "../../assets/banterIcon.svg";
@@ -9,7 +8,6 @@ import banterIcon from "../../assets/banterIcon.svg";
 export default function LoginForm() {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
-  const router = useRouter();
 
   function handleSubmit(e: any) {
     e.preventDefault();

@@ -1,10 +1,8 @@
-import { useRouter } from "next/router";
 import tw from "tailwind-styled-components/dist/tailwind";
 import { logOut } from "../../../firebase";
 import { setLogoutConfirmOpen } from "../../features/settings";
 import { useAppDispatch } from "../../redux/hooks";
 export default function LogoutConfirm() {
-  const router = useRouter();
   const dispatch = useAppDispatch();
 
   function closeWindow() {
@@ -13,7 +11,6 @@ export default function LogoutConfirm() {
 
   function handleLogOut() {
     logOut();
-    router.push("/login");
   }
 
   return (
