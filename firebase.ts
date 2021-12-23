@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import {
   getAuth,
+  signOut,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
@@ -89,6 +90,17 @@ export function signIn(email: string, password: string) {
       const errorMessage = error.message;
 
       console.error(`${errorCode} ${errorMessage}`);
+    });
+}
+
+export function logOut() {
+  signOut(auth)
+    .then(() => {
+      // Sign-out successful.
+    })
+    .catch((error) => {
+      // An error happened.
+      console.error(error);
     });
 }
 

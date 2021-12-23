@@ -42,10 +42,12 @@ const Home: NextPage = () => {
         } else {
           // doc.data() will be undefined in this case
 
-          resetUserState();
+          dispatch(resetUserState());
 
           console.log("No such document!");
         }
+      } else {
+        dispatch(resetUserState());
       }
     });
     return () => {

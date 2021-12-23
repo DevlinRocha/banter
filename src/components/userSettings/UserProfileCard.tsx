@@ -1,13 +1,9 @@
-import { useAppDispatch } from "../../redux/hooks";
 import { useUserState } from "../../features/user";
-import { getAuth } from "firebase/auth";
 import tw from "tailwind-styled-components/dist/tailwind";
 import Image from "next/image";
 
 export default function UserProfileCard() {
-  const auth = getAuth();
   const { user } = useUserState();
-  const dispatch = useAppDispatch();
 
   return (
     <ContainerCol>
