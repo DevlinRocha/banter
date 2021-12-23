@@ -8,7 +8,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 
-import { getAnalytics } from "firebase/analytics";
+// import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDWcZTM0vSyLz1hQeFbO2SwS2wB-hGHtlQ",
@@ -115,4 +115,4 @@ export const db = getFirestore();
 const auth = getAuth();
 const user = auth.currentUser;
 export type User = typeof user;
-export const analytics = getAnalytics(app);
+// export const analytics = getAnalytics(app);
