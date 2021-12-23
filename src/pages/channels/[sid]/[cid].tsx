@@ -11,10 +11,12 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { useSettingsState } from "../../../features/settings";
 import { db } from "../../../../firebase";
+import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
   const auth = getAuth();
   const { userSettingsOpen } = useSettingsState();
+  const router = useRouter();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -44,10 +46,14 @@ const Home: NextPage = () => {
 
           dispatch(resetUserState());
 
+          router.push("/login");
+
           console.log("No such document!");
         }
       } else {
         dispatch(resetUserState());
+
+        router.push("/login");
       }
     });
     return () => {
