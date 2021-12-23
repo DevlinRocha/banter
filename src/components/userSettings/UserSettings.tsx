@@ -13,7 +13,11 @@ export default function UserSettings() {
 
   return (
     <Container>
-      {logoutConfirmOpen ? <LogoutConfirm /> : null}
+      {logoutConfirmOpen ? (
+        <LogoutContainer logoutConfirmOpen={logoutConfirmOpen}>
+          <LogoutConfirm />
+        </LogoutContainer>
+      ) : null}
 
       <SettingsSidebar />
 
@@ -36,12 +40,21 @@ export default function UserSettings() {
   );
 }
 
+type ContainerProps = {
+  logoutConfirmOpen: boolean;
+};
+
 const Container = tw.div`
   flex w-full h-full
 `;
 
 const SettingsContainer = tw(Container)`
   justify-around
+`;
+
+const LogoutContainer = tw.div<ContainerProps>`
+  fixed w-full h-full
+  ${(props) => (props.logoutConfirmOpen ? "bg-black bg-opacity-[0.85]" : null)}
 `;
 
 const CloseButton = tw.figure`
