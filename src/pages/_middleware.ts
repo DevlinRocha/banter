@@ -5,6 +5,10 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
   const { pathname } = req.nextUrl;
 
   if (pathname === "/") {
+    return NextResponse.redirect("/login");
+  }
+
+  if (pathname === "/app") {
     return NextResponse.redirect("/channels/@me");
   }
 
