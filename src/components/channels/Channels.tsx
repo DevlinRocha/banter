@@ -11,9 +11,11 @@ import UserPanel from "./UserPanel";
 import Link from "next/link";
 import tw from "tailwind-styled-components/dist/tailwind";
 import { db } from "../../../firebase";
+import { NextRouter, useRouter } from "next/router";
 
 export default function Channels() {
   const { server, channels } = useServersState();
+  const router = useRouter();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -83,7 +85,9 @@ export default function Channels() {
             return (
               <Link href={channel.path} key={index} passHref>
                 <a onClick={() => handleClick(channel)}>
-                  <Channel># {channel.name}</Channel>
+                  <Channel channel={channel} router={router}>
+                    # {channel.name}
+                  </Channel>
                 </a>
               </Link>
             );
@@ -95,6 +99,11 @@ export default function Channels() {
     </Container>
   );
 }
+
+type ChannelProps = {
+  channel: ChannelData;
+  router: NextRouter;
+};
 
 const Container = tw.section`
   flex flex-col justify-between bg-gray-50 w-60 h-full
@@ -117,7 +126,11 @@ const ChannelList = tw.ol`
   overflow-y-auto
 `;
 
-const Channel = tw.li`
+const Channel = tw.li<ChannelProps>`
   flex cursor-pointer py-1 pr-2 mx-2 pl-2 rounded-md
   hover:bg-gray-200
+  ${(props) =>
+    props.router.asPath.includes(props.channel.channelID)
+      ? "bg-gray-200"
+      : null}
 `;

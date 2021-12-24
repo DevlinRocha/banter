@@ -119,7 +119,7 @@ export default function Servers() {
   );
 }
 
-type ServerProps = {
+type ServerIconProps = {
   server: ServerData;
   router: NextRouter;
 };
@@ -146,7 +146,7 @@ const StyledImage = tw(Image)`
   hover:rounded-xl
 `;
 
-const ServerIcon = tw(DefaultServerIcon)<ServerProps>`
+const ServerIcon = tw(DefaultServerIcon)<ServerIconProps>`
   transition-all ease-linear group
   hover:rounded-xl hover:fill-primary
   ${(props) =>
