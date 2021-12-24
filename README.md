@@ -2,7 +2,7 @@
 
 Banter is a full-stack Discord clone built with React, Redux Toolkit, Next.JS, TypeScript, styled-components, Tailwind CSS, and uses Firebase to communicate with the back-end.
 
-[Join the conversation!](https://banter-kappa.vercel.app/channels/zJzL3eQ77S1nJ8YxCNvB) 👈
+[Join the conversation!](https://banter-kappa.vercel.app/) 👈
 
 ## Getting Started
 
