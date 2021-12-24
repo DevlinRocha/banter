@@ -88,8 +88,8 @@ export default function Message(props: MessageProps) {
 }
 
 const Container = tw.li`
-  flex mt-[17px] pl-4 gap-4
-  hover:bg-gray-200
+  flex w-full mt-[17px] pl-4 gap-4
+  hover:bg-gray-50
 `;
 
 const ProfilePicture = tw.div`

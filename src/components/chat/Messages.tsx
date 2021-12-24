@@ -92,7 +92,7 @@ const Container = tw.div`
 `;
 
 const List = tw.ol`
-  flex flex-col mt-auto
+  flex flex-col w-full mt-auto pr-1
 `;
 
 const Scroll = tw.span`
