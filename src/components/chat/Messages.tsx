@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useAppDispatch } from "../../redux/hooks";
 import {
   setMessages,
@@ -12,7 +12,14 @@ import { db } from "../../../firebase";
 
 export default function Messages() {
   const { server, channel, messages } = useServersState();
+  const scrollRef = useRef<any>();
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollIntoView();
+    }
+  }, [messages]);
 
   useEffect(() => {
     if (server.serverID && channel.channelID) {
@@ -74,6 +81,7 @@ export default function Messages() {
         {messages.map((message, index) => {
           return <Message message={message} key={index} />;
         })}
+        <Scroll ref={scrollRef} />
       </List>
     </Container>
   );
@@ -85,4 +93,7 @@ const Container = tw.div`
 
 const List = tw.ol`
   flex flex-col mt-auto
+`;
+
+const Scroll = tw.span`
 `;
