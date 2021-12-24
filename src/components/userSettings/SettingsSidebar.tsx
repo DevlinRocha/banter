@@ -19,21 +19,21 @@ export default function SettingsSidebar() {
       <ListHeading>USER SETTINGS</ListHeading>
 
       <SettingsList>
-        <ListItem onClick={() => dispatch(setSettings("My Account"))}>
+        <MyAccount onClick={() => dispatch(setSettings("My Account"))}>
           My Account
-        </ListItem>
+        </MyAccount>
 
-        <ListItem onClick={() => dispatch(setSettings("User Profile"))}>
+        <UserProfile onClick={() => dispatch(setSettings("User Profile"))}>
           User Profile
-        </ListItem>
+        </UserProfile>
       </SettingsList>
 
       <SettingsList>
-        <ListItem
+        <LogOut
           onClick={() => dispatch(setLogoutConfirmOpen(!logoutConfirmOpen))}
         >
           Log Out
-        </ListItem>
+        </LogOut>
       </SettingsList>
 
       <SocialLinks>
@@ -71,7 +71,18 @@ const ListHeading = tw.h3`
 `;
 
 const ListItem = tw.li`
-  px-2.5 py-1.5 mb-0.5 cursor-pointer
+  px-2.5 py-1.5 mb-0.5 rounded-md cursor-pointer
+  hover:bg-gray-100
+`;
+
+const MyAccount = tw(ListItem)`
+`;
+
+const UserProfile = tw(ListItem)`
+`;
+
+const LogOut = tw(ListItem)`
+  text-red-500
 `;
 
 const SocialLinks = tw(SettingsList)`
