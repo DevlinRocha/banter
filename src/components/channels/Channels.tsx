@@ -81,7 +81,7 @@ export default function Channels() {
         <ChannelList>
           {channels.map((channel, index) => {
             return (
-              <Link href={channel.path} key={index}>
+              <Link href={channel.path} key={index} passHref>
                 <a onClick={() => handleClick(channel)}>
                   <Channel># {channel.name}</Channel>
                 </a>

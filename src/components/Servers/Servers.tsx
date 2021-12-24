@@ -16,10 +16,12 @@ import Image from "next/image";
 import banterIcon from "../../../assets/banterIcon.svg";
 import DefaultServerIcon from "./DefaultServerIcon";
 import { useUserState } from "../../features/user";
+import { useRouter, NextRouter } from "next/router";
 
 export default function Servers() {
   const { servers, serverIDs } = useServersState();
   const { user } = useUserState();
+  const router = useRouter();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -95,7 +97,7 @@ export default function Servers() {
 
         {servers.map((server, index) => {
           return (
-            <Link href={server.path} key={index}>
+            <Link href={server.path} passHref key={index}>
               <Server onClick={() => handleClick(server)}>
                 {server.img ? (
                   <StyledImage
@@ -106,7 +108,7 @@ export default function Servers() {
                     alt="Server icon"
                   />
                 ) : (
-                  <ServerIcon server={server} />
+                  <ServerIcon server={server} router={router} />
                 )}
               </Server>
             </Link>
@@ -116,6 +118,11 @@ export default function Servers() {
     </Nav>
   );
 }
+
+type ServerProps = {
+  server: ServerData;
+  router: NextRouter;
+};
 
 const Nav = tw.nav`
   hidden w-18 h-full
@@ -139,10 +146,13 @@ const StyledImage = tw(Image)`
   hover:rounded-xl
 `;
 
-const ServerIcon = tw(DefaultServerIcon)`
-  rounded-3xl transition-all ease-linear
-  group fill-white
+const ServerIcon = tw(DefaultServerIcon)<ServerProps>`
+  transition-all ease-linear group
   hover:rounded-xl hover:fill-primary
+  ${(props) =>
+    props.router.asPath.includes(props.server.serverID)
+      ? "rounded-xl fill-primary"
+      : "rounded-3xl fill-white"}
 `;
 
 const Separator = tw.div`

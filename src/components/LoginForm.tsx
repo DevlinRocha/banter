@@ -48,7 +48,7 @@ export default function LoginForm() {
             required
             id="passwordInput"
           />
-          <Link href="/login">
+          <Link href="/login" passHref>
             <Fine>
               <LinkText>Forgot your password?</LinkText>
             </Fine>
@@ -61,7 +61,7 @@ export default function LoginForm() {
 
         <Fine>
           Need an account?
-          <Link href="/register">
+          <Link href="/register" passHref>
             <LinkText> Register</LinkText>
           </Link>
         </Fine>
