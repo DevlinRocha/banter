@@ -1,6 +1,9 @@
 import tw from "tailwind-styled-components/dist/tailwind";
 import { logOut } from "../../../firebase";
-import { setLogoutConfirmOpen } from "../../features/settings";
+import {
+  setLogoutConfirmOpen,
+  setUserSettingsOpen,
+} from "../../features/settings";
 import { useAppDispatch } from "../../redux/hooks";
 export default function LogoutConfirm() {
   const dispatch = useAppDispatch();
@@ -11,6 +14,8 @@ export default function LogoutConfirm() {
 
   function handleLogOut() {
     logOut();
+    dispatch(setLogoutConfirmOpen(false));
+    dispatch(setUserSettingsOpen(false));
   }
 
   return (
