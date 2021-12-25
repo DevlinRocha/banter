@@ -1,13 +1,10 @@
 import tw from "tailwind-styled-components";
-import Title from "./Title";
 import Messages from "./Messages";
 import TextArea from "./TextArea";
 
 export default function Chat() {
   return (
     <Container>
-      <Title />
-
       <Messages />
 
       <TextArea />

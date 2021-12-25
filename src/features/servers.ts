@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { useAppSelector } from "../redux/hooks";
+import { UserData } from "./user";
 
 export interface ServerData {
   name: string;
@@ -34,7 +35,9 @@ export interface ServersState {
   channels: ChannelData[];
   channel: ChannelData;
   messages: MessageData[];
+  members: UserData[];
   serverIDs: string[];
+  memberIDs: string[];
   loading: "idle" | "pending" | "succeeded" | "failed";
 }
 
@@ -59,7 +62,9 @@ const initialState: ServersState = {
   },
 
   messages: [],
+  members: [],
   serverIDs: [],
+  memberIDs: [],
   loading: "idle",
 };
 
@@ -87,13 +92,24 @@ export const serversSlice = createSlice({
     setMessages(state, action) {
       state.messages = action.payload;
     },
+
+    setMembers(state, action) {
+      state.members = action.payload;
+    },
+
     setServerIDs(state, action) {
       state.serverIDs = action.payload;
     },
+
+    setMemberIDs(state, action) {
+      state.memberIDs = action.payload;
+    },
+
     resetServerState(state) {
       state.server = initialState.server;
       state.channels = initialState.channels;
       state.channel = initialState.channel;
+      state.memberIDs = initialState.memberIDs;
       state.messages = initialState.messages;
     },
   },
@@ -105,7 +121,9 @@ export const {
   setChannels,
   setChannel,
   setMessages,
+  setMembers,
   setServerIDs,
+  setMemberIDs,
   resetServerState,
 } = serversSlice.actions;
 

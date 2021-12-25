@@ -12,6 +12,8 @@ import { doc, getDoc } from "firebase/firestore";
 import { useSettingsState } from "../../../features/settings";
 import { db } from "../../../../firebase";
 import { useRouter } from "next/router";
+import Members from "../../../components/Members";
+import Title from "../../../components/Title";
 
 const Home: NextPage = () => {
   const auth = getAuth();
@@ -62,17 +64,29 @@ const Home: NextPage = () => {
   }, []);
 
   return (
-    <Container>
+    <PageContainer>
       {userSettingsOpen ? (
         <UserSettings />
       ) : (
         <>
           <Servers />
-          <Channels />
-          <Chat />
+
+          <Container>
+            <Channels />
+
+            <ChatContainer>
+              <Title />
+
+              <Container>
+                <Chat />
+
+                <Members />
+              </Container>
+            </ChatContainer>
+          </Container>
         </>
       )}
-    </Container>
+    </PageContainer>
   );
 };
 
@@ -92,8 +106,16 @@ export async function getServerSideProps() {
   };
 }
 
-const Container = tw.div`
+const PageContainer = tw.div`
   flex w-screen h-screen
+`;
+
+const Container = tw.div`
+  flex w-full h-full
+`;
+
+const ChatContainer = tw(Container)`
+  flex-col
 `;
 
 export default Home;
