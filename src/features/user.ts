@@ -1,15 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { useAppSelector } from "../redux/hooks";
 
+export interface UserData {
+  username: string;
+  tag: string;
+  avatar: string;
+  about: string;
+  banner: string;
+  userID: string;
+}
+
 export interface UserState {
-  user: {
-    username: string;
-    tag: string;
-    avatar: string;
-    about: string;
-    banner: string;
-    userID: string;
-  };
+  user: UserData;
   loading: "idle" | "pending" | "succeeded" | "failed";
 }
 

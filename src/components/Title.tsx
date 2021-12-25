@@ -1,5 +1,5 @@
 import tw from "tailwind-styled-components";
-import { useServersState } from "../../features/servers";
+import { useServersState } from "../features/servers";
 
 export default function Title() {
   const { channel } = useServersState();

@@ -1,15 +1,15 @@
 import { useEffect } from "react";
 import type { NextPage } from "next";
-import Servers from "../../../components/Servers/Servers";
-import Channels from "../../../components/channels/Channels";
-import UserSettings from "../../../components/userSettings/UserSettings";
+import Servers from "../../components/Servers/Servers";
+import Channels from "../../components/channels/Channels";
+import UserSettings from "../../components/userSettings/UserSettings";
 import tw from "tailwind-styled-components/dist/tailwind";
-import { setUser, resetUserState } from "../../../features/user";
-import { useAppDispatch } from "../../../redux/hooks";
+import { setUser, resetUserState } from "../../features/user";
+import { useAppDispatch } from "../../redux/hooks";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
-import { useSettingsState } from "../../../features/settings";
-import { db } from "../../../../firebase";
+import { useSettingsState } from "../../features/settings";
+import { db } from "../../../firebase";
 import { useRouter } from "next/router";
 
 const Home: NextPage = () => {

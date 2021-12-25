@@ -63,6 +63,7 @@ export default function Servers() {
 
             defaultChannel: doc.data()?.defaultChannel,
           };
+
           serverList.push(server);
         }
       });
