@@ -70,16 +70,18 @@ export default function Members() {
         <Heading>MEMBERS - {members.length}</Heading>
         {members.map((member, index) => {
           return (
-            <Member key={index}>
-              <StyledImage
-                loader={() => member.avatar}
-                src={member.avatar}
-                width={32}
-                height={32}
-                alt={`${member.username}'s profile picture`}
-              />
-              <Username>{member.username}</Username>
-            </Member>
+            <MemberContainer key={index}>
+              <Member key={index}>
+                <StyledImage
+                  loader={() => member.avatar}
+                  src={member.avatar}
+                  width={32}
+                  height={32}
+                  alt={`${member.username}'s profile picture`}
+                />
+                <Username>{member.username}</Username>
+              </Member>
+            </MemberContainer>
           );
         })}
       </Sidebar>
@@ -88,19 +90,24 @@ export default function Members() {
 }
 
 const Container = tw.aside`
-  w-60 h-full bg-gray-50
+  flex w-60 h-full bg-gray-50
 `;
 
 const Sidebar = tw.ol`
-  w-60 pb-5
+  w-60 pb-5 overflow-x-hidden
+  hover:overflow-y-scroll
 `;
 
 const Heading = tw.h2`
   pt-6 pr-2 pl-4
 `;
 
+const MemberContainer = tw.li`
+  max-w-56 h-11 ml-2 py-px
+`;
+
 const Member = tw.div`
-  flex items-center h-11 ml-2 px-2 py-px rounded cursor-pointer
+  flex items-center h-full px-2 rounded cursor-pointer
   hover:bg-gray-100
 `;
 
@@ -109,5 +116,5 @@ const StyledImage = tw(Image)`
 `;
 
 const Username = tw.span`
-  ml-3
+  ml-3 flex-1 overflow-hidden
 `;

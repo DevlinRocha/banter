@@ -64,7 +64,7 @@ const StyledImage = tw(Image)`
 `;
 
 const Username = tw.span`
-  flex flex-col
+  flex flex-col overflow-hidden
 `;
 
 const DisplayName = tw.span`
