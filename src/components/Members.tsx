@@ -50,6 +50,8 @@ export default function Members() {
             banner: doc.data().banner,
 
             userID: doc.id,
+
+            email: doc.data().email,
           };
 
           memberList.push(member);

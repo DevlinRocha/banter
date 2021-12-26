@@ -32,6 +32,8 @@ export default function Register() {
             banner: docSnap.data().banner,
 
             userID: user.uid,
+
+            email: docSnap.data().email,
           };
 
           dispatch(setUser(currentUser));
