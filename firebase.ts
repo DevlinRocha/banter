@@ -51,7 +51,7 @@ export async function createAccount(
 
             about: "I'm new to Banter :)",
 
-            banner: "7CC6FE",
+            banner: "#7CC6FE",
 
             email: user.email,
           });
