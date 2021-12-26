@@ -24,7 +24,7 @@ export default function UserProfileCard() {
         </ProfilePicture>
 
         <DisplayName>
-          <Username>{user.username}</Username>
+          <UsernameDisplay>{user.username}</UsernameDisplay>
 
           <Tag>#{user.tag}</Tag>
         </DisplayName>
@@ -36,45 +36,49 @@ export default function UserProfileCard() {
         </UserProfileButton>
       </ProfileContainer>
 
-      <SettingsContainer>
-        <UsernameEdit>
-          <UsernameDisplay>
-            <UsernameLabel>USERNAME</UsernameLabel>
+      <SettingContainer>
+        <UsernameSettingContainer>
+          <SettingDisplay>
+            <SettingsLabel>USERNAME</SettingsLabel>
 
-            <DisplayName>
+            <UsernameContainer>
               <Username>{user.username}</Username>
 
               <Tag>#{user.tag}</Tag>
-            </DisplayName>
-          </UsernameDisplay>
+            </UsernameContainer>
+          </SettingDisplay>
 
-          <EditButton>Edit</EditButton>
-        </UsernameEdit>
+          <EditButton>
+            <EditButtonContent>Edit</EditButtonContent>
+          </EditButton>
+        </UsernameSettingContainer>
 
-        <EmailEdit>
-          <EmailDisplay>
-            <EmailLabel>EMAIL</EmailLabel>
+        <EmailSettingContainer>
+          <SettingDisplay>
+            <SettingsLabel>EMAIL</SettingsLabel>
 
             <Email>{user.email}</Email>
-          </EmailDisplay>
+          </SettingDisplay>
 
-          <EditButton>Edit</EditButton>
-        </EmailEdit>
-      </SettingsContainer>
+          <EditButton>
+            <EditButtonContent>Edit</EditButtonContent>
+          </EditButton>
+        </EmailSettingContainer>
+      </SettingContainer>
     </Container>
   );
 }
 
 const Container = tw.section`
-  flex flex-col
+  relative flex flex-col bg-gray-200 rounded
 `;
 
 const ProfileContainer = tw.section`
-  flex items-center rounded-md
+  flex h-18 pt-4 pr-4 pl-30 rounded-md
 `;
 
-const SettingsContainer = tw.section`
-  flex flex-col
+const SettingContainer = tw.section`
+  flex flex-col m-4 mt-2 p-4 bg-gray-100 rounded
 `;
 
 const Banner = tw.span`
@@ -82,47 +86,55 @@ const Banner = tw.span`
 `;
 
 const ProfilePicture = tw.div`
-  flex t-19 l-4 border-[7px] rounded-full
+  absolute top-19 left-4 flex t-19 l-4 border-[7px] rounded-full
 `;
 
 const StyledImage = tw(Image)`
   object-contain rounded-full
 `;
 
-const DisplayName = tw.span`
+const DisplayName = tw.div`
+  text-xl font-semibold
+`;
+
+const UsernameDisplay = tw.span`
 `;
 
 const UserProfileButton = tw.button`
   h-8 ml-auto px-4 py-0.5 bg-blue-500 rounded text-white
 `;
 
-const Username = tw(DisplayName)`
+const Username = tw.span`
 `;
 
 const Tag = tw(Username)`
+  text-gray-600
 `;
 
-const UsernameEdit = tw.div`
+const UsernameSettingContainer = tw.div`
   flex justify-between
 `;
 
-const EmailEdit = tw(UsernameEdit)`
+const EmailSettingContainer = tw(UsernameSettingContainer)`
+  mt-6
 `;
 
-const UsernameDisplay = tw.div`
+const SettingDisplay = tw.div`
+  mr-4
 `;
 
-const EmailDisplay = tw(UsernameDisplay)`
+const SettingsLabel = tw.div`
+  mb-1 text-xs
 `;
 
-const UsernameLabel = tw.div`
-`;
-
-const EmailLabel = tw(UsernameLabel)`
+const UsernameContainer = tw.div`
 `;
 
 const EditButton = tw.button`
-  my-0.5 py-0.5 px-4 bg-gray-500 rounded text-white
+  my-0.5 py-0.5 px-4 bg-gray-500 rounded text-sm text-white font-medium
+`;
+
+const EditButtonContent = tw.span`
 `;
 
 const Email = tw.span`

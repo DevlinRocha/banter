@@ -8,9 +8,15 @@ export default function MyAccountSettings() {
 
       <UserProfileCard />
 
-      <Heading>Password</Heading>
+      <Divider />
 
-      <SubHeading>ACCOUNT REMOVAL</SubHeading>
+      <PasswordSettings>
+        <Heading>Password</Heading>
+
+        <SubHeading>ACCOUNT REMOVAL</SubHeading>
+      </PasswordSettings>
+
+      <Divider />
     </Container>
   );
 }
@@ -24,4 +30,12 @@ const Heading = tw.h2`
 `;
 
 const SubHeading = tw(Heading)`
+`;
+
+const Divider = tw.div`
+  max-w-165 h-px border-t mt-10 border-gray-900/[0.08]
+`;
+
+const PasswordSettings = tw.section`
+  mt-10
 `;

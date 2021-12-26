@@ -53,7 +53,7 @@ const SettingsContainer = tw(Container)`
 `;
 
 const LogoutContainer = tw.div<ContainerProps>`
-  fixed w-full h-full
+  fixed w-full h-full z-10
   ${(props) => (props.logoutConfirmOpen ? "bg-black bg-opacity-[0.85]" : null)}
 `;
 
