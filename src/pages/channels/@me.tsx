@@ -37,6 +37,8 @@ const Home: NextPage = () => {
             banner: docSnap.data().banner,
 
             userID: user.uid,
+
+            email: user.email,
           };
 
           dispatch(setUser(currentUser));

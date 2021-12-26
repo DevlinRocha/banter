@@ -8,6 +8,7 @@ export interface UserData {
   about: string;
   banner: string;
   userID: string;
+  email: string;
 }
 
 export interface UserState {
@@ -24,6 +25,7 @@ const initialState: UserState = {
     about: "",
     banner: "",
     userID: "",
+    email: "",
   },
   loading: "idle",
 };
@@ -41,6 +43,7 @@ export const userSlice = createSlice({
       state.user.avatar = initialState.user.avatar;
       state.user.about = initialState.user.about;
       state.user.userID = initialState.user.userID;
+      state.user.email = initialState.user.email;
     },
   },
 });
