@@ -2,7 +2,11 @@ import { useUserState } from "../../features/user";
 import tw from "tailwind-styled-components/dist/tailwind";
 import Image from "next/image";
 import { useAppDispatch } from "../../redux/hooks";
-import { setSettings } from "../../features/settings";
+import {
+  setChangeEmailOpen,
+  setChangeUsernameOpen,
+  setSettings,
+} from "../../features/settings";
 
 export default function UserProfileCard() {
   const { user } = useUserState();
@@ -48,7 +52,7 @@ export default function UserProfileCard() {
             </UsernameContainer>
           </SettingDisplay>
 
-          <EditButton>
+          <EditButton onClick={() => dispatch(setChangeUsernameOpen(true))}>
             <EditButtonContent>Edit</EditButtonContent>
           </EditButton>
         </UsernameSettingContainer>
@@ -60,7 +64,7 @@ export default function UserProfileCard() {
             <Email>{user.email}</Email>
           </SettingDisplay>
 
-          <EditButton>
+          <EditButton onClick={() => dispatch(setChangeEmailOpen(true))}>
             <EditButtonContent>Edit</EditButtonContent>
           </EditButton>
         </EmailSettingContainer>

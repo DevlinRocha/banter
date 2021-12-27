@@ -1,32 +1,30 @@
 import tw from "tailwind-styled-components/dist/tailwind";
-import { logOut } from "../../../firebase";
 import {
-  setLogoutConfirmOpen,
+  setChangeUsernameOpen,
   setUserSettingsOpen,
 } from "../../features/settings";
 import { useAppDispatch } from "../../redux/hooks";
 
-export default function LogoutConfirm() {
+export default function ChangeUsername() {
   const dispatch = useAppDispatch();
 
   function closeWindow() {
-    dispatch(setLogoutConfirmOpen(false));
+    dispatch(setChangeUsernameOpen(false));
   }
 
-  function handleLogOut() {
-    logOut();
-    dispatch(setLogoutConfirmOpen(false));
+  function handleChangeUsername() {
+    dispatch(setChangeUsernameOpen(false));
     dispatch(setUserSettingsOpen(false));
   }
 
   return (
     <Container>
-      <Heading>Log Out</Heading>
+      <Heading>Change your username</Heading>
 
-      <Body>Are you sure you want to log out?</Body>
+      <Body>Enter a new username and your existing password.</Body>
       <Buttons>
         <CancelButton onClick={closeWindow}>Cancel</CancelButton>
-        <LogOutButton onClick={handleLogOut}>Log Out</LogOutButton>
+        <LogOutButton onClick={handleChangeUsername}>Done</LogOutButton>
       </Buttons>
     </Container>
   );

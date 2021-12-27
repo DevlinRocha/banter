@@ -6,9 +6,16 @@ import LogoutConfirm from "./LogoutConfirm";
 import Image from "next/image";
 import closeButton from "../../../assets/closeButton.svg";
 import { useAppDispatch } from "../../redux/hooks";
+import ChangeUsername from "./ChangeUsername";
+import ChangeEmail from "./ChangeEmail";
 
 export default function UserSettings() {
-  const { userSettingsOpen, logoutConfirmOpen } = useSettingsState();
+  const {
+    userSettingsOpen,
+    logoutConfirmOpen,
+    changeUsernameOpen,
+    changeEmailOpen,
+  } = useSettingsState();
   const dispatch = useAppDispatch();
 
   return (
@@ -17,6 +24,18 @@ export default function UserSettings() {
         <LogoutContainer logoutConfirmOpen={logoutConfirmOpen}>
           <LogoutConfirm />
         </LogoutContainer>
+      ) : null}
+
+      {changeUsernameOpen ? (
+        <ChangeUsernameContainer changeUsernameOpen={changeUsernameOpen}>
+          <ChangeUsername />
+        </ChangeUsernameContainer>
+      ) : null}
+
+      {changeEmailOpen ? (
+        <ChangeEmailContainer changeEmailOpen={changeEmailOpen}>
+          <ChangeEmail />
+        </ChangeEmailContainer>
       ) : null}
 
       <SettingsSidebar />
@@ -40,8 +59,16 @@ export default function UserSettings() {
   );
 }
 
-type ContainerProps = {
+type LogoutContainerProps = {
   logoutConfirmOpen: boolean;
+};
+
+type ChangeUsernameContainerProps = {
+  changeUsernameOpen: boolean;
+};
+
+type ChangeEmailContainerProps = {
+  changeEmailOpen: boolean;
 };
 
 const Container = tw.div`
@@ -52,9 +79,25 @@ const SettingsContainer = tw(Container)`
   justify-around
 `;
 
-const LogoutContainer = tw.div<ContainerProps>`
-  fixed w-full h-full z-10
-  ${(props) => (props.logoutConfirmOpen ? "bg-black bg-opacity-[0.85]" : null)}
+const LogoutContainer = tw(Container)<LogoutContainerProps>`
+  ${(props) =>
+    props.logoutConfirmOpen
+      ? "fixed w-full h-full bg-black bg-opacity-[0.85] z-10"
+      : null}
+`;
+
+const ChangeUsernameContainer = tw(Container)<ChangeUsernameContainerProps>`
+  ${(props) =>
+    props.changeUsernameOpen
+      ? "fixed w-full h-full bg-black bg-opacity-[0.85] z-10"
+      : null}
+`;
+
+const ChangeEmailContainer = tw(Container)<ChangeEmailContainerProps>`
+  ${(props) =>
+    props.changeEmailOpen
+      ? "fixed w-full h-full bg-black bg-opacity-[0.85] z-10"
+      : null}
 `;
 
 const CloseButton = tw.figure`
