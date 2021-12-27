@@ -48,15 +48,15 @@ export default function UserPanel() {
 }
 
 const Container = tw.section`
-  flex justify-between align-center w-60 h-14 px-2 bg-gray-100
+  flex justify-between w-60 h-14 px-2 bg-gray-100
 `;
 
 const UserInfo = tw.div`
-  flex
+  flex items-center
 `;
 
 const ProfilePicture = tw.div`
-  flex justify-center align-center mr-2
+  flex mr-2 h-8
 `;
 
 const StyledImage = tw(Image)`
