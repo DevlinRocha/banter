@@ -11,7 +11,7 @@ import {
 } from "../../features/settings";
 
 export default function SettingsSidebar() {
-  const { logoutConfirmOpen } = useSettingsState();
+  const { settings, logoutConfirmOpen } = useSettingsState();
   const dispatch = useAppDispatch();
 
   return (
@@ -19,11 +19,17 @@ export default function SettingsSidebar() {
       <ListHeading>USER SETTINGS</ListHeading>
 
       <SettingsList>
-        <MyAccount onClick={() => dispatch(setSettings("My Account"))}>
+        <MyAccount
+          className={`${settings === "My Account" ? "bg-gray-200" : null}`}
+          onClick={() => dispatch(setSettings("My Account"))}
+        >
           My Account
         </MyAccount>
 
-        <UserProfile onClick={() => dispatch(setSettings("User Profile"))}>
+        <UserProfile
+          className={`${settings === "User Profile" ? "bg-gray-200" : null}`}
+          onClick={() => dispatch(setSettings("User Profile"))}
+        >
           User Profile
         </UserProfile>
       </SettingsList>

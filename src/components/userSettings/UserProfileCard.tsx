@@ -14,7 +14,7 @@ export default function UserProfileCard() {
 
   return (
     <Container>
-      <Banner color={user.banner} />
+      <Banner className={`bg-[${user.banner}]`} />
 
       <ProfileContainer>
         <ProfilePicture>
@@ -73,10 +73,6 @@ export default function UserProfileCard() {
   );
 }
 
-type BannerProps = {
-  color: string;
-};
-
 const Container = tw.section`
   relative flex flex-col bg-gray-200 rounded
 `;
@@ -89,9 +85,8 @@ const SettingContainer = tw.section`
   flex flex-col m-4 mt-2 p-4 bg-gray-100 rounded
 `;
 
-const Banner = tw.span<BannerProps>`
+const Banner = tw.span`
   w-165 h-25 rounded-t-md
-  ${(props) => (props.color ? `bg-[${props.color}]` : null)}
 `;
 
 const ProfilePicture = tw.div`
