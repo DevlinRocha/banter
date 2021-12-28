@@ -4,16 +4,17 @@ import Servers from "../../components/Servers/Servers";
 import Channels from "../../components/channels/Channels";
 import UserSettings from "../../components/userSettings/UserSettings";
 import tw from "tailwind-styled-components/dist/tailwind";
-import { setUser, resetUserState } from "../../features/user";
+import { setUser, resetUserState, useUserState } from "../../features/user";
 import { useAppDispatch } from "../../redux/hooks";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { useSettingsState } from "../../features/settings";
 import { db } from "../../../firebase";
 import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
   const auth = getAuth();
+  const { user } = useUserState();
   const { userSettingsOpen } = useSettingsState();
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -60,6 +61,36 @@ const Home: NextPage = () => {
     return () => {
       authStateListener();
     };
+  }, []);
+
+  useEffect(() => {
+    if (user.userID) {
+      const unsubscribe = onSnapshot(doc(db, "users", user.userID), (doc) => {
+        if (doc.exists()) {
+          const currentUser = {
+            username: doc.data().username,
+
+            tag: doc.data().tag,
+
+            avatar: doc.data().avatar,
+
+            about: doc.data().about,
+
+            banner: doc.data().banner,
+
+            userID: doc.id,
+
+            email: doc.data().email,
+          };
+
+          dispatch(setUser(currentUser));
+        }
+      });
+
+      return () => {
+        unsubscribe();
+      };
+    }
   }, []);
 
   return (
