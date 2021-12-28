@@ -5,7 +5,9 @@ import TextArea from "./TextArea";
 export default function Chat() {
   return (
     <Container>
-      <Messages />
+      <MessagesContainer>
+        <Messages />
+      </MessagesContainer>
 
       <TextArea />
     </Container>
@@ -14,4 +16,8 @@ export default function Chat() {
 
 const Container = tw.main`
   flex flex-col w-full h-full
+`;
+
+const MessagesContainer = tw.div`
+  relative flex flex-1
 `;

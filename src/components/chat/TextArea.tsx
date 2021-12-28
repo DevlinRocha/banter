@@ -70,7 +70,7 @@ export default function TextArea() {
 }
 
 const Container = tw.form`
-  sticky bottom-6 w-full h-11 mt-2 mb-6 px-4 z-10
+  flex-none w-full h-11 mt-2 mb-6 px-4 z-10
 `;
 
 const TextInput = tw.input`

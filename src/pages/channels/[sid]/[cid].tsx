@@ -110,11 +110,11 @@ const Home: NextPage = () => {
             <ChatContainer>
               <Title />
 
-              <Container>
+              <ContentContainer>
                 <Chat />
 
                 <Members />
-              </Container>
+              </ContentContainer>
             </ChatContainer>
           </Container>
         </>
@@ -147,8 +147,12 @@ const Container = tw.div`
   flex w-full h-full
 `;
 
-const ChatContainer = tw(Container)`
-  flex-col
+const ChatContainer = tw.div`
+  flex flex-col flex-1
+`;
+
+const ContentContainer = tw.div`
+  flex flex-1
 `;
 
 export default Home;

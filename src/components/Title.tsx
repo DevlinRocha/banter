@@ -22,7 +22,7 @@ export default function Title() {
 }
 
 const Container = tw.section`
-  flex sticky top-0 w-full h-12 min-h-[48px] items-center bg-white z-10 border-b border-gray-300 px-2
+  flex flex-none h-12 px-2 items-center bg-white z-10 border-b border-gray-300
 `;
 
 const Hamburger = tw.div`

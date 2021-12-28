@@ -94,11 +94,11 @@ export default function Messages() {
 }
 
 const Container = tw.div`
-  flex w-full h-full overflow-y-scroll
+  absolute flex w-full h-full overflow-y-scroll
 `;
 
 const List = tw.ol`
-  flex flex-col w-full mt-auto pr-1
+  flex flex-col flex-1 mt-auto pr-1
 `;
 
 const WelcomeMessage = tw.div`
