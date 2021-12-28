@@ -75,11 +75,11 @@ export default function Channels() {
 
   return (
     <Container>
-      <Nav>
-        <Header>
-          <Heading>{server.name}</Heading>
-        </Header>
+      <Header>
+        <Heading>{server.name}</Heading>
+      </Header>
 
+      <ChannelListContainer>
         <ChannelList>
           {channels.map((channel, index) => {
             return (
@@ -93,7 +93,7 @@ export default function Channels() {
             );
           })}
         </ChannelList>
-      </Nav>
+      </ChannelListContainer>
 
       <UserPanel />
     </Container>
@@ -105,17 +105,18 @@ type ChannelProps = {
   router: NextRouter;
 };
 
-const Container = tw.section`
-  flex flex-col justify-between bg-gray-50 w-60 h-full
+const Container = tw.nav`
+  flex flex-col bg-gray-50 w-60 h-full
 `;
 
-const Nav = tw.nav`
-  hidden
+const ChannelListContainer = tw.div`
+  hidden flex-1 overflow-hidden
+  hover:overflow-y-auto
   lg:block
 `;
 
 const Header = tw.header`
-  flex items-center w-60 h-12 mb-4 px-4 border-b border-gray-300
+  flex flex-none items-center w-60 h-12 mb-4 px-4 border-b border-gray-300
 `;
 
 const Heading = tw.h1`
@@ -123,7 +124,6 @@ const Heading = tw.h1`
 `;
 
 const ChannelList = tw.ol`
-  overflow-y-auto
 `;
 
 const Channel = tw.li<ChannelProps>`
