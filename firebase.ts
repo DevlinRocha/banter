@@ -110,6 +110,33 @@ export async function joinServer(serverID: string, userID: string) {
   await setDoc(doc(db, "users", userID, "servers", serverID), {});
 }
 
+export async function changeUsername(newUsername: string) {
+  if (auth.currentUser) {
+    const user = auth.currentUser;
+
+    await updateProfile(user, {
+      displayName: newUsername,
+    })
+      .then(async () => {
+        // Profile updated!
+
+        await setDoc(
+          doc(db, "users", user.uid),
+
+          {
+            username: user.displayName,
+          },
+
+          { merge: true }
+        );
+      })
+      .catch((error) => {
+        // An error occurred
+        console.error(error);
+      });
+  }
+}
+
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore();
 const auth = getAuth();
