@@ -48,6 +48,10 @@ module.exports = {
 
         196: "49rem",
       },
+
+      fontSize: {
+        double: ["2rem", "2.5rem"],
+      },
     },
   },
 
