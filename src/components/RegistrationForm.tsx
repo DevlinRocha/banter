@@ -58,6 +58,7 @@ export default function RegistrationForm() {
             required
             placeholder="What should everyone call you?"
             id="usernameInput"
+            maxLength={32}
           />
         </UsernameField>
 

@@ -1,8 +1,5 @@
 import tw from "tailwind-styled-components/dist/tailwind";
-import {
-  setChangeEmailOpen,
-  setUserSettingsOpen,
-} from "../../features/settings";
+import { setChangeEmailOpen } from "../../features/settings";
 import { useAppDispatch } from "../../redux/hooks";
 
 export default function ChangeEmail() {
@@ -14,7 +11,6 @@ export default function ChangeEmail() {
 
   function handleChangeEmail() {
     dispatch(setChangeEmailOpen(false));
-    dispatch(setUserSettingsOpen(false));
   }
 
   return (
@@ -24,7 +20,7 @@ export default function ChangeEmail() {
       <Body>Enter a new email address and your existing password.</Body>
       <Buttons>
         <CancelButton onClick={closeWindow}>Cancel</CancelButton>
-        <LogOutButton onClick={handleChangeEmail}>Done</LogOutButton>
+        <DoneButton onClick={handleChangeEmail}>Done</DoneButton>
       </Buttons>
     </Container>
   );
@@ -50,6 +46,6 @@ const CancelButton = tw.button`
   py-0.5 px-4 h-full
 `;
 
-const LogOutButton = tw(CancelButton)`
-  bg-red-500 text-white rounded-md
+const DoneButton = tw(CancelButton)`
+  bg-blue-500 text-white rounded-md
 `;
