@@ -50,10 +50,7 @@ export default function TextArea() {
           edited: false,
           reactions: [],
           timestamp: Date.now(),
-          user: {
-            name: user.username,
-            img: user.avatar,
-          },
+          userID: user.userID,
         }
       );
     } catch (e) {

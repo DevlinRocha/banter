@@ -18,11 +18,8 @@ export interface ChannelData {
 }
 
 export interface MessageData {
-  user: {
-    username: string;
-    avatar: string;
-  };
   content: string;
+  userID: string;
   date: string;
   timestamp: number;
   reactions: [];

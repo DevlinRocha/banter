@@ -43,13 +43,9 @@ export default function Messages() {
         const messageList: MessageData[] = [];
         querySnapshot.forEach((doc) => {
           const message: MessageData = {
-            user: {
-              username: doc.data().user.name,
-
-              avatar: doc.data().user.img,
-            },
-
             content: doc.data().content,
+
+            userID: doc.data().userID,
 
             date: doc.data().date,
 

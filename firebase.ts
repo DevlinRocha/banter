@@ -37,7 +37,7 @@ export async function createAccount(
         displayName: username,
 
         photoURL:
-          "https://firebasestorage.googleapis.com/v0/b/banter-69832.appspot.com/o/DefaultProfilePicture.svg?alt=media&token=87ec5343-fbc9-45cf-9124-4583e9155d1a",
+          "https://firebasestorage.googleapis.com/v0/b/banter-69832.appspot.com/o/defaultProfilePicture.svg?alt=media&token=e0ee525e-6ad5-4098-9198-77608ec38f3a",
       })
         .then(async () => {
           // Profile updated

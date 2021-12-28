@@ -1,12 +1,38 @@
+import { useState, useEffect } from "react";
 import tw from "tailwind-styled-components";
 import Image from "next/image";
 import { MessageData } from "../../features/servers";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../../../firebase";
 
 interface MessageProps {
   message: MessageData;
 }
 
 export default function Message(props: MessageProps) {
+  const [username, setUsername] = useState("");
+  const [avatar, setAvatar] = useState(
+    "https://firebasestorage.googleapis.com/v0/b/banter-69832.appspot.com/o/defaultProfilePicture.svg?alt=media&token=e0ee525e-6ad5-4098-9198-77608ec38f3a"
+  );
+
+  useEffect(() => {
+    const userID = props.message.userID;
+    const unsubscribe = onSnapshot(doc(db, "users", userID), (doc) => {
+      if (doc.exists()) {
+        const username = doc.data().username;
+
+        const avatar = doc.data().avatar;
+
+        setUsername(username);
+
+        setAvatar(avatar);
+      }
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
   function getDate() {
     const timestamp = props.message.timestamp;
     const date = new Date(timestamp);
@@ -66,8 +92,8 @@ export default function Message(props: MessageProps) {
     <Container>
       <ProfilePicture>
         <StyledImage
-          loader={() => props.message.user.avatar}
-          src={props.message.user.avatar}
+          loader={() => avatar}
+          src={avatar}
           width={40}
           height={40}
           alt="Profile picture"
@@ -76,7 +102,7 @@ export default function Message(props: MessageProps) {
 
       <MessageContent>
         <MessageInfo>
-          <Username>{props.message.user.username}</Username>
+          <Username>{username}</Username>
 
           <MessageDate>{getDate()}</MessageDate>
         </MessageInfo>
