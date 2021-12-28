@@ -92,12 +92,12 @@ export default function Members() {
 }
 
 const Container = tw.aside`
-  flex w-60 h-full bg-gray-50
+  flex flex-none w-60 h-full bg-gray-50
 `;
 
 const Sidebar = tw.ol`
-  w-60 pb-5 overflow-x-hidden
-  hover:overflow-y-scroll
+  w-60 pb-5 overflow-hidden
+  hover:overflow-y-auto
 `;
 
 const Heading = tw.h2`
