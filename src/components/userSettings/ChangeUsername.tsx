@@ -63,11 +63,11 @@ const Container = tw.div`
 `;
 
 const Heading = tw.h2`
-  w-full p-4
+  w-full p-4 text-center text-2xl font-bold
 `;
 
 const Body = tw.p`
-  w-full h-18.5 pr-2 pb-5 pl-4
+  w-full h-18.5 pr-2 pb-5 pl-4 text-center text-gray-500
 `;
 
 const FormContainer = tw.form`
