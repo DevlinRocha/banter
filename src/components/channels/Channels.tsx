@@ -11,7 +11,7 @@ import UserPanel from "./UserPanel";
 import Link from "next/link";
 import tw from "tailwind-styled-components/dist/tailwind";
 import { db } from "../../../firebase";
-import { NextRouter, useRouter } from "next/router";
+import { useRouter } from "next/router";
 
 export default function Channels() {
   const { server, channels } = useServersState();
@@ -85,7 +85,7 @@ export default function Channels() {
             return (
               <Link href={channel.path} key={index} passHref>
                 <a onClick={() => handleClick(channel)}>
-                  <Channel channel={channel} router={router}>
+                  <Channel channel={channel} path={router.asPath}>
                     # {channel.name}
                   </Channel>
                 </a>
@@ -102,7 +102,7 @@ export default function Channels() {
 
 type ChannelProps = {
   channel: ChannelData;
-  router: NextRouter;
+  path: string;
 };
 
 const Container = tw.nav`
@@ -129,7 +129,7 @@ const ChannelList = tw.ol`
 const Channel = tw.li<ChannelProps>`
   flex cursor-pointer py-1 pr-2 mx-2 pl-2 rounded-md
   ${(props) =>
-    props.router.asPath.includes(props.channel.channelID)
+    props.path.includes(props.channel.channelID)
       ? "bg-gray-200"
       : "hover:bg-gray-100"}
 `;

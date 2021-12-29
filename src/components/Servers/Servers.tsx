@@ -16,7 +16,7 @@ import Image from "next/image";
 import banterIcon from "../../../assets/banterIcon.svg";
 import DefaultServerIcon from "./DefaultServerIcon";
 import { useUserState } from "../../features/user";
-import { useRouter, NextRouter } from "next/router";
+import { useRouter } from "next/router";
 
 export default function Servers() {
   const { servers, serverIDs } = useServersState();
@@ -86,7 +86,7 @@ export default function Servers() {
         <Link href="/channels/@me" passHref>
           <BanterIcon onClick={() => dispatch(resetServerState())}>
             <BanterImage
-              router={router}
+              path={router.asPath}
               src={banterIcon}
               width={48}
               height={48}
@@ -110,7 +110,7 @@ export default function Servers() {
                     alt="Server icon"
                   />
                 ) : (
-                  <ServerIcon server={server} router={router} />
+                  <ServerIcon server={server} path={router.asPath} />
                 )}
               </Server>
             </Link>
@@ -123,11 +123,11 @@ export default function Servers() {
 
 type ServerIconProps = {
   server: ServerData;
-  router: NextRouter;
+  path: string;
 };
 
 type BanterProps = {
-  router: NextRouter;
+  path: string;
 };
 
 const Nav = tw.nav`
@@ -155,7 +155,7 @@ const StyledImage = tw(Image)`
 const BanterImage = tw(StyledImage)<BanterProps>`
 
   ${(props) => {
-    switch (props.router.asPath) {
+    switch (props.path) {
       case "/channels/@me":
         return "rounded-xl";
 
@@ -170,7 +170,7 @@ const ServerIcon = tw(DefaultServerIcon)<ServerIconProps>`
   transition-all ease-linear group
   hover:rounded-xl hover:fill-primary
   ${(props) =>
-    props.router.asPath.includes(props.server.serverID)
+    props.path.includes(props.server.serverID)
       ? "rounded-xl fill-primary"
       : "rounded-3xl fill-white"}
 `;

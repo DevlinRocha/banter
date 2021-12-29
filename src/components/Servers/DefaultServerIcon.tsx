@@ -1,10 +1,9 @@
-import { NextRouter } from "next/router";
 import { SVGProps, useEffect, useState } from "react";
 import { ServerData } from "../../features/servers";
 
 interface DefaultServerIconProps extends SVGProps<SVGSVGElement> {
   server: ServerData;
-  router: NextRouter;
+  path: string;
 }
 
 export default function DefaultServerIcon(props: DefaultServerIconProps) {
@@ -28,7 +27,7 @@ export default function DefaultServerIcon(props: DefaultServerIconProps) {
       <rect width={48} height={48} />
       <text
         className={`text-lg group-hover:fill-white ${
-          props.router.asPath.includes(props.server.serverID)
+          props.path.includes(props.server.serverID)
             ? "fill-white"
             : "fill-gray-800"
         }`}
