@@ -85,7 +85,8 @@ export default function Servers() {
       <Sidebar>
         <Link href="/channels/@me" passHref>
           <BanterIcon onClick={() => dispatch(resetServerState())}>
-            <StyledImage
+            <BanterImage
+              router={router}
               src={banterIcon}
               width={48}
               height={48}
@@ -125,6 +126,10 @@ type ServerIconProps = {
   router: NextRouter;
 };
 
+type BanterProps = {
+  router: NextRouter;
+};
+
 const Nav = tw.nav`
   hidden w-18 h-full
   lg:block
@@ -145,6 +150,20 @@ const Server = tw.li`
 const StyledImage = tw(Image)`
   rounded-3xl transition-all ease-linear
   hover:rounded-xl
+`;
+
+const BanterImage = tw(StyledImage)<BanterProps>`
+
+  ${(props) => {
+    switch (props.router.asPath) {
+      case "/channels/@me":
+        return "rounded-xl";
+
+      default:
+        return null;
+    }
+  }}
+  
 `;
 
 const ServerIcon = tw(DefaultServerIcon)<ServerIconProps>`
