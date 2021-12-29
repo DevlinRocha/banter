@@ -106,7 +106,7 @@ const FieldContainer = tw.fieldset`
 `;
 
 const FieldHeading = tw.h5`
-  mb-2
+  mb-2 text-xs text-gray-500 font-semibold
 `;
 
 const UsernameContainer = tw.div`
