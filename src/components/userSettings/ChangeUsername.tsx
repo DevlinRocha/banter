@@ -61,11 +61,11 @@ export default function ChangeUsername() {
           </FieldContainer>
         </ChangeUsernameForm>
 
-        <Buttons>
+        <ButtonContainer>
           <CancelButton onClick={closeWindow}>Cancel</CancelButton>
 
           <DoneButton onClick={handleChangeUsername}>Done</DoneButton>
-        </Buttons>
+        </ButtonContainer>
       </FormContainer>
     </Container>
   );
@@ -125,8 +125,8 @@ const TagInput = tw(UsernameInput)`
   w-25 pl-5
 `;
 
-const Buttons = tw.div`
-  flex justify-end w-full h-17.5 p-4 bg-gray-100
+const ButtonContainer = tw.div`
+  flex justify-end w-full h-17.5 p-4 bg-gray-100 rounded-b-md
 `;
 
 const CancelButton = tw.button`
