@@ -7,8 +7,6 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
   updateEmail,
-  reauthenticateWithCredential,
-  AuthCredential,
 } from "firebase/auth";
 
 // import { getAnalytics } from "firebase/analytics";
@@ -140,21 +138,11 @@ export async function changeUsername(newUsername: string) {
   }
 }
 
-export async function changeEmail(newEmail: string) {
+export async function changeEmail(newEmail: string, password: string) {
   if (auth.currentUser) {
     const user = auth.currentUser;
 
-    const credential: AuthCredential = {
-      providerId: user.providerId,
-
-      signInMethod: "password",
-
-      toJSON: function (): object {
-        throw new Error("Function not implemented.");
-      },
-    };
-
-    reauthenticateWithCredential(user, credential)
+    await signInWithEmailAndPassword(auth, user.email || "", password)
       .then(async () => {
         // User re-authenticated
 
@@ -172,6 +160,10 @@ export async function changeEmail(newEmail: string) {
               { merge: true }
             );
           })
+          .then(
+            async () =>
+              await signInWithEmailAndPassword(auth, newEmail, password)
+          )
 
           .catch((error) => {
             // An error occurred

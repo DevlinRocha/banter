@@ -1,6 +1,5 @@
 import { useRef } from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { createAccount } from "../../firebase";
 import tw from "tailwind-styled-components/dist/tailwind";
 
@@ -8,7 +7,6 @@ export default function RegistrationForm() {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const usernameRef = useRef<HTMLInputElement>(null);
-  const router = useRouter();
 
   async function handleSubmit(e: any) {
     e.preventDefault();

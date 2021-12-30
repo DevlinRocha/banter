@@ -8,6 +8,7 @@ import closeIcon from "../../../assets/closeIcon.svg";
 
 export default function ChangeUsername() {
   const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
 
   function closeWindow() {
@@ -15,10 +16,11 @@ export default function ChangeUsername() {
   }
 
   function handleSubmit() {
-    if (emailRef.current) {
+    if (emailRef.current && passwordRef.current) {
       const newEmail = emailRef.current.value;
+      const password = passwordRef.current.value;
 
-      changeEmail(newEmail);
+      changeEmail(newEmail, password);
     }
 
     dispatch(setChangeEmailOpen(false));
@@ -46,8 +48,14 @@ export default function ChangeUsername() {
           <FieldContainer>
             <FieldHeading>EMAIL</FieldHeading>
 
-            <EmailInput ref={emailRef} type="email" required />
+            <FieldInput ref={emailRef} type="email" required />
           </FieldContainer>
+
+          <PasswordContainer>
+            <FieldHeading>CURRENT PASSWORD</FieldHeading>
+
+            <FieldInput ref={passwordRef} type="password" required />
+          </PasswordContainer>
         </ChangeEmailForm>
 
         <ButtonContainer>
@@ -96,11 +104,15 @@ const FieldContainer = tw.fieldset`
   flex flex-col
 `;
 
+const PasswordContainer = tw(FieldContainer)`
+  mt-4
+`;
+
 const FieldHeading = tw.h5`
   mb-2 text-xs text-gray-500 font-semibold
 `;
 
-const EmailInput = tw.input`
+const FieldInput = tw.input`
   flex w-full h-10 p-2.5 border border-gray-300 outline-0 rounded-middle
 `;
 
