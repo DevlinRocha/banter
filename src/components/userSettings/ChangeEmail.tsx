@@ -1,45 +1,111 @@
+import { useRef } from "react";
 import tw from "tailwind-styled-components/dist/tailwind";
+import { changeEmail } from "../../../firebase";
 import { setChangeEmailOpen } from "../../features/settings";
 import { useAppDispatch } from "../../redux/hooks";
+import Image from "next/image";
+import closeIcon from "../../../assets/closeIcon.svg";
 
-export default function ChangeEmail() {
+export default function ChangeUsername() {
+  const emailRef = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
 
   function closeWindow() {
     dispatch(setChangeEmailOpen(false));
   }
 
-  function handleChangeEmail() {
+  function handleSubmit() {
+    if (emailRef.current) {
+      const newEmail = emailRef.current.value;
+
+      changeEmail(newEmail);
+    }
+
     dispatch(setChangeEmailOpen(false));
   }
 
   return (
     <Container>
-      <Heading>Enter an email address</Heading>
+      <HeadingContainer>
+        <Heading>Enter an email address</Heading>
 
-      <Body>Enter a new email address and your existing password.</Body>
-      <Buttons>
-        <CancelButton onClick={closeWindow}>Cancel</CancelButton>
-        <DoneButton onClick={handleChangeEmail}>Done</DoneButton>
-      </Buttons>
+        <Body>Enter a new email address and your existing password.</Body>
+
+        <CloseIcon onClick={closeWindow}>
+          <StyledImage
+            src={closeIcon}
+            width={24}
+            height={24}
+            alt="Close button"
+          />
+        </CloseIcon>
+      </HeadingContainer>
+
+      <FormContainer onSubmit={handleSubmit}>
+        <ChangeEmailForm>
+          <FieldContainer>
+            <FieldHeading>EMAIL</FieldHeading>
+
+            <EmailInput ref={emailRef} type="email" required />
+          </FieldContainer>
+        </ChangeEmailForm>
+
+        <ButtonContainer>
+          <CancelButton type="button" onClick={closeWindow}>
+            Cancel
+          </CancelButton>
+
+          <DoneButton type="submit">Done</DoneButton>
+        </ButtonContainer>
+      </FormContainer>
     </Container>
   );
 }
 
 const Container = tw.div`
-  fixed flex flex-col top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-110 h-50 bg-white rounded-md
+  fixed flex flex-col top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-110 bg-white rounded-md
+`;
+
+const HeadingContainer = tw.div`
+  px-4 py-6 text-center
 `;
 
 const Heading = tw.h2`
-  w-full p-4
+  w-full text-2xl font-bold
 `;
 
 const Body = tw.p`
-  w-full h-18.5 pr-2 pb-5 pl-4
+  w-full mt-2 text-gray-500
 `;
 
-const Buttons = tw.div`
-  flex justify-end w-full h-17.5 p-4 bg-gray-100
+const CloseIcon = tw.button`
+  absolute top-4 right-4 p-1
+`;
+
+const StyledImage = tw(Image)`
+`;
+
+const FormContainer = tw.form`
+`;
+
+const ChangeEmailForm = tw.div`
+  pr-2 pb-2 pl-4
+`;
+
+const FieldContainer = tw.fieldset`
+  flex flex-col
+`;
+
+const FieldHeading = tw.h5`
+  mb-2 text-xs text-gray-500 font-semibold
+`;
+
+const EmailInput = tw.input`
+  flex w-full h-10 p-2.5 border border-gray-300 outline-0 rounded-middle
+`;
+
+const ButtonContainer = tw.div`
+  flex justify-end w-full h-17.5 p-4 bg-gray-100 rounded-b-md
 `;
 
 const CancelButton = tw.button`
