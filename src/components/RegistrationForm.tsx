@@ -65,7 +65,7 @@ export default function RegistrationForm() {
 
           <PasswordInput
             ref={passwordRef}
-            type="pasword"
+            type="password"
             required
             placeholder="Password"
             id="passwordInput"

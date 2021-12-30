@@ -44,7 +44,7 @@ export default function LoginForm() {
 
           <PasswordInput
             ref={passwordRef}
-            type="pasword"
+            type="password"
             required
             id="passwordInput"
           />
