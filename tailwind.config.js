@@ -7,6 +7,10 @@ module.exports = {
 
   theme: {
     extend: {
+      borderRadius: {
+        middle: "0.1875rem",
+      },
+
       colors: {
         primary: "#7CC6FE",
       },
