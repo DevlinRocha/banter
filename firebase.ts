@@ -6,6 +6,9 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
+  updateEmail,
+  reauthenticateWithCredential,
+  AuthCredential,
 } from "firebase/auth";
 
 // import { getAnalytics } from "firebase/analytics";
@@ -132,6 +135,53 @@ export async function changeUsername(newUsername: string) {
       })
       .catch((error) => {
         // An error occurred
+        console.error(error);
+      });
+  }
+}
+
+export async function changeEmail(newEmail: string) {
+  if (auth.currentUser) {
+    const user = auth.currentUser;
+
+    const credential: AuthCredential = {
+      providerId: user.providerId,
+
+      signInMethod: "password",
+
+      toJSON: function (): object {
+        throw new Error("Function not implemented.");
+      },
+    };
+
+    reauthenticateWithCredential(user, credential)
+      .then(async () => {
+        // User re-authenticated
+
+        await updateEmail(user, newEmail)
+          .then(async () => {
+            // Email updated
+
+            await setDoc(
+              doc(db, "users", user.uid),
+
+              {
+                email: user.email,
+              },
+
+              { merge: true }
+            );
+          })
+
+          .catch((error) => {
+            // An error occurred
+
+            console.error(error);
+          });
+      })
+      .catch((error) => {
+        // An error occurred
+
         console.error(error);
       });
   }
