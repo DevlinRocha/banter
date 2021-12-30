@@ -16,11 +16,13 @@ export default function ChangeUsername() {
     dispatch(setChangeUsernameOpen(false));
   }
 
-  function handleChangeUsername() {
+  function handleSubmit() {
     if (usernameRef.current) {
       const newUsername = usernameRef.current.value;
+
       changeUsername(newUsername);
     }
+
     dispatch(setChangeUsernameOpen(false));
   }
 
@@ -41,7 +43,7 @@ export default function ChangeUsername() {
         </CloseIcon>
       </HeadingContainer>
 
-      <FormContainer>
+      <FormContainer onSubmit={handleSubmit}>
         <ChangeUsernameForm>
           <FieldContainer>
             <FieldHeading>USERNAME</FieldHeading>
@@ -51,7 +53,9 @@ export default function ChangeUsername() {
                 ref={usernameRef}
                 type="text"
                 placeholder={user.username}
+                minLength={2}
                 maxLength={32}
+                required
               />
 
               <Separator />
@@ -62,9 +66,11 @@ export default function ChangeUsername() {
         </ChangeUsernameForm>
 
         <ButtonContainer>
-          <CancelButton onClick={closeWindow}>Cancel</CancelButton>
+          <CancelButton type="button" onClick={closeWindow}>
+            Cancel
+          </CancelButton>
 
-          <DoneButton onClick={handleChangeUsername}>Done</DoneButton>
+          <DoneButton type="submit">Done</DoneButton>
         </ButtonContainer>
       </FormContainer>
     </Container>
@@ -110,11 +116,11 @@ const FieldHeading = tw.h5`
 `;
 
 const UsernameContainer = tw.div`
-  flex border
+  flex border border-gray-300 rounded-middle
 `;
 
 const UsernameInput = tw.input`
-  w-full p-2.5 outline-0
+  w-full h-10 p-2.5 outline-0
 `;
 
 const Separator = tw.div`
