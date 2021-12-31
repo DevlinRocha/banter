@@ -114,9 +114,18 @@ export async function joinServer(serverID: string, userID: string) {
   await setDoc(doc(db, "users", userID, "servers", serverID), {});
 }
 
-export async function changeUsername(newUsername: string) {
-  if (auth.currentUser) {
-    const user = auth.currentUser;
+export async function changeUsername(newUsername: string, password: string) {
+  if (!auth.currentUser || !auth.currentUser.email) return;
+
+  const user = auth.currentUser;
+
+  try {
+    const credential: AuthCredential = EmailAuthProvider.credential(
+      auth.currentUser.email,
+      password
+    );
+
+    await reauthenticateWithCredential(user, credential);
 
     await updateProfile(user, {
       displayName: newUsername,
@@ -132,6 +141,8 @@ export async function changeUsername(newUsername: string) {
 
       { merge: true }
     );
+  } catch (error) {
+    console.error(error);
   }
 }
 

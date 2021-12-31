@@ -10,6 +10,7 @@ import closeIcon from "../../../assets/closeIcon.svg";
 export default function ChangeUsername() {
   const { user } = useUserState();
   const usernameRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
 
   function closeWindow() {
@@ -19,11 +20,12 @@ export default function ChangeUsername() {
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
 
-    if (!usernameRef.current) return;
+    if (!usernameRef.current || !passwordRef.current) return;
 
     const newUsername = usernameRef.current.value;
+    const password = passwordRef.current.value;
 
-    changeUsername(newUsername);
+    changeUsername(newUsername, password);
 
     closeWindow();
   }
@@ -51,7 +53,7 @@ export default function ChangeUsername() {
             <FieldHeading>USERNAME</FieldHeading>
 
             <UsernameContainer>
-              <UsernameInput
+              <FieldInput
                 ref={usernameRef}
                 type="text"
                 placeholder={user.username}
@@ -65,6 +67,12 @@ export default function ChangeUsername() {
               <TagInput type="text" value={`#${user.tag}`} disabled />
             </UsernameContainer>
           </FieldContainer>
+
+          <PasswordContainer>
+            <FieldHeading>CURRENT PASSWORD</FieldHeading>
+
+            <PasswordInput ref={passwordRef} type="password" required />
+          </PasswordContainer>
         </ChangeUsernameForm>
 
         <ButtonContainer>
@@ -113,6 +121,10 @@ const FieldContainer = tw.fieldset`
   flex flex-col
 `;
 
+const PasswordContainer = tw(FieldContainer)`
+  mt-4
+`;
+
 const FieldHeading = tw.h5`
   mb-2 text-xs text-gray-500 font-semibold
 `;
@@ -121,16 +133,20 @@ const UsernameContainer = tw.div`
   flex border border-gray-300 rounded-middle
 `;
 
-const UsernameInput = tw.input`
+const FieldInput = tw.input`
   w-full h-10 p-2.5 outline-0
+`;
+
+const TagInput = tw(FieldInput)`
+  w-25 pl-5
+`;
+
+const PasswordInput = tw(FieldInput)`
+  border border-gray-300 rounded-middle
 `;
 
 const Separator = tw.div`
   w-px h-7.5 mt-1.25 bg-gray-300
-`;
-
-const TagInput = tw(UsernameInput)`
-  w-25 pl-5
 `;
 
 const ButtonContainer = tw.div`
