@@ -31,81 +31,71 @@ export async function createAccount(
 
   username: string
 ) {
-  await createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    // Signed in
 
-      const user = userCredential.user;
+    const user = userCredential.user;
 
-      updateProfile(user, {
-        displayName: username,
+    await updateProfile(user, {
+      displayName: username,
 
-        photoURL:
-          "https://firebasestorage.googleapis.com/v0/b/banter-69832.appspot.com/o/defaultProfilePicture.svg?alt=media&token=e0ee525e-6ad5-4098-9198-77608ec38f3a",
-      })
-        .then(async () => {
-          // Profile updated
-
-          await setDoc(doc(db, "users", user.uid), {
-            username: user.displayName,
-
-            avatar: user.photoURL,
-
-            tag: "0000", // Create function to generate unique tag for each username
-
-            about: "I'm new to Banter :)",
-
-            banner: "#7CC6FE",
-
-            email: user.email,
-          });
-
-          // User joins global chat
-          await joinServer("ke6NqegIvJEOa9cLzUEp", user.uid);
-        })
-
-        .catch((error) => {
-          console.error(error);
-        });
-    })
-
-    .catch((error) => {
-      const errorCode = error.code;
-
-      const errorMessage = error.message;
-
-      console.error(`${errorCode} ${errorMessage}`);
+      photoURL:
+        "https://firebasestorage.googleapis.com/v0/b/banter-69832.appspot.com/o/defaultProfilePicture.svg?alt=media&token=e0ee525e-6ad5-4098-9198-77608ec38f3a",
     });
+    // Profile updated
+
+    await setDoc(doc(db, "users", user.uid), {
+      username: user.displayName,
+
+      avatar: user.photoURL,
+
+      tag: "0000", // Create function to generate unique tag for each username
+
+      about: "I'm new to Banter :)",
+
+      banner: "#7CC6FE",
+
+      email: user.email,
+    });
+    // Database updated
+
+    await joinServer("ke6NqegIvJEOa9cLzUEp", user.uid);
+    // User joins global chat
+  } catch (error) {
+    console.error(error);
+  }
 }
 
-export function signIn(email: string, password: string) {
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in
+export async function signIn(email: string, password: string) {
+  try {
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    // Signed in
 
-      const user = userCredential.user;
+    const user = userCredential.user;
 
-      return user;
-    })
-
-    .catch((error) => {
-      const errorCode = error.code;
-
-      const errorMessage = error.message;
-
-      console.error(`${errorCode} ${errorMessage}`);
-    });
+    return user;
+  } catch (error) {
+    console.error(error);
+  }
 }
 
-export function logOut() {
-  signOut(auth)
-    .then(() => {
-      // Sign-out successful.
-    })
-    .catch((error) => {
-      // An error happened.
-      console.error(error);
-    });
+export async function logOut() {
+  try {
+    await signOut(auth);
+    // Sign-out successful.
+  } catch (error) {
+    console.error(error);
+    // An error happened.
+  }
 }
 
 export async function joinServer(serverID: string, userID: string) {
