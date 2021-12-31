@@ -16,10 +16,11 @@ export default function DefaultServerIcon(props: DefaultServerIconProps) {
   function getInitials() {
     const string = props.server.name;
     const matches = string.match(/\b(\w)/g);
-    if (matches) {
-      const initials = matches.join("");
-      setInitials(initials);
-    }
+
+    if (!matches) return;
+
+    const initials = matches.join("");
+    setInitials(initials);
   }
 
   return (

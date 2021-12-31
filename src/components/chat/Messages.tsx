@@ -16,61 +16,61 @@ export default function Messages() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollIntoView();
-    }
+    if (!scrollRef.current) return;
+
+    scrollRef.current.scrollIntoView();
   }, [messages]);
 
   useEffect(() => {
-    if (server.serverID && channel.channelID) {
-      const q = query(
-        collection(
-          db,
+    if (!server.serverID || !channel.channelID) return;
 
-          "servers",
+    const q = query(
+      collection(
+        db,
 
-          server?.serverID,
+        "servers",
 
-          "channels",
+        server?.serverID,
 
-          channel?.channelID,
+        "channels",
 
-          "messages"
-        )
-      );
+        channel?.channelID,
 
-      const unsubscribe = onSnapshot(q, (querySnapshot) => {
-        const messageList: MessageData[] = [];
+        "messages"
+      )
+    );
 
-        querySnapshot.forEach((doc) => {
-          const message: MessageData = {
-            content: doc.data().content,
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const messageList: MessageData[] = [];
 
-            userID: doc.data().userID,
+      querySnapshot.forEach((doc) => {
+        const message: MessageData = {
+          content: doc.data().content,
 
-            date: doc.data().date,
+          userID: doc.data().userID,
 
-            timestamp: doc.data().timestamp,
+          date: doc.data().date,
 
-            reactions: doc.data().reactions,
+          timestamp: doc.data().timestamp,
 
-            edited: doc.data().edited,
-          };
+          reactions: doc.data().reactions,
 
-          messageList.push(message);
-        });
+          edited: doc.data().edited,
+        };
 
-        messageList.sort((a, b) => {
-          return a.timestamp - b.timestamp;
-        });
-
-        dispatch(setMessages(messageList));
+        messageList.push(message);
       });
 
-      return () => {
-        unsubscribe();
-      };
-    }
+      messageList.sort((a, b) => {
+        return a.timestamp - b.timestamp;
+      });
+
+      dispatch(setMessages(messageList));
+    });
+
+    return () => {
+      unsubscribe();
+    };
   }, [channel]);
 
   return (

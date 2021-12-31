@@ -15,17 +15,12 @@ export default function RegistrationForm() {
     let password = "";
     let username = "";
 
-    if (emailRef.current) {
-      email = emailRef.current.value;
-    }
+    if (!emailRef.current || !passwordRef.current || !usernameRef.current)
+      return;
 
-    if (passwordRef.current) {
-      password = passwordRef.current.value;
-    }
-
-    if (usernameRef.current) {
-      username = usernameRef.current.value;
-    }
+    email = emailRef.current.value;
+    password = passwordRef.current.value;
+    username = usernameRef.current.value;
 
     await createAccount(email, password, username);
   }

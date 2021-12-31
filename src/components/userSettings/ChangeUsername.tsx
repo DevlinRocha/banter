@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { FormEvent, useRef } from "react";
 import tw from "tailwind-styled-components/dist/tailwind";
 import { changeUsername } from "../../../firebase";
 import { setChangeUsernameOpen } from "../../features/settings";
@@ -16,14 +16,16 @@ export default function ChangeUsername() {
     dispatch(setChangeUsernameOpen(false));
   }
 
-  function handleSubmit() {
-    if (usernameRef.current) {
-      const newUsername = usernameRef.current.value;
+  function handleSubmit(e: FormEvent) {
+    e.preventDefault();
 
-      changeUsername(newUsername);
-    }
+    if (!usernameRef.current) return;
 
-    dispatch(setChangeUsernameOpen(false));
+    const newUsername = usernameRef.current.value;
+
+    changeUsername(newUsername);
+
+    closeWindow();
   }
 
   return (

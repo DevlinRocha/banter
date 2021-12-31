@@ -11,15 +11,13 @@ export default function TextArea() {
   const { user } = useUserState();
 
   function getText() {
+    if (!inputRef.current || inputRef.current.value.trim() === "") return;
+
     let messageContent;
 
-    if (inputRef.current) {
-      if (inputRef.current.value.trim() === "") return;
+    messageContent = inputRef.current.value;
 
-      messageContent = inputRef.current.value;
-
-      inputRef.current.value = "";
-    }
+    inputRef.current.value = "";
 
     return messageContent;
   }

@@ -21,42 +21,30 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     const authStateListener = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const docRef = doc(db, "users", user.uid);
-        const docSnap = await getDoc(docRef);
+      if (!user) return redirect();
 
-        if (docSnap.exists()) {
-          const currentUser = {
-            username: docSnap.data().username,
+      const docRef = doc(db, "users", user.uid);
+      const docSnap = await getDoc(docRef);
 
-            tag: docSnap.data().tag,
+      if (!docSnap.exists()) return redirect();
 
-            avatar: docSnap.data().avatar,
+      const currentUser = {
+        username: docSnap.data().username,
 
-            about: docSnap.data().about,
+        tag: docSnap.data().tag,
 
-            banner: docSnap.data().banner,
+        avatar: docSnap.data().avatar,
 
-            userID: user.uid,
+        about: docSnap.data().about,
 
-            email: user.email,
-          };
+        banner: docSnap.data().banner,
 
-          dispatch(setUser(currentUser));
-        } else {
-          // doc.data() will be undefined in this case
+        userID: user.uid,
 
-          dispatch(resetUserState());
+        email: user.email,
+      };
 
-          router.push("/login");
-
-          console.log("No such document!");
-        }
-      } else {
-        dispatch(resetUserState());
-
-        router.push("/login");
-      }
+      dispatch(setUser(currentUser));
     });
     return () => {
       authStateListener();
@@ -64,34 +52,40 @@ const Home: NextPage = () => {
   }, []);
 
   useEffect(() => {
-    if (user.userID) {
-      const unsubscribe = onSnapshot(doc(db, "users", user.userID), (doc) => {
-        if (doc.exists()) {
-          const currentUser = {
-            username: doc.data().username,
+    if (!user.userID) return;
 
-            tag: doc.data().tag,
+    const unsubscribe = onSnapshot(doc(db, "users", user.userID), (doc) => {
+      if (!doc.exists()) return;
 
-            avatar: doc.data().avatar,
+      const currentUser = {
+        username: doc.data().username,
 
-            about: doc.data().about,
+        tag: doc.data().tag,
 
-            banner: doc.data().banner,
+        avatar: doc.data().avatar,
 
-            userID: doc.id,
+        about: doc.data().about,
 
-            email: doc.data().email,
-          };
+        banner: doc.data().banner,
 
-          dispatch(setUser(currentUser));
-        }
-      });
+        userID: doc.id,
 
-      return () => {
-        unsubscribe();
+        email: doc.data().email,
       };
-    }
+
+      dispatch(setUser(currentUser));
+    });
+
+    return () => {
+      unsubscribe();
+    };
   }, []);
+
+  function redirect() {
+    dispatch(resetUserState());
+
+    router.push("/login");
+  }
 
   return (
     <Container>

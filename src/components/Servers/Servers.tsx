@@ -25,23 +25,23 @@ export default function Servers() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (user.userID) {
-      const q = query(collection(db, "users", user.userID, "servers"));
+    if (!user.userID) return;
 
-      const unsubscribe = onSnapshot(q, (querySnapshot) => {
-        const serverIDs: string[] = [];
+    const q = query(collection(db, "users", user.userID, "servers"));
 
-        querySnapshot.forEach((doc) => {
-          serverIDs.push(doc.id);
-        });
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const serverIDs: string[] = [];
 
-        dispatch(setServerIDs(serverIDs));
+      querySnapshot.forEach((doc) => {
+        serverIDs.push(doc.id);
       });
 
-      return () => {
-        unsubscribe();
-      };
-    }
+      dispatch(setServerIDs(serverIDs));
+    });
+
+    return () => {
+      unsubscribe();
+    };
   }, [user]);
 
   useEffect(() => {
@@ -51,21 +51,21 @@ export default function Servers() {
       const serverList: ServerData[] = [];
 
       querySnapshot.forEach((doc) => {
-        if (serverIDs.includes(doc.id)) {
-          const server: ServerData = {
-            name: doc.data().name,
+        if (!serverIDs.includes(doc.id)) return;
 
-            img: doc.data().img,
+        const server: ServerData = {
+          name: doc.data().name,
 
-            path: `/channels/${doc.id}/${doc.data().defaultChannel}/`,
+          img: doc.data().img,
 
-            serverID: doc.id,
+          path: `/channels/${doc.id}/${doc.data().defaultChannel}/`,
 
-            defaultChannel: doc.data()?.defaultChannel,
-          };
+          serverID: doc.id,
 
-          serverList.push(server);
-        }
+          defaultChannel: doc.data()?.defaultChannel,
+        };
+
+        serverList.push(server);
       });
 
       dispatch(setServers(serverList));

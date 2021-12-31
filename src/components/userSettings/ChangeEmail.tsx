@@ -25,7 +25,7 @@ export default function ChangeUsername() {
 
     await changeEmail(newEmail, password);
 
-    dispatch(setChangeEmailOpen(false));
+    closeWindow();
   }
 
   return (

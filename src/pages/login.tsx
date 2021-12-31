@@ -15,39 +15,31 @@ export default function Register() {
 
   useEffect(() => {
     const authStateListener = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const docRef = doc(db, "users", user.uid);
-        const docSnap = await getDoc(docRef);
+      if (!user) return dispatch(resetUserState());
 
-        if (docSnap.exists()) {
-          const currentUser = {
-            username: docSnap.data().username,
+      const docRef = doc(db, "users", user.uid);
+      const docSnap = await getDoc(docRef);
 
-            tag: docSnap.data().tag,
+      if (!docSnap.exists()) return dispatch(resetUserState());
 
-            avatar: docSnap.data().avatar,
+      const currentUser = {
+        username: docSnap.data().username,
 
-            about: docSnap.data().about,
+        tag: docSnap.data().tag,
 
-            banner: docSnap.data().banner,
+        avatar: docSnap.data().avatar,
 
-            userID: user.uid,
+        about: docSnap.data().about,
 
-            email: docSnap.data().email,
-          };
+        banner: docSnap.data().banner,
 
-          dispatch(setUser(currentUser));
-          router.push("/channels/@me");
-        } else {
-          // doc.data() will be undefined in this case
+        userID: user.uid,
 
-          dispatch(resetUserState());
+        email: docSnap.data().email,
+      };
 
-          console.log("No such document!");
-        }
-      } else {
-        dispatch(resetUserState());
-      }
+      dispatch(setUser(currentUser));
+      router.push("/channels/@me");
     });
     return () => {
       authStateListener();

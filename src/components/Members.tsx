@@ -12,22 +12,22 @@ export default function Members() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (server.serverID) {
-      const q = query(collection(db, "servers", server.serverID, "members"));
+    if (!server.serverID) return;
 
-      const unsubscribe = onSnapshot(q, (querySnapshot) => {
-        const memberIDs: string[] = [];
+    const q = query(collection(db, "servers", server.serverID, "members"));
 
-        querySnapshot.forEach((doc) => {
-          memberIDs.push(doc.id);
-        });
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const memberIDs: string[] = [];
 
-        dispatch(setMemberIDs(memberIDs));
+      querySnapshot.forEach((doc) => {
+        memberIDs.push(doc.id);
       });
-      return () => {
-        unsubscribe();
-      };
-    }
+
+      dispatch(setMemberIDs(memberIDs));
+    });
+    return () => {
+      unsubscribe();
+    };
   }, [server]);
 
   useEffect(() => {
@@ -37,25 +37,25 @@ export default function Members() {
       const memberList: UserData[] = [];
 
       querySnapshot.forEach((doc) => {
-        if (memberIDs.includes(doc.id)) {
-          const member: UserData = {
-            username: doc.data().username,
+        if (!memberIDs.includes(doc.id)) return;
 
-            tag: doc.data().tag,
+        const member: UserData = {
+          username: doc.data().username,
 
-            avatar: doc.data().avatar,
+          tag: doc.data().tag,
 
-            about: doc.data().about,
+          avatar: doc.data().avatar,
 
-            banner: doc.data().banner,
+          about: doc.data().about,
 
-            userID: doc.id,
+          banner: doc.data().banner,
 
-            email: doc.data().email,
-          };
+          userID: doc.id,
 
-          memberList.push(member);
-        }
+          email: doc.data().email,
+        };
+
+        memberList.push(member);
       });
 
       dispatch(setMembers(memberList));

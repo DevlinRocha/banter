@@ -2,9 +2,7 @@ import tw from "tailwind-styled-components/dist/tailwind";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { getAuth, onAuthStateChanged } from "@firebase/auth";
-import { doc, getDoc } from "@firebase/firestore";
-import { db } from "../../firebase";
-import { setUser, resetUserState } from "../features/user";
+import { resetUserState } from "../features/user";
 import { useAppDispatch } from "../redux/hooks";
 import RegistrationForm from "../components/RegistrationForm";
 
@@ -14,12 +12,10 @@ export default function Register() {
   const router = useRouter();
 
   useEffect(() => {
-    const authStateListener = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        router.push("/channels/@me");
-      } else {
-        dispatch(resetUserState());
-      }
+    const authStateListener = onAuthStateChanged(auth, (user) => {
+      if (!user) return dispatch(resetUserState());
+
+      router.push("/channels/@me");
     });
     return () => {
       authStateListener();

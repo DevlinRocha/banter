@@ -18,15 +18,13 @@ export default function Message(props: MessageProps) {
   useEffect(() => {
     const userID = props.message.userID;
     const unsubscribe = onSnapshot(doc(db, "users", userID), (doc) => {
-      if (doc.exists()) {
-        const username = doc.data().username;
+      if (!doc.exists()) return;
 
-        const avatar = doc.data().avatar;
+      const username = doc.data().username;
+      const avatar = doc.data().avatar;
 
-        setUsername(username);
-
-        setAvatar(avatar);
-      }
+      setUsername(username);
+      setAvatar(avatar);
     });
     return () => {
       unsubscribe();

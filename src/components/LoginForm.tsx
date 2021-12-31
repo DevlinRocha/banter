@@ -15,13 +15,10 @@ export default function LoginForm() {
     let email = "";
     let password = "";
 
-    if (emailRef.current) {
-      email = emailRef.current.value;
-    }
+    if (!emailRef.current || !passwordRef.current) return;
 
-    if (passwordRef.current) {
-      password = passwordRef.current.value;
-    }
+    email = emailRef.current.value;
+    password = passwordRef.current.value;
 
     signIn(email, password);
   }

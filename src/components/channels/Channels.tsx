@@ -19,54 +19,57 @@ export default function Channels() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (server.serverID) {
-      const q = query(collection(db, "servers", server.serverID, "channels"));
+    if (!server.serverID) return;
 
-      const unsubscribe = onSnapshot(q, (querySnapshot) => {
-        const channelList: ChannelData[] = [];
+    const q = query(collection(db, "servers", server.serverID, "channels"));
 
-        querySnapshot.forEach((doc) => {
-          const channel: ChannelData = {
-            name: doc.data().name,
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const channelList: ChannelData[] = [];
 
-            topic: doc.data().topic,
+      querySnapshot.forEach((doc) => {
+        const channel: ChannelData = {
+          name: doc.data().name,
 
-            path: `/channels/${server.serverID}/${doc.id}/`,
+          topic: doc.data().topic,
 
-            channelID: doc.id,
-          };
+          path: `/channels/${server.serverID}/${doc.id}/`,
 
-          channelList.push(channel);
-        });
+          channelID: doc.id,
+        };
 
-        dispatch(setChannels(channelList));
+        channelList.push(channel);
       });
 
-      return () => {
-        unsubscribe();
-      };
-    }
+      dispatch(setChannels(channelList));
+    });
+
+    return () => {
+      unsubscribe();
+    };
   }, [server]);
 
   useEffect(() => {
-    if (server.serverID && server.defaultChannel) {
-      const unsubscribe = onSnapshot(
-        doc(db, "servers", server.serverID, "channels", server.defaultChannel),
-        (doc) => {
-          const channel: ChannelData = {
-            name: doc.data()?.name,
-            topic: doc.data()?.topic,
-            path: `${server.serverID}/${doc.id}/`,
-            channelID: doc.id,
-          };
-          dispatch(setChannel(channel));
-        }
-      );
+    if (!server.serverID || !server.defaultChannel) return;
 
-      return () => {
-        unsubscribe();
-      };
-    }
+    const unsubscribe = onSnapshot(
+      doc(db, "servers", server.serverID, "channels", server.defaultChannel),
+      (doc) => {
+        const channel: ChannelData = {
+          name: doc.data()?.name,
+
+          topic: doc.data()?.topic,
+
+          path: `${server.serverID}/${doc.id}/`,
+
+          channelID: doc.id,
+        };
+        dispatch(setChannel(channel));
+      }
+    );
+
+    return () => {
+      unsubscribe();
+    };
   }, [server]);
 
   function handleClick(channel: ChannelData) {
