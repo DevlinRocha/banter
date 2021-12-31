@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { FormEvent, useRef } from "react";
 import tw from "tailwind-styled-components/dist/tailwind";
 import { changeEmail } from "../../../firebase";
 import { setChangeEmailOpen } from "../../features/settings";
@@ -15,13 +15,15 @@ export default function ChangeUsername() {
     dispatch(setChangeEmailOpen(false));
   }
 
-  function handleSubmit() {
-    if (emailRef.current && passwordRef.current) {
-      const newEmail = emailRef.current.value;
-      const password = passwordRef.current.value;
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault();
 
-      changeEmail(newEmail, password);
-    }
+    if (!emailRef.current || !passwordRef.current) return;
+
+    const newEmail = emailRef.current.value;
+    const password = passwordRef.current.value;
+
+    await changeEmail(newEmail, password);
 
     dispatch(setChangeEmailOpen(false));
   }

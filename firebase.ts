@@ -7,6 +7,9 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
   updateEmail,
+  AuthCredential,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
 } from "firebase/auth";
 
 // import { getAnalytics } from "firebase/analytics";
@@ -117,65 +120,48 @@ export async function changeUsername(newUsername: string) {
 
     await updateProfile(user, {
       displayName: newUsername,
-    })
-      .then(async () => {
-        // Profile updated!
+    });
+    // Profile updated!
 
-        await setDoc(
-          doc(db, "users", user.uid),
+    await setDoc(
+      doc(db, "users", user.uid),
 
-          {
-            username: user.displayName,
-          },
+      {
+        username: user.displayName,
+      },
 
-          { merge: true }
-        );
-      })
-      .catch((error) => {
-        // An error occurred
-        console.error(error);
-      });
+      { merge: true }
+    );
   }
 }
 
 export async function changeEmail(newEmail: string, password: string) {
-  if (auth.currentUser) {
-    const user = auth.currentUser;
+  if (!auth.currentUser || !auth.currentUser.email) return;
 
-    await signInWithEmailAndPassword(auth, user.email || "", password)
-      .then(async () => {
-        // User re-authenticated
+  try {
+    const credential: AuthCredential = EmailAuthProvider.credential(
+      auth.currentUser.email,
+      password
+    );
 
-        await updateEmail(user, newEmail)
-          .then(async () => {
-            // Email updated
+    await reauthenticateWithCredential(auth.currentUser, credential);
+    // User re-authenticated
 
-            await setDoc(
-              doc(db, "users", user.uid),
+    await updateEmail(auth.currentUser, newEmail);
+    // Email updated
 
-              {
-                email: user.email,
-              },
+    await setDoc(
+      doc(db, "users", auth.currentUser.uid),
 
-              { merge: true }
-            );
-          })
-          .then(
-            async () =>
-              await signInWithEmailAndPassword(auth, newEmail, password)
-          )
+      {
+        email: auth.currentUser.email,
+      },
 
-          .catch((error) => {
-            // An error occurred
-
-            console.error(error);
-          });
-      })
-      .catch((error) => {
-        // An error occurred
-
-        console.error(error);
-      });
+      { merge: true }
+    );
+    // Database updated
+  } catch (error) {
+    console.error(error);
   }
 }
 
