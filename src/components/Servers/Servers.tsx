@@ -17,6 +17,8 @@ import banterIcon from "../../../assets/banterIcon.svg";
 import DefaultServerIcon from "./DefaultServerIcon";
 import { useUserState } from "../../features/user";
 import { useRouter } from "next/router";
+import AddServerIcon from "./AddServerIcon";
+import { setaddServerOpen } from "../../features/addServer";
 
 export default function Servers() {
   const { servers, serverIDs } = useServersState();
@@ -80,6 +82,10 @@ export default function Servers() {
     dispatch(setServer(server));
   }
 
+  function addServer() {
+    dispatch(setaddServerOpen(true));
+  }
+
   return (
     <Nav>
       <Sidebar>
@@ -116,6 +122,8 @@ export default function Servers() {
             </Link>
           );
         })}
+
+        <AddServerIconContainer onClick={addServer} />
       </Sidebar>
     </Nav>
   );
@@ -136,7 +144,7 @@ const Nav = tw.nav`
 `;
 
 const Sidebar = tw.ol`
-  flex flex-col bg-gray-200 pt-3 w-18 h-full items-center
+  flex flex-col bg-gray-200 pt-3 w-18 h-full items-center overflow-x-hidden overflow-y-auto
 `;
 
 const BanterIcon = tw.figure`
@@ -173,6 +181,11 @@ const ServerIcon = tw(DefaultServerIcon)<ServerIconProps>`
     props.path.includes(props.server.serverID)
       ? "rounded-xl fill-primary"
       : "rounded-3xl fill-white"}
+`;
+
+const AddServerIconContainer = tw(AddServerIcon)`
+  transition-all ease-linear rounded-3xl fill-white cursor-pointer group
+  hover:rounded-xl hover:fill-active
 `;
 
 const Separator = tw.div`

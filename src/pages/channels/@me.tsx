@@ -13,12 +13,15 @@ import { useServersState } from "../../features/servers";
 import { useSettingsState } from "../../features/settings";
 import { db } from "../../../firebase";
 import { useRouter } from "next/router";
+import { useAddServerState } from "../../features/addServer";
+import AddServer from "../../components/AddServer";
 
 const Home: NextPage = () => {
   const auth = getAuth();
   const { user } = useUserState();
   const { channel } = useServersState();
   const { userSettingsOpen } = useSettingsState();
+  const { addServerOpen } = useAddServerState();
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -91,20 +94,19 @@ const Home: NextPage = () => {
   }
 
   return (
-    <Container>
+    <PageContainer>
       <Head>
         <title>{channel.name ? channel.name : "Banter"}</title>
       </Head>
 
-      {userSettingsOpen ? (
-        <UserSettings />
-      ) : (
-        <Container>
-          <Servers />
-          <Channels />
-        </Container>
-      )}
-    </Container>
+      {userSettingsOpen ? <UserSettings /> : null}
+
+      {addServerOpen ? <AddServer /> : null}
+
+      <Servers />
+
+      <Channels />
+    </PageContainer>
   );
 };
 
@@ -124,8 +126,8 @@ export async function getServerSideProps() {
   };
 }
 
-const Container = tw.div`
-  flex w-screen h-screen
+const PageContainer = tw.div`
+  flex w-screen h-screen overflow-hidden
 `;
 
 export default Home;

@@ -16,12 +16,15 @@ import { db } from "../../../../firebase";
 import { useRouter } from "next/router";
 import Members from "../../../components/Members";
 import Title from "../../../components/Title";
+import { useAddServerState } from "../../../features/addServer";
+import AddServer from "../../../components/AddServer";
 
 const Home: NextPage = () => {
   const auth = getAuth();
   const { user } = useUserState();
   const { channel } = useServersState();
   const { userSettingsOpen } = useSettingsState();
+  const { addServerOpen } = useAddServerState();
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -99,27 +102,25 @@ const Home: NextPage = () => {
         <title>{channel.name ? channel.name : "Banter"}</title>
       </Head>
 
-      {userSettingsOpen ? (
-        <UserSettings />
-      ) : (
-        <>
-          <Servers />
+      {userSettingsOpen ? <UserSettings /> : null}
 
-          <Container>
-            <Channels />
+      {addServerOpen ? <AddServer /> : null}
 
-            <ChatContainer>
-              <Title />
+      <Servers />
 
-              <ContentContainer>
-                <Chat />
+      <Container>
+        <Channels />
 
-                <Members />
-              </ContentContainer>
-            </ChatContainer>
-          </Container>
-        </>
-      )}
+        <ChatContainer>
+          <Title />
+
+          <ContentContainer>
+            <Chat />
+
+            <Members />
+          </ContentContainer>
+        </ChatContainer>
+      </Container>
     </PageContainer>
   );
 };
@@ -141,7 +142,7 @@ export async function getServerSideProps() {
 }
 
 const PageContainer = tw.div`
-  flex w-screen h-screen
+  flex w-screen h-screen overflow-hidden
 `;
 
 const Container = tw.div`

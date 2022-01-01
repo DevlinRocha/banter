@@ -13,6 +13,8 @@ module.exports = {
 
       colors: {
         primary: "#7CC6FE",
+
+        active: "#3BA55D",
       },
 
       spacing: {
