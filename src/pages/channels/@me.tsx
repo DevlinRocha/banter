@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import type { NextPage } from "next";
+import Head from "next/head";
 import Servers from "../../components/Servers/Servers";
 import Channels from "../../components/channels/Channels";
 import UserSettings from "../../components/userSettings/UserSettings";
@@ -8,6 +9,7 @@ import { setUser, resetUserState, useUserState } from "../../features/user";
 import { useAppDispatch } from "../../redux/hooks";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
+import { useServersState } from "../../features/servers";
 import { useSettingsState } from "../../features/settings";
 import { db } from "../../../firebase";
 import { useRouter } from "next/router";
@@ -15,6 +17,7 @@ import { useRouter } from "next/router";
 const Home: NextPage = () => {
   const auth = getAuth();
   const { user } = useUserState();
+  const { channel } = useServersState();
   const { userSettingsOpen } = useSettingsState();
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -89,6 +92,10 @@ const Home: NextPage = () => {
 
   return (
     <Container>
+      <Head>
+        <title>{channel.name ? channel.name : "Banter"}</title>
+      </Head>
+
       {userSettingsOpen ? (
         <UserSettings />
       ) : (
