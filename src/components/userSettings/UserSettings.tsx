@@ -20,23 +20,11 @@ export default function UserSettings() {
 
   return (
     <Container>
-      {logoutConfirmOpen ? (
-        <LogoutContainer logoutConfirmOpen={logoutConfirmOpen}>
-          <LogoutConfirm />
-        </LogoutContainer>
-      ) : null}
+      {logoutConfirmOpen ? <LogoutConfirm /> : null}
 
-      {changeUsernameOpen ? (
-        <ChangeUsernameContainer changeUsernameOpen={changeUsernameOpen}>
-          <ChangeUsername />
-        </ChangeUsernameContainer>
-      ) : null}
+      {changeUsernameOpen ? <ChangeUsername /> : null}
 
-      {changeEmailOpen ? (
-        <ChangeEmailContainer changeEmailOpen={changeEmailOpen}>
-          <ChangeEmail />
-        </ChangeEmailContainer>
-      ) : null}
+      {changeEmailOpen ? <ChangeEmail /> : null}
 
       <SettingsSidebar />
 
@@ -59,45 +47,12 @@ export default function UserSettings() {
   );
 }
 
-type LogoutContainerProps = {
-  logoutConfirmOpen: boolean;
-};
-
-type ChangeUsernameContainerProps = {
-  changeUsernameOpen: boolean;
-};
-
-type ChangeEmailContainerProps = {
-  changeEmailOpen: boolean;
-};
-
 const Container = tw.div`
-  flex w-full h-full
+  flex w-screen h-screen
 `;
 
 const SettingsContainer = tw(Container)`
   justify-around
-`;
-
-const LogoutContainer = tw(Container)<LogoutContainerProps>`
-  ${(props) =>
-    props.logoutConfirmOpen
-      ? "fixed w-full h-full bg-black bg-opacity-[0.85] z-10"
-      : null}
-`;
-
-const ChangeUsernameContainer = tw(Container)<ChangeUsernameContainerProps>`
-  ${(props) =>
-    props.changeUsernameOpen
-      ? "fixed w-full h-full bg-black bg-opacity-[0.85] z-10"
-      : null}
-`;
-
-const ChangeEmailContainer = tw(Container)<ChangeEmailContainerProps>`
-  ${(props) =>
-    props.changeEmailOpen
-      ? "fixed w-full h-full bg-black bg-opacity-[0.85] z-10"
-      : null}
 `;
 
 const CloseButton = tw.figure`

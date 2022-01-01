@@ -31,61 +31,67 @@ export default function ChangeUsername() {
   }
 
   return (
-    <Container>
-      <HeadingContainer>
-        <Heading>Change your username</Heading>
+    <Backdrop>
+      <Container>
+        <HeadingContainer>
+          <Heading>Change your username</Heading>
 
-        <Body>Enter a new username and your existing password.</Body>
+          <Body>Enter a new username and your existing password.</Body>
 
-        <CloseIcon onClick={closeWindow}>
-          <StyledImage
-            src={closeIcon}
-            width={24}
-            height={24}
-            alt="Close button"
-          />
-        </CloseIcon>
-      </HeadingContainer>
+          <CloseIcon onClick={closeWindow}>
+            <StyledImage
+              src={closeIcon}
+              width={24}
+              height={24}
+              alt="Close button"
+            />
+          </CloseIcon>
+        </HeadingContainer>
 
-      <FormContainer onSubmit={handleSubmit}>
-        <ChangeUsernameForm>
-          <FieldContainer>
-            <FieldHeading>USERNAME</FieldHeading>
+        <FormContainer onSubmit={handleSubmit}>
+          <ChangeUsernameForm>
+            <FieldContainer>
+              <FieldHeading>USERNAME</FieldHeading>
 
-            <UsernameContainer>
-              <FieldInput
-                ref={usernameRef}
-                type="text"
-                placeholder={user.username}
-                minLength={2}
-                maxLength={32}
-                required
-              />
+              <UsernameContainer>
+                <FieldInput
+                  ref={usernameRef}
+                  type="text"
+                  placeholder={user.username}
+                  minLength={2}
+                  maxLength={32}
+                  required
+                />
 
-              <Separator />
+                <Separator />
 
-              <TagInput type="text" value={`#${user.tag}`} disabled />
-            </UsernameContainer>
-          </FieldContainer>
+                <TagInput type="text" value={`#${user.tag}`} disabled />
+              </UsernameContainer>
+            </FieldContainer>
 
-          <PasswordContainer>
-            <FieldHeading>CURRENT PASSWORD</FieldHeading>
+            <PasswordContainer>
+              <FieldHeading>CURRENT PASSWORD</FieldHeading>
 
-            <PasswordInput ref={passwordRef} type="password" required />
-          </PasswordContainer>
-        </ChangeUsernameForm>
+              <PasswordInput ref={passwordRef} type="password" required />
+            </PasswordContainer>
+          </ChangeUsernameForm>
 
-        <ButtonContainer>
-          <CancelButton type="button" onClick={closeWindow}>
-            Cancel
-          </CancelButton>
+          <ButtonContainer>
+            <CancelButton type="button" onClick={closeWindow}>
+              Cancel
+            </CancelButton>
 
-          <DoneButton type="submit">Done</DoneButton>
-        </ButtonContainer>
-      </FormContainer>
-    </Container>
+            <DoneButton type="submit">Done</DoneButton>
+          </ButtonContainer>
+        </FormContainer>
+      </Container>
+    </Backdrop>
   );
 }
+
+const Backdrop = tw.div`
+  fixed w-full h-full bg-black bg-opacity-[0.85] z-10
+`;
 
 const Container = tw.div`
   fixed flex flex-col top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-110 bg-white rounded-md

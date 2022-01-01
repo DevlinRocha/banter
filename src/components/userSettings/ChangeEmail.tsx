@@ -29,48 +29,54 @@ export default function ChangeUsername() {
   }
 
   return (
-    <Container>
-      <HeadingContainer>
-        <Heading>Enter an email address</Heading>
+    <Backdrop>
+      <Container>
+        <HeadingContainer>
+          <Heading>Enter an email address</Heading>
 
-        <Body>Enter a new email address and your existing password.</Body>
+          <Body>Enter a new email address and your existing password.</Body>
 
-        <CloseIcon onClick={closeWindow}>
-          <StyledImage
-            src={closeIcon}
-            width={24}
-            height={24}
-            alt="Close button"
-          />
-        </CloseIcon>
-      </HeadingContainer>
+          <CloseIcon onClick={closeWindow}>
+            <StyledImage
+              src={closeIcon}
+              width={24}
+              height={24}
+              alt="Close button"
+            />
+          </CloseIcon>
+        </HeadingContainer>
 
-      <FormContainer onSubmit={handleSubmit}>
-        <ChangeEmailForm>
-          <FieldContainer>
-            <FieldHeading>EMAIL</FieldHeading>
+        <FormContainer onSubmit={handleSubmit}>
+          <ChangeEmailForm>
+            <FieldContainer>
+              <FieldHeading>EMAIL</FieldHeading>
 
-            <FieldInput ref={emailRef} type="email" required />
-          </FieldContainer>
+              <FieldInput ref={emailRef} type="email" required />
+            </FieldContainer>
 
-          <PasswordContainer>
-            <FieldHeading>CURRENT PASSWORD</FieldHeading>
+            <PasswordContainer>
+              <FieldHeading>CURRENT PASSWORD</FieldHeading>
 
-            <FieldInput ref={passwordRef} type="password" required />
-          </PasswordContainer>
-        </ChangeEmailForm>
+              <FieldInput ref={passwordRef} type="password" required />
+            </PasswordContainer>
+          </ChangeEmailForm>
 
-        <ButtonContainer>
-          <CancelButton type="button" onClick={closeWindow}>
-            Cancel
-          </CancelButton>
+          <ButtonContainer>
+            <CancelButton type="button" onClick={closeWindow}>
+              Cancel
+            </CancelButton>
 
-          <DoneButton type="submit">Done</DoneButton>
-        </ButtonContainer>
-      </FormContainer>
-    </Container>
+            <DoneButton type="submit">Done</DoneButton>
+          </ButtonContainer>
+        </FormContainer>
+      </Container>
+    </Backdrop>
   );
 }
+
+const Backdrop = tw.div`
+  fixed w-full h-full bg-black bg-opacity-[0.85] z-10
+`;
 
 const Container = tw.div`
   fixed flex flex-col top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-110 bg-white rounded-md
