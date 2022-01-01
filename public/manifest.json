@@ -1,0 +1,15 @@
+{
+  "name": "Banter - a Discord clone",
+  "short_name": "Banter",
+  "icons": [
+    {
+      "src": "./favicon.svg",
+      "sizes": "512x512"
+    }
+  ],
+  "theme_color": "#FFFFFF",
+  "background_color": "#FFFFFF",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "landscape"
+}

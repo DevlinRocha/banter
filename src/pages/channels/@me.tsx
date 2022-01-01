@@ -97,6 +97,8 @@ const Home: NextPage = () => {
     <PageContainer>
       <Head>
         <title>{channel.name ? channel.name : "Banter"}</title>
+
+        <link rel="manifest" href="/manifest.json" />
       </Head>
 
       {userSettingsOpen ? <UserSettings /> : null}
