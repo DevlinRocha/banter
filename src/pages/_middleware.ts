@@ -8,6 +8,10 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
     return NextResponse.redirect("/login");
   }
 
+  if (pathname === "/channels") {
+    return NextResponse.redirect("/login");
+  }
+
   if (pathname === "/app") {
     return NextResponse.redirect("/channels/@me");
   }

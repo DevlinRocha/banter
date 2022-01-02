@@ -5,7 +5,10 @@ export default function Document() {
     <Html>
       <Head>
         <title>Banter</title>
+
         <meta name="description" content="Banter is a Discord clone" />
+
+        <link rel="manifest" href="/manifest.json" />
       </Head>
       <body>
         <Main />
