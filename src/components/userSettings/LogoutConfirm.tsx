@@ -19,9 +19,13 @@ export default function LogoutConfirm() {
     dispatch(setUserSettingsOpen(false));
   }
 
+  function stopPropagation(e: React.MouseEvent<HTMLDivElement>) {
+    e.stopPropagation();
+  }
+
   return (
-    <Backdrop>
-      <Container>
+    <Backdrop onClick={closeWindow}>
+      <Container onClick={stopPropagation}>
         <Heading>Log Out</Heading>
 
         <Body>Are you sure you want to log out?</Body>
@@ -38,7 +42,7 @@ const Backdrop = tw.div`
   fixed w-full h-full bg-black bg-opacity-[0.85] z-10`;
 
 const Container = tw.div`
-  fixed flex flex-col top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-110 h-50 bg-white rounded-md
+  fixed flex flex-col top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-110 h-50 bg-white rounded-md z-20
 `;
 
 const Heading = tw.h2`

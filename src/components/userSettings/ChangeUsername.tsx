@@ -1,4 +1,4 @@
-import { FormEvent, useRef } from "react";
+import { useRef } from "react";
 import tw from "tailwind-styled-components/dist/tailwind";
 import { changeUsername } from "../../../firebase";
 import { setChangeUsernameOpen } from "../../features/settings";
@@ -17,7 +17,7 @@ export default function ChangeUsername() {
     dispatch(setChangeUsernameOpen(false));
   }
 
-  function handleSubmit(e: FormEvent) {
+  function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     if (!usernameRef.current || !passwordRef.current) return;
@@ -30,9 +30,13 @@ export default function ChangeUsername() {
     closeWindow();
   }
 
+  function stopPropagation(e: React.MouseEvent<HTMLDivElement>) {
+    e.stopPropagation();
+  }
+
   return (
-    <Backdrop>
-      <Container>
+    <Backdrop onClick={closeWindow}>
+      <Container onClick={stopPropagation}>
         <HeadingContainer>
           <Heading>Change your username</Heading>
 

@@ -1,4 +1,4 @@
-import { FormEvent, useRef } from "react";
+import { useRef } from "react";
 import tw from "tailwind-styled-components/dist/tailwind";
 import { changeEmail } from "../../../firebase";
 import { setChangeEmailOpen } from "../../features/settings";
@@ -15,7 +15,7 @@ export default function ChangeUsername() {
     dispatch(setChangeEmailOpen(false));
   }
 
-  async function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     if (!emailRef.current || !passwordRef.current) return;
@@ -28,9 +28,13 @@ export default function ChangeUsername() {
     closeWindow();
   }
 
+  function stopPropagation(e: React.MouseEvent<HTMLDivElement>) {
+    e.stopPropagation();
+  }
+
   return (
-    <Backdrop>
-      <Container>
+    <Backdrop onClick={closeWindow}>
+      <Container onClick={stopPropagation}>
         <HeadingContainer>
           <Heading>Enter an email address</Heading>
 
