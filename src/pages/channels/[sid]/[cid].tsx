@@ -23,7 +23,7 @@ const Home: NextPage = () => {
   const auth = getAuth();
   const { user } = useUserState();
   const { channel } = useServersState();
-  const { userSettingsOpen } = useSettingsState();
+  const { userSettingsOpen, memberListOpen } = useSettingsState();
   const { addServerOpen } = useAddServerState();
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -119,7 +119,7 @@ const Home: NextPage = () => {
           <ContentContainer>
             <Chat />
 
-            <Members />
+            {memberListOpen ? <Members /> : null}
           </ContentContainer>
         </ChatContainer>
       </Container>

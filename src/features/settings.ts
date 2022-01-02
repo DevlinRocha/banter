@@ -7,6 +7,7 @@ export interface SettingsState {
   logoutConfirmOpen: boolean;
   changeUsernameOpen: boolean;
   changeEmailOpen: boolean;
+  memberListOpen: boolean;
   loading: "idle" | "pending" | "succeeded" | "failed";
 }
 
@@ -16,6 +17,7 @@ const initialState: SettingsState = {
   logoutConfirmOpen: false,
   changeUsernameOpen: false,
   changeEmailOpen: false,
+  memberListOpen: true,
   loading: "idle",
 };
 
@@ -43,6 +45,10 @@ export const settingsSlice = createSlice({
     setChangeEmailOpen(state, action) {
       state.changeEmailOpen = action.payload;
     },
+
+    setMemberListOpen(state, action) {
+      state.memberListOpen = action.payload;
+    },
   },
 });
 
@@ -52,6 +58,7 @@ export const {
   setLogoutConfirmOpen,
   setChangeUsernameOpen,
   setChangeEmailOpen,
+  setMemberListOpen,
 } = settingsSlice.actions;
 
 export const useSettingsState = () => useAppSelector((state) => state.settings);

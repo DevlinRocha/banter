@@ -1,32 +1,57 @@
+import Image from "next/image";
 import tw from "tailwind-styled-components";
 import { useServersState } from "../features/servers";
+import memberListIcon from "../../assets/memberListIcon.svg";
+import { setMemberListOpen, useSettingsState } from "../features/settings";
+import { useAppDispatch } from "../redux/hooks";
 
 export default function Title() {
   const { channel } = useServersState();
+  const { memberListOpen } = useSettingsState();
+  const dispatch = useAppDispatch();
+
+  function toggleMembersList() {
+    dispatch(setMemberListOpen(!memberListOpen));
+  }
 
   return (
     <Container>
       <Hamburger />
 
-      <Heading># {channel.name}</Heading>
+      <HeadingContainer>
+        <Heading># {channel.name}</Heading>
 
-      {channel.topic ? (
-        <>
-          <Divider />
+        {channel.topic ? (
+          <>
+            <Divider />
 
-          <Topic>{channel.topic}</Topic>
-        </>
-      ) : null}
+            <Topic>{channel.topic}</Topic>
+          </>
+        ) : null}
+      </HeadingContainer>
+
+      <Toolbar>
+        <StyledImage
+          onClick={toggleMembersList}
+          src={memberListIcon}
+          width={24}
+          height={24}
+        />
+      </Toolbar>
     </Container>
   );
 }
 
 const Container = tw.section`
-  flex flex-none h-12 px-2 items-center bg-white z-10 border-b border-gray-300
+  flex flex-none h-12 px-2 items-center justify-between bg-white z-10 border-b border-gray-300
 `;
 
 const Hamburger = tw.div`
   lg:hidden
+`;
+
+const HeadingContainer = tw.div`
+  flex items-center
 `;
 
 const Heading = tw.h3`
@@ -39,4 +64,12 @@ const Divider = tw.div`
 
 const Topic = tw.span`
   p-2 text-xs
+`;
+
+const Toolbar = tw.div`
+  mx-2
+`;
+
+const StyledImage = tw(Image)`
+  cursor-pointer
 `;
