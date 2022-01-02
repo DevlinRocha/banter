@@ -38,12 +38,18 @@ export default function AddServer() {
         </HeadingContainer>
 
         <ButtonContainer>
-          <Button>
-            <AddServerIconContainer width={48} height={48} />
+          <CreateServerButton>
+            <CreateServerIcon width={48} height={48} />
 
-            <Span>Create My Own</Span>
-          </Button>
+            <ButtonText>Create My Own</ButtonText>
+          </CreateServerButton>
         </ButtonContainer>
+
+        <JoinServerContainer>
+          <JoinServerHeading>Have an invite already?</JoinServerHeading>
+
+          <JoinServerButton>Join a Server</JoinServerButton>
+        </JoinServerContainer>
       </Container>
     </Backdrop>
   );
@@ -80,16 +86,28 @@ const ButtonContainer = tw.div`
   mt-6 p-2 pl-4
 `;
 
-const Button = tw.button`
+const CreateServerButton = tw.button`
   w-full flex items-center border rounded-lg group
   hover:bg-gray-500/[0.08]
 `;
 
-const AddServerIconContainer = tw(AddServerIcon)`
+const CreateServerIcon = tw(AddServerIcon)`
   m-2 ml-4 rounded-3xl border border-active fill-white
   group-hover:fill-gray-500/[0.08]
 `;
 
-const Span = tw.span`
+const ButtonText = tw.span`
   font-bold
+`;
+
+const JoinServerContainer = tw.div`
+  flex flex-col items-center p-4 bg-gray-50
+`;
+
+const JoinServerHeading = tw.h3`
+  mb-2 text-xl font-semibold
+`;
+
+const JoinServerButton = tw.button`
+  w-full h-9.5 px-4 py-0.5 bg-gray-500 text-sm text-white font-medium rounded-middle
 `;

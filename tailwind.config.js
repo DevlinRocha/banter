@@ -1,3 +1,5 @@
+const defaultTheme = require("tailwindcss/defaultTheme");
+
 module.exports = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx}",
@@ -17,10 +19,16 @@ module.exports = {
         active: "#3BA55D",
       },
 
+      fontFamily: {
+        sans: ["PT Sans", ...defaultTheme.fontFamily.sans],
+      },
+
       spacing: {
         1.25: "0.3125rem",
 
         7.5: "1.875rem",
+
+        9.5: "2.375rem",
 
         15: "3.75rem",
 
