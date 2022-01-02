@@ -3,6 +3,7 @@ import tw from "tailwind-styled-components/dist/tailwind";
 import { setaddServerOpen } from "../features/addServer";
 import { useAppDispatch } from "../redux/hooks";
 import closeIcon from "../../assets/closeIcon.svg";
+import AddServerIcon from "./Servers/AddServerIcon";
 
 export default function AddServer() {
   const dispatch = useAppDispatch();
@@ -11,9 +12,13 @@ export default function AddServer() {
     dispatch(setaddServerOpen(false));
   }
 
+  function stopPropagation(e: React.MouseEvent<HTMLDivElement>) {
+    e.stopPropagation();
+  }
+
   return (
-    <Backdrop>
-      <Container>
+    <Backdrop onClick={closeWindow}>
+      <Container onClick={stopPropagation}>
         <HeadingContainer>
           <Heading>Create a server</Heading>
 
@@ -31,6 +36,14 @@ export default function AddServer() {
             />
           </CloseIcon>
         </HeadingContainer>
+
+        <ButtonContainer>
+          <Button>
+            <AddServerIconContainer width={48} height={48} />
+
+            <Span>Create My Own</Span>
+          </Button>
+        </ButtonContainer>
       </Container>
     </Backdrop>
   );
@@ -41,7 +54,7 @@ const Backdrop = tw.div`
 `;
 
 const Container = tw.div`
-  fixed flex flex-col top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-110 h-50 bg-white rounded-md
+  fixed flex flex-col top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-110 bg-white rounded-md
 `;
 
 const HeadingContainer = tw.div`
@@ -61,4 +74,22 @@ const CloseIcon = tw.button`
 `;
 
 const StyledImage = tw(Image)`
+`;
+
+const ButtonContainer = tw.div`
+  mt-6 p-2 pl-4
+`;
+
+const Button = tw.button`
+  w-full flex items-center border rounded-lg group
+  hover:bg-gray-500/[0.08]
+`;
+
+const AddServerIconContainer = tw(AddServerIcon)`
+  m-2 ml-4 rounded-3xl border border-active fill-white
+  group-hover:fill-gray-500/[0.08]
+`;
+
+const Span = tw.span`
+  font-bold
 `;
