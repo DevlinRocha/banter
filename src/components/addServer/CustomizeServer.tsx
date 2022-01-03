@@ -29,7 +29,7 @@ export default function CustomizeServer() {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    if (!inputRef.current) return;
+    if (!inputRef.current || isInputEmpty) return;
 
     createServer(inputRef.current.value);
 
