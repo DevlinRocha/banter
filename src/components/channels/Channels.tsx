@@ -113,9 +113,8 @@ const Container = tw.nav`
 `;
 
 const ChannelListContainer = tw.div`
-  hidden flex-1 overflow-hidden
+  flex-1 overflow-hidden
   hover:overflow-y-auto
-  lg:block
 `;
 
 const Header = tw.header`

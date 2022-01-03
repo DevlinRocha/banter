@@ -19,8 +19,6 @@ export default function Title() {
 
   return (
     <Container>
-      <Hamburger />
-
       <HeadingContainer>
         <Heading># {channel.name}</Heading>
 
@@ -47,10 +45,6 @@ export default function Title() {
 
 const Container = tw.section`
   flex flex-none h-12 px-2 items-center justify-between bg-white z-10 border-b border-gray-300
-`;
-
-const Hamburger = tw.div`
-  lg:hidden
 `;
 
 const HeadingContainer = tw.div`

@@ -139,8 +139,7 @@ type BanterProps = {
 };
 
 const Nav = tw.nav`
-  hidden w-18 h-full
-  lg:block
+  w-18 h-full
 `;
 
 const Sidebar = tw.ol`
