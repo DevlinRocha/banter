@@ -97,7 +97,7 @@ const ButtonContainer = tw.div`
 `;
 
 const CreateServerButton = tw.button`
-  w-full flex items-center border rounded-lg group
+  flex w-full items-center border rounded-lg group
   hover:bg-gray-500/[0.08]
 `;
 
