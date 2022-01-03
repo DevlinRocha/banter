@@ -1,19 +1,27 @@
 import Image from "next/image";
 import tw from "tailwind-styled-components/dist/tailwind";
-import { setaddServerOpen } from "../features/addServer";
-import { useAppDispatch } from "../redux/hooks";
-import closeIcon from "../../assets/closeIcon.svg";
-import AddServerIcon from "./Servers/AddServerIcon";
+import { setAddServerOpen, setAddServerWindow } from "../../features/addServer";
+import { useAppDispatch } from "../../redux/hooks";
+import closeIcon from "../../../assets/closeIcon.svg";
+import AddServerIcon from "../Servers/AddServerIcon";
 
-export default function AddServer() {
+export default function CreateServer() {
   const dispatch = useAppDispatch();
 
   function closeWindow() {
-    dispatch(setaddServerOpen(false));
+    dispatch(setAddServerOpen(false));
   }
 
   function stopPropagation(e: React.MouseEvent<HTMLDivElement>) {
     e.stopPropagation();
+  }
+
+  function openAboutWindow() {
+    dispatch(setAddServerWindow("About Server"));
+  }
+
+  function openJoinWindow() {
+    dispatch(setAddServerWindow("Join Server"));
   }
 
   return (
@@ -38,7 +46,7 @@ export default function AddServer() {
         </HeadingContainer>
 
         <ButtonContainer>
-          <CreateServerButton>
+          <CreateServerButton onClick={openAboutWindow}>
             <CreateServerIcon width={48} height={48} />
 
             <ButtonText>Create My Own</ButtonText>
@@ -48,7 +56,9 @@ export default function AddServer() {
         <JoinServerContainer>
           <JoinServerHeading>Have an invite already?</JoinServerHeading>
 
-          <JoinServerButton>Join a Server</JoinServerButton>
+          <JoinServerButton onClick={openJoinWindow}>
+            Join a Server
+          </JoinServerButton>
         </JoinServerContainer>
       </Container>
     </Backdrop>
@@ -105,7 +115,7 @@ const JoinServerContainer = tw.div`
 `;
 
 const JoinServerHeading = tw.h3`
-  mb-2 text-xl font-semibold
+  mb-2 text-xl font-semibold leading-6
 `;
 
 const JoinServerButton = tw.button`
