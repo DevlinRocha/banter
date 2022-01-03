@@ -1,5 +1,12 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  addDoc,
+  collection,
+  updateDoc,
+} from "firebase/firestore";
 import {
   getAuth,
   signOut,
@@ -64,7 +71,7 @@ export async function createAccount(
     });
     // Database updated
 
-    await joinServer("ke6NqegIvJEOa9cLzUEp", user.uid);
+    await joinServer("ke6NqegIvJEOa9cLzUEp");
     // User joins global chat
   } catch (error) {
     console.error(error);
@@ -76,14 +83,12 @@ async function updateUserDatabase(property: string, newValue: string) {
 
   const user = auth.currentUser;
 
-  await setDoc(
+  await updateDoc(
     doc(db, "users", user.uid),
 
     {
       [property]: newValue,
-    },
-
-    { merge: true }
+    }
   );
 }
 
@@ -125,10 +130,43 @@ export async function logOut() {
   }
 }
 
-export async function joinServer(serverID: string, userID: string) {
-  await setDoc(doc(db, "servers", serverID, "members", userID), {});
+export async function createServer(name: string) {
+  const serverDocRef = await addDoc(collection(db, "servers"), {
+    name: name,
 
-  await setDoc(doc(db, "users", userID, "servers", serverID), {});
+    img: "",
+
+    defaultChannel: "",
+
+    isPublic: false,
+  });
+
+  const channelDocRef = await addDoc(
+    collection(db, "servers", serverDocRef.id, "channels"),
+    {
+      name: "general",
+    }
+  );
+
+  await updateDefaultChannel(serverDocRef, channelDocRef);
+
+  await joinServer(serverDocRef.id);
+}
+
+export async function updateDefaultChannel(server: any, channel: any) {
+  await updateDoc(server, {
+    defaultChannel: channel.id,
+  });
+}
+
+export async function joinServer(serverID: string) {
+  if (!auth.currentUser) return;
+
+  const user = auth.currentUser.uid;
+
+  await setDoc(doc(db, "servers", serverID, "members", user), {});
+
+  await setDoc(doc(db, "users", user, "servers", serverID), {});
 }
 
 export async function changeUsername(newUsername: string, password: string) {
