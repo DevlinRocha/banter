@@ -148,7 +148,7 @@ const FieldInput = tw.input`
 `;
 
 const TagInput = tw(FieldInput)`
-  w-25 pl-5
+  w-25 pl-5 cursor-not-allowed
 `;
 
 const PasswordInput = tw(FieldInput)`
