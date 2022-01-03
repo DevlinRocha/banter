@@ -1,5 +1,8 @@
 import tw from "tailwind-styled-components/dist/tailwind";
-import { setUserSettingsOpen, useSettingsState } from "../../features/settings";
+import {
+  setUserSettingsOpen,
+  useUserSettingsState,
+} from "../../features/userSettings";
 import SettingsSidebar from "./SettingsSidebar";
 import SettingsView from "./SettingsView";
 import LogoutConfirm from "./LogoutConfirm";
@@ -15,7 +18,7 @@ export default function UserSettings() {
     logoutConfirmOpen,
     changeUsernameOpen,
     changeEmailOpen,
-  } = useSettingsState();
+  } = useUserSettingsState();
   const dispatch = useAppDispatch();
 
   return (

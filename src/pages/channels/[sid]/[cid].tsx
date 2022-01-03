@@ -11,19 +11,19 @@ import { useAppDispatch } from "../../../redux/hooks";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { useServersState } from "../../../features/servers";
-import { useSettingsState } from "../../../features/settings";
+import { useUserSettingsState } from "../../../features/userSettings";
 import { db } from "../../../../firebase";
 import { useRouter } from "next/router";
 import Members from "../../../components/Members";
 import Title from "../../../components/Title";
 import { useAddServerState } from "../../../features/addServer";
-import AddServer from "../../../components/AddServer";
+import AddServer from "../../../components/addServer/AddServer";
 
 const Home: NextPage = () => {
   const auth = getAuth();
   const { user } = useUserState();
   const { channel } = useServersState();
-  const { userSettingsOpen, memberListOpen } = useSettingsState();
+  const { userSettingsOpen, memberListOpen } = useUserSettingsState();
   const { addServerOpen } = useAddServerState();
   const router = useRouter();
   const dispatch = useAppDispatch();

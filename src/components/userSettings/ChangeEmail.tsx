@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import tw from "tailwind-styled-components/dist/tailwind";
 import { changeEmail } from "../../../firebase";
-import { setChangeEmailOpen } from "../../features/settings";
+import { setChangeEmailOpen } from "../../features/userSettings";
 import { useAppDispatch } from "../../redux/hooks";
 import Image from "next/image";
 import closeIcon from "../../../assets/closeIcon.svg";

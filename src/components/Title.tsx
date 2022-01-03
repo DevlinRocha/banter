@@ -2,12 +2,15 @@ import Image from "next/image";
 import tw from "tailwind-styled-components";
 import { useServersState } from "../features/servers";
 import memberListIcon from "../../assets/memberListIcon.svg";
-import { setMemberListOpen, useSettingsState } from "../features/settings";
+import {
+  setMemberListOpen,
+  useUserSettingsState,
+} from "../features/userSettings";
 import { useAppDispatch } from "../redux/hooks";
 
 export default function Title() {
   const { channel } = useServersState();
-  const { memberListOpen } = useSettingsState();
+  const { memberListOpen } = useUserSettingsState();
   const dispatch = useAppDispatch();
 
   function toggleMembersList() {

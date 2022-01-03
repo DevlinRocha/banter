@@ -3,7 +3,7 @@ import { logOut } from "../../../firebase";
 import {
   setLogoutConfirmOpen,
   setUserSettingsOpen,
-} from "../../features/settings";
+} from "../../features/userSettings";
 import { useAppDispatch } from "../../redux/hooks";
 
 export default function LogoutConfirm() {

@@ -18,7 +18,7 @@ import DefaultServerIcon from "./DefaultServerIcon";
 import { useUserState } from "../../features/user";
 import { useRouter } from "next/router";
 import AddServerIcon from "./AddServerIcon";
-import { setaddServerOpen } from "../../features/addServer";
+import { setAddServerOpen } from "../../features/addServer";
 
 export default function Servers() {
   const { servers, serverIDs } = useServersState();
@@ -83,7 +83,7 @@ export default function Servers() {
   }
 
   function addServer() {
-    dispatch(setaddServerOpen(true));
+    dispatch(setAddServerOpen(true));
   }
 
   return (

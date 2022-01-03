@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { useAppSelector } from "../redux/hooks";
 
-export interface SettingsState {
+export interface UserSettingsState {
   userSettingsOpen: boolean;
-  settings: "My Account" | "User Profile";
+  userSettingsScreen: "My Account" | "User Profile";
   logoutConfirmOpen: boolean;
   changeUsernameOpen: boolean;
   changeEmailOpen: boolean;
@@ -11,9 +11,9 @@ export interface SettingsState {
   loading: "idle" | "pending" | "succeeded" | "failed";
 }
 
-const initialState: SettingsState = {
+const initialState: UserSettingsState = {
   userSettingsOpen: false,
-  settings: "My Account",
+  userSettingsScreen: "My Account",
   logoutConfirmOpen: false,
   changeUsernameOpen: false,
   changeEmailOpen: false,
@@ -21,8 +21,8 @@ const initialState: SettingsState = {
   loading: "idle",
 };
 
-export const settingsSlice = createSlice({
-  name: "settings",
+export const userSettingsSlice = createSlice({
+  name: "userSettings",
   initialState,
   reducers: {
     setUserSettingsOpen(state, action) {
@@ -30,8 +30,8 @@ export const settingsSlice = createSlice({
       state.logoutConfirmOpen = false;
     },
 
-    setSettings(state, action) {
-      state.settings = action.payload;
+    setUserSettingsScreen(state, action) {
+      state.userSettingsScreen = action.payload;
     },
 
     setLogoutConfirmOpen(state, action) {
@@ -54,13 +54,14 @@ export const settingsSlice = createSlice({
 
 export const {
   setUserSettingsOpen,
-  setSettings,
+  setUserSettingsScreen,
   setLogoutConfirmOpen,
   setChangeUsernameOpen,
   setChangeEmailOpen,
   setMemberListOpen,
-} = settingsSlice.actions;
+} = userSettingsSlice.actions;
 
-export const useSettingsState = () => useAppSelector((state) => state.settings);
+export const useUserSettingsState = () =>
+  useAppSelector((state) => state.userSettings);
 
-export default settingsSlice.reducer;
+export default userSettingsSlice.reducer;

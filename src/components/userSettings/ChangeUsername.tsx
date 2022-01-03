@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import tw from "tailwind-styled-components/dist/tailwind";
 import { changeUsername } from "../../../firebase";
-import { setChangeUsernameOpen } from "../../features/settings";
+import { setChangeUsernameOpen } from "../../features/userSettings";
 import { useUserState } from "../../features/user";
 import { useAppDispatch } from "../../redux/hooks";
 import Image from "next/image";

@@ -1,13 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import serversReducer from "../features/servers";
-import settingsReducer from "../features/settings";
+import settingsReducer from "../features/userSettings";
 import userReducer from "../features/user";
 import addServerReducer from "../features/addServer";
 
 export const store = configureStore({
   reducer: {
     servers: serversReducer,
-    settings: settingsReducer,
+    userSettings: settingsReducer,
     user: userReducer,
     addServer: addServerReducer,
   },

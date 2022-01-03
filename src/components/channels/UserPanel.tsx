@@ -5,11 +5,14 @@ import { useUserState } from "../../features/user";
 import muteIcon from "../../../assets/muteIcon.png";
 import deafenIcon from "../../../assets/deafenIcon.png";
 import settingsIcon from "../../../assets/settingsIcon.svg";
-import { setUserSettingsOpen, useSettingsState } from "../../features/settings";
+import {
+  setUserSettingsOpen,
+  useUserSettingsState,
+} from "../../features/userSettings";
 
 export default function UserPanel() {
   const { user } = useUserState();
-  const { userSettingsOpen } = useSettingsState();
+  const { userSettingsOpen } = useUserSettingsState();
   const dispatch = useAppDispatch();
 
   function handleClick() {

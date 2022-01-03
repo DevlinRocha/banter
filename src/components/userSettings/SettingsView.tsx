@@ -1,11 +1,11 @@
-import { useSettingsState } from "../../features/settings";
+import { useUserSettingsState } from "../../features/userSettings";
 import UserProfileSettings from "./UserProfileSettings";
 import MyAccountSettings from "./MyAccountSettings";
 
 export default function SettingsView() {
-  const { settings } = useSettingsState();
+  const { userSettingsScreen } = useUserSettingsState();
 
-  switch (settings) {
+  switch (userSettingsScreen) {
     case "My Account":
       return <MyAccountSettings />;
 

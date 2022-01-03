@@ -5,8 +5,8 @@ import { useAppDispatch } from "../../redux/hooks";
 import {
   setChangeEmailOpen,
   setChangeUsernameOpen,
-  setSettings,
-} from "../../features/settings";
+  setUserSettingsScreen,
+} from "../../features/userSettings";
 
 export default function UserProfileCard() {
   const { user } = useUserState();
@@ -34,7 +34,7 @@ export default function UserProfileCard() {
         </DisplayName>
 
         <UserProfileButton
-          onClick={() => dispatch(setSettings("User Profile"))}
+          onClick={() => dispatch(setUserSettingsScreen("User Profile"))}
         >
           Edit User Profile
         </UserProfileButton>
