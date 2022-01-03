@@ -101,9 +101,9 @@ const Home: NextPage = () => {
         <link rel="manifest" href="/manifest.json" />
       </Head>
 
-      {userSettingsOpen ? <UserSettings /> : null}
+      {userSettingsOpen && <UserSettings />}
 
-      {addServerOpen ? <AddServer /> : null}
+      {addServerOpen && <AddServer />}
 
       <Servers />
 

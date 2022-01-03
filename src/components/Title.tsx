@@ -22,13 +22,13 @@ export default function Title() {
       <HeadingContainer>
         <Heading># {channel.name}</Heading>
 
-        {channel.topic ? (
+        {channel.topic && (
           <>
             <Divider />
 
             <Topic>{channel.topic}</Topic>
           </>
-        ) : null}
+        )}
       </HeadingContainer>
 
       <Toolbar>

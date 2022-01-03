@@ -104,9 +104,9 @@ const Home: NextPage = () => {
         <link rel="manifest" href="/manifest.json" />
       </Head>
 
-      {userSettingsOpen ? <UserSettings /> : null}
+      {userSettingsOpen && <UserSettings />}
 
-      {addServerOpen ? <AddServer /> : null}
+      {addServerOpen && <AddServer />}
 
       <Servers />
 
@@ -119,7 +119,7 @@ const Home: NextPage = () => {
           <ContentContainer>
             <Chat />
 
-            {memberListOpen ? <Members /> : null}
+            {memberListOpen && <Members />}
           </ContentContainer>
         </ChatContainer>
       </Container>

@@ -20,9 +20,7 @@ export default function SettingsSidebar() {
 
       <SettingsList>
         <MyAccount
-          className={`${
-            userSettingsScreen === "My Account" ? "bg-gray-200" : null
-          }`}
+          className={`${userSettingsScreen === "My Account" && "bg-gray-200"}`}
           onClick={() => dispatch(setUserSettingsScreen("My Account"))}
         >
           My Account
@@ -30,7 +28,7 @@ export default function SettingsSidebar() {
 
         <UserProfile
           className={`${
-            userSettingsScreen === "User Profile" ? "bg-gray-200" : null
+            userSettingsScreen === "User Profile" && "bg-gray-200"
           }`}
           onClick={() => dispatch(setUserSettingsScreen("User Profile"))}
         >

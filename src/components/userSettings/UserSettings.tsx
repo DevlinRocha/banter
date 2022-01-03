@@ -23,11 +23,11 @@ export default function UserSettings() {
 
   return (
     <Container>
-      {logoutConfirmOpen ? <LogoutConfirm /> : null}
+      {logoutConfirmOpen && <LogoutConfirm />}
 
-      {changeUsernameOpen ? <ChangeUsername /> : null}
+      {changeUsernameOpen && <ChangeUsername />}
 
-      {changeEmailOpen ? <ChangeEmail /> : null}
+      {changeEmailOpen && <ChangeEmail />}
 
       <SettingsSidebar />
 
