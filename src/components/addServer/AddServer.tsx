@@ -1,4 +1,5 @@
 import { useAddServerState } from "../../features/addServer";
+import AboutServer from "./AboutServer";
 import CreateServer from "./CreateServer";
 
 export default function AddServer() {
@@ -11,6 +12,7 @@ export default function AddServer() {
     case "Join Server":
 
     case "About Server":
+      return <AboutServer />;
 
     case "Customize Server":
 
