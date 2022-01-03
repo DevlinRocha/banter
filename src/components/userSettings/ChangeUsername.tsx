@@ -61,7 +61,7 @@ export default function ChangeUsername() {
                 <FieldInput
                   ref={usernameRef}
                   type="text"
-                  placeholder={user.username}
+                  defaultValue={user.username}
                   minLength={2}
                   maxLength={32}
                   required
