@@ -147,11 +147,11 @@ const FormContainer = tw.form`
 `;
 
 const CreateServerLabel = tw.label`
-  mb-4 text-xs text-gray-600 font-semibold
+  mb-4 text-xs text-gray-800 font-semibold
 `;
 
 const CreateServerInput = tw.input`
-  w-full h-10 p-2.5 border rounded-middle
+  w-full h-10 p-2.5 border rounded-middle text-gray-800 font-medium
 `;
 
 const SubText = tw.span`

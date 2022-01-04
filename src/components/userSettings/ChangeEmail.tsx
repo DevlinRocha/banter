@@ -121,11 +121,11 @@ const PasswordContainer = tw(FieldContainer)`
 `;
 
 const FieldHeading = tw.h5`
-  mb-2 text-xs text-gray-500 font-semibold
+  mb-2 text-xs text-gray-800 font-semibold
 `;
 
 const FieldInput = tw.input`
-  flex w-full h-10 p-2.5 border border-gray-300 outline-0 rounded-middle
+  flex w-full h-10 p-2.5 text-gray-800 font-medium border border-gray-300 outline-0 rounded-middle
 `;
 
 const ButtonContainer = tw.div`

@@ -141,4 +141,5 @@ const MessageDate = tw.span`
 `;
 
 const Content = tw.p`
+  font-medium
 `;

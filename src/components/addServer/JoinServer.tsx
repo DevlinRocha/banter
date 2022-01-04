@@ -139,7 +139,7 @@ const Required = tw.span`
 `;
 
 const JoinServerInput = tw.input`
-  w-full h-10 p-2.5 bg-gray-200 border rounded-middle
+  w-full h-10 p-2.5 bg-gray-200 text-gray-800 font-medium border rounded-middle
   placeholder:text-gray-500
 `;
 
