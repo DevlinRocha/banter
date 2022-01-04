@@ -84,7 +84,7 @@ export default function RegistrationForm() {
 }
 
 const Container = tw.form`
-  flex flex-col w-120 h-140.5 bg-white rounded-md p-8
+  flex flex-col w-120 bg-white rounded-md p-8
 `;
 
 const Header = tw.h3`
@@ -135,7 +135,7 @@ const PasswordInput = tw(GenericInput)`
 `;
 
 const ContinueButton = tw.input`
-  w-full h-10 mt-16 px-4 py-0.5 bg-indigo-500 rounded text-white cursor-pointer
+  w-full h-10 px-4 py-0.5 bg-indigo-500 rounded text-white cursor-pointer
 `;
 
 const LinkText = tw.button`
