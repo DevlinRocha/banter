@@ -2,14 +2,17 @@ import { useAddServerState } from "../../features/addServer";
 import AboutServer from "./AboutServer";
 import CreateServer from "./CreateServer";
 import CustomizeServer from "./CustomizeServer";
+import JoinServer from "./JoinServer";
 
 export default function AddServer() {
   const { addServerWindow } = useAddServerState();
 
   switch (addServerWindow) {
     case "Create Server":
-    case "Join Server":
       return <CreateServer />;
+
+    case "Join Server":
+      return <JoinServer />;
 
     case "About Server":
       return <AboutServer />;
