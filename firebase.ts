@@ -6,6 +6,7 @@ import {
   addDoc,
   collection,
   updateDoc,
+  getDoc,
 } from "firebase/firestore";
 import {
   getAuth,
@@ -163,6 +164,12 @@ export async function joinServer(serverID: string) {
   if (!auth.currentUser) return;
 
   const user = auth.currentUser.uid;
+
+  const docRef = doc(db, "servers", serverID);
+  const docSnap = await getDoc(docRef);
+
+  if (!docSnap.exists())
+    throw new Error("Please enter a valid link or invite code.");
 
   await setDoc(doc(db, "servers", serverID, "members", user), {});
 
