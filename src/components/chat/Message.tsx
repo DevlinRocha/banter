@@ -117,7 +117,7 @@ const Container = tw.li`
 `;
 
 const ProfilePicture = tw.div`
-  mt-0.5
+  flex-none mt-0.5
 `;
 
 const MessageContent = tw.div`
