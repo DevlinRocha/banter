@@ -112,7 +112,7 @@ export default function Message(props: MessageProps) {
 }
 
 const Container = tw.li`
-  flex w-full mt-[17px] pl-4 gap-4
+  flex w-full mt-[17px] py-0.5 pr-12 pl-4 gap-4
   hover:bg-gray-50
 `;
 
@@ -133,7 +133,7 @@ const MessageInfo = tw.div`
 `;
 
 const Username = tw.h2`
-  font-bold
+  text-gray-900 font-semibold
 `;
 
 const MessageDate = tw.span`

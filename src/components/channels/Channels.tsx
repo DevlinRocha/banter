@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { useEffect } from "react";
 import { useAppDispatch } from "../../redux/hooks";
 import {
@@ -12,9 +13,15 @@ import Link from "next/link";
 import tw from "tailwind-styled-components/dist/tailwind";
 import { db } from "../../../firebase";
 import { useRouter } from "next/router";
+import downArrowIcon from "../../../assets/downArrowIcon.svg";
+import {
+  setserverDropdownOpen,
+  useServerSettingsState,
+} from "../../features/serverSettings";
 
 export default function Channels() {
   const { server, channels } = useServersState();
+  const { serverDropdownOpen } = useServerSettingsState();
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -76,10 +83,16 @@ export default function Channels() {
     dispatch(setChannel(channel));
   }
 
+  function toggleDropdown() {
+    dispatch(setserverDropdownOpen(!serverDropdownOpen));
+  }
+
   return (
     <Container>
-      <Header>
+      <Header onClick={toggleDropdown}>
         <Heading>{server.name}</Heading>
+
+        <StyledImage src={downArrowIcon} />
       </Header>
 
       <ChannelListContainer>
@@ -118,11 +131,14 @@ const ChannelListContainer = tw.div`
 `;
 
 const Header = tw.header`
-  flex flex-none items-center w-60 h-12 mb-4 px-4 border-b border-gray-300
+  flex flex-none justify-between items-center w-60 h-12 mb-4 px-4 border-b border-gray-300 cursor-pointer
 `;
 
 const Heading = tw.h1`
   font-semibold
+`;
+
+const StyledImage = tw(Image)`
 `;
 
 const ChannelList = tw.ol`
