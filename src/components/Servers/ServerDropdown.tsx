@@ -21,13 +21,9 @@ export default function ServerDropdown() {
     <Backdrop onClick={closeWindow}>
       <Container onClick={stopPropagation}>
         <ListContainer>
-          {/* <TestContainer> */}
-
           <ListItemInvite onClick={() => dispatch(setInviteFriendsOpen(true))}>
             Invite people
           </ListItemInvite>
-
-          {/* </TestContainer> */}
 
           <Separator />
 
@@ -47,9 +43,6 @@ const Container = tw.div`
 `;
 
 const ListContainer = tw.ol`
-`;
-
-const TestContainer = tw.div`
 `;
 
 const ListItem = tw.li`

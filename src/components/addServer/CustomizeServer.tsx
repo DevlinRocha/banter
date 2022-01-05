@@ -50,7 +50,7 @@ export default function CustomizeServer() {
     <Backdrop onClick={closeWindow}>
       <Container onClick={stopPropagation}>
         <HeadingContainer>
-          <Heading>Tell us more about your server</Heading>
+          <Heading>Customize your server</Heading>
 
           <Body>
             Give your new server a personality with a name and an icon. You can
@@ -172,6 +172,6 @@ const BackButton = tw.button`
 `;
 
 const CreateButton = tw.button<CreateButtonProps>`
-  w-24 h-9.5 px-4 py-0.5 bg-blue-500 text-white rounded-middle
+  w-24 h-9.5 px-4 py-0.5 bg-indigo-500 text-white rounded-middle
   ${(props) => (props.isInputEmpty ? "opacity-50 cursor-not-allowed" : null)}
 `;
