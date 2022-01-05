@@ -4,10 +4,13 @@ import { useAppDispatch } from "../../redux/hooks";
 import closeIcon from "../../../assets/closeIcon.svg";
 import { useServersState } from "../../features/servers";
 import { setInviteFriendsOpen } from "../../features/serverSettings";
+import { useRef, useState } from "react";
 
 export default function InviteFriends() {
   const { server } = useServersState();
+  const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
+  const [copySuccess, setCopySuccess] = useState(false);
 
   function closeWindow() {
     dispatch(setInviteFriendsOpen(false));
@@ -15,6 +18,25 @@ export default function InviteFriends() {
 
   function stopPropagation(e: React.MouseEvent<HTMLDivElement>) {
     e.stopPropagation();
+  }
+
+  function copyInput() {
+    if (!inputRef.current) return;
+
+    navigator.clipboard.writeText(inputRef.current.value);
+
+    setCopySuccess(true);
+
+    setTimeout(() => {
+      setCopySuccess(false);
+    }, 1500);
+  }
+
+  function highlightInput() {
+    if (!inputRef.current) return;
+
+    inputRef.current.select();
+    inputRef.current.setSelectionRange(0, 100); // For mobile devices
   }
 
   return (
@@ -34,18 +56,23 @@ export default function InviteFriends() {
         </HeadingContainer>
 
         <ContentContainer>
-          <InviteCodeLabel htmlFor="inviteCode">
+          <InviteCodeLabel>
             Share this link with others to grant access to your server!
           </InviteCodeLabel>
 
-          <InviteCodeContainer>
+          <InviteCodeContainer copySuccess={copySuccess}>
             <InviteCodeInput
               type="text"
               value={server.serverID}
+              maxLength={999}
+              ref={inputRef}
+              onClick={highlightInput}
               id="inviteCode"
             />
 
-            <CopyButton>Copy</CopyButton>
+            <CopyButton onClick={copyInput} copySuccess={copySuccess}>
+              {copySuccess ? "Copied" : "Copy"}
+            </CopyButton>
           </InviteCodeContainer>
 
           <SubText>Your invite link will never expire.</SubText>
@@ -68,12 +95,16 @@ export default function InviteFriends() {
   );
 }
 
+type CopySuccess = {
+  copySuccess: boolean;
+};
+
 const Backdrop = tw.div`
   fixed w-full h-full bg-black bg-opacity-[0.85] z-20
 `;
 
 const Container = tw.div`
-  fixed flex flex-col top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-110 bg-white rounded-md
+  fixed flex flex-col top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-110 bg-white rounded-md select-none
 `;
 
 const HeadingContainer = tw.div`
@@ -95,20 +126,25 @@ const ContentContainer = tw.div`
   flex flex-col mb-5 pr-2 pl-4
 `;
 
-const InviteCodeContainer = tw.div`
-  flex justify-between items-center bg-gray-100 border border-gray-400 rounded-middle
+const InviteCodeContainer = tw.div<CopySuccess>`
+  flex justify-between items-center bg-gray-100 border rounded-middle
+  ${(props) => (props.copySuccess ? "border-green-600" : "border-gray-400")}
 `;
 
 const InviteCodeInput = tw.input`
-  w-full p-2.5 bg-gray-100 font-medium select-all outline-none leading-3
+  w-full p-2.5 bg-gray-100 font-medium outline-none leading-[.5rem]
 `;
 
-const InviteCodeLabel = tw.label`
+const InviteCodeLabel = tw.h5`
   mb-4 text-sm text-gray-600 font-semibold
 `;
 
-const CopyButton = tw.button`
-  flex-none w-[75px] h-8 mr-1 px-4 py-0.5 bg-indigo-500 text-white font-medium rounded-middle
+const CopyButton = tw.button<CopySuccess>`
+  flex-none w-[75px] h-8 mr-1 px-4 py-0.5  text-white font-medium rounded-middle
+  ${(props) =>
+    props.copySuccess
+      ? "bg-green-600 hover:bg-green-700"
+      : "bg-indigo-500 hover:bg-indigo-600"}
 `;
 
 const LinkExpiryInput = tw.input`
@@ -116,7 +152,7 @@ const LinkExpiryInput = tw.input`
 `;
 
 const LinkExpiryLabel = tw.label`
-  ml-2 cursor-not-allowed select-none text-gray-600 text-sm
+  ml-2 cursor-not-allowed text-gray-600 text-sm
 `;
 
 const SubText = tw.span`
