@@ -14,11 +14,17 @@ import tw from "tailwind-styled-components/dist/tailwind";
 import { db } from "../../../firebase";
 import { useRouter } from "next/router";
 import downArrowIcon from "../../../assets/downArrowIcon.svg";
+import {
+  setserverDropdownOpen,
+  useServerSettingsState,
+} from "../../features/serverSettings";
 
 export default function Channels() {
   const { server, channels } = useServersState();
+  const { serverDropdownOpen } = useServerSettingsState();
   const router = useRouter();
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     if (!server.serverID) return;
 
@@ -77,9 +83,13 @@ export default function Channels() {
     dispatch(setChannel(channel));
   }
 
+  function toggleDropdown() {
+    dispatch(setserverDropdownOpen(!serverDropdownOpen));
+  }
+
   return (
     <Container>
-      <Header>
+      <Header onClick={toggleDropdown}>
         <Heading>{server.name}</Heading>
 
         <StyledImage src={downArrowIcon} />
