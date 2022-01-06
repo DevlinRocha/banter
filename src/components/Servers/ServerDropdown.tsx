@@ -39,7 +39,7 @@ const Backdrop = tw.div`
 `;
 
 const Container = tw.div`
-  absolute flex flex-col w-[220px] top-[50px] left-20.5 px-2 py-1.5 bg-white rounded-middle
+  absolute flex flex-col w-[220px] top-[50px] left-20.5 px-2 py-1.5 bg-white rounded-middle drop-shadow-xl
 `;
 
 const ListContainer = tw.ol`
