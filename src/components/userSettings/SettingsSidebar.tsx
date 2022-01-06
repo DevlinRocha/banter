@@ -72,7 +72,7 @@ export default function SettingsSidebar() {
 }
 
 const Container = tw.div`
-  flex flex-col items-end w-3/5 bg-gray-100
+  flex flex-col items-end w-1/2 bg-gray-100
 `;
 
 const NavContainer = tw.nav`
