@@ -51,11 +51,11 @@ export default function UserSettings() {
 }
 
 const Container = tw.div`
-  flex w-screen h-screen
+  flex flex-none w-screen h-screen
 `;
 
-const SettingsContainer = tw(Container)`
-  justify-around
+const SettingsContainer = tw.div`
+  flex w-full h-full
 `;
 
 const CloseButton = tw.figure`
