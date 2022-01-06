@@ -37,6 +37,15 @@ export const userSlice = createSlice({
     setUser(state, action) {
       state.user = action.payload;
     },
+
+    setUserAbout(state, action) {
+      state.user.about = action.payload;
+    },
+
+    setUserBanner(state, action) {
+      state.user.banner = action.payload;
+    },
+
     resetUserState(state) {
       state.user.username = initialState.user.username;
       state.user.tag = initialState.user.tag;
@@ -48,7 +57,8 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setUser, resetUserState } = userSlice.actions;
+export const { setUser, setUserAbout, setUserBanner, resetUserState } =
+  userSlice.actions;
 
 export const useUserState = () => useAppSelector((state) => state.user);
 
