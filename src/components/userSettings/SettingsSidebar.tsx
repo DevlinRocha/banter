@@ -39,6 +39,8 @@ export default function SettingsSidebar() {
           </UserProfile>
         </SettingsList>
 
+        <Divider />
+
         <SettingsList>
           <LogOut
             onClick={() => dispatch(setLogoutConfirmOpen(!logoutConfirmOpen))}
@@ -46,6 +48,8 @@ export default function SettingsSidebar() {
             Log Out
           </LogOut>
         </SettingsList>
+
+        <Divider />
 
         <SocialLinks>
           <SocialLink href="https://twitter.com/DevlinRocha" target="_blank">
@@ -83,11 +87,11 @@ const SettingsList = tw.ol`
 `;
 
 const ListHeading = tw.h3`
-  px-2.5 pb-1.5
+  px-2.5 pb-1.5 text-xs font-bold
 `;
 
 const ListItem = tw.li`
-  px-2.5 py-1.5 mb-0.5 rounded-md cursor-pointer
+  px-2.5 py-1.5 mb-0.5 font-medium rounded-md cursor-pointer
   hover:bg-gray-200
 `;
 
@@ -95,6 +99,10 @@ const MyAccount = tw(ListItem)`
 `;
 
 const UserProfile = tw(ListItem)`
+`;
+
+const Divider = tw.div`
+  h-px mx-2.5 my-2 bg-gray-200
 `;
 
 const LogOut = tw(ListItem)`
