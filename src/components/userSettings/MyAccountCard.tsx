@@ -12,9 +12,13 @@ export default function UserProfileCard() {
   const { user } = useUserState();
   const dispatch = useAppDispatch();
 
+  const bannerStyle = {
+    backgroundColor: user.banner,
+  };
+
   return (
     <Container>
-      <Banner className={`bg-[${user.banner}]`} />
+      <Banner style={bannerStyle} />
 
       <ProfileContainer>
         <ProfilePicture>
