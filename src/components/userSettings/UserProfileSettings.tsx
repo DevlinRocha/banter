@@ -62,6 +62,7 @@ export default function UserProfileSettings() {
 
           <AboutMe
             onChange={handleAboutChange}
+            defaultValue={user.about}
             placeholder="Tell this server a bit about yourself"
             maxLength={190}
             rows={6}
