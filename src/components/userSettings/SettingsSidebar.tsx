@@ -16,59 +16,67 @@ export default function SettingsSidebar() {
 
   return (
     <Container>
-      <ListHeading>USER SETTINGS</ListHeading>
+      <NavContainer>
+        <ListHeading>USER SETTINGS</ListHeading>
 
-      <SettingsList>
-        <MyAccount
-          className={`${userSettingsScreen === "My Account" && "bg-gray-200"}`}
-          onClick={() => dispatch(setUserSettingsScreen("My Account"))}
-        >
-          My Account
-        </MyAccount>
+        <SettingsList>
+          <MyAccount
+            className={`${
+              userSettingsScreen === "My Account" && "bg-gray-300"
+            }`}
+            onClick={() => dispatch(setUserSettingsScreen("My Account"))}
+          >
+            My Account
+          </MyAccount>
 
-        <UserProfile
-          className={`${
-            userSettingsScreen === "User Profile" && "bg-gray-200"
-          }`}
-          onClick={() => dispatch(setUserSettingsScreen("User Profile"))}
-        >
-          User Profile
-        </UserProfile>
-      </SettingsList>
+          <UserProfile
+            className={`${
+              userSettingsScreen === "User Profile" && "bg-gray-300"
+            }`}
+            onClick={() => dispatch(setUserSettingsScreen("User Profile"))}
+          >
+            User Profile
+          </UserProfile>
+        </SettingsList>
 
-      <SettingsList>
-        <LogOut
-          onClick={() => dispatch(setLogoutConfirmOpen(!logoutConfirmOpen))}
-        >
-          Log Out
-        </LogOut>
-      </SettingsList>
+        <SettingsList>
+          <LogOut
+            onClick={() => dispatch(setLogoutConfirmOpen(!logoutConfirmOpen))}
+          >
+            Log Out
+          </LogOut>
+        </SettingsList>
 
-      <SocialLinks>
-        <SocialLink href="https://twitter.com/DevlinRocha" target="_blank">
-          <StyledImage src={twitterIcon} width={16} height={16} />
-        </SocialLink>
+        <SocialLinks>
+          <SocialLink href="https://twitter.com/DevlinRocha" target="_blank">
+            <StyledImage src={twitterIcon} width={16} height={16} />
+          </SocialLink>
 
-        <SocialLink
-          href="https://github.com/DevlinRocha/banter"
-          target="_blank"
-        >
-          <StyledImage src={githubIcon} width={16} height={16} />
-        </SocialLink>
+          <SocialLink
+            href="https://github.com/DevlinRocha/banter"
+            target="_blank"
+          >
+            <StyledImage src={githubIcon} width={16} height={16} />
+          </SocialLink>
 
-        <SocialLink
-          href="https://www.instagram.com/devlinrocha/"
-          target="_blank"
-        >
-          <StyledImage src={instagramIcon} width={16} height={16} />
-        </SocialLink>
-      </SocialLinks>
+          <SocialLink
+            href="https://www.instagram.com/devlinrocha/"
+            target="_blank"
+          >
+            <StyledImage src={instagramIcon} width={16} height={16} />
+          </SocialLink>
+        </SocialLinks>
+      </NavContainer>
     </Container>
   );
 }
 
-const Container = tw.nav`
-  flex flex-col w-2/6 items-end py-15 pr-1.5 pl-5
+const Container = tw.div`
+  flex flex-col items-end w-1/2 bg-gray-100
+`;
+
+const NavContainer = tw.nav`
+  w-[218px] py-15 pr-1.5 pl-5
 `;
 
 const SettingsList = tw.ol`
@@ -80,7 +88,7 @@ const ListHeading = tw.h3`
 
 const ListItem = tw.li`
   px-2.5 py-1.5 mb-0.5 rounded-md cursor-pointer
-  hover:bg-gray-100
+  hover:bg-gray-200
 `;
 
 const MyAccount = tw(ListItem)`

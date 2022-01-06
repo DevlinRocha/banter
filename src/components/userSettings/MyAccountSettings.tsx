@@ -1,22 +1,22 @@
 import tw from "tailwind-styled-components/dist/tailwind";
-import UserProfileCard from "./UserProfileCard";
+import MyAccountCard from "./MyAccountCard";
 
 export default function MyAccountSettings() {
   return (
     <Container>
       <Heading>My Account</Heading>
 
-      <UserProfileCard />
+      <MyAccountCard />
 
       <Divider />
 
-      <PasswordSettings>
+      <AccountSettings>
         <Heading>Password</Heading>
 
-        <SubHeading>ACCOUNT REMOVAL</SubHeading>
-      </PasswordSettings>
+        <Divider />
 
-      <Divider />
+        <SubHeading>ACCOUNT REMOVAL</SubHeading>
+      </AccountSettings>
     </Container>
   );
 }
@@ -26,16 +26,17 @@ const Container = tw.main`
 `;
 
 const Heading = tw.h2`
-  mb-5
+  mb-5 text-xl font-semibold
 `;
 
-const SubHeading = tw(Heading)`
+const SubHeading = tw.h5`
+  mt-10 text-xs font-semibold
 `;
 
 const Divider = tw.div`
   max-w-165 h-px border-t mt-10 border-gray-900/[0.08]
 `;
 
-const PasswordSettings = tw.section`
+const AccountSettings = tw.section`
   mt-10
 `;
