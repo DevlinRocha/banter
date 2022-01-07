@@ -7,6 +7,7 @@ export interface UserSettingsState {
   logoutConfirmOpen: boolean;
   changeUsernameOpen: boolean;
   changeEmailOpen: boolean;
+  changeAvatarOpen: boolean;
   memberListOpen: boolean;
   loading: "idle" | "pending" | "succeeded" | "failed";
 }
@@ -17,6 +18,7 @@ const initialState: UserSettingsState = {
   logoutConfirmOpen: false,
   changeUsernameOpen: false,
   changeEmailOpen: false,
+  changeAvatarOpen: false,
   memberListOpen: true,
   loading: "idle",
 };
@@ -46,6 +48,10 @@ export const userSettingsSlice = createSlice({
       state.changeEmailOpen = action.payload;
     },
 
+    setChangeAvatarOpen(state, action) {
+      state.changeAvatarOpen = action.payload;
+    },
+
     setMemberListOpen(state, action) {
       state.memberListOpen = action.payload;
     },
@@ -58,6 +64,7 @@ export const {
   setLogoutConfirmOpen,
   setChangeUsernameOpen,
   setChangeEmailOpen,
+  setChangeAvatarOpen,
   setMemberListOpen,
 } = userSettingsSlice.actions;
 

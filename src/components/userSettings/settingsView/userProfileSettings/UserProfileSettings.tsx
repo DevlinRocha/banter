@@ -4,6 +4,7 @@ import {
   setUserBanner,
   useUserState,
 } from "../../../../features/user";
+import { setChangeAvatarOpen } from "../../../../features/userSettings";
 import { useAppDispatch } from "../../../../redux/hooks";
 import UserProfileCard from "./UserProfileCard";
 
@@ -35,7 +36,11 @@ export default function UserProfileSettings() {
             <SettingsHeading>AVATAR</SettingsHeading>
 
             <AvatarButtonsContainer>
-              <ChangeAvatarButton>Change Avatar</ChangeAvatarButton>
+              <ChangeAvatarButton
+                onClick={() => dispatch(setChangeAvatarOpen(true))}
+              >
+                Change Avatar
+              </ChangeAvatarButton>
 
               <RemoveAvatarButton>Remove Avatar</RemoveAvatarButton>
             </AvatarButtonsContainer>

@@ -11,6 +11,7 @@ import closeButton from "../../../assets/closeButton.svg";
 import { useAppDispatch } from "../../redux/hooks";
 import ChangeUsername from "./ChangeUsername";
 import ChangeEmail from "./ChangeEmail";
+import ChangeAvatar from "./settingsView/userProfileSettings/ChangeAvatar";
 
 export default function UserSettings() {
   const {
@@ -18,6 +19,7 @@ export default function UserSettings() {
     logoutConfirmOpen,
     changeUsernameOpen,
     changeEmailOpen,
+    changeAvatarOpen,
   } = useUserSettingsState();
   const dispatch = useAppDispatch();
 
@@ -28,6 +30,8 @@ export default function UserSettings() {
       {changeUsernameOpen && <ChangeUsername />}
 
       {changeEmailOpen && <ChangeEmail />}
+
+      {changeAvatarOpen && <ChangeAvatar />}
 
       <SettingsSidebar />
 
