@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import tw from "tailwind-styled-components/dist/tailwind";
 import {
   setUserAbout,
@@ -8,14 +8,20 @@ import {
 import {
   setChangeAvatarOpen,
   setUserChangesMade,
+  setUserCopy,
+  useUserSettingsState,
 } from "../../../../features/userSettings";
 import { useAppDispatch } from "../../../../redux/hooks";
 import UserProfileCard from "./UserProfileCard";
 
 export default function UserProfileSettings() {
   const { user } = useUserState();
-  const [userCopy, setUserCopy] = useState(user);
+  const { userCopy } = useUserSettingsState();
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(setUserCopy(user));
+  }, []);
 
   useEffect(() => {
     if (user !== userCopy) {
@@ -73,7 +79,7 @@ export default function UserProfileSettings() {
                 <ColorInput
                   onChange={handleColorChange}
                   type="color"
-                  defaultValue={user.banner}
+                  value={user.banner}
                 />
 
                 <ColorInputLabel>Custom</ColorInputLabel>
@@ -86,7 +92,7 @@ export default function UserProfileSettings() {
 
             <AboutMe
               onChange={handleAboutChange}
-              defaultValue={user.about}
+              value={user.about}
               placeholder="Tell this server a bit about yourself"
               maxLength={190}
               rows={6}

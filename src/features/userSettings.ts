@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { useAppSelector } from "../redux/hooks";
+import { UserData } from "./user";
 
 export interface UserSettingsState {
   userSettingsOpen: boolean;
@@ -10,6 +11,7 @@ export interface UserSettingsState {
   changeAvatarOpen: boolean;
   memberListOpen: boolean;
   userChangesMade: boolean;
+  userCopy: UserData | null;
   loading: "idle" | "pending" | "succeeded" | "failed";
 }
 
@@ -22,6 +24,7 @@ const initialState: UserSettingsState = {
   changeAvatarOpen: false,
   memberListOpen: true,
   userChangesMade: false,
+  userCopy: null,
   loading: "idle",
 };
 
@@ -61,6 +64,10 @@ export const userSettingsSlice = createSlice({
     setUserChangesMade(state, action) {
       state.userChangesMade = action.payload;
     },
+
+    setUserCopy(state, action) {
+      state.userCopy = action.payload;
+    },
   },
 });
 
@@ -73,6 +80,7 @@ export const {
   setChangeAvatarOpen,
   setMemberListOpen,
   setUserChangesMade,
+  setUserCopy,
 } = userSettingsSlice.actions;
 
 export const useUserSettingsState = () =>

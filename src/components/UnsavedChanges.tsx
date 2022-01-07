@@ -1,13 +1,24 @@
 import tw from "tailwind-styled-components/dist/tailwind";
+import { setUser } from "../features/user";
+import { useUserSettingsState } from "../features/userSettings";
+import { useAppDispatch } from "../redux/hooks";
 
 export default function UnsavedChanges() {
+  const { userCopy } = useUserSettingsState();
+  const dispatch = useAppDispatch();
+
+  function resetChanges() {
+    if (!userCopy) return;
+    dispatch(setUser(userCopy));
+  }
+
   return (
     <Container>
       <ContentContainer>
         <Text>Careful - you have unsaved changes!</Text>
 
         <ButtonsContainer>
-          <ResetChangesButton>Reset</ResetChangesButton>
+          <ResetChangesButton onClick={resetChanges}>Reset</ResetChangesButton>
           <SaveChangesButton>Save Changes</SaveChangesButton>
         </ButtonsContainer>
       </ContentContainer>
