@@ -103,7 +103,7 @@ const ContentContainer = tw.div`
 `;
 
 const CustomizationContainer = tw.div`
-  w-[270px]
+  flex-1 min-w-[270px] max-w-[340px]
 `;
 
 const SettingsContainer = tw.div`
