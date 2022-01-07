@@ -67,4 +67,5 @@ const StyledImage = tw(Image)`
 `;
 
 const Caption = tw.figcaption`
+  text-[13px] text-gray-300 font-semibold
 `;
