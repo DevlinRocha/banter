@@ -19,7 +19,7 @@ import {
   reauthenticateWithCredential,
   EmailAuthProvider,
 } from "firebase/auth";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
 // import { getAnalytics } from "firebase/analytics";
 
@@ -222,6 +222,18 @@ export async function uploadAvatar(file: File, userID: string) {
   const avatarRef = ref(storage, `users/${userID}/avatar`);
 
   await uploadBytes(avatarRef, file);
+
+  return await getAvatarURL(userID);
+}
+
+async function getAvatarURL(userID: string) {
+  const storage = getStorage();
+
+  try {
+    return await getDownloadURL(ref(storage, `users/${userID}/avatar`));
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 export const app = initializeApp(firebaseConfig);
