@@ -19,6 +19,7 @@ import {
   reauthenticateWithCredential,
   EmailAuthProvider,
 } from "firebase/auth";
+import { getStorage, ref, uploadBytes } from "firebase/storage";
 
 // import { getAnalytics } from "firebase/analytics";
 
@@ -213,6 +214,14 @@ export async function changeEmail(newEmail: string, password: string) {
   } catch (error) {
     console.error(error);
   }
+}
+
+export async function uploadAvatar(file: File, userID: string) {
+  const storage = getStorage();
+
+  const avatarRef = ref(storage, `users/${userID}/avatar`);
+
+  await uploadBytes(avatarRef, file);
 }
 
 export const app = initializeApp(firebaseConfig);
