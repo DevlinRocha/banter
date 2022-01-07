@@ -1,6 +1,10 @@
 import tw from "tailwind-styled-components/dist/tailwind";
-import { setUserAbout, setUserBanner, useUserState } from "../../features/user";
-import { useAppDispatch } from "../../redux/hooks";
+import {
+  setUserAbout,
+  setUserBanner,
+  useUserState,
+} from "../../../../features/user";
+import { useAppDispatch } from "../../../../redux/hooks";
 import UserProfileCard from "./UserProfileCard";
 
 export default function UserProfileSettings() {

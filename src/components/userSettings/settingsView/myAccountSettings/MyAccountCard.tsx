@@ -1,14 +1,14 @@
-import { useUserState } from "../../features/user";
+import { useUserState } from "../../../../features/user";
 import tw from "tailwind-styled-components/dist/tailwind";
 import Image from "next/image";
-import { useAppDispatch } from "../../redux/hooks";
+import { useAppDispatch } from "../../../../redux/hooks";
 import {
   setChangeEmailOpen,
   setChangeUsernameOpen,
   setUserSettingsScreen,
-} from "../../features/userSettings";
+} from "../../../../features/userSettings";
 
-export default function UserProfileCard() {
+export default function MyAccountCard() {
   const { user } = useUserState();
   const dispatch = useAppDispatch();
 

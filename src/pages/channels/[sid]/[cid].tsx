@@ -18,7 +18,7 @@ import Members from "../../../components/Members";
 import Title from "../../../components/Title";
 import { useAddServerState } from "../../../features/addServer";
 import AddServer from "../../../components/addServer/AddServer";
-import ServerDropdown from "../../../components/Servers/ServerDropdown";
+import ServerDropdown from "../../../components/ServerDropdown";
 import { useServerSettingsState } from "../../../features/serverSettings";
 import InviteFriends from "../../../components/Servers/InviteFriends";
 
@@ -112,6 +112,8 @@ const Home: NextPage = () => {
 
       {addServerOpen && <AddServer />}
 
+      {serverDropdownOpen && <ServerDropdown />}
+
       {inviteFriendsOpen && <InviteFriends />}
 
       <Servers />
@@ -129,8 +131,6 @@ const Home: NextPage = () => {
           </ContentContainer>
         </ChatContainer>
       </Container>
-
-      {serverDropdownOpen && <ServerDropdown />}
     </PageContainer>
   );
 };

@@ -4,7 +4,7 @@ import {
   useUserSettingsState,
 } from "../../features/userSettings";
 import SettingsSidebar from "./SettingsSidebar";
-import SettingsView from "./SettingsView";
+import SettingsView from "./settingsView/SettingsView";
 import LogoutConfirm from "./LogoutConfirm";
 import Image from "next/image";
 import closeButton from "../../../assets/closeButton.svg";

@@ -1,6 +1,6 @@
-import { useUserSettingsState } from "../../features/userSettings";
-import UserProfileSettings from "./UserProfileSettings";
-import MyAccountSettings from "./MyAccountSettings";
+import { useUserSettingsState } from "../../../features/userSettings";
+import UserProfileSettings from "./userProfileSettings/UserProfileSettings";
+import MyAccountSettings from "./myAccountSettings/MyAccountSettings";
 
 export default function SettingsView() {
   const { userSettingsScreen } = useUserSettingsState();

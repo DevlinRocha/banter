@@ -3,8 +3,8 @@ import tw from "tailwind-styled-components/dist/tailwind";
 import {
   setInviteFriendsOpen,
   setserverDropdownOpen,
-} from "../../features/serverSettings";
-import { useAppDispatch } from "../../redux/hooks";
+} from "../features/serverSettings";
+import { useAppDispatch } from "../redux/hooks";
 
 export default function ServerDropdown() {
   const dispatch = useAppDispatch();
