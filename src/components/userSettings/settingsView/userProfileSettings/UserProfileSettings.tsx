@@ -110,7 +110,7 @@ const SettingsContainer = tw.div`
   mb-6 pb-6 border-b
 `;
 const SettingsHeading = tw.h5`
-  mb-2 text-xs
+  mb-2 text-xs text-gray-600 font-semibold
 `;
 
 const AvatarButtonsContainer = tw.div`
@@ -141,6 +141,7 @@ const ColorButton = tw(ColorInput)`
 `;
 
 const ColorInputLabel = tw.label`
+  mt-1 text-xs text-gray-600
 `;
 
 const AboutContainer = tw(SettingsContainer)`
