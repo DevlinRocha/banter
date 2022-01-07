@@ -5,7 +5,7 @@ import closeIcon from "../../../../../assets/closeIcon.svg";
 import { setChangeAvatarOpen } from "../../../../features/userSettings";
 import { ChangeEvent } from "react";
 import { uploadAvatar } from "../../../../../firebase";
-import { useUserState } from "../../../../features/user";
+import { setUserAvatar, useUserState } from "../../../../features/user";
 
 export default function ChangeAvatar() {
   const { user } = useUserState();
@@ -22,8 +22,10 @@ export default function ChangeAvatar() {
   async function changeAvatar(e: ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) return;
 
-    await uploadAvatar(e.target.files[0], user.userID);
+    const avatarURL = await uploadAvatar(e.target.files[0], user.userID);
     closeWindow();
+
+    dispatch(setUserAvatar(avatarURL));
   }
 
   return (
