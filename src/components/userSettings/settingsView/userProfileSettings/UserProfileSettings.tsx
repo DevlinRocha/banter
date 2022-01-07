@@ -1,16 +1,29 @@
+import { useEffect, useState } from "react";
 import tw from "tailwind-styled-components/dist/tailwind";
 import {
   setUserAbout,
   setUserBanner,
   useUserState,
 } from "../../../../features/user";
-import { setChangeAvatarOpen } from "../../../../features/userSettings";
+import {
+  setChangeAvatarOpen,
+  setUserChangesMade,
+} from "../../../../features/userSettings";
 import { useAppDispatch } from "../../../../redux/hooks";
 import UserProfileCard from "./UserProfileCard";
 
 export default function UserProfileSettings() {
   const { user } = useUserState();
+  const [userCopy, setUserCopy] = useState(user);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (user !== userCopy) {
+      dispatch(setUserChangesMade(true));
+    } else {
+      dispatch(setUserChangesMade(false));
+    }
+  }, [user]);
 
   function handleClick() {
     dispatch(setUserBanner("#7CC6FE"));

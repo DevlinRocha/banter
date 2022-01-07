@@ -59,7 +59,7 @@ const Container = tw.div`
 `;
 
 const SettingsContainer = tw.div`
-  flex w-full h-full
+  relative flex w-full h-full
 `;
 
 const CloseButton = tw.figure`
