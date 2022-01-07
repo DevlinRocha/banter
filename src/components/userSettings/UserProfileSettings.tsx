@@ -1,6 +1,7 @@
 import tw from "tailwind-styled-components/dist/tailwind";
 import { setUserAbout, setUserBanner, useUserState } from "../../features/user";
 import { useAppDispatch } from "../../redux/hooks";
+import UserProfileCard from "./UserProfileCard";
 
 export default function UserProfileSettings() {
   const { user } = useUserState();
@@ -25,49 +26,57 @@ export default function UserProfileSettings() {
       <Separator />
 
       <ContentContainer>
-        <SettingsContainer>
-          <SettingsHeading>AVATAR</SettingsHeading>
+        <CustomizationContainer>
+          <SettingsContainer>
+            <SettingsHeading>AVATAR</SettingsHeading>
 
-          <AvatarButtonsContainer>
-            <ChangeAvatarButton>Change Avatar</ChangeAvatarButton>
+            <AvatarButtonsContainer>
+              <ChangeAvatarButton>Change Avatar</ChangeAvatarButton>
 
-            <RemoveAvatarButton>Remove Avatar</RemoveAvatarButton>
-          </AvatarButtonsContainer>
-        </SettingsContainer>
+              <RemoveAvatarButton>Remove Avatar</RemoveAvatarButton>
+            </AvatarButtonsContainer>
+          </SettingsContainer>
 
-        <SettingsContainer>
-          <SettingsHeading>PROFILE COLOR</SettingsHeading>
+          <SettingsContainer>
+            <SettingsHeading>PROFILE COLOR</SettingsHeading>
 
-          <ColorInputsContainer>
-            <ColorInputContainer>
-              <ColorButton onClick={handleClick} type="button" />
+            <ColorInputsContainer>
+              <ColorInputContainer>
+                <ColorButton onClick={handleClick} type="button" />
 
-              <ColorInputLabel>Default</ColorInputLabel>
-            </ColorInputContainer>
+                <ColorInputLabel>Default</ColorInputLabel>
+              </ColorInputContainer>
 
-            <ColorInputContainer>
-              <ColorInput
-                onChange={handleColorChange}
-                type="color"
-                defaultValue={user.banner}
-              />
+              <ColorInputContainer>
+                <ColorInput
+                  onChange={handleColorChange}
+                  type="color"
+                  defaultValue={user.banner}
+                />
 
-              <ColorInputLabel>Custom</ColorInputLabel>
-            </ColorInputContainer>
-          </ColorInputsContainer>
-        </SettingsContainer>
+                <ColorInputLabel>Custom</ColorInputLabel>
+              </ColorInputContainer>
+            </ColorInputsContainer>
+          </SettingsContainer>
 
-        <AboutContainer>
-          <SettingsHeading>ABOUT ME</SettingsHeading>
+          <AboutContainer>
+            <SettingsHeading>ABOUT ME</SettingsHeading>
 
-          <AboutMe
-            onChange={handleAboutChange}
-            defaultValue={user.about}
-            placeholder="Tell this server a bit about yourself"
-            maxLength={190}
-            rows={6}
-          />
-        </AboutContainer>
+            <AboutMe
+              onChange={handleAboutChange}
+              defaultValue={user.about}
+              placeholder="Tell this server a bit about yourself"
+              maxLength={190}
+              rows={6}
+            />
+          </AboutContainer>
+        </CustomizationContainer>
+
+        <UserProfileCardContainer>
+          <SettingsHeading>PREVIEW</SettingsHeading>
+
+          <UserProfileCard />
+        </UserProfileCardContainer>
       </ContentContainer>
     </Container>
   );
@@ -86,6 +95,10 @@ const Separator = tw.div`
 `;
 
 const ContentContainer = tw.div`
+  flex
+`;
+
+const CustomizationContainer = tw.div`
   w-[270px]
 `;
 
@@ -100,7 +113,7 @@ const AvatarButtonsContainer = tw.div`
 `;
 
 const ChangeAvatarButton = tw.button`
-  px-4 py-0.5 bg-indigo-500 text-white rounded-middle
+  w-fit h-8 px-4 py-0.5 bg-indigo-500 text-white text-sm font-medium rounded-middle
 `;
 
 const RemoveAvatarButton = tw(ChangeAvatarButton)`
@@ -132,4 +145,8 @@ const AboutContainer = tw(SettingsContainer)`
 
 const AboutMe = tw.textarea`
   w-full p-2.5 pr-8 bg-gray-50 border border-gray-300 rounded-middle resize-none
+`;
+
+const UserProfileCardContainer = tw.div`
+  mb-6 ml-5 pb-6
 `;
