@@ -1,14 +1,23 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { query, collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase";
 import tw from "tailwind-styled-components/dist/tailwind";
-import { useServersState, setMemberIDs, setMembers } from "../features/servers";
+import {
+  useServersState,
+  setMemberIDs,
+  setMembers,
+  setMemberProfileCardOpen,
+  setMember,
+  setMemberProfileCardHeight,
+} from "../features/servers";
 import { UserData } from "../features/user";
 import { useAppDispatch } from "../redux/hooks";
 import Image from "next/image";
 
 export default function Members() {
-  const { server, members, memberIDs } = useServersState();
+  const { server, members, memberIDs, memberProfileCardOpen } =
+    useServersState();
+  const memberRef = useRef<HTMLLIElement[]>([]);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -66,14 +75,31 @@ export default function Members() {
     };
   }, [memberIDs]);
 
+  function viewProfile(member: UserData, index: number) {
+    dispatch(setMemberProfileCardOpen(!memberProfileCardOpen));
+
+    if (!memberRef.current) return;
+
+    const memberProfileCardHeight =
+      memberRef.current[index].getBoundingClientRect().top;
+
+    dispatch(setMember(member));
+
+    dispatch(setMemberProfileCardHeight(memberProfileCardHeight));
+  }
+
   return (
     <Container>
       <Sidebar>
         <Heading>MEMBERS - {members.length}</Heading>
         {members.map((member, index) => {
           return (
-            <MemberContainer key={index}>
-              <Member key={index}>
+            <MemberContainer
+              onClick={(e) => viewProfile(member, index)}
+              ref={(el) => (memberRef.current[index] = el)}
+              key={index}
+            >
+              <Member>
                 <StyledImage
                   loader={() => member.avatar}
                   src={member.avatar}

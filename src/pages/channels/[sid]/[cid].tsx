@@ -21,11 +21,12 @@ import AddServer from "../../../components/addServer/AddServer";
 import ServerDropdown from "../../../components/ServerDropdown";
 import { useServerSettingsState } from "../../../features/serverSettings";
 import InviteFriends from "../../../components/Servers/InviteFriends";
+import MemberProfileCard from "../../../components/MemberProfileCard";
 
 const Home: NextPage = () => {
   const auth = getAuth();
   const { user } = useUserState();
-  const { channel } = useServersState();
+  const { channel, memberProfileCardOpen } = useServersState();
   const { userSettingsOpen, memberListOpen } = useUserSettingsState();
   const { addServerOpen } = useAddServerState();
   const { serverDropdownOpen, inviteFriendsOpen } = useServerSettingsState();
@@ -107,6 +108,8 @@ const Home: NextPage = () => {
 
         <link rel="manifest" href="/manifest.json" />
       </Head>
+
+      {memberProfileCardOpen && <MemberProfileCard />}
 
       {userSettingsOpen && <UserSettings />}
 
