@@ -24,6 +24,8 @@ export default function UserProfileSettings() {
   }, []);
 
   useEffect(() => {
+    if (!userCopy) return;
+
     if (user !== userCopy) {
       dispatch(setUserChangesMade(true));
     } else {
