@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import tw from "tailwind-styled-components/dist/tailwind";
 import {
   setUserAbout,
+  setUserAvatar,
   setUserBanner,
   useUserState,
 } from "../../../../features/user";
@@ -45,6 +46,14 @@ export default function UserProfileSettings() {
     dispatch(setUserAbout(e.target.value));
   }
 
+  function removeAvatar() {
+    dispatch(
+      setUserAvatar(
+        "https://firebasestorage.googleapis.com/v0/b/banter-69832.appspot.com/o/users%2FdefaultProfilePicture.svg?alt=media&token=ec6842ea-d2e6-44b8-b6d4-2abcc747d787"
+      )
+    );
+  }
+
   return (
     <Container>
       <Heading>User Profile</Heading>
@@ -63,7 +72,9 @@ export default function UserProfileSettings() {
                 Change Avatar
               </ChangeAvatarButton>
 
-              <RemoveAvatarButton>Remove Avatar</RemoveAvatarButton>
+              <RemoveAvatarButton onClick={removeAvatar}>
+                Remove Avatar
+              </RemoveAvatarButton>
             </AvatarButtonsContainer>
           </SettingsContainer>
 
