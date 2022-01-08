@@ -20,6 +20,7 @@ import {
   EmailAuthProvider,
 } from "firebase/auth";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { UserData } from "./src/features/user";
 
 // import { getAnalytics } from "firebase/analytics";
 
@@ -94,6 +95,19 @@ async function updateUserDatabase(property: string, newValue: string) {
   );
 }
 
+export async function saveUserProfileChanges(newUser: UserData) {
+  if (!auth.currentUser) return;
+
+  const user = auth.currentUser;
+
+  await updateProfile(user, {
+    photoURL: newUser.avatar,
+  });
+
+  await updateUserDatabase("banner", newUser.banner);
+  await updateUserDatabase("about", newUser.about);
+}
+
 export async function signIn(email: string, password: string) {
   try {
     const userCredential = await signInWithEmailAndPassword(
@@ -129,6 +143,65 @@ export async function logOut() {
   } catch (error) {
     console.error(error);
     // An error happened.
+  }
+}
+
+export async function changeUsername(newUsername: string, password: string) {
+  if (!auth.currentUser || !auth.currentUser.email) return;
+
+  const user = auth.currentUser;
+
+  try {
+    if (!user.displayName) return;
+
+    await reauthenticateUser(password);
+
+    await updateProfile(user, {
+      displayName: newUsername,
+    });
+    // Profile updated!
+
+    await updateUserDatabase("username", user.displayName);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function changeEmail(newEmail: string, password: string) {
+  if (!auth.currentUser || !auth.currentUser.email) return;
+
+  const user = auth.currentUser;
+
+  try {
+    if (!user.email) return;
+
+    await reauthenticateUser(password);
+
+    await updateEmail(user, newEmail);
+
+    await updateUserDatabase("email", user.email);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function uploadAvatar(file: File, userID: string) {
+  const storage = getStorage();
+
+  const avatarRef = ref(storage, `users/${userID}/newAvatar`);
+
+  await uploadBytes(avatarRef, file);
+
+  return await getAvatarURL(userID);
+}
+
+async function getAvatarURL(userID: string) {
+  const storage = getStorage();
+
+  try {
+    return await getDownloadURL(ref(storage, `users/${userID}/newAvatar`));
+  } catch (error) {
+    console.error(error);
   }
 }
 
@@ -175,65 +248,6 @@ export async function joinServer(serverID: string) {
   await setDoc(doc(db, "servers", serverID, "members", user), {});
 
   await setDoc(doc(db, "users", user, "servers", serverID), {});
-}
-
-export async function changeUsername(newUsername: string, password: string) {
-  if (!auth.currentUser || !auth.currentUser.email) return;
-
-  const user = auth.currentUser;
-
-  try {
-    if (!user.displayName) return;
-
-    await reauthenticateUser(password);
-
-    await updateProfile(user, {
-      displayName: newUsername,
-    });
-    // Profile updated!
-
-    await updateUserDatabase("username", user.displayName);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-export async function changeEmail(newEmail: string, password: string) {
-  if (!auth.currentUser || !auth.currentUser.email) return;
-
-  const user = auth.currentUser;
-
-  try {
-    if (!user.email) return;
-
-    await reauthenticateUser(password);
-
-    await updateEmail(user, newEmail);
-
-    await updateUserDatabase("email", user.email);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-export async function uploadAvatar(file: File, userID: string) {
-  const storage = getStorage();
-
-  const avatarRef = ref(storage, `users/${userID}/avatar`);
-
-  await uploadBytes(avatarRef, file);
-
-  return await getAvatarURL(userID);
-}
-
-async function getAvatarURL(userID: string) {
-  const storage = getStorage();
-
-  try {
-    return await getDownloadURL(ref(storage, `users/${userID}/avatar`));
-  } catch (error) {
-    console.error(error);
-  }
 }
 
 export const app = initializeApp(firebaseConfig);
