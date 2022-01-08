@@ -12,6 +12,7 @@ export interface UserSettingsState {
   memberListOpen: boolean;
   userChangesMade: boolean;
   userCopy: UserData | null;
+  unsavedChangesError: boolean;
   loading: "idle" | "pending" | "succeeded" | "failed";
 }
 
@@ -25,6 +26,7 @@ const initialState: UserSettingsState = {
   memberListOpen: true,
   userChangesMade: false,
   userCopy: null,
+  unsavedChangesError: false,
   loading: "idle",
 };
 
@@ -68,6 +70,10 @@ export const userSettingsSlice = createSlice({
     setUserCopy(state, action) {
       state.userCopy = action.payload;
     },
+
+    setUnsavedChangesError(state, action) {
+      state.unsavedChangesError = action.payload;
+    },
   },
 });
 
@@ -81,6 +87,7 @@ export const {
   setMemberListOpen,
   setUserChangesMade,
   setUserCopy,
+  setUnsavedChangesError,
 } = userSettingsSlice.actions;
 
 export const useUserSettingsState = () =>
