@@ -31,7 +31,7 @@ export default function UserProfileSettings() {
     } else {
       dispatch(setUserChangesMade(false));
     }
-  }, [user]);
+  }, [user, userCopy]);
 
   function handleClick() {
     dispatch(setUserBanner("#7CC6FE"));
