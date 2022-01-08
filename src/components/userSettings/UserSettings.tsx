@@ -2,6 +2,7 @@ import tw from "tailwind-styled-components/dist/tailwind";
 import {
   setUnsavedChangesError,
   setUserSettingsOpen,
+  setUserSettingsScreen,
   useUserSettingsState,
 } from "../../features/userSettings";
 import SettingsSidebar from "./SettingsSidebar";
@@ -45,6 +46,7 @@ export default function UserSettings() {
     if (unsavedChanges()) return;
 
     dispatch(setUserSettingsOpen(!userSettingsOpen));
+    dispatch(setUserSettingsScreen("My Account"));
   }
 
   return (
