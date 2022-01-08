@@ -33,6 +33,9 @@ export interface ServersState {
   channel: ChannelData;
   messages: MessageData[];
   members: UserData[];
+  member: UserData;
+  memberProfileCardOpen: boolean;
+  memberProfileCardHeight: number | string;
   serverIDs: string[];
   memberIDs: string[];
   loading: "idle" | "pending" | "succeeded" | "failed";
@@ -60,6 +63,18 @@ const initialState: ServersState = {
 
   messages: [],
   members: [],
+
+  member: {
+    username: "",
+    tag: "",
+    avatar: "",
+    about: "",
+    banner: "",
+    userID: "",
+  },
+
+  memberProfileCardOpen: false,
+  memberProfileCardHeight: 0,
   serverIDs: [],
   memberIDs: [],
   loading: "idle",
@@ -94,6 +109,18 @@ export const serversSlice = createSlice({
       state.members = action.payload;
     },
 
+    setMember(state, action) {
+      state.member = action.payload;
+    },
+
+    setMemberProfileCardOpen(state, action) {
+      state.memberProfileCardOpen = action.payload;
+    },
+
+    setMemberProfileCardHeight(state, action) {
+      state.memberProfileCardHeight = action.payload;
+    },
+
     setServerIDs(state, action) {
       state.serverIDs = action.payload;
     },
@@ -119,6 +146,9 @@ export const {
   setChannel,
   setMessages,
   setMembers,
+  setMember,
+  setMemberProfileCardOpen,
+  setMemberProfileCardHeight,
   setServerIDs,
   setMemberIDs,
   resetServerState,
