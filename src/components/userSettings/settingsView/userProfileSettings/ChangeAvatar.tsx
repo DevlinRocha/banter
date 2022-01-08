@@ -23,6 +23,7 @@ export default function ChangeAvatar() {
     if (!e.target.files) return;
 
     const avatarURL = await uploadAvatar(e.target.files[0], user.userID);
+
     closeWindow();
 
     dispatch(setUserAvatar(avatarURL));

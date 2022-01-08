@@ -104,6 +104,7 @@ export async function saveUserProfileChanges(newUser: UserData) {
     photoURL: newUser.avatar,
   });
 
+  await updateUserDatabase("avatar", newUser.avatar);
   await updateUserDatabase("banner", newUser.banner);
   await updateUserDatabase("about", newUser.about);
 }
@@ -188,7 +189,7 @@ export async function changeEmail(newEmail: string, password: string) {
 export async function uploadAvatar(file: File, userID: string) {
   const storage = getStorage();
 
-  const avatarRef = ref(storage, `users/${userID}/newAvatar`);
+  const avatarRef = ref(storage, `users/${userID}/avatar`);
 
   await uploadBytes(avatarRef, file);
 
@@ -199,7 +200,7 @@ async function getAvatarURL(userID: string) {
   const storage = getStorage();
 
   try {
-    return await getDownloadURL(ref(storage, `users/${userID}/newAvatar`));
+    return await getDownloadURL(ref(storage, `users/${userID}/avatar`));
   } catch (error) {
     console.error(error);
   }
