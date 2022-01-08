@@ -8,7 +8,7 @@ export interface UserData {
   about: string;
   banner: string;
   userID: string;
-  email: string;
+  email?: string;
 }
 
 export interface UserState {
