@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { useAppSelector } from "../redux/hooks";
+import { UserData } from "./user";
 
 export interface UserSettingsState {
   userSettingsOpen: boolean;
@@ -7,7 +8,11 @@ export interface UserSettingsState {
   logoutConfirmOpen: boolean;
   changeUsernameOpen: boolean;
   changeEmailOpen: boolean;
+  changeAvatarOpen: boolean;
   memberListOpen: boolean;
+  userChangesMade: boolean;
+  userCopy: UserData | null;
+  unsavedChangesError: boolean;
   loading: "idle" | "pending" | "succeeded" | "failed";
 }
 
@@ -17,7 +22,11 @@ const initialState: UserSettingsState = {
   logoutConfirmOpen: false,
   changeUsernameOpen: false,
   changeEmailOpen: false,
+  changeAvatarOpen: false,
   memberListOpen: true,
+  userChangesMade: false,
+  userCopy: null,
+  unsavedChangesError: false,
   loading: "idle",
 };
 
@@ -46,8 +55,24 @@ export const userSettingsSlice = createSlice({
       state.changeEmailOpen = action.payload;
     },
 
+    setChangeAvatarOpen(state, action) {
+      state.changeAvatarOpen = action.payload;
+    },
+
     setMemberListOpen(state, action) {
       state.memberListOpen = action.payload;
+    },
+
+    setUserChangesMade(state, action) {
+      state.userChangesMade = action.payload;
+    },
+
+    setUserCopy(state, action) {
+      state.userCopy = action.payload;
+    },
+
+    setUnsavedChangesError(state, action) {
+      state.unsavedChangesError = action.payload;
     },
   },
 });
@@ -58,7 +83,11 @@ export const {
   setLogoutConfirmOpen,
   setChangeUsernameOpen,
   setChangeEmailOpen,
+  setChangeAvatarOpen,
   setMemberListOpen,
+  setUserChangesMade,
+  setUserCopy,
+  setUnsavedChangesError,
 } = userSettingsSlice.actions;
 
 export const useUserSettingsState = () =>

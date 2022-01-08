@@ -6,13 +6,43 @@ import instagramIcon from "../../../assets/instagramIcon.svg";
 import { useAppDispatch } from "../../redux/hooks";
 import {
   setLogoutConfirmOpen,
+  setUnsavedChangesError,
   setUserSettingsScreen,
   useUserSettingsState,
 } from "../../features/userSettings";
+import { useUserState } from "../../features/user";
 
 export default function SettingsSidebar() {
-  const { userSettingsScreen, logoutConfirmOpen } = useUserSettingsState();
+  const { userSettingsScreen, logoutConfirmOpen, userCopy } =
+    useUserSettingsState();
+  const { user } = useUserState();
   const dispatch = useAppDispatch();
+
+  function unsavedChanges() {
+    if (!userCopy) return false;
+
+    if (userCopy !== user) {
+      dispatch(setUnsavedChangesError(true));
+
+      setTimeout(() => {
+        dispatch(setUnsavedChangesError(false));
+      }, 1500);
+
+      return true;
+    }
+  }
+
+  function viewMyAccount() {
+    if (unsavedChanges()) return;
+
+    dispatch(setUserSettingsScreen("My Account"));
+  }
+
+  function viewUserProfile() {
+    if (unsavedChanges()) return;
+
+    dispatch(setUserSettingsScreen("User Profile"));
+  }
 
   return (
     <Container>
@@ -24,7 +54,7 @@ export default function SettingsSidebar() {
             className={`${
               userSettingsScreen === "My Account" && "bg-gray-300"
             }`}
-            onClick={() => dispatch(setUserSettingsScreen("My Account"))}
+            onClick={viewMyAccount}
           >
             My Account
           </MyAccount>
@@ -33,7 +63,7 @@ export default function SettingsSidebar() {
             className={`${
               userSettingsScreen === "User Profile" && "bg-gray-300"
             }`}
-            onClick={() => dispatch(setUserSettingsScreen("User Profile"))}
+            onClick={viewUserProfile}
           >
             User Profile
           </UserProfile>

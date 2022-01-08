@@ -1,15 +1,37 @@
+import { useEffect } from "react";
 import tw from "tailwind-styled-components/dist/tailwind";
 import {
   setUserAbout,
   setUserBanner,
   useUserState,
 } from "../../../../features/user";
+import {
+  setChangeAvatarOpen,
+  setUserChangesMade,
+  setUserCopy,
+  useUserSettingsState,
+} from "../../../../features/userSettings";
 import { useAppDispatch } from "../../../../redux/hooks";
 import UserProfileCard from "./UserProfileCard";
 
 export default function UserProfileSettings() {
   const { user } = useUserState();
+  const { userCopy } = useUserSettingsState();
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(setUserCopy(user));
+  }, []);
+
+  useEffect(() => {
+    if (!userCopy) return;
+
+    if (user !== userCopy) {
+      dispatch(setUserChangesMade(true));
+    } else {
+      dispatch(setUserChangesMade(false));
+    }
+  }, [user, userCopy]);
 
   function handleClick() {
     dispatch(setUserBanner("#7CC6FE"));
@@ -35,7 +57,11 @@ export default function UserProfileSettings() {
             <SettingsHeading>AVATAR</SettingsHeading>
 
             <AvatarButtonsContainer>
-              <ChangeAvatarButton>Change Avatar</ChangeAvatarButton>
+              <ChangeAvatarButton
+                onClick={() => dispatch(setChangeAvatarOpen(true))}
+              >
+                Change Avatar
+              </ChangeAvatarButton>
 
               <RemoveAvatarButton>Remove Avatar</RemoveAvatarButton>
             </AvatarButtonsContainer>
@@ -55,7 +81,7 @@ export default function UserProfileSettings() {
                 <ColorInput
                   onChange={handleColorChange}
                   type="color"
-                  defaultValue={user.banner}
+                  value={user.banner}
                 />
 
                 <ColorInputLabel>Custom</ColorInputLabel>
@@ -68,7 +94,7 @@ export default function UserProfileSettings() {
 
             <AboutMe
               onChange={handleAboutChange}
-              defaultValue={user.about}
+              value={user.about}
               placeholder="Tell this server a bit about yourself"
               maxLength={190}
               rows={6}

@@ -1,5 +1,6 @@
 import tw from "tailwind-styled-components/dist/tailwind";
 import {
+  setUnsavedChangesError,
   setUserSettingsOpen,
   useUserSettingsState,
 } from "../../features/userSettings";
@@ -11,6 +12,8 @@ import closeButton from "../../../assets/closeButton.svg";
 import { useAppDispatch } from "../../redux/hooks";
 import ChangeUsername from "./ChangeUsername";
 import ChangeEmail from "./ChangeEmail";
+import ChangeAvatar from "./settingsView/userProfileSettings/ChangeAvatar";
+import { useUserState } from "../../features/user";
 
 export default function UserSettings() {
   const {
@@ -18,8 +21,31 @@ export default function UserSettings() {
     logoutConfirmOpen,
     changeUsernameOpen,
     changeEmailOpen,
+    changeAvatarOpen,
+    userCopy,
   } = useUserSettingsState();
+  const { user } = useUserState();
   const dispatch = useAppDispatch();
+
+  function unsavedChanges() {
+    if (!userCopy) return false;
+
+    if (userCopy !== user) {
+      dispatch(setUnsavedChangesError(true));
+
+      setTimeout(() => {
+        dispatch(setUnsavedChangesError(false));
+      }, 1500);
+
+      return true;
+    }
+  }
+
+  function closeWindow() {
+    if (unsavedChanges()) return;
+
+    dispatch(setUserSettingsOpen(!userSettingsOpen));
+  }
 
   return (
     <Container>
@@ -29,6 +55,8 @@ export default function UserSettings() {
 
       {changeEmailOpen && <ChangeEmail />}
 
+      {changeAvatarOpen && <ChangeAvatar />}
+
       <SettingsSidebar />
 
       <SettingsContainer>
@@ -36,7 +64,7 @@ export default function UserSettings() {
 
         <CloseButton>
           <StyledImage
-            onClick={() => dispatch(setUserSettingsOpen(!userSettingsOpen))}
+            onClick={closeWindow}
             src={closeButton}
             width={36}
             height={36}
@@ -55,7 +83,7 @@ const Container = tw.div`
 `;
 
 const SettingsContainer = tw.div`
-  flex w-full h-full
+  relative flex w-full h-full
 `;
 
 const CloseButton = tw.figure`
