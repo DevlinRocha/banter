@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
-import Servers from "../../components/Servers/Servers";
+import Servers from "../../components/servers/Servers";
 import Channels from "../../components/channels/Channels";
 import UserSettings from "../../components/userSettings/UserSettings";
 import tw from "tailwind-styled-components/dist/tailwind";

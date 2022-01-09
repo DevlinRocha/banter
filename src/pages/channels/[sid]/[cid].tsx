@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
-import Servers from "../../../components/Servers/Servers";
+import Servers from "../../../components/servers/Servers";
 import Channels from "../../../components/channels/Channels";
 import Chat from "../../../components/chat/Chat";
 import UserSettings from "../../../components/userSettings/UserSettings";
@@ -20,7 +20,7 @@ import { useAddServerState } from "../../../features/addServer";
 import AddServer from "../../../components/addServer/AddServer";
 import ServerDropdown from "../../../components/ServerDropdown";
 import { useServerSettingsState } from "../../../features/serverSettings";
-import InviteFriends from "../../../components/Servers/InviteFriends";
+import InviteFriends from "../../../components/servers/InviteFriends";
 import MemberProfileCard from "../../../components/MemberProfileCard";
 
 const Home: NextPage = () => {
@@ -144,7 +144,7 @@ export async function getServerSideProps() {
   if (!auth) {
     return {
       redirect: {
-        destination: "/register",
+        destination: "/login",
         permanent: false,
       },
     };

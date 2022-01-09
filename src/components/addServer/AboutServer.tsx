@@ -3,7 +3,7 @@ import tw from "tailwind-styled-components/dist/tailwind";
 import { setAddServerOpen, setAddServerWindow } from "../../features/addServer";
 import { useAppDispatch } from "../../redux/hooks";
 import closeIcon from "../../../assets/closeIcon.svg";
-import AddServerIcon from "../Servers/AddServerIcon";
+import AddServerIcon from "../servers/AddServerIcon";
 
 export default function AboutServer() {
   const dispatch = useAppDispatch();
