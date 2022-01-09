@@ -118,7 +118,7 @@ export async function getServerSideProps() {
   if (!auth) {
     return {
       redirect: {
-        destination: "/register",
+        destination: "/login",
         permanent: false,
       },
     };
