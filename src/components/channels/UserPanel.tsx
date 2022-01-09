@@ -51,7 +51,7 @@ export default function UserPanel() {
 }
 
 const Container = tw.section`
-  flex justify-between w-60 h-14 px-2 bg-gray-100
+  flex justify-between w-60 h-14 px-2 bg-gray-100 select-text
 `;
 
 const UserInfo = tw.div`

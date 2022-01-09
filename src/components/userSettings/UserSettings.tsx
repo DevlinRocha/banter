@@ -81,7 +81,7 @@ export default function UserSettings() {
 }
 
 const Container = tw.div`
-  flex flex-none w-screen h-screen
+  flex flex-none w-screen h-screen select-none
 `;
 
 const SettingsContainer = tw.div`

@@ -94,7 +94,7 @@ export default function Messages() {
 }
 
 const Container = tw.div`
-  absolute flex w-full h-full overflow-y-scroll
+  absolute flex w-full h-full overflow-y-scroll select-text
 `;
 
 const List = tw.ol`
@@ -102,7 +102,7 @@ const List = tw.ol`
 `;
 
 const WelcomeMessage = tw.div`
-  m-4
+  m-4 select-none
 `;
 
 const Heading = tw.h1`
