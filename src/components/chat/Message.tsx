@@ -36,7 +36,7 @@ export default function Message(props: MessageProps) {
     const date = new Date(timestamp);
     const year = date.getFullYear();
     const month = date.getMonth();
-    const dayNumber = date.getDay();
+    const dayNumber = date.getDate();
     const day = getDay(date, dayNumber);
 
     let hours = date.getHours();
@@ -59,7 +59,7 @@ export default function Message(props: MessageProps) {
     if (day === "Today" || day === "Yesterday") {
       format = `${day} at ${hours}:${minutes} ${period}`;
     } else {
-      format = `${month}/${day}/${year}`;
+      format = `${month + 1}/${day}/${year}`;
     }
 
     return format;
