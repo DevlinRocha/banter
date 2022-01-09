@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import { useAppDispatch } from "../../redux/hooks";
 import {
   setMessages,
@@ -15,7 +15,7 @@ export default function Messages() {
   const scrollRef = useRef<any>();
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!scrollRef.current) return;
 
     scrollRef.current.scrollIntoView();
