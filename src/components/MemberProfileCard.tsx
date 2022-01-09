@@ -1,21 +1,80 @@
 import tw from "tailwind-styled-components/dist/tailwind";
 import Image from "next/image";
-import { setMemberProfileCardOpen, useServersState } from "../features/servers";
+import {
+  setMember,
+  setMemberProfileCardOpen,
+  setMemberProfileCardPosition,
+  useServersState,
+} from "../features/servers";
 import { useAppDispatch } from "../redux/hooks";
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { doc, onSnapshot } from "firebase/firestore";
+import { UserData } from "../features/user";
+import { db } from "../../firebase";
 
 export default function MemberProfileCard() {
-  const { member, memberProfileCardHeight } = useServersState();
-  const [containerStyle, setContainerStyle] = useState<ContainerStyle>({
-    top: 0,
-  });
+  const { member, memberID, memberProfileCardPosition } = useServersState();
+  const [setContainerStyle] = useState<any>({});
+  const containerRef = useRef<HTMLElement>();
   const dispatch = useAppDispatch();
 
-  useLayoutEffect(() => {
-    if (!memberProfileCardHeight) return;
+  const skippedRender = useRef(false);
 
-    setContainerStyle({ top: memberProfileCardHeight });
-  }, [memberProfileCardHeight]);
+  useEffect(() => {
+    if (skippedRender.current) {
+      return;
+    }
+    skippedRender.current = true;
+  }, []);
+
+  useEffect(() => {
+    if (
+      !memberProfileCardPosition ||
+      !memberProfileCardPosition.top ||
+      !containerRef.current
+    )
+      return;
+
+    const containerHeight = containerRef.current.getBoundingClientRect().height;
+
+    if (memberProfileCardPosition.top + containerHeight > window.innerHeight) {
+      dispatch(
+        setMemberProfileCardPosition({
+          top: window.innerHeight - containerHeight - 16,
+          left: memberProfileCardPosition.left,
+        })
+      );
+    }
+
+    setContainerStyle(memberProfileCardPosition);
+  }, [memberProfileCardPosition]);
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(doc(db, "users", memberID), (doc) => {
+      if (!doc.exists()) return;
+
+      const member: UserData = {
+        username: doc.data().username,
+
+        tag: doc.data().tag,
+
+        avatar: doc.data().avatar,
+
+        about: doc.data().about,
+
+        banner: doc.data().banner,
+
+        userID: doc.id,
+
+        email: doc.data().email,
+      };
+
+      dispatch(setMember(member));
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   function closeWindow() {
     dispatch(setMemberProfileCardOpen(false));
@@ -29,39 +88,41 @@ export default function MemberProfileCard() {
     backgroundColor: member.banner,
   };
 
-  interface ContainerStyle {
-    top: number | string;
-  }
-
   return (
     <Backdrop onClick={closeWindow}>
-      <Container onClick={stopPropagation} style={containerStyle}>
-        <Banner style={bannerStyle} />
+      {skippedRender.current ? (
+        <Container
+          onClick={stopPropagation}
+          ref={containerRef}
+          style={memberProfileCardPosition}
+        >
+          <Banner style={bannerStyle} />
 
-        <ProfilePicture>
-          <StyledImage
-            loader={() => member.avatar}
-            src={member.avatar}
-            width={80}
-            height={80}
-            alt="Profile picture"
-          />
-        </ProfilePicture>
+          <ProfilePicture>
+            <StyledImage
+              loader={() => member.avatar}
+              src={member.avatar}
+              width={80}
+              height={80}
+              alt="Profile picture"
+            />
+          </ProfilePicture>
 
-        <UsernameContainer>
-          <Username>{member.username}</Username>
+          <UsernameContainer>
+            <Username>{member.username}</Username>
 
-          <Tag>#{member.tag}</Tag>
-        </UsernameContainer>
+            <Tag>#{member.tag}</Tag>
+          </UsernameContainer>
 
-        <ProfileContainer>
-          <Divider />
+          <ProfileContainer>
+            <Divider />
 
-          <ProfileHeading>ABOUT ME</ProfileHeading>
+            <ProfileHeading>ABOUT ME</ProfileHeading>
 
-          <AboutMeContainer>{member.about}</AboutMeContainer>
-        </ProfileContainer>
-      </Container>
+            <AboutMeContainer>{member.about}</AboutMeContainer>
+          </ProfileContainer>
+        </Container>
+      ) : null}
     </Backdrop>
   );
 }
@@ -71,7 +132,7 @@ const Backdrop = tw.div`
 `;
 
 const Container = tw.section`
-  absolute right-[248px] flex flex-col w-[18.75rem] bg-white rounded drop-shadow-xl
+  absolute flex flex-col w-[18.75rem] bg-white rounded drop-shadow-xl
 `;
 
 const ProfileContainer = tw.section`

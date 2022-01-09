@@ -7,10 +7,10 @@ import {
   setMemberIDs,
   setMembers,
   setMemberProfileCardOpen,
-  setMember,
-  setMemberProfileCardHeight,
+  MemberData,
+  setMemberID,
+  setMemberProfileCardPosition,
 } from "../features/servers";
-import { UserData } from "../features/user";
 import { useAppDispatch } from "../redux/hooks";
 import Image from "next/image";
 
@@ -43,25 +43,17 @@ export default function Members() {
     const q = query(collection(db, "users"));
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const memberList: UserData[] = [];
+      const memberList: MemberData[] = [];
 
       querySnapshot.forEach((doc) => {
         if (!memberIDs.includes(doc.id)) return;
 
-        const member: UserData = {
+        const member: MemberData = {
           username: doc.data().username,
-
-          tag: doc.data().tag,
 
           avatar: doc.data().avatar,
 
-          about: doc.data().about,
-
-          banner: doc.data().banner,
-
           userID: doc.id,
-
-          email: doc.data().email,
         };
 
         memberList.push(member);
@@ -75,17 +67,19 @@ export default function Members() {
     };
   }, [memberIDs]);
 
-  function viewProfile(member: UserData, index: number) {
+  function viewProfile(userID: string, index: number) {
     dispatch(setMemberProfileCardOpen(!memberProfileCardOpen));
 
     if (!memberRef.current) return;
 
-    const memberProfileCardHeight =
+    const memberProfileCardY =
       memberRef.current[index].getBoundingClientRect().top;
 
-    dispatch(setMember(member));
+    dispatch(setMemberID(userID));
 
-    dispatch(setMemberProfileCardHeight(memberProfileCardHeight));
+    dispatch(
+      setMemberProfileCardPosition({ top: memberProfileCardY, right: 248 })
+    );
   }
 
   return (
@@ -95,7 +89,7 @@ export default function Members() {
         {members.map((member, index) => {
           return (
             <MemberContainer
-              onClick={(e) => viewProfile(member, index)}
+              onClick={() => viewProfile(member.userID, index)}
               ref={(el) => (memberRef.current[index] = el)}
               key={index}
             >
