@@ -1,9 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, RefObject } from "react";
 import tw from "tailwind-styled-components";
 import Image from "next/image";
-import { MessageData } from "../../features/servers";
+import {
+  MessageData,
+  setMemberID,
+  setMemberProfileCardPosition,
+  setMemberProfileCardOpen,
+  useServersState,
+} from "../../features/servers";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../../firebase";
+import { useAppDispatch } from "../../redux/hooks";
 
 interface MessageProps {
   message: MessageData;
@@ -14,9 +21,14 @@ export default function Message(props: MessageProps) {
   const [avatar, setAvatar] = useState(
     "https://firebasestorage.googleapis.com/v0/b/banter-69832.appspot.com/o/defaultProfilePicture.svg?alt=media&token=e0ee525e-6ad5-4098-9198-77608ec38f3a"
   );
+  const avatarRef = useRef<HTMLDivElement>(null);
+  const messageRef = useRef<HTMLHeadingElement>(null);
+  const { memberProfileCardOpen } = useServersState();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const userID = props.message.userID;
+
     const unsubscribe = onSnapshot(doc(db, "users", userID), (doc) => {
       if (!doc.exists()) return;
 
@@ -86,9 +98,33 @@ export default function Message(props: MessageProps) {
     }
   }
 
+  function viewProfile(
+    userID: string,
+    ref: RefObject<HTMLHeadingElement | HTMLDivElement>
+  ) {
+    dispatch(setMemberProfileCardOpen(!memberProfileCardOpen));
+
+    if (!ref.current) return;
+
+    const memberProfileCardX = ref.current.getBoundingClientRect().right;
+    const memberProfileCardY = ref.current.getBoundingClientRect().top;
+
+    dispatch(setMemberID(userID));
+
+    dispatch(
+      setMemberProfileCardPosition({
+        left: memberProfileCardX + 6,
+        top: memberProfileCardY,
+      })
+    );
+  }
+
   return (
     <Container>
-      <ProfilePicture>
+      <ProfilePicture
+        onClick={() => viewProfile(props.message.userID, avatarRef)}
+        ref={avatarRef}
+      >
         <StyledImage
           loader={() => avatar}
           src={avatar}
@@ -100,7 +136,12 @@ export default function Message(props: MessageProps) {
 
       <MessageContent>
         <MessageInfo>
-          <Username>{username}</Username>
+          <Username
+            onClick={() => viewProfile(props.message.userID, messageRef)}
+            ref={messageRef}
+          >
+            {username}
+          </Username>
 
           <MessageDate>{getDate()}</MessageDate>
         </MessageInfo>
@@ -112,16 +153,16 @@ export default function Message(props: MessageProps) {
 }
 
 const Container = tw.li`
-  flex w-full mt-[17px] py-0.5 pr-12 pl-4 gap-4 select-text
+  flex w-full mt-[17px] py-0.5 pr-12 pl-4 select-text
   hover:bg-gray-50
 `;
 
 const ProfilePicture = tw.div`
-  flex-none mt-0.5 select-none
+  flex-none mt-0.5 cursor-pointer select-none
 `;
 
 const MessageContent = tw.div`
-  flex flex-col
+  flex flex-col pl-4
 `;
 
 const StyledImage = tw(Image)`
@@ -129,15 +170,16 @@ const StyledImage = tw(Image)`
 `;
 
 const MessageInfo = tw.div`
-  flex flex-wrap gap-1
+  flex flex-wrap
 `;
 
 const Username = tw.h2`
-  text-gray-900 font-semibold
+  mr-1 text-gray-900 font-semibold cursor-pointer
+  hover:underline hover:decoration-gray-900
 `;
 
 const MessageDate = tw.span`
-  flex items-center text-xs
+  flex items-center ml-1 text-xs
 `;
 
 const Content = tw.p`
