@@ -26,16 +26,30 @@ export interface MessageData {
   edited: boolean;
 }
 
+export interface MemberData {
+  username: string;
+  avatar: string;
+  userID: string;
+}
+
+export interface PositionData {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+}
+
 export interface ServersState {
   servers: ServerData[];
   server: ServerData;
   channels: ChannelData[];
   channel: ChannelData;
   messages: MessageData[];
-  members: UserData[];
+  members: MemberData[];
+  memberID: string;
   member: UserData;
   memberProfileCardOpen: boolean;
-  memberProfileCardHeight: number | string;
+  memberProfileCardPosition: PositionData;
   serverIDs: string[];
   memberIDs: string[];
   loading: "idle" | "pending" | "succeeded" | "failed";
@@ -73,8 +87,9 @@ const initialState: ServersState = {
     userID: "",
   },
 
+  memberID: "",
   memberProfileCardOpen: false,
-  memberProfileCardHeight: 0,
+  memberProfileCardPosition: {},
   serverIDs: [],
   memberIDs: [],
   loading: "idle",
@@ -113,12 +128,16 @@ export const serversSlice = createSlice({
       state.member = action.payload;
     },
 
+    setMemberID(state, action) {
+      state.memberID = action.payload;
+    },
+
     setMemberProfileCardOpen(state, action) {
       state.memberProfileCardOpen = action.payload;
     },
 
-    setMemberProfileCardHeight(state, action) {
-      state.memberProfileCardHeight = action.payload;
+    setMemberProfileCardPosition(state, action) {
+      state.memberProfileCardPosition = action.payload;
     },
 
     setServerIDs(state, action) {
@@ -147,8 +166,9 @@ export const {
   setMessages,
   setMembers,
   setMember,
+  setMemberID,
   setMemberProfileCardOpen,
-  setMemberProfileCardHeight,
+  setMemberProfileCardPosition,
   setServerIDs,
   setMemberIDs,
   resetServerState,
