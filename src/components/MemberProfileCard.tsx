@@ -91,7 +91,7 @@ const StyledImage = tw(Image)`
 `;
 
 const UsernameContainer = tw.div`
-  pt-16 pb-4 pl-4 text-xl font-medium
+  pt-16 pb-4 pl-4 text-xl font-medium select-text
 `;
 
 const Username = tw.span`
@@ -110,4 +110,5 @@ const ProfileHeading = tw.h3`
 `;
 
 const AboutMeContainer = tw.div`
+  select-text
 `;
