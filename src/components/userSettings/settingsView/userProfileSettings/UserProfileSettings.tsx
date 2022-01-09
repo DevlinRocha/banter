@@ -9,7 +9,6 @@ import {
 import {
   setChangeAvatarOpen,
   setUserChangesMade,
-  setUserCopy,
   useUserSettingsState,
 } from "../../../../features/userSettings";
 import { useAppDispatch } from "../../../../redux/hooks";
@@ -19,10 +18,6 @@ export default function UserProfileSettings() {
   const { user } = useUserState();
   const { userCopy } = useUserSettingsState();
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(setUserCopy(user));
-  }, []);
 
   useEffect(() => {
     if (!userCopy) return;

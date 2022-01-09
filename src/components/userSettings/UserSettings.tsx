@@ -1,6 +1,7 @@
 import tw from "tailwind-styled-components/dist/tailwind";
 import {
   setUnsavedChangesError,
+  setUserCopy,
   setUserSettingsOpen,
   setUserSettingsScreen,
   useUserSettingsState,
@@ -15,6 +16,7 @@ import ChangeUsername from "./ChangeUsername";
 import ChangeEmail from "./ChangeEmail";
 import ChangeAvatar from "./settingsView/userProfileSettings/ChangeAvatar";
 import { useUserState } from "../../features/user";
+import { useEffect } from "react";
 
 export default function UserSettings() {
   const {
@@ -27,6 +29,10 @@ export default function UserSettings() {
   } = useUserSettingsState();
   const { user } = useUserState();
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(setUserCopy(user));
+  }, []);
 
   function unsavedChanges() {
     if (!userCopy) return false;
