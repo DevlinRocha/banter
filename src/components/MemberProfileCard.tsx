@@ -7,18 +7,20 @@ import {
   useServersState,
 } from "../features/servers";
 import { useAppDispatch } from "../redux/hooks";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import { doc, onSnapshot } from "firebase/firestore";
 import { UserData } from "../features/user";
 import { db } from "../../firebase";
 
 export default function MemberProfileCard() {
   const { member, memberID, memberProfileCardPosition } = useServersState();
-  const [setContainerStyle] = useState<any>({});
-  const containerRef = useRef<HTMLElement>();
   const dispatch = useAppDispatch();
-
+  const containerRef = useRef<HTMLElement | null>(null);
   const skippedRender = useRef(false);
+
+  const onRef = (node: HTMLElement) => {
+    if (node) containerRef.current = node;
+  };
 
   useEffect(() => {
     if (skippedRender.current) {
@@ -27,7 +29,7 @@ export default function MemberProfileCard() {
     skippedRender.current = true;
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (
       !memberProfileCardPosition ||
       !memberProfileCardPosition.top ||
@@ -45,9 +47,7 @@ export default function MemberProfileCard() {
         })
       );
     }
-
-    setContainerStyle(memberProfileCardPosition);
-  }, [memberProfileCardPosition]);
+  }, [memberProfileCardPosition, onRef]);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(doc(db, "users", memberID), (doc) => {
@@ -90,10 +90,10 @@ export default function MemberProfileCard() {
 
   return (
     <Backdrop onClick={closeWindow}>
-      {skippedRender.current ? (
+      {skippedRender.current && (
         <Container
           onClick={stopPropagation}
-          ref={containerRef}
+          ref={onRef}
           style={memberProfileCardPosition}
         >
           <Banner style={bannerStyle} />
@@ -122,7 +122,7 @@ export default function MemberProfileCard() {
             <AboutMeContainer>{member.about}</AboutMeContainer>
           </ProfileContainer>
         </Container>
-      ) : null}
+      )}
     </Backdrop>
   );
 }
