@@ -112,12 +112,12 @@ export default function Message(props: MessageProps) {
 }
 
 const Container = tw.li`
-  flex w-full mt-[17px] py-0.5 pr-12 pl-4 gap-4
+  flex w-full mt-[17px] py-0.5 pr-12 pl-4 gap-4 select-text
   hover:bg-gray-50
 `;
 
 const ProfilePicture = tw.div`
-  flex-none mt-0.5
+  flex-none mt-0.5 select-none
 `;
 
 const MessageContent = tw.div`
