@@ -32,7 +32,7 @@ export default function Register() {
 export async function getServerSideProps() {
   const auth = getAuth();
 
-  if (auth) {
+  if (auth.currentUser) {
     return {
       redirect: {
         destination: "/channels/@me",

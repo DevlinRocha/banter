@@ -138,22 +138,6 @@ const Home: NextPage = () => {
   );
 };
 
-export async function getServerSideProps() {
-  const auth = getAuth();
-
-  if (!auth) {
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  }
-  return {
-    props: {},
-  };
-}
-
 const PageContainer = tw.div`
   flex w-screen h-screen overflow-hidden
 `;
