@@ -53,6 +53,22 @@ export default function Register() {
   );
 }
 
+export async function getServerSideProps() {
+  const auth = getAuth();
+
+  if (auth) {
+    return {
+      redirect: {
+        destination: "/channels/@me",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {},
+  };
+}
+
 const Container = tw.div`
   flex justify-center items-center w-screen h-screen bg-indigo-500
 `;
