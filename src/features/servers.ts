@@ -12,7 +12,8 @@ export interface ServerData {
 
 export interface ChannelData {
   name: string;
-  topic: string;
+  topic?: string;
+  type: string;
   path: string;
   channelID: string;
 }
@@ -44,6 +45,7 @@ export interface ServersState {
   server: ServerData;
   channels: ChannelData[];
   channel: ChannelData;
+  voiceChannel: ChannelData;
   messages: MessageData[];
   members: MemberData[];
   memberID: string;
@@ -71,6 +73,14 @@ const initialState: ServersState = {
   channel: {
     name: "",
     topic: "",
+    type: "text",
+    path: "",
+    channelID: "",
+  },
+
+  voiceChannel: {
+    name: "",
+    type: "voice",
     path: "",
     channelID: "",
   },
@@ -116,6 +126,10 @@ export const serversSlice = createSlice({
       state.channel = action.payload;
     },
 
+    setVoiceChannel(state, action) {
+      state.voiceChannel = action.payload;
+    },
+
     setMessages(state, action) {
       state.messages = action.payload;
     },
@@ -152,6 +166,7 @@ export const serversSlice = createSlice({
       state.server = initialState.server;
       state.channels = initialState.channels;
       state.channel = initialState.channel;
+      state.voiceChannel = initialState.voiceChannel;
       state.memberIDs = initialState.memberIDs;
       state.messages = initialState.messages;
     },
@@ -163,6 +178,7 @@ export const {
   setServer,
   setChannels,
   setChannel,
+  setVoiceChannel,
   setMessages,
   setMembers,
   setMember,
