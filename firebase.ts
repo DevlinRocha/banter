@@ -66,7 +66,7 @@ export async function createAccount(
 
       tag: "0000", // Create function to generate unique tag for each username
 
-      about: "I'm new to Banter :)",
+      about: "",
 
       banner: "#7CC6FE",
 

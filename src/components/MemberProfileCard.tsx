@@ -42,8 +42,8 @@ export default function MemberProfileCard() {
     if (memberProfileCardPosition.top + containerHeight > window.innerHeight) {
       dispatch(
         setMemberProfileCardPosition({
+          ...memberProfileCardPosition,
           top: window.innerHeight - containerHeight - 16,
-          left: memberProfileCardPosition.left,
         })
       );
     }
@@ -117,9 +117,13 @@ export default function MemberProfileCard() {
           <ProfileContainer>
             <Divider />
 
-            <ProfileHeading>ABOUT ME</ProfileHeading>
+            {member.about && (
+              <>
+                <ProfileHeading>ABOUT ME</ProfileHeading>
 
-            <AboutMeContainer>{member.about}</AboutMeContainer>
+                <AboutMeContainer>{member.about}</AboutMeContainer>
+              </>
+            )}
           </ProfileContainer>
         </Container>
       )}
