@@ -117,9 +117,13 @@ export default function MemberProfileCard() {
           <ProfileContainer>
             <Divider />
 
-            <ProfileHeading>ABOUT ME</ProfileHeading>
+            {member.about && (
+              <>
+                <ProfileHeading>ABOUT ME</ProfileHeading>
 
-            <AboutMeContainer>{member.about}</AboutMeContainer>
+                <AboutMeContainer>{member.about}</AboutMeContainer>
+              </>
+            )}
           </ProfileContainer>
         </Container>
       )}
