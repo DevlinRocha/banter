@@ -42,8 +42,8 @@ export default function MemberProfileCard() {
     if (memberProfileCardPosition.top + containerHeight > window.innerHeight) {
       dispatch(
         setMemberProfileCardPosition({
+          ...memberProfileCardPosition,
           top: window.innerHeight - containerHeight - 16,
-          left: memberProfileCardPosition.left,
         })
       );
     }
