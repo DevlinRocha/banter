@@ -5,13 +5,14 @@ import {
   ChannelData,
   setChannel,
   setChannels,
+  setVoiceChannel,
   useServersState,
 } from "../../features/servers";
 import { query, collection, onSnapshot, doc } from "firebase/firestore";
 import UserPanel from "./UserPanel";
 import Link from "next/link";
 import tw from "tailwind-styled-components/dist/tailwind";
-import { db } from "../../../firebase";
+import { db, joinVoice } from "../../../firebase";
 import { useRouter } from "next/router";
 import downArrowIcon from "../../../assets/downArrowIcon.svg";
 import {
@@ -87,6 +88,12 @@ export default function Channels() {
     dispatch(setChannel(channel));
   }
 
+  function joinVoiceChannel(channel: ChannelData) {
+    dispatch(setVoiceChannel(channel));
+
+    joinVoice(server.serverID, channel.channelID);
+  }
+
   function toggleDropdown() {
     dispatch(setserverDropdownOpen(!serverDropdownOpen));
   }
@@ -102,7 +109,7 @@ export default function Channels() {
       <ChannelListContainer>
         <ChannelList>
           {channels.map((channel, index) => {
-            return (
+            return channel.type === "text" ? (
               <Link href={channel.path} key={index} passHref>
                 <a onClick={() => joinChannel(channel)}>
                   <Channel channel={channel} path={router.asPath}>
@@ -110,6 +117,14 @@ export default function Channels() {
                   </Channel>
                 </a>
               </Link>
+            ) : (
+              <Channel
+                onClick={() => joinVoiceChannel(channel)}
+                channel={channel}
+                path={router.asPath}
+              >
+                {channel.name}
+              </Channel>
             );
           })}
         </ChannelList>
