@@ -39,6 +39,8 @@ export default function Channels() {
 
           topic: doc.data().topic,
 
+          type: doc.data().type,
+
           path: `/channels/${server.serverID}/${doc.id}/`,
 
           channelID: doc.id,
@@ -66,6 +68,8 @@ export default function Channels() {
 
           topic: doc.data()?.topic,
 
+          type: doc.data()?.type,
+
           path: `${server.serverID}/${doc.id}/`,
 
           channelID: doc.id,
@@ -79,7 +83,7 @@ export default function Channels() {
     };
   }, [server]);
 
-  function handleClick(channel: ChannelData) {
+  function joinChannel(channel: ChannelData) {
     dispatch(setChannel(channel));
   }
 
@@ -100,7 +104,7 @@ export default function Channels() {
           {channels.map((channel, index) => {
             return (
               <Link href={channel.path} key={index} passHref>
-                <a onClick={() => handleClick(channel)}>
+                <a onClick={() => joinChannel(channel)}>
                   <Channel channel={channel} path={router.asPath}>
                     # {channel.name}
                   </Channel>
