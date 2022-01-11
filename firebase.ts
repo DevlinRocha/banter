@@ -206,9 +206,9 @@ async function getAvatarURL(userID: string) {
   }
 }
 
-export async function createServer(name: string) {
+export async function createServer(serverName: string) {
   const serverDocRef = await addDoc(collection(db, "servers"), {
-    name: name,
+    name: serverName,
 
     img: "",
 
@@ -217,16 +217,31 @@ export async function createServer(name: string) {
     isPublic: false,
   });
 
+  const defaultChannelRef = await createChannel(
+    serverDocRef.id,
+    "general",
+    "text"
+  );
+
+  await updateDefaultChannel(serverDocRef, defaultChannelRef);
+
+  await joinServer(serverDocRef.id);
+}
+
+export async function createChannel(
+  serverID: string,
+  channelName: string,
+  type: string
+) {
   const channelDocRef = await addDoc(
-    collection(db, "servers", serverDocRef.id, "channels"),
+    collection(db, "servers", serverID, "channels"),
     {
-      name: "general",
+      name: channelName,
+      type: type,
     }
   );
 
-  await updateDefaultChannel(serverDocRef, channelDocRef);
-
-  await joinServer(serverDocRef.id);
+  return channelDocRef;
 }
 
 export async function updateDefaultChannel(server: any, channel: any) {
