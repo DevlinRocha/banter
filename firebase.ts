@@ -7,6 +7,8 @@ import {
   collection,
   updateDoc,
   getDoc,
+  DocumentData,
+  DocumentReference,
 } from "firebase/firestore";
 import {
   getAuth,
@@ -244,7 +246,10 @@ export async function createChannel(
   return channelDocRef;
 }
 
-export async function updateDefaultChannel(server: any, channel: any) {
+export async function updateDefaultChannel(
+  server: DocumentReference<DocumentData>,
+  channel: DocumentReference<DocumentData>
+) {
   await updateDoc(server, {
     defaultChannel: channel.id,
   });
