@@ -7,9 +7,7 @@ import {
   collection,
   updateDoc,
   getDoc,
-  getDocs,
   onSnapshot,
-  deleteDoc,
   DocumentReference,
   DocumentData,
 } from "firebase/firestore";
@@ -228,7 +226,7 @@ export async function createServer(serverName: string) {
     "text"
   );
 
-  createChannel(serverDocRef.id, "General", "voice");
+  await createChannel(serverDocRef.id, "General", "voice");
 
   await updateDefaultChannel(serverDocRef, defaultChannelRef);
 
@@ -249,23 +247,24 @@ export async function createChannel(
   );
 
   if (type === "voice") {
-    createVoiceChannel(serverID, channelDocRef.id);
+    createVoiceChannel(channelDocRef);
   }
 
   return channelDocRef;
 }
 
-async function createVoiceChannel(serverID: string, channelID: string) {
-  const channelRef = doc(db, "servers", serverID, "channels", channelID);
-
+export async function createVoiceChannel(channelDocRef: DocumentReference) {
   console.log("Create PeerConnection with configuration: ", configuration);
 
   const peerConnection = new RTCPeerConnection(configuration);
 
-  registerPeerConnectionListeners();
+  registerPeerConnectionListeners(peerConnection);
 
   // Code for collecting ICE candidates below
-  const callerCandidatesCollection = collection(channelRef, "callerCandidates");
+  const callerCandidatesCollection = collection(
+    channelDocRef,
+    "callerCandidates"
+  );
 
   peerConnection.addEventListener(
     "icecandidate",
@@ -292,25 +291,24 @@ async function createVoiceChannel(serverID: string, channelID: string) {
     },
   };
 
-  await setDoc(channelRef, roomWithOffer, { merge: true });
-  roomId = channelRef.id;
-  console.log(`New room created with SDP offer. Room ID: ${channelRef.id}`);
+  await setDoc(channelDocRef, roomWithOffer, { merge: true });
+  console.log(`New room created with SDP offer. Room ID: ${channelDocRef.id}`);
   // Code for creating a room above
 
   // Peer connection event listener, can try:
-  // const { remoteStream } = await openUserMedia();
+  const remoteStream = new MediaStream();
 
-  // peerConnection.addEventListener("track", (event) => {
-  //   console.log("Got remote track:", event.streams[0]);
-  //   event.streams[0].getTracks().forEach(async (track) => {
-  //     console.log("Add a track to the remoteStream:", track);
-  //     remoteStream.addTrack(track);
-  //   });
-  // });
+  peerConnection.addEventListener("track", (event) => {
+    console.log("Got remote track:", event.streams[0]);
+    event.streams[0].getTracks().forEach(async (track) => {
+      console.log("Add a track to the remoteStream:", track);
+      remoteStream.addTrack(track);
+    });
+  });
 
   // Listening for remote session description below
   // Needs to unsubscribe from listener when disconnecting from channel
-  const unsubscribe = onSnapshot(channelRef, async (snapshot) => {
+  onSnapshot(channelDocRef, async (snapshot) => {
     const data = snapshot.data();
     if (!peerConnection.currentRemoteDescription && data && data.answer) {
       console.log("Got remote description: ", data.answer);
@@ -322,18 +320,15 @@ async function createVoiceChannel(serverID: string, channelID: string) {
 
   // Listen for remote ICE candidates below
 
-  const unsubscribe2 = onSnapshot(
-    callerCandidatesCollection,
-    async (snapshot) => {
-      snapshot.docChanges().forEach(async (change) => {
-        if (change.type === "added") {
-          let data = change.doc.data();
-          console.log(`Got new remote ICE candidate: ${JSON.stringify(data)}`);
-          await peerConnection.addIceCandidate(new RTCIceCandidate(data));
-        }
-      });
-    }
-  );
+  onSnapshot(callerCandidatesCollection, async (snapshot) => {
+    snapshot.docChanges().forEach(async (change) => {
+      if (change.type === "added") {
+        let data = change.doc.data();
+        console.log(`Got new remote ICE candidate: ${JSON.stringify(data)}`);
+        await peerConnection.addIceCandidate(new RTCIceCandidate(data));
+      }
+    });
+  });
   // Listen for remote ICE candidates above
 }
 
@@ -364,88 +359,83 @@ export async function joinServer(serverID: string) {
 
 // VOICE CHAT FUNCTIONS
 
-export async function joinVoice(serverID: string, channelID: string) {
-  const { localStream, remoteStream } = await openUserMedia();
-
+export async function joinVoice(
+  serverID: string,
+  channelID: string,
+  localStream: MediaStream,
+  remoteStream: MediaStream
+) {
   const channelRef = doc(db, "servers", serverID, "channels", channelID);
   const channelSnapshot = await getDoc(channelRef);
 
   console.log("Got room:", channelSnapshot.exists());
 
-  if (channelSnapshot.exists()) {
-    console.log("Create PeerConnection with configuration: ", configuration);
-    const peerConnection = new RTCPeerConnection(configuration);
+  if (!channelSnapshot.exists()) return;
 
-    registerPeerConnectionListeners();
+  console.log("Create PeerConnection with configuration: ", configuration);
+  const peerConnection = new RTCPeerConnection(configuration);
 
-    localStream.getTracks().forEach((track) => {
-      peerConnection.addTrack(track, localStream);
+  registerPeerConnectionListeners(peerConnection);
+
+  localStream.getTracks().forEach((track) => {
+    console.log("Local track:", track);
+    peerConnection.addTrack(track, localStream);
+  });
+
+  // Code for collecting ICE candidates below
+  const calleeCandidatesCollection = collection(channelRef, "calleeCandidates");
+
+  peerConnection.addEventListener("icecandidate", async (event) => {
+    if (!event.candidate) {
+      console.log("Got final candidate!");
+      return;
+    }
+    console.log("Got candidate: ", event.candidate);
+    await addDoc(calleeCandidatesCollection, event.candidate.toJSON());
+  });
+  // Code for collecting ICE candidates above
+
+  peerConnection.addEventListener("track", (event) => {
+    console.log("Got remote track:", event.streams[0]);
+    event.streams[0].getTracks().forEach((track) => {
+      console.log("Add a track to the remoteStream:", track);
+      remoteStream.addTrack(track);
     });
+  });
 
-    // Code for collecting ICE candidates below
-    const calleeCandidatesCollection = collection(
-      channelRef,
-      "calleeCandidates"
-    );
+  // Code for creating SDP answer below
 
-    peerConnection.addEventListener("icecandidate", async (event) => {
-      if (!event.candidate) {
-        console.log("Got final candidate!");
-        return;
+  const offer = channelSnapshot.data().offer;
+  console.log("Got offer:", offer);
+  await peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
+  const answer = await peerConnection.createAnswer();
+  console.log("Created answer:", answer);
+  await peerConnection.setLocalDescription(answer);
+
+  const roomWithAnswer = {
+    answer: {
+      type: answer.type,
+      sdp: answer.sdp,
+    },
+  };
+  await updateDoc(channelRef, roomWithAnswer);
+  // Code for creating SDP answer above
+
+  const callerCandidatesCollection = collection(channelRef, "callerCandidates");
+
+  // Listening for remote ICE candidates below
+  onSnapshot(callerCandidatesCollection, async (snapshot) => {
+    snapshot.docChanges().forEach(async (change) => {
+      if (change.type === "added") {
+        let data = change.doc.data();
+        console.log(`Got new remote ICE candidate: ${JSON.stringify(data)}`);
+        await peerConnection.addIceCandidate(new RTCIceCandidate(data));
       }
-      console.log("Got candidate: ", event.candidate);
-      await addDoc(calleeCandidatesCollection, event.candidate.toJSON());
     });
-    // Code for collecting ICE candidates above
+  });
+  // Listening for remote ICE candidates above
 
-    peerConnection.addEventListener("track", (event) => {
-      console.log("Got remote track:", event.streams[0]);
-      event.streams[0].getTracks().forEach((track) => {
-        console.log("Add a track to the remoteStream:", track);
-        remoteStream.addTrack(track);
-      });
-    });
-
-    // Code for creating SDP answer below
-
-    const offer = channelSnapshot.data().offer;
-    console.log("Got offer:", offer);
-    await peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
-    const answer = await peerConnection.createAnswer();
-    console.log("Created answer:", answer);
-    await peerConnection.setLocalDescription(answer);
-
-    const roomWithAnswer = {
-      answer: {
-        type: answer.type,
-        sdp: answer.sdp,
-      },
-    };
-    await setDoc(channelRef, roomWithAnswer, { merge: true });
-    // Code for creating SDP answer above
-
-    const callerCandidatesCollection = collection(
-      channelRef,
-      "callerCandidates"
-    );
-
-    // Listening for remote ICE candidates below
-    const unsubscribe = onSnapshot(
-      callerCandidatesCollection,
-      async (snapshot) => {
-        snapshot.docChanges().forEach(async (change) => {
-          if (change.type === "added") {
-            let data = change.doc.data();
-            console.log(
-              `Got new remote ICE candidate: ${JSON.stringify(data)}`
-            );
-            await peerConnection.addIceCandidate(new RTCIceCandidate(data));
-          }
-        });
-      }
-    );
-    // Listening for remote ICE candidates above
-  }
+  return peerConnection;
 }
 
 export async function openUserMedia() {
@@ -462,50 +452,40 @@ export async function openUserMedia() {
 
 async function hangUp(serverID: string, channelID: string) {
   // Add declaration for leave button
-
   // const tracks = document.querySelector('#localVideo').srcObject.getTracks();
   // tracks.forEach(track => {
   // track.stop();
   // });
-
   // if (remoteStream) {
   //   remoteStream.getTracks().forEach((track) => track.stop());
   // }
-
-  if (peerConnection) {
-    peerConnection.close();
-  }
-
+  // if (peerConnection) {
+  //   peerConnection.close();
+  // }
   // Delete room on hangup
-  if (roomId) {
-    const channelRef = doc(db, "servers", serverID, "channels", channelID);
-
-    const calleeCandidatesCollection = collection(
-      channelRef,
-      "calleeCandidates"
-    );
-
-    const calleeCandidates = await getDocs(calleeCandidatesCollection);
-
-    calleeCandidates.forEach(async (candidate) => {
-      await deleteDoc(candidate.ref);
-    });
-
-    const callerCandidatesCollection = collection(
-      channelRef,
-      "callerCandidates"
-    );
-
-    const callerCandidates = await getDocs(callerCandidatesCollection);
-
-    callerCandidates.forEach(async (candidate) => {
-      await deleteDoc(candidate.ref);
-    });
-    await deleteDoc(channelRef);
-  }
+  // if (channelID) {
+  //   const channelRef = doc(db, "servers", serverID, "channels", channelID);
+  //   const calleeCandidatesCollection = collection(
+  //     channelRef,
+  //     "calleeCandidates"
+  //   );
+  //   const calleeCandidates = await getDocs(calleeCandidatesCollection);
+  //   calleeCandidates.forEach(async (candidate) => {
+  //     await deleteDoc(candidate.ref);
+  //   });
+  //   const callerCandidatesCollection = collection(
+  //     channelRef,
+  //     "callerCandidates"
+  //   );
+  //   const callerCandidates = await getDocs(callerCandidatesCollection);
+  //   callerCandidates.forEach(async (candidate) => {
+  //     await deleteDoc(candidate.ref);
+  //   });
+  //   await deleteDoc(channelRef);
+  // }
 }
 
-function registerPeerConnectionListeners() {
+function registerPeerConnectionListeners(peerConnection: RTCPeerConnection) {
   peerConnection.addEventListener("icegatheringstatechange", () => {
     console.log(
       `ICE gathering state changed: ${peerConnection.iceGatheringState}`
@@ -544,7 +524,3 @@ const configuration = {
   ],
   iceCandidatePoolSize: 10,
 };
-
-let peerConnection: RTCPeerConnection;
-let roomDialog: any = null;
-let roomId: any = null;
