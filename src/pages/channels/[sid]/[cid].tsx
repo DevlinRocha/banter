@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Servers from "../../../components/servers/Servers";
@@ -22,6 +22,7 @@ import ServerDropdown from "../../../components/ServerDropdown";
 import { useServerSettingsState } from "../../../features/serverSettings";
 import InviteFriends from "../../../components/servers/InviteFriends";
 import MemberProfileCard from "../../../components/MemberProfileCard";
+import { useVoiceChatState } from "../../../features/voiceChat";
 
 const Home: NextPage = () => {
   const auth = getAuth();
@@ -30,6 +31,9 @@ const Home: NextPage = () => {
   const { userSettingsOpen, memberListOpen } = useUserSettingsState();
   const { addServerOpen } = useAddServerState();
   const { serverDropdownOpen, inviteFriendsOpen } = useServerSettingsState();
+  const { localStream, remoteStream } = useVoiceChatState();
+  const remoteRef = useRef<HTMLAudioElement>(null);
+  const localRef = useRef<HTMLAudioElement>(null);
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -95,6 +99,18 @@ const Home: NextPage = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (!remoteRef.current || !remoteStream) return;
+
+    remoteRef.current.srcObject = remoteStream;
+  }, [remoteRef]);
+
+  useEffect(() => {
+    if (!localRef.current || !localStream) return;
+
+    localRef.current.srcObject = localStream;
+  }, [localRef]);
+
   function redirect() {
     dispatch(resetUserState());
 
@@ -108,6 +124,10 @@ const Home: NextPage = () => {
 
         <link rel="manifest" href="/manifest.json" />
       </Head>
+
+      {remoteStream && <audio ref={remoteRef} />}
+
+      {localStream && <audio ref={localRef} />}
 
       {memberProfileCardOpen && <MemberProfileCard />}
 
