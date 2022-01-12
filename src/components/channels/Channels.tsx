@@ -12,13 +12,18 @@ import { query, collection, onSnapshot, doc } from "firebase/firestore";
 import UserPanel from "./UserPanel";
 import Link from "next/link";
 import tw from "tailwind-styled-components/dist/tailwind";
-import { db, joinVoice } from "../../../firebase";
+import { db, joinVoice, openUserMedia } from "../../../firebase";
 import { useRouter } from "next/router";
 import downArrowIcon from "../../../assets/downArrowIcon.svg";
 import {
   setserverDropdownOpen,
   useServerSettingsState,
 } from "../../features/serverSettings";
+import {
+  setLocalStream,
+  setPeerConnection,
+  setRemoteStream,
+} from "../../features/voiceChat";
 
 export default function Channels() {
   const { server, channels } = useServersState();
@@ -88,10 +93,23 @@ export default function Channels() {
     dispatch(setChannel(channel));
   }
 
-  function joinVoiceChannel(channel: ChannelData) {
+  async function joinVoiceChannel(channel: ChannelData) {
     dispatch(setVoiceChannel(channel));
+    const { localStream, remoteStream } = await openUserMedia();
 
-    joinVoice(server.serverID, channel.channelID);
+    dispatch(setLocalStream(localStream));
+    dispatch(setRemoteStream(remoteStream));
+
+    const peerConnection = joinVoice(
+      server.serverID,
+      channel.channelID,
+      localStream,
+      remoteStream
+    );
+
+    if (!peerConnection) return;
+
+    setPeerConnection(peerConnection);
   }
 
   function toggleDropdown() {
