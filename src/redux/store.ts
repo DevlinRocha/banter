@@ -4,6 +4,7 @@ import userSettingsReducer from "../features/userSettings";
 import userReducer from "../features/user";
 import addServerReducer from "../features/addServer";
 import serverSettingsReducer from "../features/serverSettings";
+import voiceChatReducer from "../features/voiceChat";
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     serverSettings: serverSettingsReducer,
     user: userReducer,
     addServer: addServerReducer,
+    voiceChat: voiceChatReducer,
   },
 });
 
