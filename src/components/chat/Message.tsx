@@ -48,7 +48,7 @@ export default function Message(props: MessageProps) {
     const date = new Date(timestamp);
     const year = date.getFullYear();
     const month = date.getMonth();
-    const dayNumber = date.getDate();
+    const dayNumber = date.getDay();
     const day = getDay(date, dayNumber);
 
     let hours = date.getHours();
