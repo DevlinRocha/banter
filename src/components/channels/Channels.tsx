@@ -152,6 +152,6 @@ const Channel = tw.li<ChannelProps>`
   flex cursor-pointer py-1 pr-2 mx-2 pl-2 rounded-md
   ${(props) =>
     props.path.includes(props.channel.channelID)
-      ? "bg-gray-200"
-      : "hover:bg-gray-100"}
+      ? "bg-gray-500/[0.24]"
+      : "hover:bg-gray-500/[0.08]"}
 `;
