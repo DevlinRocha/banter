@@ -95,7 +95,7 @@ const SettingsContainer = tw.div`
 `;
 
 const CloseButton = tw.figure`
-  pt-15 text-center mr-5
+  flex-none pt-15 text-center mr-5
 `;
 
 const StyledImage = tw(Image)`
