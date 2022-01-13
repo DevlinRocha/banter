@@ -114,7 +114,7 @@ export default function Members() {
 }
 
 const Container = tw.div`
-  relative flex-none w-60 h-full bg-gray-100
+  relative flex-none w-60 h-full bg-gray-100 truncate
 `;
 
 const Sidebar = tw.aside`
