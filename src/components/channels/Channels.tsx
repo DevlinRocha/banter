@@ -126,7 +126,7 @@ type ChannelProps = {
 };
 
 const Container = tw.nav`
-  flex flex-col bg-gray-50 w-60 h-full
+  flex flex-col bg-gray-100 w-60 h-full
 `;
 
 const ChannelListContainer = tw.div`
