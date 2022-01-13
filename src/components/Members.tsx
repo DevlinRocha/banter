@@ -114,7 +114,7 @@ export default function Members() {
 }
 
 const Container = tw.div`
-  relative flex-none w-60 h-full bg-gray-100 truncate
+  relative flex-none w-60 h-full bg-gray-100
 `;
 
 const Sidebar = tw.aside`
@@ -144,5 +144,5 @@ const StyledImage = tw(Image)`
 `;
 
 const Username = tw.span`
-  ml-3 flex-1 overflow-hidden
+  ml-3 flex-1 overflow-hidden truncate
 `;
