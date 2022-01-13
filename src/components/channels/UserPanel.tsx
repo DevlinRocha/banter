@@ -75,11 +75,11 @@ const StyledImage = tw(Image)`
 `;
 
 const Username = tw.span`
-  flex flex-col overflow-hidden select-text cursor-pointer
+  flex flex-col w-[84px] overflow-hidden select-text cursor-pointer
 `;
 
 const DisplayName = tw.span`
-  text-sm font-semibold
+  text-sm font-semibold truncate
 `;
 
 const Tag = tw.span`

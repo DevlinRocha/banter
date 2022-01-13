@@ -144,5 +144,5 @@ const StyledImage = tw(Image)`
 `;
 
 const Username = tw.span`
-  ml-3 flex-1 overflow-hidden
+  ml-3 flex-1 overflow-hidden truncate
 `;

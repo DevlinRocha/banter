@@ -78,11 +78,11 @@ export default function MyAccountCard() {
 }
 
 const Container = tw.section`
-  relative flex flex-col bg-gray-200 rounded
+  relative flex flex-col min-w-[655px] max-w-[660px] bg-gray-200 rounded
 `;
 
 const ProfileContainer = tw.section`
-  flex h-18 pt-4 pr-4 pl-30 rounded-md
+  flex h-18 pt-4 pr-4 pl-30 rounded-md overflow-clip
 `;
 
 const SettingContainer = tw.section`
@@ -90,7 +90,7 @@ const SettingContainer = tw.section`
 `;
 
 const Banner = tw.span`
-  w-165 h-25 rounded-t-md
+  w-full h-25 rounded-t-md
 `;
 
 const ProfilePicture = tw.div`

@@ -65,9 +65,10 @@ const UsernameContainer = tw.div`
 `;
 
 const Username = tw.span`
+  break-all
 `;
 
-const Tag = tw(Username)`
+const Tag = tw.span`
   text-gray-600
 `;
 

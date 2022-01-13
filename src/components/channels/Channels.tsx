@@ -105,9 +105,12 @@ export default function Channels() {
             return (
               <Link href={channel.path} key={index} passHref>
                 <a onClick={() => joinChannel(channel)}>
-                  <Channel channel={channel} path={router.asPath}>
-                    # {channel.name}
-                  </Channel>
+                  <ChannelContainer channel={channel} path={router.asPath}>
+                    <ChannelIcon>
+                      {channel.type === "text" ? "#" : "*"}
+                    </ChannelIcon>
+                    <ChannelName>{channel.name}</ChannelName>
+                  </ChannelContainer>
                 </a>
               </Link>
             );
@@ -139,7 +142,7 @@ const Header = tw.header`
 `;
 
 const Heading = tw.h1`
-  font-semibold
+  font-semibold truncate
 `;
 
 const StyledImage = tw(Image)`
@@ -148,10 +151,18 @@ const StyledImage = tw(Image)`
 const ChannelList = tw.ol`
 `;
 
-const Channel = tw.li<ChannelProps>`
+const ChannelContainer = tw.li<ChannelProps>`
   flex cursor-pointer py-1 pr-2 mx-2 pl-2 rounded-md
   ${(props) =>
     props.path.includes(props.channel.channelID)
       ? "bg-gray-500/[0.24]"
       : "hover:bg-gray-500/[0.08]"}
+`;
+
+const ChannelIcon = tw.span`
+  mr-1.5 text-gray-500 font-bold
+`;
+
+const ChannelName = tw.span`
+  truncate
 `;
