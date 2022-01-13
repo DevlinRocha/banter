@@ -85,38 +85,44 @@ export default function Members() {
   return (
     <Container>
       <Sidebar>
-        <Heading>MEMBERS - {members.length}</Heading>
-        {members.map((member, index) => {
-          return (
-            <MemberContainer
-              onClick={() => viewProfile(member.userID, index)}
-              ref={(el) => (memberRef.current[index] = el)}
-              key={index}
-            >
-              <Member>
-                <StyledImage
-                  loader={() => member.avatar}
-                  src={member.avatar}
-                  width={32}
-                  height={32}
-                  alt={`${member.username}'s profile picture`}
-                />
-                <Username>{member.username}</Username>
-              </Member>
-            </MemberContainer>
-          );
-        })}
+        <MemberList>
+          <Heading>MEMBERS - {members.length}</Heading>
+          {members.map((member, index) => {
+            return (
+              <MemberContainer
+                onClick={() => viewProfile(member.userID, index)}
+                ref={(el) => (memberRef.current[index] = el)}
+                key={index}
+              >
+                <Member>
+                  <StyledImage
+                    loader={() => member.avatar}
+                    src={member.avatar}
+                    width={32}
+                    height={32}
+                    alt={`${member.username}'s profile picture`}
+                  />
+                  <Username>{member.username}</Username>
+                </Member>
+              </MemberContainer>
+            );
+          })}
+        </MemberList>
       </Sidebar>
     </Container>
   );
 }
 
-const Container = tw.aside`
-  flex flex-none w-60 h-full bg-gray-50
+const Container = tw.div`
+  relative flex-none w-60 h-full
 `;
 
-const Sidebar = tw.ol`
-  w-60 pb-5 overflow-hidden
+const Sidebar = tw.aside`
+  absolute flex flex-none w-full h-full bg-gray-50
+`;
+
+const MemberList = tw.ol`
+  pb-5 overflow-hidden
   hover:overflow-y-auto
 `;
 
