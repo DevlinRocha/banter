@@ -136,7 +136,7 @@ const MemberContainer = tw.li`
 
 const Member = tw.div`
   flex items-center h-full px-2 rounded cursor-pointer
-  hover:bg-gray-100
+  hover:bg-gray-200
 `;
 
 const StyledImage = tw(Image)`
