@@ -51,7 +51,7 @@ export default function UserPanel() {
 }
 
 const Container = tw.section`
-  flex justify-between w-60 h-14 px-2 bg-gray-100
+  flex justify-between w-60 h-14 px-2 bg-gray-200/50
 `;
 
 const UserInfo = tw.div`
@@ -71,9 +71,11 @@ const Username = tw.span`
 `;
 
 const DisplayName = tw.span`
+  text-sm font-semibold
 `;
 
 const Tag = tw.span`
+  text-gray-600 text-xs font-medium
 `;
 
 const IconsPanel = tw.div`
