@@ -114,11 +114,11 @@ export default function Members() {
 }
 
 const Container = tw.div`
-  relative flex-none w-60 h-full
+  relative flex-none w-60 h-full bg-gray-100
 `;
 
 const Sidebar = tw.aside`
-  absolute flex flex-none w-full h-full bg-gray-50
+  absolute flex flex-none w-full h-full
 `;
 
 const MemberList = tw.ol`
