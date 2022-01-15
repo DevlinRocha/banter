@@ -155,7 +155,7 @@ const Heading = tw.h2`
 `;
 
 const MemberContainer = tw.li`
-  max-w-56 h-11 ml-2 py-px
+  w-56 h-11 ml-2 py-px
 `;
 
 const Member = tw.div`
