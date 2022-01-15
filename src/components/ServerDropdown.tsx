@@ -2,7 +2,7 @@ import React from "react";
 import tw from "tailwind-styled-components/dist/tailwind";
 import {
   setInviteFriendsOpen,
-  setserverDropdownOpen,
+  setServerDropdownOpen,
 } from "../features/serverSettings";
 import { useAppDispatch } from "../redux/hooks";
 
@@ -10,7 +10,7 @@ export default function ServerDropdown() {
   const dispatch = useAppDispatch();
 
   function closeWindow(e: React.MouseEvent) {
-    dispatch(setserverDropdownOpen(false));
+    dispatch(setServerDropdownOpen(false));
   }
 
   function stopPropagation(e: React.MouseEvent<HTMLDivElement>) {

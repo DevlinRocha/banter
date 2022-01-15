@@ -17,7 +17,7 @@ export const userSettingsSlice = createSlice({
   name: "serverSettings",
   initialState,
   reducers: {
-    setserverDropdownOpen(state, action) {
+    setServerDropdownOpen(state, action) {
       state.serverDropdownOpen = action.payload;
     },
 
@@ -28,7 +28,7 @@ export const userSettingsSlice = createSlice({
   },
 });
 
-export const { setserverDropdownOpen, setInviteFriendsOpen } =
+export const { setServerDropdownOpen, setInviteFriendsOpen } =
   userSettingsSlice.actions;
 
 export const useServerSettingsState = () =>

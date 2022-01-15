@@ -15,7 +15,7 @@ import { db } from "../../../firebase";
 import { useRouter } from "next/router";
 import downArrowIcon from "../../../assets/downArrowIcon.svg";
 import {
-  setserverDropdownOpen,
+  setServerDropdownOpen,
   useServerSettingsState,
 } from "../../features/serverSettings";
 
@@ -88,7 +88,7 @@ export default function Channels() {
   }
 
   function toggleDropdown() {
-    dispatch(setserverDropdownOpen(!serverDropdownOpen));
+    dispatch(setServerDropdownOpen(!serverDropdownOpen));
   }
 
   return (
