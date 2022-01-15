@@ -13,7 +13,7 @@ import { UserData } from "../features/user";
 import { db } from "../../firebase";
 
 export default function MemberProfileCard() {
-  const { member, memberID, memberProfileCardPosition } = useServersState();
+  const { member, memberProfileCardPosition } = useServersState();
   const dispatch = useAppDispatch();
   const containerRef = useRef<HTMLElement | null>(null);
   const skippedRender = useRef(false);
@@ -50,7 +50,7 @@ export default function MemberProfileCard() {
   }, [memberProfileCardPosition, onRef]);
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(doc(db, "users", memberID), (doc) => {
+    const unsubscribe = onSnapshot(doc(db, "users", member.userID), (doc) => {
       if (!doc.exists()) return;
 
       const member: UserData = {
