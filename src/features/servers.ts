@@ -67,7 +67,6 @@ export interface ServersState {
   voiceChannel: ChannelData;
   messages: MessageData[];
   members: MemberInfo[];
-  memberID: string;
   memberRoles: MemberRole[];
   member: MemberData;
   memberProfileCardOpen: boolean;
@@ -115,8 +114,6 @@ const initialState: ServersState = {
     banner: "",
     userID: "",
   },
-
-  memberID: "",
 
   memberRoles: [],
 
@@ -168,7 +165,7 @@ export const serversSlice = createSlice({
     },
 
     setMemberID(state, action) {
-      state.memberID = action.payload;
+      state.member.userID = action.payload;
     },
 
     setMemberProfileCardOpen(state, action) {
