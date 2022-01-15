@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { useAppSelector } from "../redux/hooks";
-import { UserData } from "./user";
 
 export interface ServerData {
   name: string;
@@ -28,9 +27,29 @@ export interface MessageData {
 }
 
 export interface MemberData {
+  userID: string;
+  username: string;
+  tag: string;
+  avatar: string;
+  about: string;
+  banner: string;
+  serverOwner?: boolean;
+  roles?: string[];
+  permissions?: [];
+}
+
+export interface MemberInfo {
   username: string;
   avatar: string;
   userID: string;
+  serverOwner?: JSX.Element;
+}
+
+export interface MemberRole {
+  userID: string;
+  serverOwner: boolean;
+  roles: string[];
+  permissions: [];
 }
 
 export interface PositionData {
@@ -47,13 +66,12 @@ export interface ServersState {
   channel: ChannelData;
   voiceChannel: ChannelData;
   messages: MessageData[];
-  members: MemberData[];
-  memberID: string;
-  member: UserData;
+  members: MemberInfo[];
+  memberRoles: MemberRole[];
+  member: MemberData;
   memberProfileCardOpen: boolean;
   memberProfileCardPosition: PositionData;
   serverIDs: string[];
-  memberIDs: string[];
   loading: "idle" | "pending" | "succeeded" | "failed";
 }
 
@@ -97,11 +115,11 @@ const initialState: ServersState = {
     userID: "",
   },
 
-  memberID: "",
+  memberRoles: [],
+
   memberProfileCardOpen: false,
   memberProfileCardPosition: {},
   serverIDs: [],
-  memberIDs: [],
   loading: "idle",
 };
 
@@ -142,8 +160,12 @@ export const serversSlice = createSlice({
       state.member = action.payload;
     },
 
+    setMemberRoles(state, action) {
+      state.memberRoles = action.payload;
+    },
+
     setMemberID(state, action) {
-      state.memberID = action.payload;
+      state.member.userID = action.payload;
     },
 
     setMemberProfileCardOpen(state, action) {
@@ -158,16 +180,11 @@ export const serversSlice = createSlice({
       state.serverIDs = action.payload;
     },
 
-    setMemberIDs(state, action) {
-      state.memberIDs = action.payload;
-    },
-
     resetServerState(state) {
       state.server = initialState.server;
       state.channels = initialState.channels;
       state.channel = initialState.channel;
       state.voiceChannel = initialState.voiceChannel;
-      state.memberIDs = initialState.memberIDs;
       state.messages = initialState.messages;
     },
   },
@@ -182,11 +199,11 @@ export const {
   setMessages,
   setMembers,
   setMember,
+  setMemberRoles,
   setMemberID,
   setMemberProfileCardOpen,
   setMemberProfileCardPosition,
   setServerIDs,
-  setMemberIDs,
   resetServerState,
 } = serversSlice.actions;
 

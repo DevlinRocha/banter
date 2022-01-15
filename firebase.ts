@@ -208,7 +208,7 @@ async function getAvatarURL(userID: string) {
   }
 }
 
-export async function createServer(serverName: string) {
+export async function createServer(serverName: string, userID: string) {
   const serverDocRef = await addDoc(collection(db, "servers"), {
     name: serverName,
 
@@ -219,6 +219,8 @@ export async function createServer(serverName: string) {
     isPublic: false,
   });
 
+  const serverID = serverDocRef.id;
+
   const defaultChannelRef = await createChannel(
     serverDocRef.id,
     "general",
@@ -228,6 +230,8 @@ export async function createServer(serverName: string) {
   await updateDefaultChannel(serverDocRef, defaultChannelRef);
 
   await joinServer(serverDocRef.id);
+
+  await setServerOwner(serverID, userID);
 }
 
 export async function createChannel(
@@ -252,6 +256,12 @@ export async function updateDefaultChannel(
 ) {
   await updateDoc(server, {
     defaultChannel: channel.id,
+  });
+}
+
+async function setServerOwner(serverID: string, userID: string) {
+  await updateDoc(doc(db, "servers", serverID, "members", userID), {
+    serverOwner: true,
   });
 }
 

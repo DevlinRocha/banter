@@ -31,7 +31,7 @@ export default function CustomizeServer() {
 
     if (!inputRef.current || isInputEmpty) return;
 
-    createServer(inputRef.current.value);
+    createServer(inputRef.current.value, user.userID);
 
     closeWindow();
   }
