@@ -4,18 +4,19 @@ import { db } from "../../firebase";
 import tw from "tailwind-styled-components/dist/tailwind";
 import {
   useServersState,
-  setMemberIDs,
   setMembers,
   setMemberProfileCardOpen,
-  MemberData,
   setMemberID,
   setMemberProfileCardPosition,
+  setMemberRoles,
+  MemberRole,
+  MemberInfo,
 } from "../features/servers";
 import { useAppDispatch } from "../redux/hooks";
 import Image from "next/image";
 
 export default function Members() {
-  const { server, members, memberIDs, memberProfileCardOpen } =
+  const { server, members, memberRoles, memberProfileCardOpen } =
     useServersState();
   const memberRef = useRef<HTMLLIElement[]>([]);
   const dispatch = useAppDispatch();
@@ -26,13 +27,23 @@ export default function Members() {
     const q = query(collection(db, "servers", server.serverID, "members"));
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const memberIDs: string[] = [];
+      const memberRolesList: MemberRole[] = [];
 
       querySnapshot.forEach((doc) => {
-        memberIDs.push(doc.id);
+        const memberRoles: MemberRole = {
+          userID: doc.id,
+
+          serverOwner: doc.data().serverOwner,
+
+          roles: doc.data().roles,
+
+          permissions: doc.data().permissions,
+        };
+
+        memberRolesList.push(memberRoles);
       });
 
-      dispatch(setMemberIDs(memberIDs));
+      dispatch(setMemberRoles(memberRolesList));
     });
     return () => {
       unsubscribe();
@@ -43,12 +54,15 @@ export default function Members() {
     const q = query(collection(db, "users"));
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const memberList: MemberData[] = [];
+      const memberList: MemberInfo[] = [];
+      const memberIDs: string[] = [];
+
+      memberRoles.map((member) => memberIDs.push(member.userID));
 
       querySnapshot.forEach((doc) => {
         if (!memberIDs.includes(doc.id)) return;
 
-        const member: MemberData = {
+        const member: MemberInfo = {
           username: doc.data().username,
 
           avatar: doc.data().avatar,
@@ -59,13 +73,18 @@ export default function Members() {
         memberList.push(member);
       });
 
-      dispatch(setMembers(memberList));
+      const newMembers = memberList.map((member1) => ({
+        ...member1,
+        ...memberRoles.find((member2) => member2.userID === member1.userID),
+      }));
+
+      dispatch(setMembers(newMembers));
     });
 
     return () => {
       unsubscribe();
     };
-  }, [memberIDs]);
+  }, [memberRoles]);
 
   function viewProfile(userID: string, index: number) {
     dispatch(setMemberProfileCardOpen(!memberProfileCardOpen));
