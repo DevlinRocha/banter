@@ -208,11 +208,15 @@ async function getAvatarURL(userID: string) {
   }
 }
 
-export async function createServer(serverName: string, userID: string) {
+export async function createServer(
+  serverName: string,
+  userID: string,
+  serverIcon?: string
+) {
   const serverDocRef = await addDoc(collection(db, "servers"), {
     name: serverName,
 
-    img: "",
+    img: serverIcon || "",
 
     defaultChannel: "",
 
@@ -232,6 +236,8 @@ export async function createServer(serverName: string, userID: string) {
   await joinServer(serverDocRef.id);
 
   await setServerOwner(serverID, userID);
+
+  return serverDocRef.id;
 }
 
 export async function createChannel(
@@ -262,6 +268,50 @@ export async function updateDefaultChannel(
 async function setServerOwner(serverID: string, userID: string) {
   await updateDoc(doc(db, "servers", serverID, "members", userID), {
     serverOwner: true,
+  });
+}
+
+export async function uploadServerImagePreview(file: File, userID: string) {
+  const storage = getStorage();
+
+  const serverImageRef = ref(storage, `users/${userID}/temp/serverImage`);
+
+  await uploadBytes(serverImageRef, file);
+
+  return await getServerImagePreviewURL(userID);
+}
+
+async function getServerImagePreviewURL(userID: string) {
+  const storage = getStorage();
+
+  return await getDownloadURL(ref(storage, `users/${userID}/temp/serverImage`));
+}
+
+export async function uploadServerImage(file: File, serverID: string) {
+  const storage = getStorage();
+
+  const serverImageRef = ref(storage, `servers/${serverID}/serverImage`);
+
+  await uploadBytes(serverImageRef, file);
+
+  const serverImageURL = await getServerImageURL(serverID);
+
+  updateServerDatabase(serverID, "img", serverImageURL);
+}
+
+async function getServerImageURL(serverID: string) {
+  const storage = getStorage();
+
+  return await getDownloadURL(ref(storage, `servers/${serverID}/serverImage`));
+}
+
+async function updateServerDatabase(
+  serverID: string,
+  property: string,
+  newValue: string
+) {
+  await updateDoc(doc(db, "servers", serverID), {
+    [property]: newValue,
   });
 }
 
