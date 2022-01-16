@@ -1,12 +1,17 @@
-import React from "react";
 import tw from "tailwind-styled-components/dist/tailwind";
 import {
+  setCreateChannelOpen,
   setInviteFriendsOpen,
   setServerDropdownOpen,
-} from "../features/serverSettings";
-import { useAppDispatch } from "../redux/hooks";
+} from "../../features/serverSettings";
+import { UserRole } from "../../features/user";
+import { useAppDispatch } from "../../redux/hooks";
 
-export default function ServerDropdown() {
+interface ServerDropdownProps {
+  userRoles: UserRole | undefined;
+}
+
+export default function ServerDropdown(props: ServerDropdownProps) {
   const dispatch = useAppDispatch();
 
   function closeWindow(e: React.MouseEvent) {
@@ -24,6 +29,11 @@ export default function ServerDropdown() {
           <ListItemInvite onClick={() => dispatch(setInviteFriendsOpen(true))}>
             Invite people
           </ListItemInvite>
+          {props.userRoles && props.userRoles.serverOwner && (
+            <ListItem onClick={() => dispatch(setCreateChannelOpen(true))}>
+              Create Channel
+            </ListItem>
+          )}
 
           <Separator />
 

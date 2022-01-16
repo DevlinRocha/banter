@@ -6,7 +6,12 @@ import Channels from "../../../components/channels/Channels";
 import Chat from "../../../components/chat/Chat";
 import UserSettings from "../../../components/userSettings/UserSettings";
 import tw from "tailwind-styled-components/dist/tailwind";
-import { setUser, resetUserState, useUserState } from "../../../features/user";
+import {
+  setUser,
+  resetUserState,
+  useUserState,
+  UserRole,
+} from "../../../features/user";
 import { useAppDispatch } from "../../../redux/hooks";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
@@ -18,18 +23,20 @@ import Members from "../../../components/Members";
 import Title from "../../../components/Title";
 import { useAddServerState } from "../../../features/addServer";
 import AddServer from "../../../components/addServer/AddServer";
-import ServerDropdown from "../../../components/ServerDropdown";
+import ServerDropdown from "../../../components/serverDropdown/ServerDropdown";
 import { useServerSettingsState } from "../../../features/serverSettings";
-import InviteFriends from "../../../components/servers/InviteFriends";
+import InviteFriends from "../../../components/serverDropdown/InviteFriends";
 import MemberProfileCard from "../../../components/MemberProfileCard";
+import CreateChannel from "../../../components/serverDropdown/CreateChannel";
 
 const Home: NextPage = () => {
   const auth = getAuth();
   const { user } = useUserState();
-  const { channel, memberProfileCardOpen } = useServersState();
+  const { channel, memberProfileCardOpen, server } = useServersState();
   const { userSettingsOpen, memberListOpen } = useUserSettingsState();
   const { addServerOpen } = useAddServerState();
-  const { serverDropdownOpen, inviteFriendsOpen } = useServerSettingsState();
+  const { serverDropdownOpen, inviteFriendsOpen, createChannelOpen } =
+    useServerSettingsState();
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -95,6 +102,30 @@ const Home: NextPage = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (!server.serverID || !user.userID) return;
+
+    const docRef = doc(db, "servers", server.serverID, "members", user.userID);
+
+    const unsubscribe = onSnapshot(docRef, (doc) => {
+      const userRoles: UserRole = {
+        userID: doc.id,
+
+        serverOwner: doc.data()?.serverOwner,
+
+        roles: doc.data()?.roles,
+
+        permissions: doc.data()?.permissions,
+      };
+
+      dispatch(setUser({ ...user, userRoles }));
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [server]);
+
   function redirect() {
     dispatch(resetUserState());
 
@@ -115,9 +146,11 @@ const Home: NextPage = () => {
 
       {addServerOpen && <AddServer />}
 
-      {serverDropdownOpen && <ServerDropdown />}
+      {serverDropdownOpen && <ServerDropdown userRoles={user.userRoles} />}
 
       {inviteFriendsOpen && <InviteFriends />}
+
+      {createChannelOpen && <CreateChannel />}
 
       <Servers />
 

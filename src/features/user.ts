@@ -9,6 +9,14 @@ export interface UserData {
   banner: string;
   userID: string;
   email?: string;
+  userRoles?: UserRole;
+}
+
+export interface UserRole {
+  userID: string;
+  serverOwner: boolean;
+  roles: string[];
+  permissions: [];
 }
 
 export interface UserState {
