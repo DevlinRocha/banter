@@ -37,8 +37,14 @@ export default function CreateChannel() {
     closeWindow();
   }
 
-  function handleChange(e: React.ChangeEvent) {
+  function handleChange() {
     if (!inputRef.current) return;
+
+    switch (inputRef.current.value) {
+      case " ":
+      case "-":
+        return (inputRef.current.value = "");
+    }
 
     if (!inputRef.current.value) {
       setIsInputEmpty(true);
