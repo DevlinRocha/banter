@@ -208,11 +208,15 @@ async function getAvatarURL(userID: string) {
   }
 }
 
-export async function createServer(serverName: string, userID: string) {
+export async function createServer(
+  serverName: string,
+  userID: string,
+  serverIcon?: string
+) {
   const serverDocRef = await addDoc(collection(db, "servers"), {
     name: serverName,
 
-    img: "",
+    img: serverIcon || "",
 
     defaultChannel: "",
 
@@ -263,6 +267,28 @@ async function setServerOwner(serverID: string, userID: string) {
   await updateDoc(doc(db, "servers", serverID, "members", userID), {
     serverOwner: true,
   });
+}
+
+export async function uploadServerImage(file: File, userID: string) {
+  const storage = getStorage();
+
+  const serverImageRef = ref(storage, `users/${userID}/temp/serverImage`);
+
+  await uploadBytes(serverImageRef, file);
+
+  return await getServerImageURL(userID);
+}
+
+async function getServerImageURL(userID: string) {
+  const storage = getStorage();
+
+  try {
+    return await getDownloadURL(
+      ref(storage, `users/${userID}/temp/serverImage`)
+    );
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 export async function joinServer(serverID: string) {
