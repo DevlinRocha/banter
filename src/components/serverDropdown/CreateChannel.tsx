@@ -95,7 +95,7 @@ export default function CreateChannel() {
             onClick={handleSubmit}
             type="submit"
           >
-            Create
+            Create Channel
           </CreateButton>
         </FooterContainer>
       </Container>
@@ -151,7 +151,7 @@ const ContentInput = tw.input`
 `;
 
 const FooterContainer = tw.div`
-  flex justify-end items-center p-4 bg-gray-50
+  flex justify-end items-center p-4 bg-gray-50 text-sm font-medium
 `;
 
 const CancelButton = tw.button`
@@ -160,6 +160,6 @@ const CancelButton = tw.button`
 `;
 
 const CreateButton = tw.button<CreateButtonProps>`
-  w-24 h-9.5 px-4 py-0.5 bg-indigo-500 text-white rounded-middle
+  w-fit h-9.5 px-4 py-0.5 bg-indigo-500 text-white rounded-middle
   ${(props) => (props.isInputEmpty ? "opacity-50 cursor-not-allowed" : null)}
 `;
