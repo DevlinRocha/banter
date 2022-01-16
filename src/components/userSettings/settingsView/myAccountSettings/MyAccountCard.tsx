@@ -109,7 +109,7 @@ const UsernameDisplay = tw.span`
 `;
 
 const UserProfileButton = tw.button`
-  h-8 ml-auto px-4 py-0.5 bg-indigo-500 rounded text-white
+  min-w-[60px] h-8 ml-auto px-4 py-0.5 bg-indigo-500 rounded text-white truncate
 `;
 
 const Username = tw.span`
