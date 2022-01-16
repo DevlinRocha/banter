@@ -50,8 +50,6 @@ export default function CreateChannel() {
   }
 
   function correctInput(input: string) {
-    const last2 = input.slice(-2);
-    console.log(last2);
     switch (input.slice(-2)) {
       case "--":
       case "- ":
