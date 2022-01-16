@@ -27,7 +27,11 @@ export default function CreateChannel() {
 
     if (!inputRef.current || isInputEmpty) return;
 
-    createChannel(server.serverID, inputRef.current.value, channelType);
+    const channelName = inputRef.current.value
+      .replace(/\s+/g, "-")
+      .toLowerCase();
+
+    createChannel(server.serverID, channelName, channelType);
 
     closeWindow();
   }
