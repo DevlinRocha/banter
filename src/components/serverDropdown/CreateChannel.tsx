@@ -27,9 +27,7 @@ export default function CreateChannel() {
 
     if (!inputRef.current || isInputEmpty) return;
 
-    const channelName = inputRef.current.value
-      .replace(/\s+/g, "-")
-      .toLowerCase();
+    const channelName = inputRef.current.value;
 
     createChannel(server.serverID, channelName, channelType);
 
@@ -43,7 +41,13 @@ export default function CreateChannel() {
       setIsInputEmpty(true);
     } else {
       setIsInputEmpty(false);
+      const newValue = correctInput(inputRef.current.value);
+      inputRef.current.value = newValue;
     }
+  }
+
+  function correctInput(input: string) {
+    return input.replace(/\s+/g, "-").toLowerCase();
   }
 
   function capitalize(string: string) {
@@ -70,7 +74,7 @@ export default function CreateChannel() {
 
         <ContentContainer>
           <FormContainer onSubmit={handleSubmit}>
-            <ContentLabel htmlFor="createServerInput">
+            <ContentLabel htmlFor="createChannelInput">
               CHANNEL NAME
             </ContentLabel>
 
@@ -82,7 +86,7 @@ export default function CreateChannel() {
               minLength={2}
               maxLength={100}
               required
-              id="createServerInput"
+              id="createChannelInput"
             />
           </FormContainer>
         </ContentContainer>
