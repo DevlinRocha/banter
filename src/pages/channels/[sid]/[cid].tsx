@@ -144,7 +144,7 @@ const Home: NextPage = () => {
 
       {addServerOpen && <AddServer />}
 
-      {serverDropdownOpen && <ServerDropdown />}
+      {serverDropdownOpen && <ServerDropdown userRoles={user.userRoles} />}
 
       {inviteFriendsOpen && <InviteFriends />}
 

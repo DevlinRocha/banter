@@ -9,9 +9,7 @@ export interface UserData {
   banner: string;
   userID: string;
   email?: string;
-  serverOwner?: boolean;
-  roles?: string[];
-  permissions?: [];
+  userRoles?: UserRole;
 }
 
 export interface UserRole {
