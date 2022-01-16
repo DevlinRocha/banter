@@ -30,7 +30,7 @@ export default function CreateChannel() {
     let channelName = inputRef.current.value;
 
     if (channelName[channelName.length - 1] === "-")
-      channelName = channelName.slice(0, channelName.length - 1);
+      channelName = channelName.slice(0, -1);
 
     createChannel(server.serverID, channelName, channelType);
 
@@ -50,6 +50,16 @@ export default function CreateChannel() {
   }
 
   function correctInput(input: string) {
+    const last2 = input.slice(-2);
+    console.log(last2);
+    switch (input.slice(-2)) {
+      case "--":
+      case "- ":
+      case " ":
+      case "-":
+        return input.slice(0, -1);
+    }
+
     return input.replace(/\s+/g, "-").toLowerCase();
   }
 
