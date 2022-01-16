@@ -87,7 +87,7 @@ const Tag = tw.span`
 `;
 
 const IconsPanel = tw.div`
-  flex justify-between align-center w-24
+  flex justify-around align-center w-24
 `;
 
 const Icon = tw(Image)`
