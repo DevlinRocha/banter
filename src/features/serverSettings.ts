@@ -4,12 +4,14 @@ import { useAppSelector } from "../redux/hooks";
 export interface ServerSettingsState {
   serverDropdownOpen: boolean;
   inviteFriendsOpen: boolean;
+  createChannelOpen: boolean;
   loading: "idle" | "pending" | "succeeded" | "failed";
 }
 
 const initialState: ServerSettingsState = {
   serverDropdownOpen: false,
   inviteFriendsOpen: false,
+  createChannelOpen: false,
   loading: "idle",
 };
 
@@ -25,11 +27,19 @@ export const userSettingsSlice = createSlice({
       state.inviteFriendsOpen = action.payload;
       state.serverDropdownOpen = false;
     },
+
+    setCreateChannelOpen(state, action) {
+      state.createChannelOpen = action.payload;
+      state.serverDropdownOpen = false;
+    },
   },
 });
 
-export const { setServerDropdownOpen, setInviteFriendsOpen } =
-  userSettingsSlice.actions;
+export const {
+  setServerDropdownOpen,
+  setInviteFriendsOpen,
+  setCreateChannelOpen,
+} = userSettingsSlice.actions;
 
 export const useServerSettingsState = () =>
   useAppSelector((state) => state.serverSettings);
