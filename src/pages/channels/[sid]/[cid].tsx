@@ -27,6 +27,7 @@ import ServerDropdown from "../../../components/serverDropdown/ServerDropdown";
 import { useServerSettingsState } from "../../../features/serverSettings";
 import InviteFriends from "../../../components/serverDropdown/InviteFriends";
 import MemberProfileCard from "../../../components/MemberProfileCard";
+import CreateChannel from "../../../components/serverDropdown/CreateChannel";
 
 const Home: NextPage = () => {
   const auth = getAuth();
@@ -34,7 +35,8 @@ const Home: NextPage = () => {
   const { channel, memberProfileCardOpen, server } = useServersState();
   const { userSettingsOpen, memberListOpen } = useUserSettingsState();
   const { addServerOpen } = useAddServerState();
-  const { serverDropdownOpen, inviteFriendsOpen } = useServerSettingsState();
+  const { serverDropdownOpen, inviteFriendsOpen, createChannelOpen } =
+    useServerSettingsState();
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -147,6 +149,8 @@ const Home: NextPage = () => {
       {serverDropdownOpen && <ServerDropdown userRoles={user.userRoles} />}
 
       {inviteFriendsOpen && <InviteFriends />}
+
+      {createChannelOpen && <CreateChannel />}
 
       <Servers />
 
