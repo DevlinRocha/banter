@@ -71,7 +71,7 @@ const ProfilePicture = tw.div`
 `;
 
 const StyledImage = tw(Image)`
-  object-contain rounded-full cursor-pointer
+  object-cover rounded-full cursor-pointer
 `;
 
 const Username = tw.span`

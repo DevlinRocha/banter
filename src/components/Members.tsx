@@ -165,7 +165,7 @@ const Member = tw.div`
 `;
 
 const StyledImage = tw(Image)`
-  object-contain rounded-full
+  object-cover rounded-full
 `;
 
 const UsernameContainer = tw.div`

@@ -166,7 +166,7 @@ const MessageContent = tw.div`
 `;
 
 const StyledImage = tw(Image)`
-  object-contain rounded-full
+  object-cover rounded-full
 `;
 
 const MessageInfo = tw.div`
