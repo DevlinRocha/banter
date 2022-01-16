@@ -236,6 +236,8 @@ export async function createServer(
   await joinServer(serverDocRef.id);
 
   await setServerOwner(serverID, userID);
+
+  return serverDocRef.id;
 }
 
 export async function createChannel(
@@ -269,26 +271,48 @@ async function setServerOwner(serverID: string, userID: string) {
   });
 }
 
-export async function uploadServerImage(file: File, userID: string) {
+export async function uploadServerImagePreview(file: File, userID: string) {
   const storage = getStorage();
 
   const serverImageRef = ref(storage, `users/${userID}/temp/serverImage`);
 
   await uploadBytes(serverImageRef, file);
 
-  return await getServerImageURL(userID);
+  return await getServerImagePreviewURL(userID);
 }
 
-async function getServerImageURL(userID: string) {
+async function getServerImagePreviewURL(userID: string) {
   const storage = getStorage();
 
-  try {
-    return await getDownloadURL(
-      ref(storage, `users/${userID}/temp/serverImage`)
-    );
-  } catch (error) {
-    console.error(error);
-  }
+  return await getDownloadURL(ref(storage, `users/${userID}/temp/serverImage`));
+}
+
+export async function uploadServerImage(file: File, serverID: string) {
+  const storage = getStorage();
+
+  const serverImageRef = ref(storage, `servers/${serverID}/serverImage`);
+
+  await uploadBytes(serverImageRef, file);
+
+  const serverImageURL = await getServerImageURL(serverID);
+
+  updateServerDatabase(serverID, "img", serverImageURL);
+}
+
+async function getServerImageURL(serverID: string) {
+  const storage = getStorage();
+
+  return await getDownloadURL(ref(storage, `servers/${serverID}/serverImage`));
+}
+
+async function updateServerDatabase(
+  serverID: string,
+  property: string,
+  newValue: string
+) {
+  await updateDoc(doc(db, "servers", serverID), {
+    [property]: newValue,
+  });
 }
 
 export async function joinServer(serverID: string) {

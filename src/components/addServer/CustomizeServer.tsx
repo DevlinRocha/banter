@@ -5,14 +5,19 @@ import { useAppDispatch } from "../../redux/hooks";
 import closeIcon from "../../../assets/closeIcon.svg";
 import { useUserState } from "../../features/user";
 import { useRef, useState } from "react";
-import { createServer, uploadServerImage } from "../../../firebase";
+import {
+  createServer,
+  uploadServerImage,
+  uploadServerImagePreview,
+} from "../../../firebase";
 import serverUploadImage from "../../../assets/serverImageUpload.svg";
 
 export default function CustomizeServer() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isInputEmpty, setIsInputEmpty] = useState(false);
   const { user } = useUserState();
-  const [serverImage, setServerImage] = useState<string | undefined>();
+  const [serverImageURL, setServerImageURL] = useState<string | undefined>();
+  const [serverImage, setServerImage] = useState<File>();
   const dispatch = useAppDispatch();
 
   function closeWindow() {
@@ -28,12 +33,20 @@ export default function CustomizeServer() {
     dispatch(setAddServerWindow("About Server"));
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     if (!inputRef.current || isInputEmpty) return;
 
-    createServer(inputRef.current.value, user.userID, serverImage);
+    const serverID = await createServer(
+      inputRef.current.value,
+      user.userID,
+      serverImageURL
+    );
+
+    if (!serverImage) return closeWindow();
+
+    uploadServerImage(serverImage, serverID);
 
     closeWindow();
   }
@@ -51,12 +64,15 @@ export default function CustomizeServer() {
   async function changeServerImage(e: React.ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) return;
 
-    const serverImageURL = await uploadServerImage(
-      e.target.files[0],
+    const serverImage = e.target.files[0];
+
+    const serverImageURL = await uploadServerImagePreview(
+      serverImage,
       user.userID
     );
 
-    setServerImage(serverImageURL);
+    setServerImageURL(serverImageURL);
+    setServerImage(serverImage);
   }
 
   return (
@@ -83,10 +99,10 @@ export default function CustomizeServer() {
         <ContentContainer>
           <UploadContainer>
             <InputContainer>
-              {serverImage ? (
+              {serverImageURL ? (
                 <ServerImageContainer
-                  loader={() => serverImage}
-                  src={serverImage}
+                  loader={() => serverImageURL}
+                  src={serverImageURL}
                   width={80}
                   height={80}
                 />
