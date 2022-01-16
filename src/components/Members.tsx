@@ -121,12 +121,13 @@ export default function Members() {
                     height={32}
                     alt={`${member.username}'s profile picture`}
                   />
-                  <Username>
-                    {member.username}
+                  <UsernameContainer>
+                    <Username>{member.username}</Username>
+
                     {member.serverOwner && (
                       <ServerOwnerIcon>&#128081;</ServerOwnerIcon>
                     )}
-                  </Username>
+                  </UsernameContainer>
                 </Member>
               </MemberContainer>
             );
@@ -167,8 +168,12 @@ const StyledImage = tw(Image)`
   object-contain rounded-full
 `;
 
+const UsernameContainer = tw.div`
+  flex w-[164px]
+`;
+
 const Username = tw.span`
-  ml-3 flex-1 overflow-hidden truncate
+  ml-3 overflow-hidden truncate
 `;
 
 const ServerOwnerIcon = tw.span`
