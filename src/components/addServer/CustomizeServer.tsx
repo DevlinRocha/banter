@@ -5,12 +5,14 @@ import { useAppDispatch } from "../../redux/hooks";
 import closeIcon from "../../../assets/closeIcon.svg";
 import { useUserState } from "../../features/user";
 import { useRef, useState } from "react";
-import { createServer } from "../../../firebase";
+import { createServer, uploadServerImage } from "../../../firebase";
+import serverUploadImage from "../../../assets/serverImageUpload.svg";
 
 export default function CustomizeServer() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isInputEmpty, setIsInputEmpty] = useState(false);
   const { user } = useUserState();
+  const [serverImage, setServerImage] = useState<string | undefined>();
   const dispatch = useAppDispatch();
 
   function closeWindow() {
@@ -31,12 +33,12 @@ export default function CustomizeServer() {
 
     if (!inputRef.current || isInputEmpty) return;
 
-    createServer(inputRef.current.value, user.userID);
+    createServer(inputRef.current.value, user.userID, serverImage);
 
     closeWindow();
   }
 
-  function handleChange(e: React.ChangeEvent) {
+  function handleChange() {
     if (!inputRef.current) return;
 
     if (!inputRef.current.value) {
@@ -44,6 +46,17 @@ export default function CustomizeServer() {
     } else {
       setIsInputEmpty(false);
     }
+  }
+
+  async function changeServerImage(e: React.ChangeEvent<HTMLInputElement>) {
+    if (!e.target.files) return;
+
+    const serverImageURL = await uploadServerImage(
+      e.target.files[0],
+      user.userID
+    );
+
+    setServerImage(serverImageURL);
   }
 
   return (
@@ -68,6 +81,31 @@ export default function CustomizeServer() {
         </HeadingContainer>
 
         <ContentContainer>
+          <UploadContainer>
+            <InputContainer>
+              {serverImage ? (
+                <ServerImageContainer
+                  loader={() => serverImage}
+                  src={serverImage}
+                  width={80}
+                  height={80}
+                />
+              ) : (
+                <UploadImageIcon
+                  src={serverUploadImage}
+                  width={80}
+                  height={80}
+                />
+              )}
+
+              <FileInput
+                onChange={changeServerImage}
+                type="file"
+                accept=".svg, .png, .jpg, .jpeg"
+              />
+            </InputContainer>
+          </UploadContainer>
+
           <FormContainer onSubmit={handleSubmit}>
             <CreateServerLabel htmlFor="createServerInput">
               SERVER NAME
@@ -140,6 +178,27 @@ const StyledImage = tw(Image)`
 
 const ContentContainer = tw.div`
   my-4 pr-2 pl-4
+`;
+
+const UploadContainer = tw.div`
+  flex justify-center h-[84px] pt-1
+`;
+
+const InputContainer = tw.div`
+  relative w-[80px]
+`;
+
+const ServerImageContainer = tw(StyledImage)`
+  object-cover rounded-full
+`;
+
+const UploadImageIcon = tw(StyledImage)`
+  pointer-events-none z-10
+`;
+
+const FileInput = tw.input`
+  absolute top-0 left-0 w-full h-full text-[0px] cursor-pointer pointer-events-auto rounded
+  file:w-full file:h-full file:bg-transparent file:border-0
 `;
 
 const FormContainer = tw.form`
