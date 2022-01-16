@@ -6,7 +6,12 @@ import Channels from "../../../components/channels/Channels";
 import Chat from "../../../components/chat/Chat";
 import UserSettings from "../../../components/userSettings/UserSettings";
 import tw from "tailwind-styled-components/dist/tailwind";
-import { setUser, resetUserState, useUserState } from "../../../features/user";
+import {
+  setUser,
+  resetUserState,
+  useUserState,
+  UserRole,
+} from "../../../features/user";
 import { useAppDispatch } from "../../../redux/hooks";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
@@ -26,7 +31,7 @@ import MemberProfileCard from "../../../components/MemberProfileCard";
 const Home: NextPage = () => {
   const auth = getAuth();
   const { user } = useUserState();
-  const { channel, memberProfileCardOpen } = useServersState();
+  const { channel, memberProfileCardOpen, server } = useServersState();
   const { userSettingsOpen, memberListOpen } = useUserSettingsState();
   const { addServerOpen } = useAddServerState();
   const { serverDropdownOpen, inviteFriendsOpen } = useServerSettingsState();
@@ -94,6 +99,30 @@ const Home: NextPage = () => {
       unsubscribe();
     };
   }, []);
+
+  useEffect(() => {
+    if (!server.serverID || !user.userID) return;
+
+    const docRef = doc(db, "servers", server.serverID, "members", user.userID);
+
+    const unsubscribe = onSnapshot(docRef, (doc) => {
+      const userRoles: UserRole = {
+        userID: doc.id,
+
+        serverOwner: doc.data()?.serverOwner,
+
+        roles: doc.data()?.roles,
+
+        permissions: doc.data()?.permissions,
+      };
+
+      dispatch(setUser({ ...user, userRoles }));
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [server]);
 
   function redirect() {
     dispatch(resetUserState());
