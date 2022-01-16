@@ -27,7 +27,10 @@ export default function CreateChannel() {
 
     if (!inputRef.current || isInputEmpty) return;
 
-    const channelName = inputRef.current.value;
+    let channelName = inputRef.current.value;
+
+    if (channelName[channelName.length - 1] === "-")
+      channelName = channelName.slice(0, channelName.length - 1);
 
     createChannel(server.serverID, channelName, channelType);
 
