@@ -23,9 +23,9 @@ import Members from "../../../components/Members";
 import Title from "../../../components/Title";
 import { useAddServerState } from "../../../features/addServer";
 import AddServer from "../../../components/addServer/AddServer";
-import ServerDropdown from "../../../components/ServerDropdown";
+import ServerDropdown from "../../../components/serverDropdown/ServerDropdown";
 import { useServerSettingsState } from "../../../features/serverSettings";
-import InviteFriends from "../../../components/servers/InviteFriends";
+import InviteFriends from "../../../components/serverDropdown/InviteFriends";
 import MemberProfileCard from "../../../components/MemberProfileCard";
 
 const Home: NextPage = () => {
