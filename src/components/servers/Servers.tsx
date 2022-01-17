@@ -157,7 +157,7 @@ const Server = tw.li`
 `;
 
 const StyledImage = tw(Image)`
-  rounded-3xl transition-all ease-linear
+  rounded-3xl transition-all ease-linear object-cover
   hover:rounded-xl
 `;
 
