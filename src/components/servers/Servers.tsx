@@ -169,7 +169,6 @@ const CustomServerIcon = tw(StyledImage)<ServerIconProps>`
 `;
 
 const BanterImage = tw(StyledImage)<BanterProps>`
-
   ${(props) => {
     switch (props.path) {
       case "/channels/@me":
@@ -179,7 +178,6 @@ const BanterImage = tw(StyledImage)<BanterProps>`
         return null;
     }
   }}
-  
 `;
 
 const ServerIcon = tw(DefaultServerIcon)<ServerIconProps>`
@@ -192,7 +190,7 @@ const ServerIcon = tw(DefaultServerIcon)<ServerIconProps>`
 `;
 
 const AddServerIconContainer = tw(AddServerIcon)`
-  transition-all ease-linear rounded-3xl fill-white cursor-pointer group
+  transition-all ease-linear flex-none rounded-3xl fill-white cursor-pointer group
   hover:rounded-xl hover:fill-active
 `;
 
