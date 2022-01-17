@@ -211,12 +211,12 @@ async function getAvatarURL(userID: string) {
 export async function createServer(
   serverName: string,
   userID: string,
-  serverIcon?: string
+  serverImage?: File
 ) {
   const serverDocRef = await addDoc(collection(db, "servers"), {
     name: serverName,
 
-    img: serverIcon || "",
+    img: "",
 
     defaultChannel: "",
 
@@ -224,6 +224,8 @@ export async function createServer(
   });
 
   const serverID = serverDocRef.id;
+
+  if (serverImage) await uploadServerImage(serverImage, serverID);
 
   const defaultChannelRef = await createChannel(
     serverDocRef.id,
@@ -287,7 +289,7 @@ async function getServerImagePreviewURL(userID: string) {
   return await getDownloadURL(ref(storage, `users/${userID}/temp/serverImage`));
 }
 
-export async function uploadServerImage(file: File, serverID: string) {
+async function uploadServerImage(file: File, serverID: string) {
   const storage = getStorage();
 
   const serverImageRef = ref(storage, `servers/${serverID}/serverImage`);
@@ -296,7 +298,7 @@ export async function uploadServerImage(file: File, serverID: string) {
 
   const serverImageURL = await getServerImageURL(serverID);
 
-  updateServerDatabase(serverID, "img", serverImageURL);
+  await updateServerDatabase(serverID, "img", serverImageURL);
 }
 
 async function getServerImageURL(serverID: string) {

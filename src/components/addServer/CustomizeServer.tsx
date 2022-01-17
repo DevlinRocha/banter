@@ -5,11 +5,7 @@ import { useAppDispatch } from "../../redux/hooks";
 import closeIcon from "../../../assets/closeIcon.svg";
 import { useUserState } from "../../features/user";
 import { useRef, useState } from "react";
-import {
-  createServer,
-  uploadServerImage,
-  uploadServerImagePreview,
-} from "../../../firebase";
+import { createServer, uploadServerImagePreview } from "../../../firebase";
 import serverUploadImage from "../../../assets/serverImageUpload.svg";
 
 export default function CustomizeServer() {
@@ -38,15 +34,9 @@ export default function CustomizeServer() {
 
     if (!inputRef.current || isInputEmpty) return;
 
-    const serverID = await createServer(
-      inputRef.current.value,
-      user.userID,
-      serverImageURL
-    );
+    await createServer(inputRef.current.value, user.userID, serverImage);
 
     if (!serverImage) return closeWindow();
-
-    uploadServerImage(serverImage, serverID);
 
     closeWindow();
   }
