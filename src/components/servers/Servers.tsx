@@ -108,7 +108,9 @@ export default function Servers() {
             <Link href={server.path} passHref key={index}>
               <Server onClick={() => handleClick(server)}>
                 {server.img ? (
-                  <StyledImage
+                  <CustomServerIcon
+                    server={server}
+                    path={router.asPath}
                     loader={() => server.img}
                     src={server.img}
                     width={48}
@@ -157,6 +159,13 @@ const Server = tw.li`
 const StyledImage = tw(Image)`
   rounded-3xl transition-all ease-linear
   hover:rounded-xl
+`;
+
+const CustomServerIcon = tw(StyledImage)<ServerIconProps>`
+  ${(props) =>
+    props.path.includes(props.server.serverID)
+      ? "rounded-xl fill-primary"
+      : "rounded-3xl fill-white"}
 `;
 
 const BanterImage = tw(StyledImage)<BanterProps>`
