@@ -1,12 +1,37 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useEffect, useRef } from "react";
 import tw from "tailwind-styled-components/dist/tailwind";
-import { useServersState } from "../../../features/servers";
+import { setServerName, useServersState } from "../../../features/servers";
+import {
+  setServerChangesMade,
+  useServerSettingsState,
+} from "../../../features/serverSettings";
+import { useAppDispatch } from "../../../redux/hooks";
 import DefaultServerIcon from "../../servers/DefaultServerIcon";
 
 export default function ServerOverview() {
+  const inputRef = useRef<HTMLInputElement>();
   const { server } = useServersState();
+  const { serverCopy } = useServerSettingsState();
   const router = useRouter();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (!serverCopy) return;
+
+    if (server !== serverCopy) {
+      dispatch(setServerChangesMade(true));
+    } else {
+      dispatch(setServerChangesMade(false));
+    }
+  }, [server, serverCopy]);
+
+  function handleChange() {
+    if (!inputRef.current) return;
+
+    dispatch(setServerName(inputRef.current.value));
+  }
 
   return (
     <Container>
@@ -42,7 +67,12 @@ export default function ServerOverview() {
         <ServerNameInputContainer>
           <ServerNameInputLabel>SERVER NAME</ServerNameInputLabel>
 
-          <ServerNameInput type="text" value={server.name} />
+          <ServerNameInput
+            type="text"
+            defaultValue={server.name}
+            onChange={handleChange}
+            ref={inputRef}
+          />
         </ServerNameInputContainer>
       </ServerSettings>
       <Divider />
@@ -71,7 +101,7 @@ const Divider = tw.div`
 `;
 
 const ServerIconContainer = tw.div`
-  relative flex justify-center items-center text-center w-[100px] h-[100px] drop-shadow-xl group cursor-pointer
+  relative flex justify-center items-center text-center w-[100px] h-[100px] mr-[10px] drop-shadow-xl group cursor-pointer
 `;
 
 const HoverTextBackdrop = tw.div`
@@ -95,7 +125,7 @@ const ServerIconDisplay = tw.div`
 `;
 
 const ServerIcon = tw(DefaultServerIcon)`
-  fill-primary rounded-full text-black
+  fill-primary rounded-full text-black text-[40px]
 `;
 
 const StyledImage = tw(Image)`
@@ -107,7 +137,9 @@ const ServerNameInputContainer = tw.div`
 `;
 
 const ServerNameInputLabel = tw.label`
+  mb-4 text-xs text-gray-800 font-semibold
 `;
 
 const ServerNameInput = tw.input`
+  w-full h-10 p-2.5 border border-gray-300 rounded-middle text-gray-800 font-medium bg-gray-50
 `;

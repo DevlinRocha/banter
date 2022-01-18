@@ -6,28 +6,29 @@ import {
   setServerSettingsScreen,
   useServerSettingsState,
 } from "../../features/serverSettings";
+import { setUnsavedChangesError } from "../../features/userSettings";
 
 export default function ServerSettingsSidebar() {
-  const { serverSettingsScreen } = useServerSettingsState();
+  const { serverSettingsScreen, serverCopy } = useServerSettingsState();
   const { server } = useServersState();
   const dispatch = useAppDispatch();
 
-  //   function unsavedChanges() {
-  //     if (!userCopy) return false;
+  function unsavedChanges() {
+    if (!serverCopy) return false;
 
-  //     if (userCopy !== user) {
-  //       dispatch(setUnsavedChangesError(true));
+    if (serverCopy !== server) {
+      dispatch(setUnsavedChangesError(true));
 
-  //       setTimeout(() => {
-  //         dispatch(setUnsavedChangesError(false));
-  //       }, 1500);
+      setTimeout(() => {
+        dispatch(setUnsavedChangesError(false));
+      }, 1500);
 
-  //       return true;
-  //     }
-  //   }
+      return true;
+    }
+  }
 
   function viewServerOverview() {
-    // if (unsavedChanges()) return;
+    if (unsavedChanges()) return;
 
     dispatch(setServerSettingsScreen("Overview"));
   }
@@ -35,7 +36,9 @@ export default function ServerSettingsSidebar() {
   return (
     <Container>
       <NavContainer>
-        <ListHeading>{server.name.toUpperCase()}</ListHeading>
+        <ListHeading>
+          {server.name.toUpperCase() || "SERVER SETTINGS"}
+        </ListHeading>
 
         <SettingsList>
           <ListItem

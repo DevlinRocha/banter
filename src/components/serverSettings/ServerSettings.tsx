@@ -7,17 +7,39 @@ import { useAppDispatch } from "../../redux/hooks";
 import { useEffect } from "react";
 import {
   setServerSettingsOpen,
+  setServerCopy,
   setServerSettingsScreen,
+  useServerSettingsState,
 } from "../../features/serverSettings";
+import { useServersState } from "../../features/servers";
+import { setUnsavedChangesError } from "../../features/userSettings";
 
 export default function ServerSettings() {
+  const { server } = useServersState();
+  const { serverCopy } = useServerSettingsState();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    // dispatch(setServerCopy(server));
+    dispatch(setServerCopy(server));
   }, []);
 
+  function unsavedChanges() {
+    if (!serverCopy) return false;
+
+    if (serverCopy !== server) {
+      dispatch(setUnsavedChangesError(true));
+
+      setTimeout(() => {
+        dispatch(setUnsavedChangesError(false));
+      }, 1500);
+
+      return true;
+    }
+  }
+
   function closeWindow() {
+    if (unsavedChanges()) return;
+
     dispatch(setServerSettingsOpen(false));
     dispatch(setServerSettingsScreen("Overview"));
   }
