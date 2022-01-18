@@ -118,7 +118,12 @@ export default function Servers() {
                     alt="Server icon"
                   />
                 ) : (
-                  <ServerIcon server={server} path={router.asPath} />
+                  <ServerIcon
+                    server={server}
+                    height={48}
+                    width={48}
+                    path={router.asPath}
+                  />
                 )}
               </Server>
             </Link>
