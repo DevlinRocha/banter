@@ -21,6 +21,7 @@ export interface UserRole {
 
 export interface UserState {
   user: UserData;
+  avatarPreview?: File;
   loading: "idle" | "pending" | "succeeded" | "failed";
 }
 
@@ -58,6 +59,10 @@ export const userSlice = createSlice({
       state.user.avatar = action.payload;
     },
 
+    setUserAvatarPreview(state, action) {
+      state.avatarPreview = action.payload;
+    },
+
     resetUserState(state) {
       state.user.username = initialState.user.username;
       state.user.tag = initialState.user.tag;
@@ -74,6 +79,7 @@ export const {
   setUserAbout,
   setUserBanner,
   setUserAvatar,
+  setUserAvatarPreview,
   resetUserState,
 } = userSlice.actions;
 
