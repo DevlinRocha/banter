@@ -20,7 +20,6 @@ import { useEffect } from "react";
 
 export default function UserSettings() {
   const {
-    userSettingsOpen,
     logoutConfirmOpen,
     changeUsernameOpen,
     changeEmailOpen,
@@ -51,7 +50,7 @@ export default function UserSettings() {
   function closeWindow() {
     if (unsavedChanges()) return;
 
-    dispatch(setUserSettingsOpen(!userSettingsOpen));
+    dispatch(setUserSettingsOpen(false));
     dispatch(setUserSettingsScreen("My Account"));
   }
 

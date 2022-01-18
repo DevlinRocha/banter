@@ -72,9 +72,7 @@ export default function SettingsSidebar() {
         <Divider />
 
         <SettingsList>
-          <LogOut
-            onClick={() => dispatch(setLogoutConfirmOpen(!logoutConfirmOpen))}
-          >
+          <LogOut onClick={() => dispatch(setLogoutConfirmOpen(true))}>
             Log Out
           </LogOut>
         </SettingsList>
