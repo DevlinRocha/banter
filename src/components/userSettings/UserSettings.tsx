@@ -6,15 +6,15 @@ import {
   setUserSettingsScreen,
   useUserSettingsState,
 } from "../../features/userSettings";
-import SettingsSidebar from "./SettingsSidebar";
-import SettingsView from "./settingsView/SettingsView";
+import SettingsSidebar from "./UserSettingsSidebar";
+import SettingsView from "./userSettingsView/UserSettingsView";
 import LogoutConfirm from "./LogoutConfirm";
 import Image from "next/image";
 import closeButton from "../../../assets/closeButton.svg";
 import { useAppDispatch } from "../../redux/hooks";
 import ChangeUsername from "./ChangeUsername";
 import ChangeEmail from "./ChangeEmail";
-import ChangeAvatar from "./settingsView/userProfileSettings/ChangeAvatar";
+import ChangeAvatar from "./userSettingsView/userProfileSettings/ChangeAvatar";
 import { useUserState } from "../../features/user";
 import { useEffect } from "react";
 
