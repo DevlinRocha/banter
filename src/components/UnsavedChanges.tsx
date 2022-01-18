@@ -1,11 +1,11 @@
 import tw from "tailwind-styled-components/dist/tailwind";
-import { saveUserProfileChanges } from "../../firebase";
+import { saveUserProfileChanges, uploadAvatar } from "../../firebase";
 import { setUser, useUserState } from "../features/user";
 import { setUserCopy, useUserSettingsState } from "../features/userSettings";
 import { useAppDispatch } from "../redux/hooks";
 
 export default function UnsavedChanges() {
-  const { user } = useUserState();
+  const { user, avatarPreview } = useUserState();
   const { userCopy, unsavedChangesError } = useUserSettingsState();
   const dispatch = useAppDispatch();
 
@@ -17,7 +17,21 @@ export default function UnsavedChanges() {
   async function saveChanges() {
     dispatch(setUserCopy(user));
 
+    if (user.avatar !== userCopy?.avatar) return await saveAvatar();
     await saveUserProfileChanges(user);
+  }
+
+  async function saveAvatar() {
+    if (!avatarPreview) return;
+
+    const avatarURL = await uploadAvatar(avatarPreview, user.userID);
+
+    const newUser = { ...user };
+    newUser.avatar = avatarURL;
+
+    dispatch(setUser(newUser));
+    dispatch(setUserCopy(newUser));
+    await saveUserProfileChanges(newUser);
   }
 
   return (
