@@ -35,7 +35,7 @@ export default function ServerSettingsSidebar() {
   return (
     <Container>
       <NavContainer>
-        <ListHeading>{server.name}</ListHeading>
+        <ListHeading>{server.name.toUpperCase()}</ListHeading>
 
         <SettingsList>
           <ListItem
