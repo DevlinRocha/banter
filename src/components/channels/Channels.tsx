@@ -55,7 +55,7 @@ export default function Channels() {
     return () => {
       unsubscribe();
     };
-  }, [server]);
+  }, [server.serverID]);
 
   useEffect(() => {
     if (!server.serverID || !server.defaultChannel) return;
@@ -81,7 +81,7 @@ export default function Channels() {
     return () => {
       unsubscribe();
     };
-  }, [server]);
+  }, [server.serverID]);
 
   function joinChannel(channel: ChannelData) {
     dispatch(setChannel(channel));
