@@ -19,7 +19,12 @@ export default function ServerOverview() {
               <HoverText>CHANGE ICON</HoverText>
             </HoverTextBackdrop>
             {server.img ? (
-              <StyledImage src={server.img} width={100} height={100} />
+              <StyledImage
+                loader={() => server.img}
+                src={server.img}
+                width={100}
+                height={100}
+              />
             ) : (
               <ServerIcon
                 server={server}
@@ -94,6 +99,7 @@ const ServerIcon = tw(DefaultServerIcon)`
 `;
 
 const StyledImage = tw(Image)`
+  rounded-full object-cover
 `;
 
 const ServerNameInputContainer = tw.div`
