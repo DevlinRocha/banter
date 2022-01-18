@@ -1,9 +1,12 @@
 import { useUserState } from "../../../../features/user";
 import tw from "tailwind-styled-components/dist/tailwind";
 import Image from "next/image";
+import { useAppDispatch } from "../../../../redux/hooks";
+import { setChangeAvatarOpen } from "../../../../features/userSettings";
 
 export default function UserProfileCard() {
   const { user } = useUserState();
+  const dispatch = useAppDispatch();
 
   const bannerStyle = {
     backgroundColor: user.banner,
@@ -13,7 +16,7 @@ export default function UserProfileCard() {
     <Container>
       <Banner style={bannerStyle} />
 
-      <ProfilePicture>
+      <ProfilePicture onClick={() => dispatch(setChangeAvatarOpen(true))}>
         <StyledImage
           loader={() => user.avatar}
           src={user.avatar}
@@ -57,7 +60,7 @@ const ProfilePicture = tw.div`
 `;
 
 const StyledImage = tw(Image)`
-  object-cover rounded-full
+  object-cover rounded-full cursor-pointer
 `;
 
 const UsernameContainer = tw.div`
