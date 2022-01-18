@@ -69,7 +69,7 @@ export default function ServerOverview() {
 
           <ServerNameInput
             type="text"
-            defaultValue={server.name}
+            value={server.name}
             onChange={handleChange}
             ref={inputRef}
           />
