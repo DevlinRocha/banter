@@ -186,7 +186,7 @@ const BanterImage = tw(StyledImage)<BanterProps>`
 `;
 
 const ServerIcon = tw(DefaultServerIcon)<ServerIconProps>`
-  transition-all ease-linear group
+  text-lg transition-all ease-linear group
   hover:rounded-xl hover:fill-primary
   ${(props) =>
     props.path.includes(props.server.serverID)
