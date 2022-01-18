@@ -188,6 +188,22 @@ export async function changeEmail(newEmail: string, password: string) {
   }
 }
 
+export async function uploadAvatarPreview(file: File, userID: string) {
+  const storage = getStorage();
+
+  const avatarRef = ref(storage, `users/${userID}/temp/avatar`);
+
+  await uploadBytes(avatarRef, file);
+
+  return await getAvatarPreviewURL(userID);
+}
+
+async function getAvatarPreviewURL(userID: string) {
+  const storage = getStorage();
+
+  return await getDownloadURL(ref(storage, `users/${userID}/temp/avatar`));
+}
+
 export async function uploadAvatar(file: File, userID: string) {
   const storage = getStorage();
 
@@ -201,11 +217,7 @@ export async function uploadAvatar(file: File, userID: string) {
 async function getAvatarURL(userID: string) {
   const storage = getStorage();
 
-  try {
-    return await getDownloadURL(ref(storage, `users/${userID}/avatar`));
-  } catch (error) {
-    console.error(error);
-  }
+  return await getDownloadURL(ref(storage, `users/${userID}/avatar`));
 }
 
 export async function createServer(
