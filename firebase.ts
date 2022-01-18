@@ -23,6 +23,7 @@ import {
 } from "firebase/auth";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { UserData } from "./src/features/user";
+import { ServerData } from "./src/features/servers";
 
 // import { getAnalytics } from "firebase/analytics";
 
@@ -285,6 +286,11 @@ async function setServerOwner(serverID: string, userID: string) {
   });
 }
 
+export async function saveServerChanges(newServer: ServerData) {
+  await updateServerDatabase(newServer.serverID, "img", newServer.img);
+  await updateServerDatabase(newServer.serverID, "name", newServer.name);
+}
+
 export async function uploadServerImagePreview(file: File, userID: string) {
   const storage = getStorage();
 
@@ -301,7 +307,7 @@ async function getServerImagePreviewURL(userID: string) {
   return await getDownloadURL(ref(storage, `users/${userID}/temp/serverImage`));
 }
 
-async function uploadServerImage(file: File, serverID: string) {
+export async function uploadServerImage(file: File, serverID: string) {
   const storage = getStorage();
 
   const serverImageRef = ref(storage, `servers/${serverID}/serverImage`);
@@ -311,6 +317,8 @@ async function uploadServerImage(file: File, serverID: string) {
   const serverImageURL = await getServerImageURL(serverID);
 
   await updateServerDatabase(serverID, "img", serverImageURL);
+
+  return serverImageURL;
 }
 
 async function getServerImageURL(serverID: string) {
