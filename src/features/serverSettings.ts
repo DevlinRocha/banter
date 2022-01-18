@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { useAppSelector } from "../redux/hooks";
+import { ServerData } from "./servers";
 
 export interface ServerSettingsState {
   serverDropdownOpen: boolean;
@@ -8,6 +9,8 @@ export interface ServerSettingsState {
   serverSettingsScreen: "Overview";
   deleteServerConfirmOpen: boolean;
   serverChangesMade: boolean;
+  serverIconPreview?: File;
+  serverCopy: ServerData | null;
   createChannelOpen: boolean;
   loading: "idle" | "pending" | "succeeded" | "failed";
 }
@@ -19,6 +22,7 @@ const initialState: ServerSettingsState = {
   serverSettingsScreen: "Overview",
   deleteServerConfirmOpen: false,
   serverChangesMade: false,
+  serverCopy: null,
   createChannelOpen: false,
   loading: "idle",
 };
@@ -53,6 +57,14 @@ export const userSettingsSlice = createSlice({
       state.serverChangesMade = action.payload;
     },
 
+    setServerIconPreview(state, action) {
+      state.serverIconPreview = action.payload;
+    },
+
+    setServerCopy(state, action) {
+      state.serverCopy = action.payload;
+    },
+
     setCreateChannelOpen(state, action) {
       state.createChannelOpen = action.payload;
       state.serverDropdownOpen = false;
@@ -67,6 +79,8 @@ export const {
   setServerSettingsScreen,
   setDeleteServerConfirmOpen,
   setServerChangesMade,
+  setServerIconPreview,
+  setServerCopy,
   setCreateChannelOpen,
 } = userSettingsSlice.actions;
 
