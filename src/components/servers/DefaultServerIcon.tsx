@@ -17,7 +17,7 @@ export default function DefaultServerIcon(props: DefaultServerIconProps) {
     const string = props.server.name;
     const matches = string.replace("'", "").match(/\b(\w)/g);
 
-    if (!matches) return;
+    if (!matches) return setInitials("");
 
     const initials = matches.join("");
     setInitials(initials);
