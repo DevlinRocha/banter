@@ -16,8 +16,13 @@ export default function UserProfileCard() {
     <Container>
       <Banner style={bannerStyle} />
 
-      <ProfilePicture onClick={() => dispatch(setChangeAvatarOpen(true))}>
+      <ProfilePicture>
+        <HoverTextBackdrop>
+          <HoverText>CHANGE AVATAR</HoverText>
+        </HoverTextBackdrop>
+
         <StyledImage
+          onClick={() => dispatch(setChangeAvatarOpen(true))}
           loader={() => user.avatar}
           src={user.avatar}
           width={80}
@@ -51,12 +56,21 @@ const ProfileContainer = tw.section`
   flex flex-col p-4 pt-0
 `;
 
+const HoverTextBackdrop = tw.div`
+  absolute hidden w-full h-full bg-black bg-opacity-50 rounded-full z-10 group pointer-events-none
+  group-hover:block
+`;
+
+const HoverText = tw.span`
+  absolute flex w-full h-full text-center items-center text-[10px] text-white font-bold
+`;
+
 const Banner = tw.span`
   h-15 rounded-t-lg
 `;
 
 const ProfilePicture = tw.div`
-  absolute top-4 left-4 flex border-[7px] border-white rounded-full
+  absolute top-4 left-4 flex border-[7px] border-white rounded-full group
 `;
 
 const StyledImage = tw(Image)`
