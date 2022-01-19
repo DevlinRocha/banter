@@ -136,6 +136,14 @@ export const serversSlice = createSlice({
       state.server = action.payload;
     },
 
+    setServerName(state, action) {
+      state.server.name = action.payload;
+    },
+
+    setServerImage(state, action) {
+      state.server.img = action.payload;
+    },
+
     setChannels(state, action) {
       state.channels = action.payload;
     },
@@ -193,6 +201,8 @@ export const serversSlice = createSlice({
 export const {
   setServers,
   setServer,
+  setServerName,
+  setServerImage,
   setChannels,
   setChannel,
   setVoiceChannel,

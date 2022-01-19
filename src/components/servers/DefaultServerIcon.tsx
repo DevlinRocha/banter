@@ -17,17 +17,17 @@ export default function DefaultServerIcon(props: DefaultServerIconProps) {
     const string = props.server.name;
     const matches = string.replace("'", "").match(/\b(\w)/g);
 
-    if (!matches) return;
+    if (!matches) return setInitials("");
 
     const initials = matches.join("");
     setInitials(initials);
   }
 
   return (
-    <svg width={48} height={48} xmlns="http://www.w3.org/2000/svg" {...props}>
-      <rect width={48} height={48} />
+    <svg width={512} height={512} xmlns="http://www.w3.org/2000/svg" {...props}>
+      <rect width={512} height={512} />
       <text
-        className={`text-lg front-medium group-hover:fill-white
+        className={`front-medium group-hover:fill-white
         ${
           props.path.includes(props.server.serverID)
             ? "fill-white"

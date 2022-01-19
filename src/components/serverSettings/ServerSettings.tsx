@@ -1,42 +1,32 @@
 import tw from "tailwind-styled-components/dist/tailwind";
-import {
-  setUnsavedChangesError,
-  setUserCopy,
-  setUserSettingsOpen,
-  setUserSettingsScreen,
-  useUserSettingsState,
-} from "../../features/userSettings";
-import SettingsSidebar from "./UserSettingsSidebar";
-import SettingsView from "./userSettingsView/UserSettingsView";
-import LogoutConfirm from "./LogoutConfirm";
+import ServerSettingsSidebar from "./ServerSettingsSidebar";
+import ServerSettingsView from "./serverSettingsView/ServerSettingsView";
 import Image from "next/image";
 import closeButton from "../../../assets/closeButton.svg";
 import { useAppDispatch } from "../../redux/hooks";
-import ChangeUsername from "./ChangeUsername";
-import ChangeEmail from "./ChangeEmail";
-import ChangeAvatar from "./userSettingsView/userProfileSettings/ChangeAvatar";
-import { useUserState } from "../../features/user";
 import { useEffect } from "react";
+import {
+  setServerSettingsOpen,
+  setServerCopy,
+  setServerSettingsScreen,
+  useServerSettingsState,
+} from "../../features/serverSettings";
+import { useServersState } from "../../features/servers";
+import { setUnsavedChangesError } from "../../features/userSettings";
 
-export default function UserSettings() {
-  const {
-    logoutConfirmOpen,
-    changeUsernameOpen,
-    changeEmailOpen,
-    changeAvatarOpen,
-    userCopy,
-  } = useUserSettingsState();
-  const { user } = useUserState();
+export default function ServerSettings() {
+  const { server } = useServersState();
+  const { serverCopy } = useServerSettingsState();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(setUserCopy(user));
+    dispatch(setServerCopy(server));
   }, []);
 
   function unsavedChanges() {
-    if (!userCopy) return false;
+    if (!serverCopy) return false;
 
-    if (userCopy !== user) {
+    if (serverCopy !== server) {
       dispatch(setUnsavedChangesError(true));
 
       setTimeout(() => {
@@ -50,24 +40,16 @@ export default function UserSettings() {
   function closeWindow() {
     if (unsavedChanges()) return;
 
-    dispatch(setUserSettingsOpen(false));
-    dispatch(setUserSettingsScreen("My Account"));
+    dispatch(setServerSettingsOpen(false));
+    dispatch(setServerSettingsScreen("Overview"));
   }
 
   return (
     <Container>
-      {logoutConfirmOpen && <LogoutConfirm />}
-
-      {changeUsernameOpen && <ChangeUsername />}
-
-      {changeEmailOpen && <ChangeEmail />}
-
-      {changeAvatarOpen && <ChangeAvatar />}
-
-      <SettingsSidebar />
+      <ServerSettingsSidebar />
 
       <SettingsContainer>
-        <SettingsView />
+        <ServerSettingsView />
 
         <CloseButton>
           <StyledImage

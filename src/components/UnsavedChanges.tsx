@@ -1,24 +1,60 @@
 import tw from "tailwind-styled-components/dist/tailwind";
-import { saveUserProfileChanges, uploadAvatar } from "../../firebase";
+import {
+  saveServerChanges,
+  saveUserProfileChanges,
+  uploadAvatar,
+  uploadServerImage,
+} from "../../firebase";
+import { ServerData, setServer, useServersState } from "../features/servers";
+import {
+  setServerCopy,
+  useServerSettingsState,
+} from "../features/serverSettings";
 import { setUser, useUserState } from "../features/user";
 import { setUserCopy, useUserSettingsState } from "../features/userSettings";
 import { useAppDispatch } from "../redux/hooks";
 
-export default function UnsavedChanges() {
+interface UnsavedChangesProps {
+  changes: string;
+}
+
+export default function UnsavedChanges(props: UnsavedChangesProps) {
   const { user, avatarPreview } = useUserState();
   const { userCopy, unsavedChangesError } = useUserSettingsState();
+  const { server } = useServersState();
+  const { serverCopy, serverIconPreview } = useServerSettingsState();
   const dispatch = useAppDispatch();
 
   function resetChanges() {
-    if (!userCopy) return;
-    dispatch(setUser(userCopy));
+    switch (props.changes) {
+      case "user":
+        if (!userCopy) return;
+        dispatch(setUser(userCopy));
+        break;
+
+      case "server":
+        if (!serverCopy) return;
+        dispatch(setServer(serverCopy));
+        break;
+    }
   }
 
   async function saveChanges() {
-    dispatch(setUserCopy(user));
+    switch (props.changes) {
+      case "user":
+        dispatch(setUserCopy(user));
 
-    if (user.avatar !== userCopy?.avatar) return await saveAvatar();
-    await saveUserProfileChanges(user);
+        if (user.avatar !== userCopy?.avatar) return await saveAvatar();
+        await saveUserProfileChanges(user);
+        break;
+
+      case "server":
+        dispatch(setServerCopy(server));
+
+        if (server.img !== serverCopy?.img) return await saveIcon();
+        await saveServerChanges(server);
+        break;
+    }
   }
 
   async function saveAvatar() {
@@ -32,6 +68,23 @@ export default function UnsavedChanges() {
     dispatch(setUser(newUser));
     dispatch(setUserCopy(newUser));
     await saveUserProfileChanges(newUser);
+  }
+
+  async function saveIcon() {
+    if (!serverIconPreview) return dispatchServerChanges(server);
+
+    const iconURL = await uploadServerImage(serverIconPreview, server.serverID);
+
+    const newServer = { ...server };
+    newServer.img = iconURL;
+
+    dispatchServerChanges(newServer);
+  }
+
+  async function dispatchServerChanges(newServer: ServerData) {
+    dispatch(setServer(newServer));
+    dispatch(setServerCopy(newServer));
+    await saveServerChanges(server);
   }
 
   return (
