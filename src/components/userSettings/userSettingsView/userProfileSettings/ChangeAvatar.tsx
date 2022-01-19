@@ -3,7 +3,6 @@ import tw from "tailwind-styled-components/dist/tailwind";
 import { useAppDispatch } from "../../../../redux/hooks";
 import closeIcon from "../../../../../assets/closeIcon.svg";
 import { setChangeAvatarOpen } from "../../../../features/userSettings";
-import { ChangeEvent } from "react";
 import { uploadAvatarPreview } from "../../../../../firebase";
 import {
   setUserAvatar,
@@ -23,7 +22,7 @@ export default function ChangeAvatar() {
     e.stopPropagation();
   }
 
-  async function changeAvatar(e: ChangeEvent<HTMLInputElement>) {
+  async function changeAvatar(e: React.ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) return;
 
     const avatarImage = e.target.files[0];

@@ -2,9 +2,15 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useRef } from "react";
 import tw from "tailwind-styled-components/dist/tailwind";
-import { setServerName, useServersState } from "../../../features/servers";
+import { uploadServerImagePreview } from "../../../../firebase";
+import {
+  setServerImage,
+  setServerName,
+  useServersState,
+} from "../../../features/servers";
 import {
   setServerChangesMade,
+  setServerIconPreview,
   useServerSettingsState,
 } from "../../../features/serverSettings";
 import { useAppDispatch } from "../../../redux/hooks";
@@ -33,36 +39,66 @@ export default function ServerOverview() {
     dispatch(setServerName(inputRef.current.value));
   }
 
+  async function changeIcon(e: React.ChangeEvent<HTMLInputElement>) {
+    if (!e.target.files) return;
+
+    const iconImage = e.target.files[0];
+
+    const iconURL = await uploadServerImagePreview(iconImage, server.serverID);
+
+    dispatch(setServerImage(iconURL));
+    dispatch(setServerIconPreview(iconImage));
+  }
+
   return (
     <Container>
       <Heading>Server Overview</Heading>
 
       <ServerSettings>
-        <ServerIconDisplay>
-          <ServerIconContainer>
-            <HoverTextBackdrop>
-              <HoverText>CHANGE ICON</HoverText>
-            </HoverTextBackdrop>
-            {server.img ? (
-              <StyledImage
-                loader={() => server.img}
-                src={server.img}
-                width={100}
-                height={100}
+        <UploadIconContainer>
+          <ServerIconDisplay>
+            <ServerIconContainer>
+              <HoverTextBackdrop>
+                <HoverText>CHANGE ICON</HoverText>
+              </HoverTextBackdrop>
+
+              {server.img ? (
+                <StyledImage
+                  loader={() => server.img}
+                  src={server.img}
+                  width={100}
+                  height={100}
+                />
+              ) : (
+                <ServerIcon
+                  server={server}
+                  width={100}
+                  height={100}
+                  path={router.asPath}
+                />
+              )}
+            </ServerIconContainer>
+
+            <SmallText>
+              Minimum Size: <Bold>128x128</Bold>
+            </SmallText>
+          </ServerIconDisplay>
+
+          <UploadImageContainer>
+            <UploadImageText>
+              We recommend an image of at least 512x512 for the server.
+            </UploadImageText>
+
+            <UploadImageButton>
+              Upload Image
+              <FileInput
+                onChange={changeIcon}
+                type="file"
+                accept=".svg, .png, .jpg, .jpeg"
               />
-            ) : (
-              <ServerIcon
-                server={server}
-                width={100}
-                height={100}
-                path={router.asPath}
-              />
-            )}
-          </ServerIconContainer>
-          <SmallText>
-            Minimum Size: <Bold>128x128</Bold>
-          </SmallText>
-        </ServerIconDisplay>
+            </UploadImageButton>
+          </UploadImageContainer>
+        </UploadIconContainer>
 
         <ServerNameInputContainer>
           <ServerNameInputLabel>SERVER NAME</ServerNameInputLabel>
@@ -81,7 +117,7 @@ export default function ServerOverview() {
 }
 
 const Container = tw.main`
-  min-w-[462px] max-w-[660px] pt-15 px-10 pb-20
+  min-w-[542px] max-w-[740px] pt-15 px-10 pb-20
 `;
 
 const Heading = tw.h2`
@@ -92,6 +128,10 @@ const ServerSettings = tw.section`
   flex
 `;
 
+const UploadIconContainer = tw.div`
+  flex mr-2.5
+`;
+
 const SubHeading = tw.h5`
   mt-10 text-xs font-semibold
 `;
@@ -100,8 +140,12 @@ const Divider = tw.div`
   max-w-165 h-px border-t mt-10 border-gray-900/[0.08]
 `;
 
+const ServerIconDisplay = tw.div`
+  flex flex-col items-center text-center mr-2.5
+`;
+
 const ServerIconContainer = tw.div`
-  relative flex justify-center items-center text-center w-[100px] h-[100px] mr-[10px] drop-shadow-xl group cursor-pointer
+  relative w-[100px] h-[100px] drop-shadow-xl group cursor-pointer
 `;
 
 const HoverTextBackdrop = tw.div`
@@ -117,11 +161,25 @@ const SmallText = tw.small`
   mt-2.5 text-gray-500 text-[10px] leading-[10px]
 `;
 
-const Bold = tw.small`
+const Bold = tw(SmallText)`
   font-bold
 `;
 
-const ServerIconDisplay = tw.div`
+const UploadImageContainer = tw.div`
+  flex flex-col ml-2.5 min-w-[128px] max-w-[180px]
+`;
+
+const UploadImageText = tw.span`
+  mb-2 text-sm text-gray-600 font-medium
+`;
+
+const UploadImageButton = tw.button`
+  relative mt-2 px-4 py-0.5 w-fit h-[38px] text-sm text-gray-500 border border-gray-500 rounded-[3px]
+`;
+
+const FileInput = tw.input`
+  absolute top-0 left-0 w-full h-full text-[0px] cursor-pointer
+  file:border-0 file:bg-transparent
 `;
 
 const ServerIcon = tw(DefaultServerIcon)`
@@ -133,11 +191,11 @@ const StyledImage = tw(Image)`
 `;
 
 const ServerNameInputContainer = tw.div`
-  flex flex-col
+  flex flex-col mb-5 ml-2.5 min-w-[206px] w-[320px] max-w-[320px]
 `;
 
 const ServerNameInputLabel = tw.label`
-  mb-4 text-xs text-gray-800 font-semibold
+  mb-2 text-xs text-gray-800 font-semibold
 `;
 
 const ServerNameInput = tw.input`

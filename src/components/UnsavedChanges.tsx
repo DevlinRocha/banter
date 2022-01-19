@@ -79,6 +79,7 @@ export default function UnsavedChanges(props: UnsavedChangesProps) {
     newServer.img = iconURL;
 
     dispatch(setServer(newServer));
+    dispatch(setServerCopy(newServer));
   }
 
   return (
