@@ -59,6 +59,10 @@ export default function ServerOverview() {
     dispatch(setServerIconPreview(iconImage));
   }
 
+  function removeIcon() {
+    dispatch(setServerImage(""));
+  }
+
   return (
     <Container>
       <Heading>Server Overview</Heading>
@@ -89,9 +93,13 @@ export default function ServerOverview() {
               )}
             </ServerIconContainer>
 
-            <SmallText>
-              Minimum Size: <Bold>128x128</Bold>
-            </SmallText>
+            {server.img ? (
+              <SubText onClick={removeIcon}>Remove</SubText>
+            ) : (
+              <SmallText>
+                Minimum Size: <Bold>128x128</Bold>
+              </SmallText>
+            )}
           </ServerIconDisplay>
 
           <UploadImageContainer>
@@ -143,8 +151,8 @@ const UploadIconContainer = tw.div`
   flex mr-2.5
 `;
 
-const SubHeading = tw.h5`
-  mt-10 text-xs font-semibold
+const SubText = tw.a`
+  mt-2.5 text-sm text-gray-600 font-semibold leading-[14px] cursor-pointer
 `;
 
 const Divider = tw.div`
@@ -189,13 +197,13 @@ const UploadImageButton = tw.button`
 `;
 
 const FileInput = tw.input`
-  absolute top-0 left-0 w-full h-full text-[0px] cursor-pointer
+  absolute top-0 left-0 w-full h-full text-[0] cursor-pointer
   file:border-0 file:bg-transparent
 `;
 
 const ServerIcon = tw(DefaultServerIcon)`
   fill-primary rounded-full text-black text-[40px] group
-  group-hover:text-[0px]
+  group-hover:text-[0]
 `;
 
 const StyledImage = tw(Image)`

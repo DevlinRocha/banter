@@ -5,7 +5,7 @@ import {
   uploadAvatar,
   uploadServerImage,
 } from "../../firebase";
-import { setServer, useServersState } from "../features/servers";
+import { ServerData, setServer, useServersState } from "../features/servers";
 import {
   setServerCopy,
   useServerSettingsState,
@@ -71,15 +71,20 @@ export default function UnsavedChanges(props: UnsavedChangesProps) {
   }
 
   async function saveIcon() {
-    if (!serverIconPreview) return;
+    if (!serverIconPreview) return dispatchServerChanges(server);
 
     const iconURL = await uploadServerImage(serverIconPreview, server.serverID);
 
     const newServer = { ...server };
     newServer.img = iconURL;
 
+    dispatchServerChanges(newServer);
+  }
+
+  async function dispatchServerChanges(newServer: ServerData) {
     dispatch(setServer(newServer));
     dispatch(setServerCopy(newServer));
+    await saveServerChanges(server);
   }
 
   return (
