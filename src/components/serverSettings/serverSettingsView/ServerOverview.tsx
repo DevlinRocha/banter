@@ -13,11 +13,14 @@ import {
   setServerIconPreview,
   useServerSettingsState,
 } from "../../../features/serverSettings";
+import { useUserState } from "../../../features/user";
 import { useAppDispatch } from "../../../redux/hooks";
 import DefaultServerIcon from "../../servers/DefaultServerIcon";
 
 export default function ServerOverview() {
   const inputRef = useRef<HTMLInputElement>();
+  const fileRef = useRef<HTMLInputElement>();
+  const { user } = useUserState();
   const { server } = useServersState();
   const { serverCopy } = useServerSettingsState();
   const router = useRouter();
@@ -39,12 +42,18 @@ export default function ServerOverview() {
     dispatch(setServerName(inputRef.current.value));
   }
 
+  function handleClick() {
+    if (!fileRef.current) return;
+
+    fileRef.current.click();
+  }
+
   async function changeIcon(e: React.ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) return;
 
     const iconImage = e.target.files[0];
 
-    const iconURL = await uploadServerImagePreview(iconImage, server.serverID);
+    const iconURL = await uploadServerImagePreview(iconImage, user.userID);
 
     dispatch(setServerImage(iconURL));
     dispatch(setServerIconPreview(iconImage));
@@ -57,9 +66,10 @@ export default function ServerOverview() {
       <ServerSettings>
         <UploadIconContainer>
           <ServerIconDisplay>
-            <ServerIconContainer>
+            <ServerIconContainer onClick={handleClick}>
               <HoverTextBackdrop>
-                <HoverText>CHANGE ICON</HoverText>
+                <HoverText>CHANGE</HoverText>
+                <HoverText>ICON</HoverText>
               </HoverTextBackdrop>
 
               {server.img ? (
@@ -95,6 +105,7 @@ export default function ServerOverview() {
                 onChange={changeIcon}
                 type="file"
                 accept=".svg, .png, .jpg, .jpeg"
+                ref={fileRef}
               />
             </UploadImageButton>
           </UploadImageContainer>
@@ -149,12 +160,12 @@ const ServerIconContainer = tw.div`
 `;
 
 const HoverTextBackdrop = tw.div`
-  absolute hidden w-full h-full bg-black bg-opacity-50 rounded-full z-10 group pointer-events-none
-  group-hover:block
+  absolute hidden w-full h-full bg-black bg-opacity-50 rounded-full z-10 group pointer-events-none leading-3
+  group-hover:flex group-hover:flex-col group-hover:justify-center
 `;
 
 const HoverText = tw.span`
-  absolute flex w-full h-full justify-center items-center text-[10px] text-white font-bold
+  text-[10px] text-white font-bold
 `;
 
 const SmallText = tw.small`
@@ -183,7 +194,8 @@ const FileInput = tw.input`
 `;
 
 const ServerIcon = tw(DefaultServerIcon)`
-  fill-primary rounded-full text-black text-[40px]
+  fill-primary rounded-full text-black text-[40px] group
+  group-hover:text-[0px]
 `;
 
 const StyledImage = tw(Image)`
