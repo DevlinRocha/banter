@@ -91,6 +91,8 @@ export default function Servers() {
       <Sidebar>
         <Link href="/channels/@me" passHref>
           <BanterIcon onClick={() => dispatch(resetServerState())}>
+            <ServerBar serverID={"@me"} path={router.asPath} />
+
             <BanterImage
               path={router.asPath}
               src={banterIcon}
@@ -107,10 +109,10 @@ export default function Servers() {
           return (
             <Link href={server.path} passHref key={index}>
               <ServerContainer onClick={() => handleClick(server)}>
-                <ServerBar server={server} path={router.asPath} />
+                <ServerBar serverID={server.serverID} path={router.asPath} />
                 {server.img ? (
                   <CustomServerIcon
-                    server={server}
+                    serverID={server.serverID}
                     path={router.asPath}
                     loader={() => server.img}
                     src={server.img}
@@ -143,6 +145,7 @@ type ServerIconProps = {
 };
 
 type BanterProps = {
+  serverID?: string;
   path: string;
 };
 
@@ -155,30 +158,30 @@ const Sidebar = tw.ol`
 `;
 
 const BanterIcon = tw.figure`
-  flex justify-center cursor-pointer
+  relative flex justify-center w-full cursor-pointer group
 `;
 
 const ServerContainer = tw.li`
   relative flex justify-center mb-2 w-full cursor-pointer group
 `;
 
-const ServerBar = tw.span<ServerIconProps>`
+const ServerBar = tw.span<BanterProps>`
   absolute left-0 w-1 h-10 bg-black rounded-r-middle
   group-hover:flex
   ${(props) =>
-    props.path.includes(props.server.serverID)
+    props.serverID && props.path.includes(props.serverID)
       ? "flex h-10 top-1"
       : "hidden h-5 top-3.5"}
 `;
 
 const StyledImage = tw(Image)`
   rounded-3xl transition-all ease-linear object-cover
-  hover:rounded-xl
+  group-hover:rounded-xl
 `;
 
-const CustomServerIcon = tw(StyledImage)<ServerIconProps>`
+const CustomServerIcon = tw(StyledImage)<BanterProps>`
   ${(props) =>
-    props.path.includes(props.server.serverID)
+    props.serverID && props.path.includes(props.serverID)
       ? "rounded-xl fill-primary"
       : "rounded-3xl fill-white"}
 `;
