@@ -106,7 +106,8 @@ export default function Servers() {
         {servers.map((server, index) => {
           return (
             <Link href={server.path} passHref key={index}>
-              <Server onClick={() => handleClick(server)}>
+              <ServerContainer onClick={() => handleClick(server)}>
+                <ServerBar server={server} path={router.asPath} />
                 {server.img ? (
                   <CustomServerIcon
                     server={server}
@@ -125,7 +126,7 @@ export default function Servers() {
                     path={router.asPath}
                   />
                 )}
-              </Server>
+              </ServerContainer>
             </Link>
           );
         })}
@@ -157,8 +158,17 @@ const BanterIcon = tw.figure`
   flex justify-center cursor-pointer
 `;
 
-const Server = tw.li`
-  flex justify-center mb-2 cursor-pointer
+const ServerContainer = tw.li`
+  relative flex justify-center mb-2 w-full cursor-pointer group
+`;
+
+const ServerBar = tw.span<ServerIconProps>`
+  absolute left-0 w-1 h-10 bg-black rounded-r-middle
+  group-hover:flex
+  ${(props) =>
+    props.path.includes(props.server.serverID)
+      ? "flex h-10 top-1"
+      : "hidden h-5 top-3.5"}
 `;
 
 const StyledImage = tw(Image)`
@@ -187,7 +197,7 @@ const BanterImage = tw(StyledImage)<BanterProps>`
 
 const ServerIcon = tw(DefaultServerIcon)<ServerIconProps>`
   text-lg transition-all ease-linear group
-  hover:rounded-xl hover:fill-primary
+  group-hover:rounded-xl group-hover:fill-primary
   ${(props) =>
     props.path.includes(props.server.serverID)
       ? "rounded-xl fill-primary"
