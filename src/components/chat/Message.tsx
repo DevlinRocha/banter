@@ -55,7 +55,9 @@ export default function Message(props: MessageProps) {
     let minutes: number | string = date.getMinutes();
     let period = "";
 
-    if (hours > 12) {
+    if (hours === 12) {
+      period = "PM";
+    } else if (hours > 12) {
       period = "PM";
       hours = hours - 12;
     } else {
