@@ -64,7 +64,7 @@ const ListContainer = tw.ol`
 `;
 
 const ListItem = tw.li`
-  my-0.5 py-1.5 pl-2 rounded-middle cursor-pointer
+  flex items-center my-0.5 py-1.5 pl-2 h-8 rounded-middle cursor-pointer
   hover:bg-indigo-800 hover:text-white
 `;
 
