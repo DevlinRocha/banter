@@ -132,8 +132,9 @@ export default function Servers() {
             </Link>
           );
         })}
-
-        <AddServerIconContainer onClick={addServer} />
+        <AddServerIconContainer onClick={addServer}>
+          <CreateServerIcon />
+        </AddServerIconContainer>
       </Sidebar>
     </Nav>
   );
@@ -199,7 +200,7 @@ const BanterImage = tw(StyledImage)<BanterProps>`
 `;
 
 const ServerIcon = tw(DefaultServerIcon)<ServerIconProps>`
-  text-lg transition-all ease-linear group
+  text-lg transition-all ease-linear
   group-hover:rounded-xl group-hover:fill-primary
   ${(props) =>
     props.path.includes(props.server.serverID)
@@ -207,9 +208,13 @@ const ServerIcon = tw(DefaultServerIcon)<ServerIconProps>`
       : "rounded-3xl fill-white"}
 `;
 
-const AddServerIconContainer = tw(AddServerIcon)`
-  transition-all ease-linear flex-none rounded-3xl fill-white cursor-pointer group
-  hover:rounded-xl hover:fill-active
+const AddServerIconContainer = tw.div`
+  cursor-pointer group
+`;
+
+const CreateServerIcon = tw(AddServerIcon)`
+  transition-all ease-linear flex-none rounded-3xl fill-white cursor-pointer
+  group-hover:rounded-xl group-hover:fill-active
 `;
 
 const Separator = tw.div`
