@@ -61,6 +61,7 @@ export default function ServerOverview() {
 
   function removeIcon() {
     dispatch(setServerImage(""));
+    dispatch(setServerIconPreview(null));
   }
 
   return (
