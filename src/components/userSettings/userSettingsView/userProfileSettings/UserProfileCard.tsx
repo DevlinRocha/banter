@@ -98,5 +98,5 @@ const ProfileHeading = tw.h3`
 `;
 
 const AboutMeContainer = tw.div`
-  select-text
+  select-text break-words
 `;
