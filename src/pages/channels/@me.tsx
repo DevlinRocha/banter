@@ -34,16 +34,18 @@ const Home: NextPage = () => {
 
       if (!docSnap.exists()) return redirect();
 
+      const docData = docSnap.data();
+
       const currentUser = {
-        username: docSnap.data().username,
+        username: docData.username,
 
-        tag: docSnap.data().tag,
+        tag: docData.tag,
 
-        avatar: docSnap.data().avatar,
+        avatar: docData.avatar,
 
-        about: docSnap.data().about,
+        about: docData.about,
 
-        banner: docSnap.data().banner,
+        banner: docData.banner,
 
         userID: user.uid,
 
@@ -63,20 +65,22 @@ const Home: NextPage = () => {
     const unsubscribe = onSnapshot(doc(db, "users", user.userID), (doc) => {
       if (!doc.exists()) return;
 
+      const docData = doc.data();
+
       const currentUser = {
-        username: doc.data().username,
+        username: docData.username,
 
-        tag: doc.data().tag,
+        tag: docData.tag,
 
-        avatar: doc.data().avatar,
+        avatar: docData.avatar,
 
-        about: doc.data().about,
+        about: docData.about,
 
-        banner: doc.data().banner,
+        banner: docData.banner,
 
         userID: doc.id,
 
-        email: doc.data().email,
+        email: docData.email,
       };
 
       dispatch(setUser(currentUser));

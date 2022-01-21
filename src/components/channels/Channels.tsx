@@ -34,12 +34,14 @@ export default function Channels() {
       const channelList: ChannelData[] = [];
 
       querySnapshot.forEach((doc) => {
+        const docData = doc.data();
+
         const channel: ChannelData = {
-          name: doc.data().name,
+          name: docData.name,
 
-          topic: doc.data().topic,
+          topic: docData.topic,
 
-          type: doc.data().type,
+          type: docData.type,
 
           path: `/channels/${server.serverID}/${doc.id}/`,
 
@@ -63,12 +65,14 @@ export default function Channels() {
     const unsubscribe = onSnapshot(
       doc(db, "servers", server.serverID, "channels", server.defaultChannel),
       (doc) => {
+        const docData = doc.data();
+
         const channel: ChannelData = {
-          name: doc.data()?.name,
+          name: docData?.name,
 
-          topic: doc.data()?.topic,
+          topic: docData?.topic,
 
-          type: doc.data()?.type,
+          type: docData?.type,
 
           path: `${server.serverID}/${doc.id}/`,
 

@@ -55,16 +55,18 @@ export default function Servers() {
       querySnapshot.forEach((doc) => {
         if (!serverIDs.includes(doc.id)) return;
 
+        const docData = doc.data();
+
         const server: ServerData = {
-          name: doc.data().name,
+          name: docData.name,
 
-          img: doc.data().img,
+          img: docData.img,
 
-          path: `/channels/${doc.id}/${doc.data().defaultChannel}/`,
+          path: `/channels/${doc.id}/${docData.defaultChannel}/`,
 
           serverID: doc.id,
 
-          defaultChannel: doc.data()?.defaultChannel,
+          defaultChannel: docData?.defaultChannel,
         };
 
         serverList.push(server);

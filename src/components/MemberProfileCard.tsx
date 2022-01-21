@@ -53,20 +53,20 @@ export default function MemberProfileCard() {
     const unsubscribe = onSnapshot(doc(db, "users", member.userID), (doc) => {
       if (!doc.exists()) return;
 
+      const docData = doc.data();
+
       const member: UserData = {
-        username: doc.data().username,
+        username: docData.username,
 
-        tag: doc.data().tag,
+        tag: docData.tag,
 
-        avatar: doc.data().avatar,
+        avatar: docData.avatar,
 
-        about: doc.data().about,
+        about: docData.about,
 
-        banner: doc.data().banner,
+        banner: docData.banner,
 
         userID: doc.id,
-
-        email: doc.data().email,
       };
 
       dispatch(setMember(member));

@@ -32,8 +32,10 @@ export default function Message(props: MessageProps) {
     const unsubscribe = onSnapshot(doc(db, "users", userID), (doc) => {
       if (!doc.exists()) return;
 
-      const username = doc.data().username;
-      const avatar = doc.data().avatar;
+      const docData = doc.data();
+
+      const username = docData.username;
+      const avatar = docData.avatar;
 
       setUsername(username);
       setAvatar(avatar);

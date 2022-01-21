@@ -30,14 +30,16 @@ export default function Members() {
       const memberRolesList: MemberRole[] = [];
 
       querySnapshot.forEach((doc) => {
+        const docData = doc.data();
+
         const memberRoles: MemberRole = {
           userID: doc.id,
 
-          serverOwner: doc.data().serverOwner,
+          serverOwner: docData.serverOwner,
 
-          roles: doc.data().roles,
+          roles: docData.roles,
 
-          permissions: doc.data().permissions,
+          permissions: docData.permissions,
         };
 
         memberRolesList.push(memberRoles);
@@ -62,10 +64,12 @@ export default function Members() {
       querySnapshot.forEach((doc) => {
         if (!memberIDs.includes(doc.id)) return;
 
-        const member: MemberInfo = {
-          username: doc.data().username,
+        const docData = doc.data();
 
-          avatar: doc.data().avatar,
+        const member: MemberInfo = {
+          username: docData.username,
+
+          avatar: docData.avatar,
 
           userID: doc.id,
         };

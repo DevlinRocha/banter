@@ -44,18 +44,20 @@ export default function Messages() {
       const messageList: MessageData[] = [];
 
       querySnapshot.forEach((doc) => {
+        const docData = doc.data();
+
         const message: MessageData = {
-          content: doc.data().content,
+          content: docData.content,
 
-          userID: doc.data().userID,
+          userID: docData.userID,
 
-          date: doc.data().date,
+          date: docData.date,
 
-          timestamp: doc.data().timestamp,
+          timestamp: docData.timestamp,
 
-          reactions: doc.data().reactions,
+          reactions: docData.reactions,
 
-          edited: doc.data().edited,
+          edited: docData.edited,
         };
 
         messageList.push(message);
