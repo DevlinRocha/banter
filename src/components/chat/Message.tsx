@@ -50,8 +50,9 @@ export default function Message(props: MessageProps) {
     const date = new Date(timestamp);
     const year = date.getFullYear();
     const month = date.getMonth();
-    const dayNumber = date.getDay();
-    const day = getDay(date, dayNumber);
+    const monthDay = date.getDate();
+    const weekDay = date.getDay();
+    const day = getDay(date, weekDay);
 
     let hours = date.getHours();
     let minutes: number | string = date.getMinutes();
@@ -75,7 +76,7 @@ export default function Message(props: MessageProps) {
     if (day === "Today" || day === "Yesterday") {
       format = `${day} at ${hours}:${minutes} ${period}`;
     } else {
-      format = `${month + 1}/${day}/${year}`;
+      format = `${month + 1}/${monthDay}/${year}`;
     }
 
     return format;
