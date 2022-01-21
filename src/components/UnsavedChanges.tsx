@@ -57,10 +57,18 @@ export default function UnsavedChanges(props: UnsavedChangesProps) {
         break;
 
       case "server":
-        dispatch(setServerCopy(server));
+        if (!serverCopy) return;
 
-        if (server.img !== serverCopy?.img) return await saveIcon();
-        await saveServerChanges(server);
+        let newServer = { ...server };
+
+        if (server.img !== serverCopy?.img && serverIconPreview)
+          newServer = await saveIcon(serverIconPreview);
+
+        dispatch(setServer(newServer));
+        dispatch(setServerCopy(newServer));
+
+        await saveServerChanges(newServer, serverCopy);
+
         break;
     }
   }
@@ -73,21 +81,13 @@ export default function UnsavedChanges(props: UnsavedChangesProps) {
     return newUser;
   }
 
-  async function saveIcon() {
-    if (!serverIconPreview) return dispatchServerChanges(server);
-
+  async function saveIcon(serverIconPreview: File) {
     const iconURL = await uploadServerImage(serverIconPreview, server.serverID);
 
     const newServer = { ...server };
     newServer.img = iconURL;
 
-    dispatchServerChanges(newServer);
-  }
-
-  async function dispatchServerChanges(newServer: ServerData) {
-    dispatch(setServer(newServer));
-    dispatch(setServerCopy(newServer));
-    await saveServerChanges(newServer);
+    return newServer;
   }
 
   return (

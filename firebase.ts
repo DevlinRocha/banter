@@ -296,9 +296,17 @@ async function setServerOwner(serverID: string, userID: string) {
   });
 }
 
-export async function saveServerChanges(newServer: ServerData) {
-  await updateServerDatabase(newServer.serverID, "img", newServer.img);
-  await updateServerDatabase(newServer.serverID, "name", newServer.name);
+export async function saveServerChanges(
+  newServer: ServerData,
+  oldServer: ServerData
+) {
+  switch (true) {
+    case newServer.img !== oldServer.img:
+      await updateServerDatabase(newServer.serverID, "img", newServer.img);
+
+    case newServer.name !== oldServer.name:
+      await updateServerDatabase(newServer.serverID, "name", newServer.name);
+  }
 }
 
 export async function uploadServerImagePreview(file: File, userID: string) {
