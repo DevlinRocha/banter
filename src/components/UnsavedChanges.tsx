@@ -42,10 +42,18 @@ export default function UnsavedChanges(props: UnsavedChangesProps) {
   async function saveChanges() {
     switch (props.changes) {
       case "user":
-        dispatch(setUserCopy(user));
+        if (!userCopy) return;
 
-        if (user.avatar !== userCopy?.avatar) return await saveAvatar();
-        await saveUserProfileChanges(user);
+        let newUser = { ...user };
+
+        if (user.avatar !== userCopy?.avatar && avatarPreview)
+          newUser = await saveAvatar(avatarPreview);
+
+        dispatch(setUser(newUser));
+        dispatch(setUserCopy(newUser));
+
+        await saveUserProfileChanges(newUser, userCopy);
+
         break;
 
       case "server":
@@ -57,17 +65,12 @@ export default function UnsavedChanges(props: UnsavedChangesProps) {
     }
   }
 
-  async function saveAvatar() {
-    if (!avatarPreview) return;
-
+  async function saveAvatar(avatarPreview: File) {
     const avatarURL = await uploadAvatar(avatarPreview, user.userID);
 
     const newUser = { ...user };
     newUser.avatar = avatarURL;
-
-    dispatch(setUser(newUser));
-    dispatch(setUserCopy(newUser));
-    await saveUserProfileChanges(newUser);
+    return newUser;
   }
 
   async function saveIcon() {
@@ -84,7 +87,7 @@ export default function UnsavedChanges(props: UnsavedChangesProps) {
   async function dispatchServerChanges(newServer: ServerData) {
     dispatch(setServer(newServer));
     dispatch(setServerCopy(newServer));
-    await saveServerChanges(server);
+    await saveServerChanges(newServer);
   }
 
   return (

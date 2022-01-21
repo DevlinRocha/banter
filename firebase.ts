@@ -98,18 +98,28 @@ async function updateUserDatabase(property: string, newValue: string) {
   );
 }
 
-export async function saveUserProfileChanges(newUser: UserData) {
+export async function saveUserProfileChanges(
+  newUser: UserData,
+  oldUser: UserData
+) {
   if (!auth.currentUser) return;
 
   const user = auth.currentUser;
 
-  await updateProfile(user, {
-    photoURL: newUser.avatar,
-  });
+  switch (true) {
+    case oldUser.avatar !== newUser.avatar:
+      await updateProfile(user, {
+        photoURL: newUser.avatar,
+      });
 
-  await updateUserDatabase("avatar", newUser.avatar);
-  await updateUserDatabase("banner", newUser.banner);
-  await updateUserDatabase("about", newUser.about);
+      await updateUserDatabase("avatar", newUser.avatar);
+
+    case oldUser.banner !== newUser.banner:
+      await updateUserDatabase("banner", newUser.banner);
+
+    case oldUser.about !== newUser.about:
+      await updateUserDatabase("about", newUser.about);
+  }
 }
 
 export async function signIn(email: string, password: string) {
