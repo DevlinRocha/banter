@@ -5,7 +5,7 @@ import {
   uploadAvatar,
   uploadServerImage,
 } from "../../firebase";
-import { ServerData, setServer, useServersState } from "../features/servers";
+import { setServer, useServersState } from "../features/servers";
 import {
   setServerCopy,
   useServerSettingsState,
