@@ -1,13 +1,15 @@
 import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { signIn } from "../../firebase";
+import { signIn, signInAsGuest } from "../../firebase";
 import tw from "tailwind-styled-components/dist/tailwind";
 import banterIcon from "../../assets/banterIcon.svg";
+import { useRouter } from "next/router";
 
 export default function LoginForm() {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
   function handleSubmit(e: any) {
     e.preventDefault();
@@ -21,6 +23,11 @@ export default function LoginForm() {
     password = passwordRef.current.value;
 
     signIn(email, password);
+  }
+
+  async function guestLogin() {
+    await signInAsGuest();
+    router.push("/channels/@me");
   }
 
   return (
@@ -66,7 +73,7 @@ export default function LoginForm() {
 
       <Separator />
 
-      <BanterContainer>
+      <BanterContainer onClick={guestLogin}>
         <BanterIcon>
           <StyledImage
             src={banterIcon}
@@ -153,14 +160,14 @@ const Separator = tw.div`
 `;
 
 const BanterContainer = tw.div`
-  flex flex-col justify-center items-center w-60 h-full text-center
+  flex flex-col justify-center items-center w-60 h-full text-center cursor-pointer
 `;
 const BanterIcon = tw.figure`
   flex w-60 justify-center mb-8
 `;
 
 const StyledImage = tw(Image)`
-  rounded-md cursor-pointer
+  rounded-md
 `;
 
 const Caption = tw.h3`
