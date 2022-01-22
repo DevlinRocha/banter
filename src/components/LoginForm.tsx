@@ -75,14 +75,18 @@ export default function LoginForm() {
             alt="Banter logo"
           />
         </BanterIcon>
-        <Caption>Log in to Banter</Caption>
+        <Caption>Log in as Guest</Caption>
+        <SubCaption>
+          Click this to login to Banter with a <Bold>guest account</Bold>{" "}
+          instantly.
+        </SubCaption>
       </BanterContainer>
     </Container>
   );
 }
 
 const Container = tw.form`
-  flex w-196 h-102 p-8 justify-between bg-white rounded-md
+  flex w-196 h-102 p-8 justify-between bg-white rounded-md select-none
 `;
 
 const LoginContainer = tw.div`
@@ -149,16 +153,24 @@ const Separator = tw.div`
 `;
 
 const BanterContainer = tw.div`
-  flex flex-col justify-center items-center w-60 h-full
+  flex flex-col justify-center items-center w-60 h-full text-center
 `;
 const BanterIcon = tw.figure`
   flex w-60 justify-center mb-8
 `;
 
 const StyledImage = tw(Image)`
-  rounded-md
+  rounded-md cursor-pointer
 `;
 
 const Caption = tw.h3`
-  text-2xl font-semibold
+  text-2xl font-semibold mb-2
+`;
+
+const SubCaption = tw.span`
+  text-gray-600
+`;
+
+const Bold = tw.span`
+  font-semibold
 `;
