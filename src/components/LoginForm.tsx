@@ -57,7 +57,7 @@ export default function LoginForm() {
         </LoginButton>
 
         <Fine>
-          Need an account?
+          Need an account?{" "}
           <Link href="/register" passHref>
             <LinkText> Register</LinkText>
           </Link>
