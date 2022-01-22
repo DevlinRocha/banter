@@ -94,7 +94,7 @@ const Heading = tw.h3`
 `;
 
 const Subheading = tw.span`
-  text-center mb-5
+  text-center mb-5 text-gray-600
 `;
 
 const LinkText = tw.span`
@@ -107,7 +107,7 @@ const GenericFieldset = tw.fieldset`
 `;
 
 const GenericLabel = tw.label`
-  mb-2 text-xs font-semibold
+  mb-2 text-xs text-gray-600 font-semibold
 `;
 
 const GenericInput = tw.input`
@@ -141,7 +141,7 @@ const LoginText = tw.span`
 `;
 
 const Fine = tw.span`
-  text-sm mt-1
+  text-sm text-gray-500 mt-1
 `;
 
 const Separator = tw.div`
