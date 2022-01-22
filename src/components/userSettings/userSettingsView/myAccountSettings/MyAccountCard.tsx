@@ -65,7 +65,7 @@ export default function MyAccountCard() {
           <SettingDisplay>
             <SettingsLabel>EMAIL</SettingsLabel>
 
-            <Email>{user.email}</Email>
+            <Email>{user.email || "This is a guest account :)"}</Email>
           </SettingDisplay>
 
           <EditButton onClick={() => dispatch(setChangeEmailOpen(true))}>
