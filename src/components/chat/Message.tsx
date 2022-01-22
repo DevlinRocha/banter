@@ -184,9 +184,9 @@ const Username = tw.h2`
 `;
 
 const MessageDate = tw.span`
-  flex items-center ml-1 text-xs
+  flex items-center ml-1 text-xs font-medium font-gray-500
 `;
 
 const Content = tw.p`
-  font-medium
+  font-medium text-gray-800
 `;
