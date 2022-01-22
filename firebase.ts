@@ -20,6 +20,7 @@ import {
   AuthCredential,
   reauthenticateWithCredential,
   EmailAuthProvider,
+  signInAnonymously,
 } from "firebase/auth";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { UserData } from "./src/features/user";
@@ -134,6 +135,43 @@ export async function signIn(email: string, password: string) {
     const user = userCredential.user;
 
     return user;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function signInAsGuest() {
+  try {
+    const guestCredential = await signInAnonymously(auth);
+
+    const guest = guestCredential.user;
+
+    await updateProfile(guest, {
+      displayName: "Guest",
+
+      photoURL:
+        "https://firebasestorage.googleapis.com/v0/b/banter-69832.appspot.com/o/assets%2FdefaultAvatar.svg?alt=media&token=2cd07b3e-6ee1-4682-8246-57bb20bc0d1f",
+    });
+
+    // Profile updated
+
+    await setDoc(doc(db, "users", guest.uid), {
+      username: guest.displayName,
+
+      avatar: guest.photoURL,
+
+      tag: "0000", // Create function to generate unique tag for each username
+
+      about: "",
+
+      banner: "#7CC6FE",
+
+      email: guest.email,
+    });
+    // Database updated
+
+    await joinServer("ke6NqegIvJEOa9cLzUEp");
+    // User joins global chat
   } catch (error) {
     console.error(error);
   }
