@@ -151,7 +151,6 @@ const Separator = tw.div`
 const BanterContainer = tw.div`
   flex flex-col justify-center items-center w-60 h-full
 `;
-
 const BanterIcon = tw.figure`
   flex w-60 justify-center mb-8
 `;
@@ -161,4 +160,5 @@ const StyledImage = tw(Image)`
 `;
 
 const Caption = tw.h3`
+  text-2xl font-semibold
 `;
