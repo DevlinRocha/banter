@@ -1,13 +1,15 @@
 import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { signIn } from "../../firebase";
+import { signIn, signInAsGuest } from "../../firebase";
 import tw from "tailwind-styled-components/dist/tailwind";
 import banterIcon from "../../assets/banterIcon.svg";
+import { useRouter } from "next/router";
 
 export default function LoginForm() {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
   function handleSubmit(e: any) {
     e.preventDefault();
@@ -21,6 +23,11 @@ export default function LoginForm() {
     password = passwordRef.current.value;
 
     signIn(email, password);
+  }
+
+  async function guestLogin() {
+    await signInAsGuest();
+    router.push("/channels/@me");
   }
 
   return (
@@ -66,7 +73,7 @@ export default function LoginForm() {
 
       <Separator />
 
-      <BanterContainer>
+      <BanterContainer onClick={guestLogin}>
         <BanterIcon>
           <StyledImage
             src={banterIcon}
@@ -75,14 +82,18 @@ export default function LoginForm() {
             alt="Banter logo"
           />
         </BanterIcon>
-        <Caption>Log in to Banter</Caption>
+        <Caption>Log in as Guest</Caption>
+        <SubCaption>
+          Click this to login to Banter with a <Bold>guest account</Bold>{" "}
+          instantly.
+        </SubCaption>
       </BanterContainer>
     </Container>
   );
 }
 
 const Container = tw.form`
-  flex w-196 h-102 p-8 justify-between bg-white rounded-md
+  flex w-196 h-102 p-8 justify-between bg-white rounded-md select-none
 `;
 
 const LoginContainer = tw.div`
@@ -149,7 +160,7 @@ const Separator = tw.div`
 `;
 
 const BanterContainer = tw.div`
-  flex flex-col justify-center items-center w-60 h-full
+  flex flex-col justify-center items-center w-60 h-full text-center cursor-pointer
 `;
 const BanterIcon = tw.figure`
   flex w-60 justify-center mb-8
@@ -160,5 +171,13 @@ const StyledImage = tw(Image)`
 `;
 
 const Caption = tw.h3`
-  text-2xl font-semibold
+  text-2xl font-semibold mb-2
+`;
+
+const SubCaption = tw.span`
+  text-gray-600
+`;
+
+const Bold = tw.span`
+  font-semibold
 `;
