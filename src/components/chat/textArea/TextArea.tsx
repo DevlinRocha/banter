@@ -1,9 +1,9 @@
 import { useRef } from "react";
 import { addDoc, collection } from "firebase/firestore";
-import { db } from "../../../firebase";
+import { db } from "../../../../firebase";
 import tw from "tailwind-styled-components";
-import { useServersState } from "../../features/servers";
-import { useUserState } from "../../features/user";
+import { useServersState } from "../../../features/servers";
+import { useUserState } from "../../../features/user";
 
 export default function TextArea() {
   const inputRef = useRef<HTMLInputElement>(null);

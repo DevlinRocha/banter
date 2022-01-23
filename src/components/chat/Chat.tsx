@@ -1,6 +1,6 @@
 import tw from "tailwind-styled-components";
 import Messages from "./Messages";
-import TextArea from "./TextArea";
+import TextArea from "./textArea/TextArea";
 
 export default function Chat() {
   return (
