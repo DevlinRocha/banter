@@ -1,6 +1,5 @@
 import { useRef } from "react";
-import { addDoc, collection } from "firebase/firestore";
-import { db } from "../../../../firebase";
+import { createMessage } from "../../../../firebase";
 import tw from "tailwind-styled-components";
 import { useServersState } from "../../../features/servers";
 import { useUserState } from "../../../features/user";
@@ -24,45 +23,24 @@ export default function TextArea() {
     return messageContent;
   }
 
-  async function sendMessage(e: any) {
+  async function sendMessage(e: React.FormEvent) {
     e.preventDefault();
 
-    // Compatibility shim for older browsers, such as IE8 and earlier:
-    if (!Date.now) {
-      Date.now = function () {
-        return new Date().getTime();
-      };
-    }
+    const content = getText();
 
-    try {
-      const docRef = await addDoc(
-        collection(
-          db,
-          "servers",
-          server.serverID,
-          "channels",
-          channel.channelID,
-          "messages"
-        ),
-        {
-          content: getText(),
-          date: Date(),
-          edited: false,
-          reactions: [],
-          timestamp: Date.now(),
-          userID: user.userID,
-        }
-      );
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
+    if (!content) return;
+
+    createMessage(server.serverID, channel.channelID, user.userID, content);
   }
+
+  function uploadImage() {}
 
   return (
     <Container>
       <FormContainer onSubmit={sendMessage}>
         <AttachButtonContainer>
           <StyledImage src={uploadImageIcon} width={24} height={24} />
+          <FileInput type="file" onChange={uploadImage} />
         </AttachButtonContainer>
         <TextInput
           ref={inputRef}
@@ -83,12 +61,17 @@ const FormContainer = tw.form`
 `;
 
 const AttachButtonContainer = tw.div`
-  flex items-center w-10
+  relative flex items-center w-10
 `;
 
 const StyledImage = tw(Image)`
   transition-all ease-linear flex-none rounded-full fill-white cursor-pointer
   group-hover:rounded-full group-hover:fill-active
+`;
+
+const FileInput = tw.input`
+  absolute top-0 left-0 w-full h-full text-[0px] cursor-pointer
+  file:w-full file:h-full file:bg-transparent file:border-0
 `;
 
 const TextInput = tw.input`

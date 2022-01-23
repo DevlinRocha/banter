@@ -231,6 +231,36 @@ async function getAvatarURL(userID: string) {
   return await getDownloadURL(ref(storage, `users/${userID}/avatar`));
 }
 
+export async function createMessage(
+  serverID: string,
+  channelID: string,
+  userID: string,
+  content: string
+) {
+  // Compatibility shim for older browsers, such as IE8 and earlier:
+  if (!Date.now) {
+    Date.now = function () {
+      return new Date().getTime();
+    };
+  }
+
+  try {
+    const docRef = await addDoc(
+      collection(db, "servers", serverID, "channels", channelID, "messages"),
+      {
+        content: content,
+        date: Date(),
+        edited: false,
+        reactions: [],
+        timestamp: Date.now(),
+        userID: userID,
+      }
+    );
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+}
+
 export async function createServer(
   serverName: string,
   userID: string,
