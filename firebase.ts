@@ -261,6 +261,24 @@ export async function createMessage(
   }
 }
 
+export async function uploadMessageImagePreview(file: File, userID: string) {
+  const storage = getStorage();
+
+  const messageImageRef = ref(storage, `users/${userID}/temp/messageImage`);
+
+  await uploadBytes(messageImageRef, file);
+
+  return await getMessageImagePreviewURL(userID);
+}
+
+async function getMessageImagePreviewURL(userID: string) {
+  const storage = getStorage();
+
+  return await getDownloadURL(
+    ref(storage, `users/${userID}/temp/messageImage`)
+  );
+}
+
 export async function createServer(
   serverName: string,
   userID: string,
