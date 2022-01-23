@@ -1,5 +1,5 @@
-import { useRef } from "react";
-import { createMessage } from "../../../../firebase";
+import { useRef, useState } from "react";
+import { createMessage, uploadMessageImagePreview } from "../../../../firebase";
 import tw from "tailwind-styled-components";
 import { useServersState } from "../../../features/servers";
 import { useUserState } from "../../../features/user";
@@ -10,6 +10,8 @@ export default function TextArea() {
   const inputRef = useRef<HTMLInputElement>(null);
   const { server, channel } = useServersState();
   const { user } = useUserState();
+  const [messageImageURL, setMessageImageURL] = useState<string>("");
+  const [messageImage, setMessageImage] = useState<File | File[]>();
 
   function getText() {
     if (!inputRef.current || inputRef.current.value.trim() === "") return;
@@ -33,38 +35,99 @@ export default function TextArea() {
     createMessage(server.serverID, channel.channelID, user.userID, content);
   }
 
-  function uploadImage() {}
+  async function uploadImage(e: React.ChangeEvent<HTMLInputElement>) {
+    if (!e.target.files) return;
+
+    const messageImage = e.target.files[0];
+
+    const messageImageURL = await uploadMessageImagePreview(
+      messageImage,
+      user.userID
+    );
+
+    setMessageImageURL(messageImageURL);
+    setMessageImage(messageImage);
+  }
 
   return (
     <Container>
-      <FormContainer onSubmit={sendMessage}>
-        <AttachButtonContainer>
-          <StyledImage src={uploadImageIcon} width={24} height={24} />
-          <FileInput type="file" onChange={uploadImage} />
-        </AttachButtonContainer>
-        <TextInput
-          ref={inputRef}
-          type="text"
-          placeholder={`Message #${channel.name}`}
-        />
-      </FormContainer>
+      <MessageContainer>
+        {messageImageURL && (
+          <>
+            <MessageImagePreviewContainer>
+              <MessageImagePreviewList>
+                <MessageImagePreview>
+                  <UploadedImageContainer>
+                    <UploadedImage
+                      loader={() => messageImageURL}
+                      src={messageImageURL}
+                      layout="fill"
+                    />
+                  </UploadedImageContainer>
+                </MessageImagePreview>
+              </MessageImagePreviewList>
+            </MessageImagePreviewContainer>
+            <Divider />
+          </>
+        )}
+
+        <FormContainer onSubmit={sendMessage}>
+          <AttachButtonContainer>
+            <AttachButton src={uploadImageIcon} width={24} height={24} />
+            <FileInput type="file" onChange={uploadImage} />
+          </AttachButtonContainer>
+          <TextInput
+            ref={inputRef}
+            type="text"
+            placeholder={`Message #${channel.name}`}
+          />
+        </FormContainer>
+      </MessageContainer>
     </Container>
   );
 }
 
 const Container = tw.div`
-  flex-none w-full h-11 mt-2 mb-6 px-4 z-10
+  flex-none w-full mt-2 mb-6 px-4 z-10
+`;
+
+const MessageContainer = tw.div`
+  flex flex-col w-full bg-gray-200/50 rounded-lg
+`;
+
+const MessageImagePreviewContainer = tw.div`
+  flex-1
+`;
+
+const MessageImagePreviewList = tw.ul`
+  ml-1.5 pt-5 pr-7.5 pb-2.5 pl-2.5
+`;
+
+const MessageImagePreview = tw.li`
+  w-[216px] h-[216px] p-2 bg-gray-50
+`;
+
+const UploadedImageContainer = tw.div`
+ relative w-[200px] h-[200px] object-contain
+`;
+
+const UploadedImage = tw(Image)`
+  mt-auto object-contain
+`;
+
+const Divider = tw.div`
+  w-full h-px border-t border-gray-300
 `;
 
 const FormContainer = tw.form`
-  flex items-center pl-4 bg-gray-200/50 rounded-md
+  flex items-center pl-4
 `;
 
 const AttachButtonContainer = tw.div`
   relative flex items-center w-10
 `;
 
-const StyledImage = tw(Image)`
+const AttachButton = tw(Image)`
   transition-all ease-linear flex-none rounded-full fill-white cursor-pointer
   group-hover:rounded-full group-hover:fill-active
 `;
