@@ -63,6 +63,9 @@ export default function Message(props: MessageProps) {
     } else if (hours > 12) {
       period = "PM";
       hours = hours - 12;
+    } else if (hours === 0) {
+      hours = 12;
+      period = "AM";
     } else {
       period = "AM";
     }
