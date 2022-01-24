@@ -213,5 +213,5 @@ const MessageAccessories = tw.div`
 `;
 
 const MessageImage = tw.img`
-  object-contain
+  object-contain rounded-middle
 `;
