@@ -24,6 +24,7 @@ export interface MessageData {
   timestamp: number;
   reactions: [];
   edited: boolean;
+  image: string;
 }
 
 export interface MemberData {

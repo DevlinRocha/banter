@@ -126,51 +126,68 @@ export default function Message(props: MessageProps) {
 
   return (
     <Container>
-      <ProfilePicture
-        onClick={() => viewProfile(props.message.userID, avatarRef)}
-        ref={avatarRef}
-      >
-        <StyledImage
-          loader={() => avatar}
-          src={avatar}
-          width={40}
-          height={40}
-          alt="Profile picture"
-        />
-      </ProfilePicture>
+      <MessageContainer>
+        <ProfilePictureContainer
+          onClick={() => viewProfile(props.message.userID, avatarRef)}
+          ref={avatarRef}
+        >
+          <ProfilePicture
+            loader={() => avatar}
+            src={avatar}
+            width={40}
+            height={40}
+            alt="Profile picture"
+          />
+        </ProfilePictureContainer>
 
-      <MessageContent>
-        <MessageInfo>
-          <Username
-            onClick={() => viewProfile(props.message.userID, messageRef)}
-            ref={messageRef}
-          >
-            {username}
-          </Username>
+        <ContentContainer>
+          <MessageContent>
+            <MessageInfo>
+              <Username
+                onClick={() => viewProfile(props.message.userID, messageRef)}
+                ref={messageRef}
+              >
+                {username}
+              </Username>
 
-          <MessageDate>{getDate()}</MessageDate>
-        </MessageInfo>
+              <MessageDate>{getDate()}</MessageDate>
+            </MessageInfo>
 
-        <Content>{props.message.content}</Content>
-      </MessageContent>
+            <Content>{props.message.content}</Content>
+          </MessageContent>
+          {props.message.image && (
+            <MessageAccessories>
+              <MessageImage src={props.message.image} />
+            </MessageAccessories>
+          )}
+        </ContentContainer>
+      </MessageContainer>
     </Container>
   );
 }
 
 const Container = tw.li`
-  flex w-full mt-[17px] py-0.5 pr-12 pl-4 select-text
+  flex w-full select-text
+`;
+
+const MessageContainer = tw.div`
+  flex w-full mt-[17px] py-0.5 pr-12 pl-4
   hover:bg-gray-50
 `;
 
-const ProfilePicture = tw.div`
+const ProfilePictureContainer = tw.div`
   flex-none mt-0.5 cursor-pointer select-none
 `;
 
-const MessageContent = tw.div`
+const ContentContainer = tw.div`
   flex flex-col pl-4
 `;
 
-const StyledImage = tw(Image)`
+const MessageContent = tw.div`
+  flex flex-col
+`;
+
+const ProfilePicture = tw(Image)`
   object-cover rounded-full
 `;
 
@@ -189,4 +206,12 @@ const MessageDate = tw.span`
 
 const Content = tw.p`
   font-medium text-gray-800
+`;
+
+const MessageAccessories = tw.div`
+  flex w-full h-[300px] py-0.5
+`;
+
+const MessageImage = tw.img`
+  object-contain
 `;
