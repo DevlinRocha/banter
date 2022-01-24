@@ -235,7 +235,8 @@ export async function createMessage(
   serverID: string,
   channelID: string,
   userID: string,
-  content: string
+  content: string,
+  image?: File
 ) {
   // Compatibility shim for older browsers, such as IE8 and earlier:
   if (!Date.now) {
@@ -256,6 +257,10 @@ export async function createMessage(
         userID: userID,
       }
     );
+
+    if (!image) return;
+
+    uploadMessageImage(image, serverID, channelID, docRef.id);
   } catch (e) {
     console.error("Error adding document: ", e);
   }
@@ -276,6 +281,49 @@ async function getMessageImagePreviewURL(userID: string) {
 
   return await getDownloadURL(
     ref(storage, `users/${userID}/temp/messageImage`)
+  );
+}
+
+export async function uploadMessageImage(
+  file: File,
+  serverID: string,
+  channelID: string,
+  messageID: string
+) {
+  const storage = getStorage();
+
+  const messageImageRef = ref(
+    storage,
+    `servers/${serverID}/messages/${messageID}/${file.name}`
+  );
+
+  await uploadBytes(messageImageRef, file);
+
+  const messageImageURL = await getDownloadURL(ref(messageImageRef));
+
+  await updateMessageDatabase(
+    serverID,
+    channelID,
+    messageID,
+    "image",
+    messageImageURL
+  );
+
+  return messageImageURL;
+}
+
+async function updateMessageDatabase(
+  serverID: string,
+  channelID: string,
+  messageID: string,
+  property: string,
+  newValue: string
+) {
+  await updateDoc(
+    doc(db, "servers", serverID, "channels", channelID, "messages", messageID),
+    {
+      [property]: newValue,
+    }
   );
 }
 
