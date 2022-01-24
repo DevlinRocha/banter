@@ -58,6 +58,8 @@ export default function Messages() {
           reactions: docData.reactions,
 
           edited: docData.edited,
+
+          image: docData.image,
         };
 
         messageList.push(message);
