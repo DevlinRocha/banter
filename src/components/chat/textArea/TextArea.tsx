@@ -5,6 +5,7 @@ import { useServersState } from "../../../features/servers";
 import { useUserState } from "../../../features/user";
 import uploadImageIcon from "../../../../assets/uploadImageIcon.svg";
 import Image from "next/image";
+import gifButton from "../../../../assets/gifButton.svg";
 
 export default function TextArea() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -84,11 +85,16 @@ export default function TextArea() {
             <AttachButton src={uploadImageIcon} width={24} height={24} />
             <FileInput type="file" onChange={uploadImage} />
           </AttachButtonContainer>
+
           <TextInput
             ref={inputRef}
             type="text"
             placeholder={`Message #${channel.name}`}
           />
+
+          <GifButtonContainer>
+            <GifButton src={gifButton} width={24} height={24} />
+          </GifButtonContainer>
         </FormContainer>
       </MessageContainer>
     </Container>
@@ -128,7 +134,7 @@ const Divider = tw.div`
 `;
 
 const FormContainer = tw.form`
-  flex items-center pl-4
+  flex items-center px-4
 `;
 
 const AttachButtonContainer = tw.div`
@@ -148,4 +154,12 @@ const FileInput = tw.input`
 const TextInput = tw.input`
   py-2.5 w-full h-full bg-transparent font-medium placeholder-gray-500 text-gray-800 outline-0 outline-hidden
   focus:outline-0 focus:outline-hidden
+`;
+
+const GifButtonContainer = tw.div`
+  flex flex-none items-center w-max h-max
+`;
+
+const GifButton = tw(Image)`
+  w-full h-full cursor-pointer
 `;
