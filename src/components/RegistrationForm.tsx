@@ -100,7 +100,7 @@ const GenericFieldset = tw.fieldset`
 `;
 
 const GenericLabel = tw.label`
-  mb-2
+  mb-2 text-xs text-gray-600 font-semibold
 `;
 
 const GenericInput = tw.input`
@@ -139,7 +139,7 @@ const ContinueButton = tw.input`
 `;
 
 const LinkText = tw.button`
-  text-blue-600 cursor-pointer w-fit mt-2
+  text-blue-600 cursor-pointer w-fit mt-2 text-sm font-medium
   hover:underline hover:decoration-blue-600
 `;
 
