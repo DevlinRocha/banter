@@ -11,10 +11,10 @@ export default function TextArea() {
   const { server, channel } = useServersState();
   const { user } = useUserState();
   const [messageImageURL, setMessageImageURL] = useState<string>("");
-  const [messageImage, setMessageImage] = useState<File | File[]>();
+  const [messageImage, setMessageImage] = useState<File>();
 
   function getText() {
-    if (!inputRef.current || inputRef.current.value.trim() === "") return;
+    if (!inputRef.current || inputRef.current.value.trim() === "") return "";
 
     let messageContent;
 
@@ -30,9 +30,17 @@ export default function TextArea() {
 
     const content = getText();
 
-    if (!content) return;
+    if (!content && !messageImageURL) return;
 
-    createMessage(server.serverID, channel.channelID, user.userID, content);
+    createMessage(
+      server.serverID,
+      channel.channelID,
+      user.userID,
+      content,
+      messageImage
+    );
+
+    setMessageImageURL("");
   }
 
   async function uploadImage(e: React.ChangeEvent<HTMLInputElement>) {
