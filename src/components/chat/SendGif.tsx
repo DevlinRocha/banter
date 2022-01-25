@@ -163,7 +163,7 @@ const GifSearchContainer = tw.div`
 `;
 
 const GifSearch = tw.input`
-  w-full m-px px-2 bg-transparent
+  w-full h-[30px] m-px px-2 bg-transparent
   placeholder-gray-500
 `;
 
