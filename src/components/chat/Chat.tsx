@@ -6,6 +6,7 @@ import TextArea from "./textArea/TextArea";
 
 export default function Chat() {
   const { sendGifOpen } = useSendGifState();
+
   return (
     <Container>
       <MessagesContainer>

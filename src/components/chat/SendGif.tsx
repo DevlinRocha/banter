@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import tw from "tailwind-styled-components/dist/tailwind";
+import { setSendGifOpen } from "../../features/sendGif";
+import { useAppDispatch } from "../../redux/hooks";
 
 interface GifData {
   content_description: string;
@@ -17,7 +19,7 @@ interface GifData {
 export default function SendGif() {
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState<GifData[]>([]);
-  const [gifSrc, setGifSrc] = useState("");
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     fetchGifs();
@@ -28,41 +30,54 @@ export default function SendGif() {
     const fetchedGifs = await fetch(baseURL);
     const gifsData = await fetchedGifs.json();
     setSearchResults(gifsData.results);
-    setGifSrc(gifsData.results[0].media[0].loopedmp4.url);
+  }
+
+  function closeWindow() {
+    dispatch(setSendGifOpen(false));
+  }
+
+  function stopPropagation(e: React.MouseEvent<HTMLDivElement>) {
+    e.stopPropagation();
   }
 
   return (
-    <Container>
-      <GifPicker>
-        <Header>
-          <GifSearchContainer>
-            <GifSearch
-              onChange={(e) => setSearchInput(e.target.value)}
-              type="text"
-              placeholder="Search Tenor"
-            />
-          </GifSearchContainer>
-        </Header>
+    <Backdrop onClick={closeWindow}>
+      <Container onClick={stopPropagation}>
+        <GifPicker>
+          <Header>
+            <GifSearchContainer>
+              <GifSearch
+                onChange={(e) => setSearchInput(e.target.value)}
+                type="text"
+                placeholder="Search Tenor"
+              />
+            </GifSearchContainer>
+          </Header>
 
-        <ContentContainer>
-          <GifContainer>
-            {searchResults.map((result) => {
-              return (
-                <Gif
-                  src={result.media[0].loopedmp4.url}
-                  autoPlay
-                  loop
-                  preload="auto"
-                  key={result.id}
-                />
-              );
-            })}
-          </GifContainer>
-        </ContentContainer>
-      </GifPicker>
-    </Container>
+          <ContentContainer>
+            <GifContainer>
+              {searchResults.map((result) => {
+                return (
+                  <Gif
+                    src={result.media[0].loopedmp4.url}
+                    autoPlay
+                    loop
+                    preload="auto"
+                    key={result.id}
+                  />
+                );
+              })}
+            </GifContainer>
+          </ContentContainer>
+        </GifPicker>
+      </Container>
+    </Backdrop>
   );
 }
+
+const Backdrop = tw.div`
+  absolute w-full h-full z-50
+`;
 
 const Container = tw.section`
   absolute right-4 bottom-0 w-[424px] h-[412px] bg-gray-100 rounded-lg drop-shadow-lg
@@ -73,7 +88,7 @@ const GifPicker = tw.div`
 `;
 
 const Header = tw.header`
-  px-4 pb-4
+  px-4 pb-4 border-b h-[46px]
 `;
 
 const GifSearchContainer = tw.div`
