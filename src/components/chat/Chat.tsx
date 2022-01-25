@@ -1,12 +1,16 @@
 import tw from "tailwind-styled-components";
+import { useSendGifState } from "../../features/sendGif";
 import Messages from "./Messages";
+import SendGif from "./SendGif";
 import TextArea from "./textArea/TextArea";
 
 export default function Chat() {
+  const { sendGifOpen } = useSendGifState();
   return (
     <Container>
       <MessagesContainer>
         <Messages />
+        {sendGifOpen && <SendGif />}
       </MessagesContainer>
 
       <TextArea />

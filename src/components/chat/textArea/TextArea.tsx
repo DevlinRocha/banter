@@ -6,6 +6,8 @@ import { useUserState } from "../../../features/user";
 import uploadImageIcon from "../../../../assets/uploadImageIcon.svg";
 import Image from "next/image";
 import gifButton from "../../../../assets/gifButton.svg";
+import { useAppDispatch } from "../../../redux/hooks";
+import { setSendGifOpen } from "../../../features/sendGif";
 
 export default function TextArea() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -13,6 +15,7 @@ export default function TextArea() {
   const { user } = useUserState();
   const [messageImageURL, setMessageImageURL] = useState<string>("");
   const [messageImage, setMessageImage] = useState<File>();
+  const dispatch = useAppDispatch();
 
   function getText() {
     if (!inputRef.current || inputRef.current.value.trim() === "") return "";
@@ -58,6 +61,10 @@ export default function TextArea() {
     setMessageImage(messageImage);
   }
 
+  function openGif() {
+    dispatch(setSendGifOpen(true));
+  }
+
   return (
     <Container>
       <MessageContainer>
@@ -92,7 +99,7 @@ export default function TextArea() {
             placeholder={`Message #${channel.name}`}
           />
 
-          <GifButtonContainer>
+          <GifButtonContainer onClick={openGif}>
             <GifButton src={gifButton} width={24} height={24} />
           </GifButtonContainer>
         </FormContainer>
@@ -157,9 +164,9 @@ const TextInput = tw.input`
 `;
 
 const GifButtonContainer = tw.div`
-  flex flex-none items-center w-max h-max
+  flex flex-none items-center w-max h-max cursor-pointer
 `;
 
 const GifButton = tw(Image)`
-  w-full h-full cursor-pointer
+  w-full h-full
 `;
