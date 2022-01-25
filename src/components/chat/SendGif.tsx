@@ -105,14 +105,19 @@ export default function SendGif() {
                     const url = result.image;
 
                     return (
-                      <GifCategory
+                      <CategoryContainer
                         onClick={() => openCategory(result.searchterm)}
-                        loader={() => url}
-                        src={url}
-                        width={194}
-                        height={110}
                         key={index}
-                      />
+                      >
+                        <CategoryBackdrop />
+                        <CategoryText>{result.searchterm}</CategoryText>
+                        <GifCategory
+                          loader={() => url}
+                          src={url}
+                          width={194}
+                          height={110}
+                        />
+                      </CategoryContainer>
                     );
                   })
                 : searchResults.map((result) => {
@@ -171,9 +176,21 @@ const GifContainer = tw.div`
   absolute flex flex-wrap gap-2
 `;
 
-const GifCategory = tw(Image)`
-  w-[194px] h-[110px] rounded-[5px] object-cover cursor-pointer
+const CategoryContainer = tw.div`
+  relative w-[194px] h-[110px] rounded-[5px] cursor-pointer
   hover:outline hover:outline-[3px] hover:outline-primary hover:drop-shadow-md
+`;
+
+const CategoryBackdrop = tw(Backdrop)`
+  fixed bg-black bg-opacity-[0.4]
+`;
+
+const CategoryText = tw.span`
+  absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white font-semibold z-50
+`;
+
+const GifCategory = tw(Image)`
+  object-cover rounded-[5px]
 `;
 
 const Gif = tw.video`
