@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import tw from "tailwind-styled-components/dist/tailwind";
 import { createGifMessage } from "../../../firebase";
 import { setSendGifOpen } from "../../features/sendGif";
 import { useServersState } from "../../features/servers";
 import { useUserState } from "../../features/user";
 import { useAppDispatch } from "../../redux/hooks";
+import Image from "next/image";
 
 interface GifData {
   content_description: string;
@@ -19,22 +20,43 @@ interface GifData {
   ];
 }
 
+interface CategoryData {
+  image: string;
+  path: string;
+  searchterm: string;
+}
+
 export default function SendGif() {
   const [searchInput, setSearchInput] = useState("");
-  const [searchResults, setSearchResults] = useState<GifData[]>([]);
+  const [searchResults, setSearchResults] = useState<GifData[] | null>(null);
+  const [categories, setCategories] = useState<CategoryData[]>([]);
   const { server, channel } = useServersState();
   const { user } = useUserState();
+  const inputRef = useRef<HTMLInputElement>();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    fetchGifs();
+    if (!searchInput) return setSearchResults(null);
+    const url = `https://g.tenor.com/v1/search?q=${searchInput}&key=${process.env.NEXT_PUBLIC_TENOR_API_KEY}&limit=8`;
+    fetchGifs(url);
   }, [searchInput]);
 
-  async function fetchGifs() {
-    const baseURL = `https://g.tenor.com/v1/search?q=${searchInput}&key=${process.env.NEXT_PUBLIC_TENOR_API_KEY}&limit=8`;
-    const fetchedGifs = await fetch(baseURL);
+  useEffect(() => {
+    if (searchResults) return;
+    fetchCategories();
+  }, [searchResults]);
+
+  async function fetchGifs(url: string) {
+    const fetchedGifs = await fetch(url);
     const gifsData = await fetchedGifs.json();
     setSearchResults(gifsData.results);
+  }
+
+  async function fetchCategories() {
+    const baseURL = `https://g.tenor.com/v1/categories?&key=${process.env.NEXT_PUBLIC_TENOR_API_KEY}&limit=8`;
+    const fetchedGifs = await fetch(baseURL);
+    const gifsData = await fetchedGifs.json();
+    setCategories(gifsData.tags);
   }
 
   function closeWindow() {
@@ -50,6 +72,16 @@ export default function SendGif() {
     closeWindow();
   }
 
+  async function openCategory(category: string) {
+    const url = `https://g.tenor.com/v1/search?q=${category}&key=${process.env.NEXT_PUBLIC_TENOR_API_KEY}&limit=8`;
+
+    await fetchGifs(url);
+
+    if (!inputRef.current) return;
+    setSearchInput(category);
+    inputRef.current.value = category;
+  }
+
   return (
     <Backdrop onClick={closeWindow}>
       <Container onClick={stopPropagation}>
@@ -58,6 +90,7 @@ export default function SendGif() {
             <GifSearchContainer>
               <GifSearch
                 onChange={(e) => setSearchInput(e.target.value)}
+                ref={inputRef}
                 type="text"
                 placeholder="Search Tenor"
               />
@@ -66,20 +99,36 @@ export default function SendGif() {
 
           <ContentContainer>
             <GifContainer>
-              {searchResults.map((result) => {
-                const url = result.media[0].loopedmp4.url;
+              {!searchResults
+                ? categories &&
+                  categories.map((result, index) => {
+                    const url = result.image;
 
-                return (
-                  <Gif
-                    onClick={() => sendGif(url)}
-                    src={url}
-                    autoPlay
-                    loop
-                    preload="auto"
-                    key={result.id}
-                  />
-                );
-              })}
+                    return (
+                      <GifCategory
+                        onClick={() => openCategory(result.searchterm)}
+                        loader={() => url}
+                        src={url}
+                        width={194}
+                        height={110}
+                        key={index}
+                      />
+                    );
+                  })
+                : searchResults.map((result) => {
+                    const url = result.media[0].loopedmp4.url;
+
+                    return (
+                      <Gif
+                        onClick={() => sendGif(url)}
+                        src={url}
+                        autoPlay
+                        loop
+                        preload="auto"
+                        key={result.id}
+                      />
+                    );
+                  })}
             </GifContainer>
           </ContentContainer>
         </GifPicker>
@@ -120,6 +169,11 @@ const ContentContainer = tw.div`
 
 const GifContainer = tw.div`
   absolute flex flex-wrap gap-2
+`;
+
+const GifCategory = tw(Image)`
+  w-[194px] h-[110px] rounded-[5px] object-cover cursor-pointer
+  hover:outline hover:outline-[3px] hover:outline-primary hover:drop-shadow-md
 `;
 
 const Gif = tw.video`
