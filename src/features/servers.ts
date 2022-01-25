@@ -25,6 +25,7 @@ export interface MessageData {
   reactions: [];
   edited: boolean;
   image: string;
+  video: string;
 }
 
 export interface MemberData {
