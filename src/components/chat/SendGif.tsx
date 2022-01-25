@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import tw from "tailwind-styled-components/dist/tailwind";
+import { createGifMessage } from "../../../firebase";
 import { setSendGifOpen } from "../../features/sendGif";
+import { useServersState } from "../../features/servers";
+import { useUserState } from "../../features/user";
 import { useAppDispatch } from "../../redux/hooks";
 
 interface GifData {
@@ -19,6 +22,8 @@ interface GifData {
 export default function SendGif() {
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState<GifData[]>([]);
+  const { server, channel } = useServersState();
+  const { user } = useUserState();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -40,6 +45,11 @@ export default function SendGif() {
     e.stopPropagation();
   }
 
+  function sendGif(url: string) {
+    createGifMessage(server.serverID, channel.channelID, user.userID, url);
+    closeWindow();
+  }
+
   return (
     <Backdrop onClick={closeWindow}>
       <Container onClick={stopPropagation}>
@@ -57,9 +67,12 @@ export default function SendGif() {
           <ContentContainer>
             <GifContainer>
               {searchResults.map((result) => {
+                const url = result.media[0].loopedmp4.url;
+
                 return (
                   <Gif
-                    src={result.media[0].loopedmp4.url}
+                    onClick={() => sendGif(url)}
+                    src={url}
                     autoPlay
                     loop
                     preload="auto"
