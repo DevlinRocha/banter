@@ -30,14 +30,7 @@ export default function SendGif() {
         </Header>
 
         <ContentContainer>
-          <GifContainer
-            src={gifSrc}
-            autoPlay
-            loop
-            preload="auto"
-            width={194}
-            height={194}
-          />
+          <Gif src={gifSrc} autoPlay loop preload="auto" />
         </ContentContainer>
       </GifPicker>
     </Container>
@@ -45,7 +38,7 @@ export default function SendGif() {
 }
 
 const Container = tw.section`
-  absolute right-4 bottom-0 w-[424px] h-[412px] bg-gray-100 rounded-lg
+  absolute right-4 bottom-0 w-[424px] h-[412px] bg-gray-100 rounded-lg drop-shadow-lg
 `;
 
 const GifPicker = tw.div`
@@ -66,8 +59,10 @@ const GifSearch = tw.input`
 `;
 
 const ContentContainer = tw.div`
-  flex w-full h-full
+  flex w-full h-full p-2
 `;
 
-const GifContainer = tw.video`
+const Gif = tw.video`
+  w-fit h-fit max-w-[194px] max-h-[194px] rounded-[5px] object-cover cursor-pointer
+  hover:outline hover:outline-[3px] hover:outline-primary hover:drop-shadow-md
 `;
