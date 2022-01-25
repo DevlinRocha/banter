@@ -60,6 +60,8 @@ export default function Messages() {
           edited: docData.edited,
 
           image: docData.image,
+
+          video: docData.video,
         };
 
         messageList.push(message);

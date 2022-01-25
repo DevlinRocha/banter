@@ -163,6 +163,16 @@ export default function Message(props: MessageProps) {
               <MessageImage src={props.message.image} />
             </MessageAccessories>
           )}
+          {props.message.video && (
+            <MessageAccessories>
+              <MessageVideo
+                src={props.message.video}
+                autoPlay
+                loop
+                preload="auto"
+              />
+            </MessageAccessories>
+          )}
         </ContentContainer>
       </MessageContainer>
     </Container>
@@ -217,4 +227,8 @@ const MessageAccessories = tw.div`
 
 const MessageImage = tw.img`
   object-contain rounded-middle
+`;
+
+const MessageVideo = tw.video`
+  w-full h-full object-contain rounded-middle
 `;

@@ -25,3 +25,4 @@ Open [http://localhost:3000](http://localhost:3000) with your browser.
 - [styled-components](https://styled-components.com/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Firebase](https://firebase.google.com/)
+- [Tenor API](https://tenor.com/gifapi/)
