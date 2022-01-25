@@ -186,7 +186,7 @@ const CategoryBackdrop = tw(Backdrop)`
 `;
 
 const CategoryText = tw.span`
-  absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white font-semibold z-50
+  absolute w-max top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white font-semibold z-50
 `;
 
 const GifCategory = tw(Image)`
