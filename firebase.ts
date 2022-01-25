@@ -365,6 +365,36 @@ async function updateMessageDatabase(
   );
 }
 
+export async function createGifMessage(
+  serverID: string,
+  channelID: string,
+  userID: string,
+  url: string
+) {
+  // Compatibility shim for older browsers, such as IE8 and earlier:
+  if (!Date.now) {
+    Date.now = function () {
+      return new Date().getTime();
+    };
+  }
+
+  try {
+    const docRef = await addDoc(
+      collection(db, "servers", serverID, "channels", channelID, "messages"),
+      {
+        video: url,
+        date: Date(),
+        edited: false,
+        reactions: [],
+        timestamp: Date.now(),
+        userID: userID,
+      }
+    );
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+}
+
 export async function createServer(
   serverName: string,
   userID: string,
