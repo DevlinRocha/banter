@@ -114,7 +114,7 @@ export default function Members() {
             return (
               <MemberContainer
                 onClick={() => viewProfile(member.userID, index)}
-                ref={(el) => (memberRef.current[index] = el)}
+                ref={(el: HTMLLIElement) => (memberRef.current[index] = el)}
                 key={index}
               >
                 <Member>
