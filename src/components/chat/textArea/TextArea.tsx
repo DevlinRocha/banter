@@ -7,12 +7,13 @@ import uploadImageIcon from "../../../../assets/uploadImageIcon.svg";
 import Image from "next/image";
 import gifButton from "../../../../assets/gifButton.svg";
 import { useAppDispatch } from "../../../redux/hooks";
-import { setSendGifOpen } from "../../../features/sendGif";
+import { setSendGifOpen, useSendGifState } from "../../../features/sendGif";
 
 export default function TextArea() {
   const inputRef = useRef<HTMLInputElement>(null);
   const { server, channel } = useServersState();
   const { user } = useUserState();
+  const { sendGifOpen } = useSendGifState();
   const [messageImageURL, setMessageImageURL] = useState<string>("");
   const [messageImage, setMessageImage] = useState<File>();
   const dispatch = useAppDispatch();
@@ -62,7 +63,7 @@ export default function TextArea() {
   }
 
   function openGif() {
-    dispatch(setSendGifOpen(true));
+    dispatch(setSendGifOpen(!sendGifOpen));
   }
 
   return (
