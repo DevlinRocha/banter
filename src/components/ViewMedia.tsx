@@ -39,14 +39,13 @@ const Backdrop = tw.div`
 `;
 
 const Container = tw.div`
-  fixed flex flex-col top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-110 bg-white rounded-md
-  h-full max-h-[609px]
+  fixed flex w-full h-full max-w-[992px] max-h-[609px] top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]
 `;
 
 const StyledImage = tw(Image)`
-  object-cover
+  object-contain
 `;
 
 const StyledVideo = tw.video`
-  object-cover
+  object-contain
 `;
