@@ -22,12 +22,20 @@ export default function ViewMedia() {
           <StyledImage
             loader={() => viewMedia.src}
             src={viewMedia.src}
-            layout="fill"
+            width={992}
+            height={609}
           />
         )}
 
         {viewMedia.type === "video" && viewMedia.src && (
-          <StyledVideo src={viewMedia.src} autoPlay loop preload="auto" />
+          <StyledVideo
+            src={viewMedia.src}
+            autoPlay
+            loop
+            preload="auto"
+            width={992}
+            height={609}
+          />
         )}
       </Container>
     </Backdrop>
@@ -39,7 +47,7 @@ const Backdrop = tw.div`
 `;
 
 const Container = tw.div`
-  fixed flex w-full h-full max-w-[992px] max-h-[609px] top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]
+  fixed flex w-fit h-fit top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]
 `;
 
 const StyledImage = tw(Image)`
