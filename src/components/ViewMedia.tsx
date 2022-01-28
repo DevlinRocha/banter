@@ -20,6 +20,7 @@ export default function ViewMedia() {
       <Container onClick={stopPropagation}>
         {viewMedia.type === "image" && viewMedia.src && (
           <StyledImage
+            onClick={closeWindow}
             loader={() => viewMedia.src}
             src={viewMedia.src}
             width={992}
