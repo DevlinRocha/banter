@@ -30,11 +30,11 @@ export default function Messages() {
 
         "servers",
 
-        server?.serverID,
+        server.serverID,
 
         "channels",
 
-        channel?.channelID,
+        channel.channelID,
 
         "messages"
       )
@@ -77,7 +77,7 @@ export default function Messages() {
     return () => {
       unsubscribe();
     };
-  }, [channel]);
+  }, [channel.channelID]);
 
   return (
     <Container>

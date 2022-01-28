@@ -37,13 +37,13 @@ export default function Message(props: MessageProps) {
       const username = docData.username;
       const avatar = docData.avatar;
 
-      setUsername(username);
-      setAvatar(avatar);
+      setUsername(docData.username);
+      setAvatar(docData.avatar);
     });
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [props.message.userID]);
 
   function getDate() {
     const timestamp = props.message.timestamp;
