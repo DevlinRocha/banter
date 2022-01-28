@@ -233,7 +233,7 @@ const Content = tw.p`
 `;
 
 const MessageAccessories = tw.div`
-  flex w-full h-[300px] py-0.5
+  flex w-full h-full max-w-[400px] max-h-[300px] py-0.5
 `;
 
 const MessageImage = tw.img`
@@ -241,5 +241,5 @@ const MessageImage = tw.img`
 `;
 
 const MessageVideo = tw.video`
-  w-full h-full object-contain rounded-middle cursor-pointer
+  object-contain rounded-middle cursor-pointer
 `;
