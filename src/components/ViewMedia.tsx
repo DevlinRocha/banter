@@ -28,14 +28,7 @@ export default function ViewMedia() {
         )}
 
         {viewMedia.type === "video" && viewMedia.src && (
-          <StyledVideo
-            src={viewMedia.src}
-            autoPlay
-            loop
-            preload="auto"
-            width={992}
-            height={609}
-          />
+          <StyledVideo src={viewMedia.src} autoPlay loop preload="auto" />
         )}
       </Container>
     </Backdrop>
