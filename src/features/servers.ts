@@ -61,6 +61,11 @@ export interface PositionData {
   left?: number;
 }
 
+export interface MediaData {
+  src: string;
+  type: "image" | "video" | null;
+}
+
 export interface ServersState {
   servers: ServerData[];
   server: ServerData;
@@ -73,6 +78,8 @@ export interface ServersState {
   member: MemberData;
   memberProfileCardOpen: boolean;
   memberProfileCardPosition: PositionData;
+  viewMediaOpen: boolean;
+  viewMedia: MediaData;
   serverIDs: string[];
   loading: "idle" | "pending" | "succeeded" | "failed";
 }
@@ -121,6 +128,11 @@ const initialState: ServersState = {
 
   memberProfileCardOpen: false,
   memberProfileCardPosition: {},
+  viewMediaOpen: false,
+  viewMedia: {
+    src: "",
+    type: null,
+  },
   serverIDs: [],
   loading: "idle",
 };
@@ -186,6 +198,14 @@ export const serversSlice = createSlice({
       state.memberProfileCardPosition = action.payload;
     },
 
+    setViewMediaOpen(state, action) {
+      state.viewMediaOpen = action.payload;
+    },
+
+    setViewMedia(state, action) {
+      state.viewMedia = action.payload;
+    },
+
     setServerIDs(state, action) {
       state.serverIDs = action.payload;
     },
@@ -215,6 +235,8 @@ export const {
   setMemberID,
   setMemberProfileCardOpen,
   setMemberProfileCardPosition,
+  setViewMediaOpen,
+  setViewMedia,
   setServerIDs,
   resetServerState,
 } = serversSlice.actions;

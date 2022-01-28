@@ -29,11 +29,13 @@ import InviteFriends from "../../../components/serverDropdown/InviteFriends";
 import MemberProfileCard from "../../../components/MemberProfileCard";
 import CreateChannel from "../../../components/serverDropdown/CreateChannel";
 import ServerSettings from "../../../components/serverSettings/ServerSettings";
+import ViewMedia from "../../../components/ViewMedia";
 
 const Home: NextPage = () => {
   const auth = getAuth();
   const { user } = useUserState();
-  const { channel, memberProfileCardOpen, server } = useServersState();
+  const { channel, memberProfileCardOpen, server, viewMediaOpen } =
+    useServersState();
   const { userSettingsOpen, memberListOpen } = useUserSettingsState();
   const { addServerOpen } = useAddServerState();
   const {
@@ -164,6 +166,8 @@ const Home: NextPage = () => {
       {inviteFriendsOpen && <InviteFriends />}
 
       {createChannelOpen && <CreateChannel />}
+
+      {viewMediaOpen && <ViewMedia />}
 
       <Servers />
 

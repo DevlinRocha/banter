@@ -7,6 +7,8 @@ import {
   setMemberProfileCardPosition,
   setMemberProfileCardOpen,
   useServersState,
+  setViewMediaOpen,
+  setViewMedia,
 } from "../../features/servers";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../../firebase";
@@ -37,8 +39,8 @@ export default function Message(props: MessageProps) {
       const username = docData.username;
       const avatar = docData.avatar;
 
-      setUsername(docData.username);
-      setAvatar(docData.avatar);
+      setUsername(username);
+      setAvatar(avatar);
     });
     return () => {
       unsubscribe();
@@ -127,6 +129,11 @@ export default function Message(props: MessageProps) {
     );
   }
 
+  function viewMedia(src: string, type: string) {
+    dispatch(setViewMediaOpen(true));
+    dispatch(setViewMedia({ src, type }));
+  }
+
   return (
     <Container>
       <MessageContainer>
@@ -160,12 +167,16 @@ export default function Message(props: MessageProps) {
           </MessageContent>
           {props.message.image && (
             <MessageAccessories>
-              <MessageImage src={props.message.image} />
+              <MessageImage
+                onClick={() => viewMedia(props.message.image, "image")}
+                src={props.message.image}
+              />
             </MessageAccessories>
           )}
           {props.message.video && (
             <MessageAccessories>
               <MessageVideo
+                onClick={() => viewMedia(props.message.video, "video")}
                 src={props.message.video}
                 autoPlay
                 loop
@@ -222,13 +233,13 @@ const Content = tw.p`
 `;
 
 const MessageAccessories = tw.div`
-  flex w-full h-[300px] py-0.5
+  flex w-full h-full max-w-[400px] max-h-[300px] py-0.5
 `;
 
 const MessageImage = tw.img`
-  object-contain rounded-middle
+  object-contain rounded-middle cursor-pointer
 `;
 
 const MessageVideo = tw.video`
-  w-full h-full object-contain rounded-middle
+  object-contain rounded-middle cursor-pointer
 `;
