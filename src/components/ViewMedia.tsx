@@ -31,6 +31,13 @@ export default function ViewMedia() {
         {viewMedia.type === "video" && viewMedia.src && (
           <StyledVideo src={viewMedia.src} autoPlay loop preload="auto" />
         )}
+        <LinkText
+          href={viewMedia.src}
+          rel="noreferrer noopener"
+          target="_blank"
+        >
+          Open original
+        </LinkText>
       </Container>
     </Backdrop>
   );
@@ -41,7 +48,7 @@ const Backdrop = tw.div`
 `;
 
 const Container = tw.div`
-  fixed flex w-fit h-fit top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]
+  fixed flex flex-col w-fit h-fit top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]
 `;
 
 const StyledImage = tw(Image)`
@@ -50,4 +57,9 @@ const StyledImage = tw(Image)`
 
 const StyledVideo = tw.video`
   object-contain
+`;
+
+const LinkText = tw.a`
+  text-sm text-gray-400 font-medium cursor-pointer leading-[30px]
+  hover:underline
 `;
