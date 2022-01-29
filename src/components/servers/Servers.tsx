@@ -55,16 +55,18 @@ export default function Servers() {
       querySnapshot.forEach((doc) => {
         if (!serverIDs.includes(doc.id)) return;
 
+        const docData = doc.data();
+
         const server: ServerData = {
-          name: doc.data().name,
+          name: docData.name,
 
-          img: doc.data().img,
+          img: docData.img,
 
-          path: `/channels/${doc.id}/${doc.data().defaultChannel}/`,
+          path: `/channels/${doc.id}/${docData.defaultChannel}/`,
 
           serverID: doc.id,
 
-          defaultChannel: doc.data()?.defaultChannel,
+          defaultChannel: docData?.defaultChannel,
         };
 
         serverList.push(server);
@@ -91,6 +93,8 @@ export default function Servers() {
       <Sidebar>
         <Link href="/channels/@me" passHref>
           <BanterIcon onClick={() => dispatch(resetServerState())}>
+            <ServerBar serverID={"@me"} path={router.asPath} />
+
             <BanterImage
               path={router.asPath}
               src={banterIcon}
@@ -106,9 +110,12 @@ export default function Servers() {
         {servers.map((server, index) => {
           return (
             <Link href={server.path} passHref key={index}>
-              <Server onClick={() => handleClick(server)}>
+              <ServerContainer onClick={() => handleClick(server)}>
+                <ServerBar serverID={server.serverID} path={router.asPath} />
                 {server.img ? (
-                  <StyledImage
+                  <CustomServerIcon
+                    serverID={server.serverID}
+                    path={router.asPath}
                     loader={() => server.img}
                     src={server.img}
                     width={48}
@@ -116,14 +123,20 @@ export default function Servers() {
                     alt="Server icon"
                   />
                 ) : (
-                  <ServerIcon server={server} path={router.asPath} />
+                  <ServerIcon
+                    server={server}
+                    height={48}
+                    width={48}
+                    path={router.asPath}
+                  />
                 )}
-              </Server>
+              </ServerContainer>
             </Link>
           );
         })}
-
-        <AddServerIconContainer onClick={addServer} />
+        <AddServerIconContainer onClick={addServer}>
+          <CreateServerIcon />
+        </AddServerIconContainer>
       </Sidebar>
     </Nav>
   );
@@ -135,6 +148,7 @@ type ServerIconProps = {
 };
 
 type BanterProps = {
+  serverID?: string;
   path: string;
 };
 
@@ -147,20 +161,35 @@ const Sidebar = tw.ol`
 `;
 
 const BanterIcon = tw.figure`
-  flex justify-center cursor-pointer
+  relative flex justify-center w-full cursor-pointer group
 `;
 
-const Server = tw.li`
-  flex justify-center mb-2 cursor-pointer
+const ServerContainer = tw.li`
+  relative flex justify-center mb-2 w-full cursor-pointer group
+`;
+
+const ServerBar = tw.span<BanterProps>`
+  absolute left-0 w-1 h-10 bg-black rounded-r-middle
+  group-hover:flex
+  ${(props) =>
+    props.serverID && props.path.includes(props.serverID)
+      ? "flex h-10 top-1"
+      : "hidden h-5 top-3.5"}
 `;
 
 const StyledImage = tw(Image)`
-  rounded-3xl transition-all ease-linear
-  hover:rounded-xl
+  rounded-3xl transition-all ease-linear object-cover
+  group-hover:rounded-xl
+`;
+
+const CustomServerIcon = tw(StyledImage)<BanterProps>`
+  ${(props) =>
+    props.serverID && props.path.includes(props.serverID)
+      ? "rounded-xl fill-primary"
+      : "rounded-3xl fill-white"}
 `;
 
 const BanterImage = tw(StyledImage)<BanterProps>`
-
   ${(props) => {
     switch (props.path) {
       case "/channels/@me":
@@ -170,21 +199,24 @@ const BanterImage = tw(StyledImage)<BanterProps>`
         return null;
     }
   }}
-  
 `;
 
 const ServerIcon = tw(DefaultServerIcon)<ServerIconProps>`
-  transition-all ease-linear group
-  hover:rounded-xl hover:fill-primary
+  text-lg transition-all ease-linear
+  group-hover:rounded-xl group-hover:fill-primary
   ${(props) =>
     props.path.includes(props.server.serverID)
       ? "rounded-xl fill-primary"
       : "rounded-3xl fill-white"}
 `;
 
-const AddServerIconContainer = tw(AddServerIcon)`
-  transition-all ease-linear rounded-3xl fill-white cursor-pointer group
-  hover:rounded-xl hover:fill-active
+const AddServerIconContainer = tw.div`
+  cursor-pointer group
+`;
+
+const CreateServerIcon = tw(AddServerIcon)`
+  transition-all ease-linear flex-none rounded-3xl fill-white cursor-pointer
+  group-hover:rounded-xl group-hover:fill-active
 `;
 
 const Separator = tw.div`

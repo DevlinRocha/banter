@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { useAppSelector } from "../redux/hooks";
-import { UserData } from "./user";
 
 export interface ServerData {
   name: string;
@@ -25,12 +24,34 @@ export interface MessageData {
   timestamp: number;
   reactions: [];
   edited: boolean;
+  image: string;
+  video: string;
 }
 
 export interface MemberData {
+  userID: string;
+  username: string;
+  tag: string;
+  avatar: string;
+  about: string;
+  banner: string;
+  serverOwner?: boolean;
+  roles?: string[];
+  permissions?: [];
+}
+
+export interface MemberInfo {
   username: string;
   avatar: string;
   userID: string;
+  serverOwner?: JSX.Element;
+}
+
+export interface MemberRole {
+  userID: string;
+  serverOwner: boolean;
+  roles: string[];
+  permissions: [];
 }
 
 export interface PositionData {
@@ -40,6 +61,11 @@ export interface PositionData {
   left?: number;
 }
 
+export interface MediaData {
+  src: string;
+  type: "image" | "video" | null;
+}
+
 export interface ServersState {
   servers: ServerData[];
   server: ServerData;
@@ -47,13 +73,14 @@ export interface ServersState {
   channel: ChannelData;
   voiceChannel: ChannelData;
   messages: MessageData[];
-  members: MemberData[];
-  memberID: string;
-  member: UserData;
+  members: MemberInfo[];
+  memberRoles: MemberRole[];
+  member: MemberData;
   memberProfileCardOpen: boolean;
   memberProfileCardPosition: PositionData;
+  viewMediaOpen: boolean;
+  viewMedia: MediaData;
   serverIDs: string[];
-  memberIDs: string[];
   loading: "idle" | "pending" | "succeeded" | "failed";
 }
 
@@ -97,11 +124,16 @@ const initialState: ServersState = {
     userID: "",
   },
 
-  memberID: "",
+  memberRoles: [],
+
   memberProfileCardOpen: false,
   memberProfileCardPosition: {},
+  viewMediaOpen: false,
+  viewMedia: {
+    src: "",
+    type: null,
+  },
   serverIDs: [],
-  memberIDs: [],
   loading: "idle",
 };
 
@@ -116,6 +148,14 @@ export const serversSlice = createSlice({
 
     setServer(state, action) {
       state.server = action.payload;
+    },
+
+    setServerName(state, action) {
+      state.server.name = action.payload;
+    },
+
+    setServerImage(state, action) {
+      state.server.img = action.payload;
     },
 
     setChannels(state, action) {
@@ -142,8 +182,12 @@ export const serversSlice = createSlice({
       state.member = action.payload;
     },
 
+    setMemberRoles(state, action) {
+      state.memberRoles = action.payload;
+    },
+
     setMemberID(state, action) {
-      state.memberID = action.payload;
+      state.member.userID = action.payload;
     },
 
     setMemberProfileCardOpen(state, action) {
@@ -154,12 +198,16 @@ export const serversSlice = createSlice({
       state.memberProfileCardPosition = action.payload;
     },
 
-    setServerIDs(state, action) {
-      state.serverIDs = action.payload;
+    setViewMediaOpen(state, action) {
+      state.viewMediaOpen = action.payload;
     },
 
-    setMemberIDs(state, action) {
-      state.memberIDs = action.payload;
+    setViewMedia(state, action) {
+      state.viewMedia = action.payload;
+    },
+
+    setServerIDs(state, action) {
+      state.serverIDs = action.payload;
     },
 
     resetServerState(state) {
@@ -167,7 +215,6 @@ export const serversSlice = createSlice({
       state.channels = initialState.channels;
       state.channel = initialState.channel;
       state.voiceChannel = initialState.voiceChannel;
-      state.memberIDs = initialState.memberIDs;
       state.messages = initialState.messages;
     },
   },
@@ -176,17 +223,21 @@ export const serversSlice = createSlice({
 export const {
   setServers,
   setServer,
+  setServerName,
+  setServerImage,
   setChannels,
   setChannel,
   setVoiceChannel,
   setMessages,
   setMembers,
   setMember,
+  setMemberRoles,
   setMemberID,
   setMemberProfileCardOpen,
   setMemberProfileCardPosition,
+  setViewMediaOpen,
+  setViewMedia,
   setServerIDs,
-  setMemberIDs,
   resetServerState,
 } = serversSlice.actions;
 

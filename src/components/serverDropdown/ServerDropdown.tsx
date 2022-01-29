@@ -1,16 +1,22 @@
-import React from "react";
 import tw from "tailwind-styled-components/dist/tailwind";
 import {
+  setCreateChannelOpen,
   setInviteFriendsOpen,
-  setserverDropdownOpen,
-} from "../features/serverSettings";
-import { useAppDispatch } from "../redux/hooks";
+  setServerDropdownOpen,
+  setServerSettingsOpen,
+} from "../../features/serverSettings";
+import { UserRole } from "../../features/user";
+import { useAppDispatch } from "../../redux/hooks";
 
-export default function ServerDropdown() {
+interface ServerDropdownProps {
+  userRoles: UserRole | undefined;
+}
+
+export default function ServerDropdown(props: ServerDropdownProps) {
   const dispatch = useAppDispatch();
 
   function closeWindow(e: React.MouseEvent) {
-    dispatch(setserverDropdownOpen(false));
+    dispatch(setServerDropdownOpen(false));
   }
 
   function stopPropagation(e: React.MouseEvent<HTMLDivElement>) {
@@ -24,6 +30,18 @@ export default function ServerDropdown() {
           <ListItemInvite onClick={() => dispatch(setInviteFriendsOpen(true))}>
             Invite people
           </ListItemInvite>
+
+          {props.userRoles && props.userRoles.serverOwner && (
+            <ListItem onClick={() => dispatch(setServerSettingsOpen(true))}>
+              Server Settings
+            </ListItem>
+          )}
+
+          {props.userRoles && props.userRoles.serverOwner && (
+            <ListItem onClick={() => dispatch(setCreateChannelOpen(true))}>
+              Create Channel
+            </ListItem>
+          )}
 
           <Separator />
 
@@ -46,7 +64,7 @@ const ListContainer = tw.ol`
 `;
 
 const ListItem = tw.li`
-  my-0.5 py-1.5 pl-2 rounded-middle cursor-pointer
+  flex items-center my-0.5 py-1.5 pl-2 h-8 rounded-middle cursor-pointer
   hover:bg-indigo-800 hover:text-white
 `;
 

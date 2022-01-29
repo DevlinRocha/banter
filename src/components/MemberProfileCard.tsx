@@ -13,7 +13,7 @@ import { UserData } from "../features/user";
 import { db } from "../../firebase";
 
 export default function MemberProfileCard() {
-  const { member, memberID, memberProfileCardPosition } = useServersState();
+  const { member, memberProfileCardPosition } = useServersState();
   const dispatch = useAppDispatch();
   const containerRef = useRef<HTMLElement | null>(null);
   const skippedRender = useRef(false);
@@ -50,23 +50,23 @@ export default function MemberProfileCard() {
   }, [memberProfileCardPosition, onRef]);
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(doc(db, "users", memberID), (doc) => {
+    const unsubscribe = onSnapshot(doc(db, "users", member.userID), (doc) => {
       if (!doc.exists()) return;
 
+      const docData = doc.data();
+
       const member: UserData = {
-        username: doc.data().username,
+        username: docData.username,
 
-        tag: doc.data().tag,
+        tag: docData.tag,
 
-        avatar: doc.data().avatar,
+        avatar: docData.avatar,
 
-        about: doc.data().about,
+        about: docData.about,
 
-        banner: doc.data().banner,
+        banner: docData.banner,
 
         userID: doc.id,
-
-        email: doc.data().email,
       };
 
       dispatch(setMember(member));
@@ -152,7 +152,7 @@ const ProfilePicture = tw.div`
 `;
 
 const StyledImage = tw(Image)`
-  object-contain rounded-full
+  object-cover rounded-full
 `;
 
 const UsernameContainer = tw.div`
@@ -160,9 +160,10 @@ const UsernameContainer = tw.div`
 `;
 
 const Username = tw.span`
+  break-all
 `;
 
-const Tag = tw(Username)`
+const Tag = tw.span`
   text-gray-600
 `;
 

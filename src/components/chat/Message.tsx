@@ -7,6 +7,8 @@ import {
   setMemberProfileCardPosition,
   setMemberProfileCardOpen,
   useServersState,
+  setViewMediaOpen,
+  setViewMedia,
 } from "../../features/servers";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../../firebase";
@@ -32,8 +34,10 @@ export default function Message(props: MessageProps) {
     const unsubscribe = onSnapshot(doc(db, "users", userID), (doc) => {
       if (!doc.exists()) return;
 
-      const username = doc.data().username;
-      const avatar = doc.data().avatar;
+      const docData = doc.data();
+
+      const username = docData.username;
+      const avatar = docData.avatar;
 
       setUsername(username);
       setAvatar(avatar);
@@ -41,23 +45,29 @@ export default function Message(props: MessageProps) {
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [props.message.userID]);
 
   function getDate() {
     const timestamp = props.message.timestamp;
     const date = new Date(timestamp);
     const year = date.getFullYear();
     const month = date.getMonth();
-    const dayNumber = date.getDate();
-    const day = getDay(date, dayNumber);
+    const monthDay = date.getDate();
+    const weekDay = date.getDay();
+    const day = getDay(date, weekDay);
 
     let hours = date.getHours();
     let minutes: number | string = date.getMinutes();
     let period = "";
 
-    if (hours > 12) {
+    if (hours === 12) {
+      period = "PM";
+    } else if (hours > 12) {
       period = "PM";
       hours = hours - 12;
+    } else if (hours === 0) {
+      hours = 12;
+      period = "AM";
     } else {
       period = "AM";
     }
@@ -71,7 +81,7 @@ export default function Message(props: MessageProps) {
     if (day === "Today" || day === "Yesterday") {
       format = `${day} at ${hours}:${minutes} ${period}`;
     } else {
-      format = `${month + 1}/${day}/${year}`;
+      format = `${month + 1}/${monthDay}/${year}`;
     }
 
     return format;
@@ -119,54 +129,90 @@ export default function Message(props: MessageProps) {
     );
   }
 
+  function viewMedia(src: string, type: string) {
+    dispatch(setViewMediaOpen(true));
+    dispatch(setViewMedia({ src, type }));
+  }
+
   return (
     <Container>
-      <ProfilePicture
-        onClick={() => viewProfile(props.message.userID, avatarRef)}
-        ref={avatarRef}
-      >
-        <StyledImage
-          loader={() => avatar}
-          src={avatar}
-          width={40}
-          height={40}
-          alt="Profile picture"
-        />
-      </ProfilePicture>
+      <MessageContainer>
+        <ProfilePictureContainer
+          onClick={() => viewProfile(props.message.userID, avatarRef)}
+          ref={avatarRef}
+        >
+          <ProfilePicture
+            loader={() => avatar}
+            src={avatar}
+            width={40}
+            height={40}
+            alt="Profile picture"
+          />
+        </ProfilePictureContainer>
 
-      <MessageContent>
-        <MessageInfo>
-          <Username
-            onClick={() => viewProfile(props.message.userID, messageRef)}
-            ref={messageRef}
-          >
-            {username}
-          </Username>
+        <ContentContainer>
+          <MessageContent>
+            <MessageInfo>
+              <Username
+                onClick={() => viewProfile(props.message.userID, messageRef)}
+                ref={messageRef}
+              >
+                {username}
+              </Username>
 
-          <MessageDate>{getDate()}</MessageDate>
-        </MessageInfo>
+              <MessageDate>{getDate()}</MessageDate>
+            </MessageInfo>
 
-        <Content>{props.message.content}</Content>
-      </MessageContent>
+            <Content>{props.message.content}</Content>
+          </MessageContent>
+          {props.message.image && (
+            <MessageAccessories>
+              <MessageImage
+                onClick={() => viewMedia(props.message.image, "image")}
+                src={props.message.image}
+              />
+            </MessageAccessories>
+          )}
+          {props.message.video && (
+            <MessageAccessories>
+              <MessageVideo
+                onClick={() => viewMedia(props.message.video, "video")}
+                src={props.message.video}
+                autoPlay
+                loop
+                preload="auto"
+              />
+            </MessageAccessories>
+          )}
+        </ContentContainer>
+      </MessageContainer>
     </Container>
   );
 }
 
 const Container = tw.li`
-  flex w-full mt-[17px] py-0.5 pr-12 pl-4 select-text
+  flex w-full select-text
+`;
+
+const MessageContainer = tw.div`
+  flex w-full mt-[17px] py-0.5 pr-12 pl-4
   hover:bg-gray-50
 `;
 
-const ProfilePicture = tw.div`
+const ProfilePictureContainer = tw.div`
   flex-none mt-0.5 cursor-pointer select-none
 `;
 
-const MessageContent = tw.div`
+const ContentContainer = tw.div`
   flex flex-col pl-4
 `;
 
-const StyledImage = tw(Image)`
-  object-contain rounded-full
+const MessageContent = tw.div`
+  flex flex-col
+`;
+
+const ProfilePicture = tw(Image)`
+  object-cover rounded-full
 `;
 
 const MessageInfo = tw.div`
@@ -174,14 +220,26 @@ const MessageInfo = tw.div`
 `;
 
 const Username = tw.h2`
-  mr-1 text-gray-900 font-semibold cursor-pointer
+  mr-1 text-gray-900 font-semibold cursor-pointer break-all
   hover:underline hover:decoration-gray-900
 `;
 
 const MessageDate = tw.span`
-  flex items-center ml-1 text-xs
+  flex items-center ml-1 text-xs font-medium font-gray-500
 `;
 
 const Content = tw.p`
-  font-medium
+  font-medium text-gray-800
+`;
+
+const MessageAccessories = tw.div`
+  flex w-full h-full max-w-[400px] max-h-[300px] py-0.5
+`;
+
+const MessageImage = tw.img`
+  object-contain rounded-middle cursor-pointer
+`;
+
+const MessageVideo = tw.video`
+  object-contain rounded-middle cursor-pointer
 `;

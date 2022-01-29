@@ -22,20 +22,22 @@ export default function Register() {
 
       if (!docSnap.exists()) return dispatch(resetUserState());
 
+      const docData = docSnap.data();
+
       const currentUser = {
-        username: docSnap.data().username,
+        username: docData.username,
 
-        tag: docSnap.data().tag,
+        tag: docData.tag,
 
-        avatar: docSnap.data().avatar,
+        avatar: docData.avatar,
 
-        about: docSnap.data().about,
+        about: docData.about,
 
-        banner: docSnap.data().banner,
+        banner: docData.banner,
 
         userID: user.uid,
 
-        email: docSnap.data().email,
+        email: docData.email,
       };
 
       dispatch(setUser(currentUser));

@@ -9,14 +9,22 @@ import {
   setUserSettingsOpen,
   useUserSettingsState,
 } from "../../features/userSettings";
+import { useRef } from "react";
 
 export default function UserPanel() {
   const { user } = useUserState();
   const { userSettingsOpen } = useUserSettingsState();
+  const usernameRef = useRef<HTMLSpanElement>(null);
   const dispatch = useAppDispatch();
 
   function handleClick() {
     dispatch(setUserSettingsOpen(!userSettingsOpen));
+  }
+
+  function copyUsername() {
+    if (!usernameRef.current || !usernameRef.current.textContent) return;
+
+    navigator.clipboard.writeText(usernameRef.current.textContent);
   }
 
   return (
@@ -32,7 +40,7 @@ export default function UserPanel() {
           />
         </ProfilePicture>
 
-        <Username>
+        <Username onClick={copyUsername} ref={usernameRef}>
           <DisplayName>{user.username}</DisplayName>
 
           <Tag>#{user.tag}</Tag>
@@ -51,7 +59,7 @@ export default function UserPanel() {
 }
 
 const Container = tw.section`
-  flex justify-between w-60 h-14 px-2 bg-gray-100
+  flex justify-between w-60 h-[52px] px-2 bg-gray-200/50
 `;
 
 const UserInfo = tw.div`
@@ -63,21 +71,23 @@ const ProfilePicture = tw.div`
 `;
 
 const StyledImage = tw(Image)`
-  object-contain rounded-full
+  object-cover rounded-full cursor-pointer
 `;
 
 const Username = tw.span`
-  flex flex-col overflow-hidden select-text
+  flex flex-col w-[84px] overflow-hidden select-text cursor-pointer
 `;
 
 const DisplayName = tw.span`
+  text-sm font-semibold truncate
 `;
 
 const Tag = tw.span`
+  text-gray-600 text-xs font-medium
 `;
 
 const IconsPanel = tw.div`
-  flex justify-between align-center w-24
+  flex justify-around align-center w-24
 `;
 
 const Icon = tw(Image)`

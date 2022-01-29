@@ -14,7 +14,7 @@ export default function SettingsView() {
       return (
         <>
           <UserProfileSettings />
-          {userChangesMade && <UnsavedChanges />}
+          {userChangesMade && <UnsavedChanges changes="user" />}
         </>
       );
 

@@ -1,14 +1,16 @@
 import { useRef } from "react";
 import tw from "tailwind-styled-components/dist/tailwind";
 import { changeEmail } from "../../../firebase";
-import { setChangeEmailOpen } from "../../features/userSettings";
+import { setChangeEmailOpen, setUserCopy } from "../../features/userSettings";
 import { useAppDispatch } from "../../redux/hooks";
 import Image from "next/image";
 import closeIcon from "../../../assets/closeIcon.svg";
+import { setUser, useUserState } from "../../features/user";
 
 export default function ChangeUsername() {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const { user } = useUserState();
   const dispatch = useAppDispatch();
 
   function closeWindow() {
@@ -24,6 +26,12 @@ export default function ChangeUsername() {
     const password = passwordRef.current.value;
 
     await changeEmail(newEmail, password);
+
+    const newUser = { ...user };
+    newUser.email = newEmail;
+
+    dispatch(setUser(newUser));
+    dispatch(setUserCopy(newUser));
 
     closeWindow();
   }

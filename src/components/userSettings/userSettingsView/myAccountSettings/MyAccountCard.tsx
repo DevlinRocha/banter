@@ -65,7 +65,7 @@ export default function MyAccountCard() {
           <SettingDisplay>
             <SettingsLabel>EMAIL</SettingsLabel>
 
-            <Email>{user.email}</Email>
+            <Email>{user.email || "This is a guest account :)"}</Email>
           </SettingDisplay>
 
           <EditButton onClick={() => dispatch(setChangeEmailOpen(true))}>
@@ -78,11 +78,11 @@ export default function MyAccountCard() {
 }
 
 const Container = tw.section`
-  relative flex flex-col bg-gray-200 rounded
+  relative flex flex-col min-w-[655px] max-w-[660px] bg-gray-200 rounded
 `;
 
 const ProfileContainer = tw.section`
-  flex h-18 pt-4 pr-4 pl-30 rounded-md
+  flex h-18 pt-4 pr-4 pl-30 rounded-md overflow-clip
 `;
 
 const SettingContainer = tw.section`
@@ -90,7 +90,7 @@ const SettingContainer = tw.section`
 `;
 
 const Banner = tw.span`
-  w-165 h-25 rounded-t-md
+  w-full h-25 rounded-t-md
 `;
 
 const ProfilePicture = tw.div`
@@ -98,7 +98,7 @@ const ProfilePicture = tw.div`
 `;
 
 const StyledImage = tw(Image)`
-  object-contain rounded-full
+  object-cover rounded-full
 `;
 
 const DisplayName = tw.div`
@@ -109,7 +109,7 @@ const UsernameDisplay = tw.span`
 `;
 
 const UserProfileButton = tw.button`
-  h-8 ml-auto px-4 py-0.5 bg-indigo-500 rounded text-white
+  min-w-[60px] h-8 ml-auto px-4 py-0.5 bg-indigo-500 rounded text-white truncate
 `;
 
 const Username = tw.span`

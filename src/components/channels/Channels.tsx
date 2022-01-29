@@ -16,7 +16,7 @@ import { db, joinVoice, openUserMedia } from "../../../firebase";
 import { useRouter } from "next/router";
 import downArrowIcon from "../../../assets/downArrowIcon.svg";
 import {
-  setserverDropdownOpen,
+  setServerDropdownOpen,
   useServerSettingsState,
 } from "../../features/serverSettings";
 import {
@@ -40,12 +40,14 @@ export default function Channels() {
       const channelList: ChannelData[] = [];
 
       querySnapshot.forEach((doc) => {
+        const docData = doc.data();
+
         const channel: ChannelData = {
-          name: doc.data().name,
+          name: docData.name,
 
-          topic: doc.data().topic,
+          topic: docData.topic,
 
-          type: doc.data().type,
+          type: docData.type,
 
           path: `/channels/${server.serverID}/${doc.id}/`,
 
@@ -61,7 +63,7 @@ export default function Channels() {
     return () => {
       unsubscribe();
     };
-  }, [server]);
+  }, [server.serverID]);
 
   useEffect(() => {
     if (!server.serverID || !server.defaultChannel) return;
@@ -69,12 +71,14 @@ export default function Channels() {
     const unsubscribe = onSnapshot(
       doc(db, "servers", server.serverID, "channels", server.defaultChannel),
       (doc) => {
+        const docData = doc.data();
+
         const channel: ChannelData = {
-          name: doc.data()?.name,
+          name: docData?.name,
 
-          topic: doc.data()?.topic,
+          topic: docData?.topic,
 
-          type: doc.data()?.type,
+          type: docData?.type,
 
           path: `${server.serverID}/${doc.id}/`,
 
@@ -87,7 +91,7 @@ export default function Channels() {
     return () => {
       unsubscribe();
     };
-  }, [server]);
+  }, [server.serverID]);
 
   function joinChannel(channel: ChannelData) {
     dispatch(setChannel(channel));
@@ -113,7 +117,7 @@ export default function Channels() {
   }
 
   function toggleDropdown() {
-    dispatch(setserverDropdownOpen(!serverDropdownOpen));
+    dispatch(setServerDropdownOpen(!serverDropdownOpen));
   }
 
   return (
@@ -130,19 +134,29 @@ export default function Channels() {
             return channel.type === "text" ? (
               <Link href={channel.path} key={index} passHref>
                 <a onClick={() => joinChannel(channel)}>
-                  <Channel channel={channel} path={router.asPath}>
-                    # {channel.name}
-                  </Channel>
+                  <ChannelContainer channel={channel} path={router.asPath}>
+                    <ChannelIcon>
+                      {channel.type === "text" ? "#" : "*"}
+                    </ChannelIcon>
+                    <ChannelName>{channel.name}</ChannelName>
+                  </ChannelContainer>
                 </a>
               </Link>
             ) : (
-              <Channel
-                onClick={() => joinVoiceChannel(channel)}
-                channel={channel}
-                path={router.asPath}
-              >
-                {channel.name}
-              </Channel>
+              <Link href={channel.path} key={index} passHref>
+                <a onClick={() => joinChannel(channel)}>
+                  <ChannelContainer
+                    onClick={() => joinVoiceChannel(channel)}
+                    channel={channel}
+                    path={router.asPath}
+                  >
+                    <ChannelIcon>
+                      {channel.type === "text" ? "#" : "*"}
+                    </ChannelIcon>
+                    <ChannelName>{channel.name}</ChannelName>
+                  </ChannelContainer>
+                </a>
+              </Link>
             );
           })}
         </ChannelList>
@@ -159,7 +173,7 @@ type ChannelProps = {
 };
 
 const Container = tw.nav`
-  flex flex-col bg-gray-50 w-60 h-full
+  flex flex-col bg-gray-100 w-60 h-full
 `;
 
 const ChannelListContainer = tw.div`
@@ -172,7 +186,7 @@ const Header = tw.header`
 `;
 
 const Heading = tw.h1`
-  font-semibold
+  font-semibold truncate
 `;
 
 const StyledImage = tw(Image)`
@@ -181,10 +195,18 @@ const StyledImage = tw(Image)`
 const ChannelList = tw.ol`
 `;
 
-const Channel = tw.li<ChannelProps>`
+const ChannelContainer = tw.li<ChannelProps>`
   flex cursor-pointer py-1 pr-2 mx-2 pl-2 rounded-md
   ${(props) =>
     props.path.includes(props.channel.channelID)
-      ? "bg-gray-200"
-      : "hover:bg-gray-100"}
+      ? "bg-gray-500/[0.24]"
+      : "hover:bg-gray-500/[0.08]"}
+`;
+
+const ChannelIcon = tw.span`
+  mr-1.5 text-gray-500 font-bold
+`;
+
+const ChannelName = tw.span`
+  truncate
 `;

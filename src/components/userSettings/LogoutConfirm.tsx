@@ -1,5 +1,7 @@
 import tw from "tailwind-styled-components/dist/tailwind";
 import { logOut } from "../../../firebase";
+import { resetServerState } from "../../features/servers";
+import { resetUserState } from "../../features/user";
 import {
   setLogoutConfirmOpen,
   setUserSettingsOpen,
@@ -17,6 +19,8 @@ export default function LogoutConfirm() {
     logOut();
     dispatch(setLogoutConfirmOpen(false));
     dispatch(setUserSettingsOpen(false));
+    dispatch(resetServerState());
+    dispatch(resetUserState());
   }
 
   function stopPropagation(e: React.MouseEvent<HTMLDivElement>) {

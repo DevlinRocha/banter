@@ -3,9 +3,12 @@ import tw from "tailwind-styled-components/dist/tailwind";
 import { useAppDispatch } from "../../../../redux/hooks";
 import closeIcon from "../../../../../assets/closeIcon.svg";
 import { setChangeAvatarOpen } from "../../../../features/userSettings";
-import { ChangeEvent } from "react";
-import { uploadAvatar } from "../../../../../firebase";
-import { setUserAvatar, useUserState } from "../../../../features/user";
+import { uploadAvatarPreview } from "../../../../../firebase";
+import {
+  setUserAvatar,
+  setUserAvatarPreview,
+  useUserState,
+} from "../../../../features/user";
 
 export default function ChangeAvatar() {
   const { user } = useUserState();
@@ -19,14 +22,17 @@ export default function ChangeAvatar() {
     e.stopPropagation();
   }
 
-  async function changeAvatar(e: ChangeEvent<HTMLInputElement>) {
+  async function changeAvatar(e: React.ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) return;
 
-    const avatarURL = await uploadAvatar(e.target.files[0], user.userID);
+    const avatarImage = e.target.files[0];
+
+    const avatarURL = await uploadAvatarPreview(avatarImage, user.userID);
 
     closeWindow();
 
     dispatch(setUserAvatar(avatarURL));
+    dispatch(setUserAvatarPreview(avatarImage));
   }
 
   return (

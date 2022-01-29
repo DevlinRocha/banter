@@ -5,6 +5,7 @@ import userReducer from "../features/user";
 import addServerReducer from "../features/addServer";
 import serverSettingsReducer from "../features/serverSettings";
 import voiceChatReducer from "../features/voiceChat";
+import sendGifReducer from "../features/sendGif";
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     user: userReducer,
     addServer: addServerReducer,
     voiceChat: voiceChatReducer,
+    sendGif: sendGifReducer,
   },
 });
 

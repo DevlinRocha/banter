@@ -1,9 +1,12 @@
 import { useUserState } from "../../../../features/user";
 import tw from "tailwind-styled-components/dist/tailwind";
 import Image from "next/image";
+import { useAppDispatch } from "../../../../redux/hooks";
+import { setChangeAvatarOpen } from "../../../../features/userSettings";
 
 export default function UserProfileCard() {
   const { user } = useUserState();
+  const dispatch = useAppDispatch();
 
   const bannerStyle = {
     backgroundColor: user.banner,
@@ -14,7 +17,12 @@ export default function UserProfileCard() {
       <Banner style={bannerStyle} />
 
       <ProfilePicture>
+        <HoverTextBackdrop>
+          <HoverText>CHANGE AVATAR</HoverText>
+        </HoverTextBackdrop>
+
         <StyledImage
+          onClick={() => dispatch(setChangeAvatarOpen(true))}
           loader={() => user.avatar}
           src={user.avatar}
           width={80}
@@ -48,16 +56,25 @@ const ProfileContainer = tw.section`
   flex flex-col p-4 pt-0
 `;
 
+const HoverTextBackdrop = tw.div`
+  absolute hidden w-full h-full bg-black bg-opacity-50 rounded-full z-10 group pointer-events-none
+  group-hover:block
+`;
+
+const HoverText = tw.span`
+  absolute flex w-full h-full text-center items-center text-[10px] text-white font-bold
+`;
+
 const Banner = tw.span`
   h-15 rounded-t-lg
 `;
 
 const ProfilePicture = tw.div`
-  absolute top-4 left-4 flex border-[7px] border-white rounded-full
+  absolute top-4 left-4 flex border-[7px] border-white rounded-full group
 `;
 
 const StyledImage = tw(Image)`
-  object-contain rounded-full
+  object-cover rounded-full cursor-pointer
 `;
 
 const UsernameContainer = tw.div`
@@ -65,9 +82,10 @@ const UsernameContainer = tw.div`
 `;
 
 const Username = tw.span`
+  break-all
 `;
 
-const Tag = tw(Username)`
+const Tag = tw.span`
   text-gray-600
 `;
 
@@ -80,5 +98,5 @@ const ProfileHeading = tw.h3`
 `;
 
 const AboutMeContainer = tw.div`
-  select-text
+  select-text break-words
 `;

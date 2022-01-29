@@ -6,7 +6,12 @@ import Channels from "../../../components/channels/Channels";
 import Chat from "../../../components/chat/Chat";
 import UserSettings from "../../../components/userSettings/UserSettings";
 import tw from "tailwind-styled-components/dist/tailwind";
-import { setUser, resetUserState, useUserState } from "../../../features/user";
+import {
+  setUser,
+  resetUserState,
+  useUserState,
+  UserRole,
+} from "../../../features/user";
 import { useAppDispatch } from "../../../redux/hooks";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
@@ -18,22 +23,31 @@ import Members from "../../../components/Members";
 import Title from "../../../components/Title";
 import { useAddServerState } from "../../../features/addServer";
 import AddServer from "../../../components/addServer/AddServer";
-import ServerDropdown from "../../../components/ServerDropdown";
+import ServerDropdown from "../../../components/serverDropdown/ServerDropdown";
 import { useServerSettingsState } from "../../../features/serverSettings";
-import InviteFriends from "../../../components/servers/InviteFriends";
+import InviteFriends from "../../../components/serverDropdown/InviteFriends";
 import MemberProfileCard from "../../../components/MemberProfileCard";
 import { useVoiceChatState } from "../../../features/voiceChat";
+import CreateChannel from "../../../components/serverDropdown/CreateChannel";
+import ServerSettings from "../../../components/serverSettings/ServerSettings";
+import ViewMedia from "../../../components/ViewMedia";
 
 const Home: NextPage = () => {
   const auth = getAuth();
   const { user } = useUserState();
-  const { channel, memberProfileCardOpen } = useServersState();
+  const { channel, memberProfileCardOpen, server, viewMediaOpen } =
+    useServersState();
   const { userSettingsOpen, memberListOpen } = useUserSettingsState();
   const { addServerOpen } = useAddServerState();
-  const { serverDropdownOpen, inviteFriendsOpen } = useServerSettingsState();
   const { localStream, remoteStream } = useVoiceChatState();
   const remoteRef = useRef<HTMLAudioElement>(null);
   const localRef = useRef<HTMLAudioElement>(null);
+  const {
+    serverDropdownOpen,
+    serverSettingsOpen,
+    inviteFriendsOpen,
+    createChannelOpen,
+  } = useServerSettingsState();
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -46,16 +60,18 @@ const Home: NextPage = () => {
 
       if (!docSnap.exists()) return redirect();
 
+      const docData = docSnap.data();
+
       const currentUser = {
-        username: docSnap.data().username,
+        username: docData.username,
 
-        tag: docSnap.data().tag,
+        tag: docData.tag,
 
-        avatar: docSnap.data().avatar,
+        avatar: docData.avatar,
 
-        about: docSnap.data().about,
+        about: docData.about,
 
-        banner: docSnap.data().banner,
+        banner: docData.banner,
 
         userID: user.uid,
 
@@ -75,20 +91,22 @@ const Home: NextPage = () => {
     const unsubscribe = onSnapshot(doc(db, "users", user.userID), (doc) => {
       if (!doc.exists()) return;
 
+      const docData = doc.data();
+
       const currentUser = {
-        username: doc.data().username,
+        username: docData.username,
 
-        tag: doc.data().tag,
+        tag: docData.tag,
 
-        avatar: doc.data().avatar,
+        avatar: docData.avatar,
 
-        about: doc.data().about,
+        about: docData.about,
 
-        banner: doc.data().banner,
+        banner: docData.banner,
 
         userID: doc.id,
 
-        email: doc.data().email,
+        email: docData.email,
       };
 
       dispatch(setUser(currentUser));
@@ -110,6 +128,32 @@ const Home: NextPage = () => {
 
     localRef.current.srcObject = localStream;
   }, [localRef]);
+
+  useEffect(() => {
+    if (!server.serverID || !user.userID) return;
+
+    const docRef = doc(db, "servers", server.serverID, "members", user.userID);
+
+    const unsubscribe = onSnapshot(docRef, (doc) => {
+      const docData = doc.data();
+
+      const userRoles: UserRole = {
+        userID: doc.id,
+
+        serverOwner: docData?.serverOwner,
+
+        roles: docData?.roles,
+
+        permissions: docData?.permissions,
+      };
+
+      dispatch(setUser({ ...user, userRoles }));
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [server]);
 
   function redirect() {
     dispatch(resetUserState());
@@ -135,9 +179,15 @@ const Home: NextPage = () => {
 
       {addServerOpen && <AddServer />}
 
-      {serverDropdownOpen && <ServerDropdown />}
+      {serverDropdownOpen && <ServerDropdown userRoles={user.userRoles} />}
+
+      {serverSettingsOpen && <ServerSettings />}
 
       {inviteFriendsOpen && <InviteFriends />}
+
+      {createChannelOpen && <CreateChannel />}
+
+      {viewMediaOpen && <ViewMedia />}
 
       <Servers />
 

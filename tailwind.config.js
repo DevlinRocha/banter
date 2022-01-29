@@ -23,6 +23,10 @@ module.exports = {
         sans: ["PT Sans", ...defaultTheme.fontFamily.sans],
       },
 
+      fontSize: {
+        double: ["2rem", "2.5rem"],
+      },
+
       spacing: {
         1.25: "0.3125rem",
 
@@ -65,10 +69,6 @@ module.exports = {
         165: "41.25rem",
 
         196: "49rem",
-      },
-
-      fontSize: {
-        double: ["2rem", "2.5rem"],
       },
     },
   },

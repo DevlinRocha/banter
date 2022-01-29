@@ -3,6 +3,7 @@ import tw from "tailwind-styled-components/dist/tailwind";
 import {
   setUserAbout,
   setUserAvatar,
+  setUserAvatarPreview,
   setUserBanner,
   useUserState,
 } from "../../../../features/user";
@@ -44,9 +45,10 @@ export default function UserProfileSettings() {
   function removeAvatar() {
     dispatch(
       setUserAvatar(
-        "https://firebasestorage.googleapis.com/v0/b/banter-69832.appspot.com/o/users%2FdefaultProfilePicture.svg?alt=media&token=ec6842ea-d2e6-44b8-b6d4-2abcc747d787"
+        "https://firebasestorage.googleapis.com/v0/b/banter-69832.appspot.com/o/assets%2FdefaultAvatar.svg?alt=media&token=2cd07b3e-6ee1-4682-8246-57bb20bc0d1f"
       )
     );
+    dispatch(setUserAvatarPreview(null));
   }
 
   return (

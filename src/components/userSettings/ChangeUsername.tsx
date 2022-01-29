@@ -1,8 +1,11 @@
 import { useRef } from "react";
 import tw from "tailwind-styled-components/dist/tailwind";
 import { changeUsername } from "../../../firebase";
-import { setChangeUsernameOpen } from "../../features/userSettings";
-import { useUserState } from "../../features/user";
+import {
+  setChangeUsernameOpen,
+  setUserCopy,
+} from "../../features/userSettings";
+import { setUser, useUserState } from "../../features/user";
 import { useAppDispatch } from "../../redux/hooks";
 import Image from "next/image";
 import closeIcon from "../../../assets/closeIcon.svg";
@@ -26,6 +29,12 @@ export default function ChangeUsername() {
     const password = passwordRef.current.value;
 
     changeUsername(newUsername, password);
+
+    const newUser = { ...user };
+    newUser.username = newUsername;
+
+    dispatch(setUser(newUser));
+    dispatch(setUserCopy(newUser));
 
     closeWindow();
   }

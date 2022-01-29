@@ -1,23 +1,93 @@
 import tw from "tailwind-styled-components/dist/tailwind";
-import { saveUserProfileChanges } from "../../firebase";
+import {
+  saveServerChanges,
+  saveUserProfileChanges,
+  uploadAvatar,
+  uploadServerImage,
+} from "../../firebase";
+import { setServer, useServersState } from "../features/servers";
+import {
+  setServerCopy,
+  useServerSettingsState,
+} from "../features/serverSettings";
 import { setUser, useUserState } from "../features/user";
 import { setUserCopy, useUserSettingsState } from "../features/userSettings";
 import { useAppDispatch } from "../redux/hooks";
 
-export default function UnsavedChanges() {
-  const { user } = useUserState();
+interface UnsavedChangesProps {
+  changes: string;
+}
+
+export default function UnsavedChanges(props: UnsavedChangesProps) {
+  const { user, avatarPreview } = useUserState();
   const { userCopy, unsavedChangesError } = useUserSettingsState();
+  const { server } = useServersState();
+  const { serverCopy, serverIconPreview } = useServerSettingsState();
   const dispatch = useAppDispatch();
 
   function resetChanges() {
-    if (!userCopy) return;
-    dispatch(setUser(userCopy));
+    switch (props.changes) {
+      case "user":
+        if (!userCopy) return;
+        dispatch(setUser(userCopy));
+        break;
+
+      case "server":
+        if (!serverCopy) return;
+        dispatch(setServer(serverCopy));
+        break;
+    }
   }
 
   async function saveChanges() {
-    dispatch(setUserCopy(user));
+    switch (props.changes) {
+      case "user":
+        if (!userCopy) return;
 
-    await saveUserProfileChanges(user);
+        let newUser = { ...user };
+
+        if (user.avatar !== userCopy?.avatar && avatarPreview)
+          newUser = await saveAvatar(avatarPreview);
+
+        dispatch(setUser(newUser));
+        dispatch(setUserCopy(newUser));
+
+        await saveUserProfileChanges(newUser, userCopy);
+
+        break;
+
+      case "server":
+        if (!serverCopy) return;
+
+        let newServer = { ...server };
+
+        if (server.img !== serverCopy?.img && serverIconPreview)
+          newServer = await saveIcon(serverIconPreview);
+
+        dispatch(setServer(newServer));
+        dispatch(setServerCopy(newServer));
+
+        await saveServerChanges(newServer, serverCopy);
+
+        break;
+    }
+  }
+
+  async function saveAvatar(avatarPreview: File) {
+    const avatarURL = await uploadAvatar(avatarPreview, user.userID);
+
+    const newUser = { ...user };
+    newUser.avatar = avatarURL;
+    return newUser;
+  }
+
+  async function saveIcon(serverIconPreview: File) {
+    const iconURL = await uploadServerImage(serverIconPreview, server.serverID);
+
+    const newServer = { ...server };
+    newServer.img = iconURL;
+
+    return newServer;
   }
 
   return (

@@ -30,11 +30,11 @@ export default function Messages() {
 
         "servers",
 
-        server?.serverID,
+        server.serverID,
 
         "channels",
 
-        channel?.channelID,
+        channel.channelID,
 
         "messages"
       )
@@ -44,18 +44,24 @@ export default function Messages() {
       const messageList: MessageData[] = [];
 
       querySnapshot.forEach((doc) => {
+        const docData = doc.data();
+
         const message: MessageData = {
-          content: doc.data().content,
+          content: docData.content,
 
-          userID: doc.data().userID,
+          userID: docData.userID,
 
-          date: doc.data().date,
+          date: docData.date,
 
-          timestamp: doc.data().timestamp,
+          timestamp: docData.timestamp,
 
-          reactions: doc.data().reactions,
+          reactions: docData.reactions,
 
-          edited: doc.data().edited,
+          edited: docData.edited,
+
+          image: docData.image,
+
+          video: docData.video,
         };
 
         messageList.push(message);
@@ -71,7 +77,7 @@ export default function Messages() {
     return () => {
       unsubscribe();
     };
-  }, [channel]);
+  }, [channel.channelID]);
 
   return (
     <Container>

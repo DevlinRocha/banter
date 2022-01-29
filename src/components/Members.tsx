@@ -4,18 +4,19 @@ import { db } from "../../firebase";
 import tw from "tailwind-styled-components/dist/tailwind";
 import {
   useServersState,
-  setMemberIDs,
   setMembers,
   setMemberProfileCardOpen,
-  MemberData,
   setMemberID,
   setMemberProfileCardPosition,
+  setMemberRoles,
+  MemberRole,
+  MemberInfo,
 } from "../features/servers";
 import { useAppDispatch } from "../redux/hooks";
 import Image from "next/image";
 
 export default function Members() {
-  const { server, members, memberIDs, memberProfileCardOpen } =
+  const { server, members, memberRoles, memberProfileCardOpen } =
     useServersState();
   const memberRef = useRef<HTMLLIElement[]>([]);
   const dispatch = useAppDispatch();
@@ -26,13 +27,25 @@ export default function Members() {
     const q = query(collection(db, "servers", server.serverID, "members"));
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const memberIDs: string[] = [];
+      const memberRolesList: MemberRole[] = [];
 
       querySnapshot.forEach((doc) => {
-        memberIDs.push(doc.id);
+        const docData = doc.data();
+
+        const memberRoles: MemberRole = {
+          userID: doc.id,
+
+          serverOwner: docData.serverOwner,
+
+          roles: docData.roles,
+
+          permissions: docData.permissions,
+        };
+
+        memberRolesList.push(memberRoles);
       });
 
-      dispatch(setMemberIDs(memberIDs));
+      dispatch(setMemberRoles(memberRolesList));
     });
     return () => {
       unsubscribe();
@@ -43,15 +56,20 @@ export default function Members() {
     const q = query(collection(db, "users"));
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const memberList: MemberData[] = [];
+      const memberList: MemberInfo[] = [];
+      const memberIDs: string[] = [];
+
+      memberRoles.map((member) => memberIDs.push(member.userID));
 
       querySnapshot.forEach((doc) => {
         if (!memberIDs.includes(doc.id)) return;
 
-        const member: MemberData = {
-          username: doc.data().username,
+        const docData = doc.data();
 
-          avatar: doc.data().avatar,
+        const member: MemberInfo = {
+          username: docData.username,
+
+          avatar: docData.avatar,
 
           userID: doc.id,
         };
@@ -59,13 +77,18 @@ export default function Members() {
         memberList.push(member);
       });
 
-      dispatch(setMembers(memberList));
+      const newMembers = memberList.map((member1) => ({
+        ...member1,
+        ...memberRoles.find((member2) => member2.userID === member1.userID),
+      }));
+
+      dispatch(setMembers(newMembers));
     });
 
     return () => {
       unsubscribe();
     };
-  }, [memberIDs]);
+  }, [memberRoles]);
 
   function viewProfile(userID: string, index: number) {
     dispatch(setMemberProfileCardOpen(!memberProfileCardOpen));
@@ -85,38 +108,50 @@ export default function Members() {
   return (
     <Container>
       <Sidebar>
-        <Heading>MEMBERS - {members.length}</Heading>
-        {members.map((member, index) => {
-          return (
-            <MemberContainer
-              onClick={() => viewProfile(member.userID, index)}
-              ref={(el) => (memberRef.current[index] = el)}
-              key={index}
-            >
-              <Member>
-                <StyledImage
-                  loader={() => member.avatar}
-                  src={member.avatar}
-                  width={32}
-                  height={32}
-                  alt={`${member.username}'s profile picture`}
-                />
-                <Username>{member.username}</Username>
-              </Member>
-            </MemberContainer>
-          );
-        })}
+        <MemberList>
+          <Heading>MEMBERS - {members.length}</Heading>
+          {members.map((member, index) => {
+            return (
+              <MemberContainer
+                onClick={() => viewProfile(member.userID, index)}
+                ref={(el: HTMLLIElement) => (memberRef.current[index] = el)}
+                key={index}
+              >
+                <Member>
+                  <StyledImage
+                    loader={() => member.avatar}
+                    src={member.avatar}
+                    width={32}
+                    height={32}
+                    alt={`${member.username}'s profile picture`}
+                  />
+                  <UsernameContainer>
+                    <Username>{member.username}</Username>
+
+                    {member.serverOwner && (
+                      <ServerOwnerIcon>&#128081;</ServerOwnerIcon>
+                    )}
+                  </UsernameContainer>
+                </Member>
+              </MemberContainer>
+            );
+          })}
+        </MemberList>
       </Sidebar>
     </Container>
   );
 }
 
-const Container = tw.aside`
-  flex flex-none w-60 h-full bg-gray-50
+const Container = tw.div`
+  relative flex-none w-60 h-full bg-gray-100
 `;
 
-const Sidebar = tw.ol`
-  w-60 pb-5 overflow-hidden
+const Sidebar = tw.aside`
+  absolute flex flex-none w-full h-full
+`;
+
+const MemberList = tw.ol`
+  pb-5 overflow-hidden
   hover:overflow-y-auto
 `;
 
@@ -125,18 +160,26 @@ const Heading = tw.h2`
 `;
 
 const MemberContainer = tw.li`
-  max-w-56 h-11 ml-2 py-px
+  w-56 h-11 ml-2 py-px
 `;
 
 const Member = tw.div`
   flex items-center h-full px-2 rounded cursor-pointer
-  hover:bg-gray-100
+  hover:bg-gray-200
 `;
 
 const StyledImage = tw(Image)`
-  object-contain rounded-full
+  object-cover rounded-full
+`;
+
+const UsernameContainer = tw.div`
+  flex w-[164px]
 `;
 
 const Username = tw.span`
-  ml-3 flex-1 overflow-hidden
+  ml-3 overflow-hidden truncate
+`;
+
+const ServerOwnerIcon = tw.span`
+  ml-1
 `;
