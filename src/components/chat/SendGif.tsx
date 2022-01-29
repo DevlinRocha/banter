@@ -37,7 +37,7 @@ export default function SendGif() {
 
   useEffect(() => {
     if (!searchInput) return setSearchResults(null);
-    const url = `https://g.tenor.com/v1/search?q=${searchInput}&key=${process.env.NEXT_PUBLIC_TENOR_API_KEY}&limit=8`;
+    const url = `https://g.tenor.com/v1/search?q=${searchInput}&key=${process.env.NEXT_PUBLIC_TENOR_API_KEY}&limit=8&contentfilter=high`;
     fetchGifs(url);
   }, [searchInput]);
 
@@ -53,7 +53,7 @@ export default function SendGif() {
   }
 
   async function fetchCategories() {
-    const baseURL = `https://g.tenor.com/v1/categories?&key=${process.env.NEXT_PUBLIC_TENOR_API_KEY}&limit=8`;
+    const baseURL = `https://g.tenor.com/v1/categories?&key=${process.env.NEXT_PUBLIC_TENOR_API_KEY}&limit=8&contentfilter=high`;
     const fetchedGifs = await fetch(baseURL);
     const gifsData = await fetchedGifs.json();
     setCategories(gifsData.tags);
@@ -73,7 +73,7 @@ export default function SendGif() {
   }
 
   async function openCategory(category: string) {
-    const url = `https://g.tenor.com/v1/search?q=${category}&key=${process.env.NEXT_PUBLIC_TENOR_API_KEY}&limit=8`;
+    const url = `https://g.tenor.com/v1/search?q=${category}&key=${process.env.NEXT_PUBLIC_TENOR_API_KEY}&limit=8contentfilter=high`;
 
     await fetchGifs(url);
 
