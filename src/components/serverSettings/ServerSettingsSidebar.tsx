@@ -27,10 +27,10 @@ export default function ServerSettingsSidebar() {
     }
   }
 
-  function viewServerOverview() {
+  function changeServerSettings(screen: string) {
     if (unsavedChanges()) return;
 
-    dispatch(setServerSettingsScreen("Overview"));
+    dispatch(setServerSettingsScreen(screen));
   }
 
   return (
@@ -45,9 +45,18 @@ export default function ServerSettingsSidebar() {
             className={`${
               serverSettingsScreen === "Overview" && "bg-gray-300"
             }`}
-            onClick={viewServerOverview}
+            onClick={() => changeServerSettings("Overview")}
           >
             Overview
+          </ListItem>
+
+          <ListItem
+            className={`${
+              serverSettingsScreen === "Moderation" && "bg-gray-300"
+            }`}
+            onClick={() => changeServerSettings("Moderation")}
+          >
+            Moderation
           </ListItem>
         </SettingsList>
 

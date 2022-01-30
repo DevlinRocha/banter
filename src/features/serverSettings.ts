@@ -6,7 +6,7 @@ export interface ServerSettingsState {
   serverDropdownOpen: boolean;
   inviteFriendsOpen: boolean;
   serverSettingsOpen: boolean;
-  serverSettingsScreen: "Overview";
+  serverSettingsScreen: "Overview" | "Moderation";
   deleteServerConfirmOpen: boolean;
   serverChangesMade: boolean;
   serverIconPreview?: File;
