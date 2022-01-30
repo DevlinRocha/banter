@@ -470,6 +470,13 @@ export async function saveServerChanges(
 
     case newServer.name !== oldServer.name:
       await updateServerDatabase(newServer.serverID, "name", newServer.name);
+
+    case newServer.contentFilter !== oldServer.contentFilter:
+      await updateServerDatabase(
+        newServer.serverID,
+        "contentFilter",
+        newServer.contentFilter
+      );
   }
 }
 

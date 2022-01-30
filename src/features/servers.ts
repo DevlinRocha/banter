@@ -7,6 +7,7 @@ export interface ServerData {
   path: string;
   serverID: string;
   defaultChannel: string;
+  contentFilter: "off" | "low" | "medium" | "high";
 }
 
 export interface ChannelData {
@@ -93,6 +94,7 @@ const initialState: ServersState = {
     path: "",
     serverID: "",
     defaultChannel: "",
+    contentFilter: "off",
   },
 
   channels: [],
@@ -156,6 +158,10 @@ export const serversSlice = createSlice({
 
     setServerImage(state, action) {
       state.server.img = action.payload;
+    },
+
+    setServerContentFilter(state, action) {
+      state.server.contentFilter = action.payload;
     },
 
     setChannels(state, action) {
@@ -225,6 +231,7 @@ export const {
   setServer,
   setServerName,
   setServerImage,
+  setServerContentFilter,
   setChannels,
   setChannel,
   setVoiceChannel,
