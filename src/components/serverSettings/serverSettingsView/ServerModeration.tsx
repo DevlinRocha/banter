@@ -75,7 +75,13 @@ export default function ServerModeration() {
         </SubTextContainer>
 
         <SettingsContainer>
-          <SettingContainer>
+          <SettingContainer
+            className={
+              server.contentFilter === "off"
+                ? "bg-gray-200"
+                : "bg-gray-100 hover:bg-gray-100/75"
+            }
+          >
             <SettingInput
               onChange={(e) => handleChange(e)}
               name="contentFilter"
@@ -94,7 +100,13 @@ export default function ServerModeration() {
             </SettingInputLabel>
           </SettingContainer>
 
-          <SettingContainer>
+          <SettingContainer
+            className={
+              server.contentFilter === "low"
+                ? "bg-gray-200"
+                : "bg-gray-100 hover:bg-gray-100/75"
+            }
+          >
             <SettingInput
               onChange={(e) => handleChange(e)}
               name="contentFilter"
@@ -111,7 +123,13 @@ export default function ServerModeration() {
             </SettingInputLabel>
           </SettingContainer>
 
-          <SettingContainer>
+          <SettingContainer
+            className={
+              server.contentFilter === "medium"
+                ? "bg-gray-200"
+                : "bg-gray-100 hover:bg-gray-100/75"
+            }
+          >
             <SettingInput
               onChange={(e) => handleChange(e)}
               name="contentFilter"
@@ -130,7 +148,13 @@ export default function ServerModeration() {
             </SettingInputLabel>
           </SettingContainer>
 
-          <SettingContainer>
+          <SettingContainer
+            className={
+              server.contentFilter === "high"
+                ? "bg-gray-200"
+                : "bg-gray-100 hover:bg-gray-100/75"
+            }
+          >
             <SettingInput
               onChange={(e) => handleChange(e)}
               name="contentFilter"
@@ -189,7 +213,7 @@ const SettingsContainer = tw.div`
 `;
 
 const SettingContainer = tw.div`
-  flex items-center mb-2 p-2.5 bg-gray-100 rounded-middle cursor-pointer
+  flex items-center mb-2 p-2.5 rounded-middle cursor-pointer
 `;
 
 const SettingInput = tw.input`
