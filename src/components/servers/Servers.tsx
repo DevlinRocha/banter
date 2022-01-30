@@ -67,6 +67,8 @@ export default function Servers() {
           serverID: doc.id,
 
           defaultChannel: docData?.defaultChannel,
+
+          contentFilter: docData.contentFilter,
         };
 
         serverList.push(server);
