@@ -53,8 +53,7 @@ export default function Message(props: MessageProps) {
     const year = date.getFullYear();
     const month = date.getMonth();
     const monthDay = date.getDate();
-    const weekDay = date.getDay();
-    const day = getDay(date, weekDay);
+    const day = getDay(date, monthDay);
 
     let hours = date.getHours();
     let minutes: number | string = date.getMinutes();
@@ -87,24 +86,24 @@ export default function Message(props: MessageProps) {
     return format;
   }
 
-  function getDay(dateSent: Date, day: number) {
+  function getDay(dateSent: Date, monthDay: number) {
     const date = new Date();
-    const today = new Date().getDay();
+    const today = new Date().getDate();
 
     if (
       dateSent.getFullYear() === date.getFullYear() &&
       dateSent.getMonth() === date.getMonth()
     ) {
-      switch (day) {
+      switch (monthDay) {
         case today:
           return "Today";
         case today - 1:
           return "Yesterday";
         default:
-          return day;
+          return monthDay;
       }
     } else {
-      return day;
+      return monthDay;
     }
   }
 
