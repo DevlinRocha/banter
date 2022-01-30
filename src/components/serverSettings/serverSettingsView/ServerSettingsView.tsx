@@ -1,5 +1,6 @@
 import { useServerSettingsState } from "../../../features/serverSettings";
 import UnsavedChanges from "../../UnsavedChanges";
+import ServerModeration from "./ServerModeration";
 import ServerOverview from "./ServerOverview";
 
 export default function ServerSettingsView() {
@@ -10,6 +11,14 @@ export default function ServerSettingsView() {
       return (
         <>
           <ServerOverview />
+          {serverChangesMade && <UnsavedChanges changes="server" />}
+        </>
+      );
+
+    case "Moderation":
+      return (
+        <>
+          <ServerModeration />
           {serverChangesMade && <UnsavedChanges changes="server" />}
         </>
       );
