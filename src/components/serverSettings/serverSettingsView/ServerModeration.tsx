@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import tw from "tailwind-styled-components/dist/tailwind";
 import {
   setServerContentFilter,
@@ -11,9 +11,37 @@ import {
 import { useAppDispatch } from "../../../redux/hooks";
 
 export default function ServerModeration() {
+  const offInputRef = useRef<HTMLInputElement>(null);
+  const lowInputRef = useRef<HTMLInputElement>(null);
+  const mediumInputRef = useRef<HTMLInputElement>(null);
+  const highInputRef = useRef<HTMLInputElement>(null);
   const { server } = useServersState();
   const { serverCopy } = useServerSettingsState();
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (
+      !offInputRef.current ||
+      !lowInputRef.current ||
+      !mediumInputRef.current ||
+      !highInputRef.current
+    )
+      return;
+    switch (server.contentFilter) {
+      case "off":
+        offInputRef.current.checked = true;
+        break;
+      case "low":
+        lowInputRef.current.checked = true;
+        break;
+      case "medium":
+        mediumInputRef.current.checked = true;
+        break;
+      case "high":
+        highInputRef.current.checked = true;
+        break;
+    }
+  });
 
   useEffect(() => {
     if (!serverCopy) return;
@@ -36,12 +64,15 @@ export default function ServerModeration() {
 
       <ServerSettings>
         <SubHeading>EXPLICIT MEDIA CONTENT FILTER</SubHeading>
-        <SubText>
-          Automatically prevent sharing gifs sent in this server that contains
-          explicit content. Please choose how broadly the filter will apply to
-          members in your server.{" "}
-          <Bold>We recommend setting a filter for a public Banter.</Bold>
-        </SubText>
+
+        <SubTextContainer>
+          <SubText>
+            Automatically prevent sharing gifs sent in this server that contains
+            explicit content. Please choose how broadly the filter will apply to
+            members in your server.{" "}
+            <Bold>We recommend setting a filter for a public Banter.</Bold>
+          </SubText>
+        </SubTextContainer>
 
         <SettingsContainer>
           <SettingContainer>
@@ -49,6 +80,7 @@ export default function ServerModeration() {
               onChange={(e) => handleChange(e)}
               name="contentFilter"
               value="off"
+              ref={offInputRef}
               id="off"
               type="radio"
             />
@@ -67,6 +99,7 @@ export default function ServerModeration() {
               onChange={(e) => handleChange(e)}
               name="contentFilter"
               value="low"
+              ref={lowInputRef}
               id="low"
               type="radio"
             />
@@ -83,6 +116,7 @@ export default function ServerModeration() {
               onChange={(e) => handleChange(e)}
               name="contentFilter"
               value="medium"
+              ref={mediumInputRef}
               id="medium"
               type="radio"
             />
@@ -101,6 +135,7 @@ export default function ServerModeration() {
               onChange={(e) => handleChange(e)}
               name="contentFilter"
               value="high"
+              ref={highInputRef}
               id="high"
               type="radio"
             />
@@ -133,8 +168,12 @@ const SubHeading = tw.h5`
   mb-2 text-xs text-gray-800 font-semibold
 `;
 
-const SubText = tw.a`
-  mb-4 text-sm text-gray-600 font-medium
+const SubTextContainer = tw.div`
+  mb-4
+`;
+
+const SubText = tw.span`
+  text-sm text-gray-600 font-medium
 `;
 
 const Divider = tw.div`
@@ -142,7 +181,7 @@ const Divider = tw.div`
 `;
 
 const Bold = tw(SubText)`
-  font-semibold
+  font-[600]
 `;
 
 const SettingsContainer = tw.div`
