@@ -151,7 +151,7 @@ export default function Message(props: MessageProps) {
         ? (link = string.substring(linkStart))
         : (link = string.substring(linkStart, linkEnd));
 
-      if (link.charAt(-1) !== "/") link = link.concat("/");
+      if (!link.includes("/", 8)) link = link.concat("/");
 
       if (linkStart !== 0) firstString = string.slice(0, linkStart);
       if (linkEnd !== -1) secondString = string.slice(linkEnd);
