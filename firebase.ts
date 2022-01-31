@@ -408,6 +408,8 @@ export async function createServer(
     defaultChannel: "",
 
     isPublic: false,
+
+    contentFilter: "off",
   });
 
   const serverID = serverDocRef.id;
