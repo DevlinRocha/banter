@@ -133,6 +133,39 @@ export default function Message(props: MessageProps) {
     dispatch(setViewMedia({ src, type }));
   }
 
+  function findLinks(string: string) {
+    if (!string) return;
+
+    if (string.includes("https://") || string.includes("http://")) {
+      let firstString: string | null = null;
+      let secondString: string | null = null;
+      let link: string;
+      let linkStart: number;
+
+      linkStart = string.indexOf("https://");
+      if (linkStart === -1) linkStart = string.indexOf("http://");
+
+      const linkEnd = string.indexOf(" ", linkStart);
+
+      linkEnd === -1
+        ? (link = string.substring(linkStart))
+        : (link = string.substring(linkStart, linkEnd));
+
+      if (link.charAt(-1) !== "/") link = link.concat("/");
+
+      if (linkStart !== 0) firstString = string.slice(0, linkStart);
+      if (linkEnd !== -1) secondString = string.slice(linkEnd);
+
+      return (
+        <>
+          {firstString && firstString}
+          {link && <LinkText href={link}>{link}</LinkText>}
+          {secondString && secondString}
+        </>
+      );
+    } else return string;
+  }
+
   return (
     <Container>
       <MessageContainer>
@@ -161,8 +194,7 @@ export default function Message(props: MessageProps) {
 
               <MessageDate>{getDate()}</MessageDate>
             </MessageInfo>
-
-            <Content>{props.message.content}</Content>
+            <Content>{findLinks(props.message.content)}</Content>
           </MessageContent>
           {props.message.image && (
             <MessageAccessories>
@@ -227,7 +259,7 @@ const MessageDate = tw.span`
   flex items-center ml-1 text-xs font-medium font-gray-500
 `;
 
-const Content = tw.p`
+const Content = tw.div`
   font-medium text-gray-800
 `;
 
@@ -241,4 +273,9 @@ const MessageImage = tw.img`
 
 const MessageVideo = tw.video`
   object-contain rounded-middle cursor-pointer
+`;
+
+const LinkText = tw.a`
+  text-blue-600
+  hover:underline
 `;
