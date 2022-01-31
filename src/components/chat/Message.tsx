@@ -140,18 +140,22 @@ export default function Message(props: MessageProps) {
       let firstString: string | null = null;
       let secondString: string | null = null;
       let link: string;
-      let linkStart: number;
+      let protocol: string;
 
-      linkStart = string.indexOf("https://");
-      if (linkStart === -1) linkStart = string.indexOf("http://");
+      string.indexOf("https://") === -1
+        ? (protocol = "http://")
+        : (protocol = "https://");
 
+      const linkStart = string.indexOf(protocol);
       const linkEnd = string.indexOf(" ", linkStart);
 
       linkEnd === -1
         ? (link = string.substring(linkStart))
         : (link = string.substring(linkStart, linkEnd));
 
-      if (!link.includes("/", 8)) link = link.concat("/");
+      if (link.length < protocol.length + 2) return string;
+
+      if (!link.includes("/", protocol.length)) link = link.concat("/");
 
       if (linkStart !== 0) firstString = string.slice(0, linkStart);
       if (linkEnd !== -1) secondString = string.slice(linkEnd);
