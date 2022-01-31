@@ -159,7 +159,11 @@ export default function Message(props: MessageProps) {
       return (
         <>
           {firstString && firstString}
-          {link && <LinkText href={link}>{link}</LinkText>}
+          {link && (
+            <LinkText href={link} rel="noreferrer noopener" target="_blank">
+              {link}
+            </LinkText>
+          )}
           {secondString && findLinks(secondString)}
         </>
       );
