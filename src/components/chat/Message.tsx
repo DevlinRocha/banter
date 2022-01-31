@@ -133,7 +133,7 @@ export default function Message(props: MessageProps) {
     dispatch(setViewMedia({ src, type }));
   }
 
-  function findLinks(string: string) {
+  function findLinks(string: string): string | JSX.Element | undefined {
     if (!string) return;
 
     if (string.includes("https://") || string.includes("http://")) {
@@ -160,7 +160,7 @@ export default function Message(props: MessageProps) {
         <>
           {firstString && firstString}
           {link && <LinkText href={link}>{link}</LinkText>}
-          {secondString && secondString}
+          {secondString && findLinks(secondString)}
         </>
       );
     } else return string;
