@@ -133,45 +133,39 @@ export default function Message(props: MessageProps) {
     dispatch(setViewMedia({ src, type }));
   }
 
-  function findLinks(string: string): string | JSX.Element | undefined {
-    if (!string) return;
+  function findLinks(message: string): string | JSX.Element | undefined {
+    if (!message) return;
 
-    if (string.includes("https://") || string.includes("http://")) {
-      let firstString: string | null = null;
-      let secondString: string | null = null;
-      let link: string;
-      let protocol: string;
+    if (!message.includes("https://") && !message.includes("http://"))
+      return message;
 
-      string.indexOf("https://") === -1
-        ? (protocol = "http://")
-        : (protocol = "https://");
+    const messageArray = message.split(/(https?:\/\/\w[^ ]+)/);
 
-      const linkStart = string.indexOf(protocol);
-      const linkEnd = string.indexOf(" ", linkStart);
+    const fixedArray = addSlash(messageArray);
 
-      linkEnd === -1
-        ? (link = string.substring(linkStart))
-        : (link = string.substring(linkStart, linkEnd));
-
-      if (link.length < protocol.length + 2) return string;
-
-      if (!link.includes("/", protocol.length)) link = link.concat("/");
-
-      if (linkStart !== 0) firstString = string.slice(0, linkStart);
-      if (linkEnd !== -1) secondString = string.slice(linkEnd);
-
-      return (
-        <>
-          {firstString && firstString}
-          {link && (
-            <LinkText href={link} rel="noreferrer noopener" target="_blank">
-              {link}
+    return (
+      <>
+        {fixedArray.map((message, index) => {
+          return index % 2 === 0 ? (
+            <>{message}</>
+          ) : (
+            <LinkText href={message} rel="noreferrer noopener" target="_blank">
+              {message}
             </LinkText>
-          )}
-          {secondString && findLinks(secondString)}
-        </>
-      );
-    } else return string;
+          );
+        })}
+      </>
+    );
+  }
+
+  function addSlash(messageArray: string[]) {
+    return messageArray.map((message, index) => {
+      return index % 2 === 0
+        ? message
+        : message.includes("/", 8)
+        ? message
+        : message.concat("/");
+    });
   }
 
   return (
