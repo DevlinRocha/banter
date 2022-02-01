@@ -51,6 +51,13 @@ export default function ServerSettingsSidebar() {
           </ListItem>
 
           <ListItem
+            className={`${serverSettingsScreen === "Roles" && "bg-gray-300"}`}
+            onClick={() => changeServerSettings("Roles")}
+          >
+            Roles
+          </ListItem>
+
+          <ListItem
             className={`${
               serverSettingsScreen === "Moderation" && "bg-gray-300"
             }`}
