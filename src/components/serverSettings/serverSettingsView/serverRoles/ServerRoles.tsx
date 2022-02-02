@@ -48,6 +48,15 @@ export default function ServerRoles() {
       </ServerSettings>
 
       <Divider></Divider>
+
+      {server.roles &&
+        server.roles.map((role, index) => {
+          return (
+            <RoleContainer onClick={handleClick} key={index}>
+              <RoleName>{role.name}</RoleName>
+            </RoleContainer>
+          );
+        })}
     </Container>
   );
 }
@@ -84,10 +93,11 @@ const Divider = tw.div`
   max-w-165 h-px border-t my-8 border-gray-900/[0.08]
 `;
 
-const SettingsContainer = tw.div`
-  flex flex-col max-w-[660px]
+const RoleContainer = tw.div`
+  flex w-[700px] h-15 items-center rounded border-y border-gray-100 cursor-pointer
+  hover:bg-gray-100
 `;
 
-const SettingContainer = tw.div`
-  flex items-center mb-2 p-2.5 rounded-middle cursor-pointer
+const RoleName = tw.span`
+  ml-4
 `;
