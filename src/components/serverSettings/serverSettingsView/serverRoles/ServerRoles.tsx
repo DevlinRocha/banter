@@ -1,15 +1,17 @@
 import { useEffect } from "react";
 import tw from "tailwind-styled-components/dist/tailwind";
-import { useServersState } from "../../../features/servers";
+import { useServersState } from "../../../../features/servers";
 import {
+  setEditRoleOpen,
   setServerChangesMade,
   useServerSettingsState,
-} from "../../../features/serverSettings";
-import { useAppDispatch } from "../../../redux/hooks";
+} from "../../../../features/serverSettings";
+import { useAppDispatch } from "../../../../redux/hooks";
+import ServerRolesSidebar from "./ServerRolesSidebar";
 
 export default function ServerRoles() {
   const { server } = useServersState();
-  const { serverCopy } = useServerSettingsState();
+  const { serverCopy, editRoleOpen } = useServerSettingsState();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -22,7 +24,13 @@ export default function ServerRoles() {
     }
   }, [server, serverCopy]);
 
-  return (
+  function handleClick() {
+    dispatch(setEditRoleOpen(true));
+  }
+
+  return editRoleOpen ? (
+    <ServerRolesSidebar />
+  ) : (
     <Container>
       <Heading>ROLES</Heading>
 
@@ -36,7 +44,7 @@ export default function ServerRoles() {
           </SubText>
         </SubTextContainer>
 
-        <CreateRoleButton>Create Role</CreateRoleButton>
+        <CreateRoleButton onClick={handleClick}>Create Role</CreateRoleButton>
       </ServerSettings>
 
       <Divider></Divider>
@@ -74,4 +82,12 @@ const CreateRoleButton = tw.button`
 
 const Divider = tw.div`
   max-w-165 h-px border-t my-8 border-gray-900/[0.08]
+`;
+
+const SettingsContainer = tw.div`
+  flex flex-col max-w-[660px]
+`;
+
+const SettingContainer = tw.div`
+  flex items-center mb-2 p-2.5 rounded-middle cursor-pointer
 `;
