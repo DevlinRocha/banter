@@ -7,6 +7,7 @@ export interface ServerData {
   path: string;
   serverID: string;
   defaultChannel: string;
+  roles: RoleData[];
   contentFilter: "off" | "low" | "medium" | "high";
 }
 
@@ -37,7 +38,7 @@ export interface MemberData {
   about: string;
   banner: string;
   serverOwner?: boolean;
-  roles?: string[];
+  roles?: RoleData[];
   permissions?: [];
 }
 
@@ -51,8 +52,21 @@ export interface MemberInfo {
 export interface MemberRole {
   userID: string;
   serverOwner: boolean;
-  roles: string[];
-  permissions: [];
+  roles: RoleData[];
+  permissions: PermissionsData;
+}
+
+export interface RoleData {
+  name: string;
+  color: string;
+  separateDisplay: boolean;
+  permissions: PermissionsData;
+}
+
+export interface PermissionsData {
+  manageChannels: boolean;
+  manageRoles: boolean;
+  manageServer: boolean;
 }
 
 export interface PositionData {
@@ -94,6 +108,7 @@ const initialState: ServersState = {
     path: "",
     serverID: "",
     defaultChannel: "",
+    roles: [],
     contentFilter: "off",
   },
 
