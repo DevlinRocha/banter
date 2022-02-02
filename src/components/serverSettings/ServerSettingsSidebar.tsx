@@ -3,6 +3,7 @@ import { useAppDispatch } from "../../redux/hooks";
 import { useServersState } from "../../features/servers";
 import {
   setDeleteServerConfirmOpen,
+  setEditRoleOpen,
   setServerSettingsScreen,
   useServerSettingsState,
 } from "../../features/serverSettings";
@@ -31,6 +32,7 @@ export default function ServerSettingsSidebar() {
     if (unsavedChanges()) return;
 
     dispatch(setServerSettingsScreen(screen));
+    dispatch(setEditRoleOpen(false));
   }
 
   return (
