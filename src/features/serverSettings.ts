@@ -7,6 +7,7 @@ export interface ServerSettingsState {
   inviteFriendsOpen: boolean;
   serverSettingsOpen: boolean;
   serverSettingsScreen: "Overview" | "Roles" | "Moderation";
+  editRoleOpen: boolean;
   deleteServerConfirmOpen: boolean;
   serverChangesMade: boolean;
   serverIconPreview?: File;
@@ -20,6 +21,7 @@ const initialState: ServerSettingsState = {
   inviteFriendsOpen: false,
   serverSettingsOpen: false,
   serverSettingsScreen: "Overview",
+  editRoleOpen: false,
   deleteServerConfirmOpen: false,
   serverChangesMade: false,
   serverCopy: null,
@@ -47,6 +49,10 @@ export const userSettingsSlice = createSlice({
 
     setServerSettingsScreen(state, action) {
       state.serverSettingsScreen = action.payload;
+    },
+
+    setEditRoleOpen(state, action) {
+      state.editRoleOpen = action.payload;
     },
 
     setDeleteServerConfirmOpen(state, action) {
@@ -77,6 +83,7 @@ export const {
   setInviteFriendsOpen,
   setServerSettingsOpen,
   setServerSettingsScreen,
+  setEditRoleOpen,
   setDeleteServerConfirmOpen,
   setServerChangesMade,
   setServerIconPreview,
