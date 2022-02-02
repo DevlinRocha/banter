@@ -2,7 +2,7 @@ import { useServerSettingsState } from "../../../features/serverSettings";
 import UnsavedChanges from "../../UnsavedChanges";
 import ServerModeration from "./ServerModeration";
 import ServerOverview from "./ServerOverview";
-import ServerRoles from "./ServerRoles";
+import ServerRoles from "./serverRoles/ServerRoles";
 
 export default function ServerSettingsView() {
   const { serverSettingsScreen, serverChangesMade } = useServerSettingsState();
