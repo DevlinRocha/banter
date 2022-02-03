@@ -518,6 +518,37 @@ async function getServerImageURL(serverID: string) {
   return await getDownloadURL(ref(storage, `servers/${serverID}/serverImage`));
 }
 
+export async function createServerRole(server: ServerData) {
+  await updateDoc(doc(db, "servers", server.serverID), {
+    roles: server.roles
+      ? [
+          ...server.roles,
+          {
+            name: "new role",
+            color: "#99AAB5",
+            separateDisplay: false,
+            permissions: {
+              manageChannels: false,
+              manageRoles: false,
+              manageServer: false,
+            },
+          },
+        ]
+      : [
+          {
+            name: "new role",
+            color: "#99AAB5",
+            separateDisplay: false,
+            permissions: {
+              manageChannels: false,
+              manageRoles: false,
+              manageServer: false,
+            },
+          },
+        ],
+  });
+}
+
 async function updateServerDatabase(
   serverID: string,
   property: string,
