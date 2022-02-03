@@ -133,7 +133,7 @@ const ColorInputContainer = tw.div`
 `;
 
 const ColorInput = tw.input`
-  w-[66px] h-[50px] rounded border-none
+  w-[66px] h-[50px] rounded border-none cursor-pointer
 `;
 
 const ColorButton = tw(ColorInput)`
@@ -153,12 +153,13 @@ const RedText = tw.span`
 `;
 
 const PermissionsContainer = tw.div`
-  flex mb-5 cursor-pointer
+  flex mb-5
 `;
 
 const PermissionLabel = tw.label`
-  font-medium
+  font-medium cursor-pointer
 `;
 
 const PermissionInput = tw.input`
+  cursor-pointer
 `;
