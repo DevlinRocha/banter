@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import tw from "tailwind-styled-components/dist/tailwind";
+import { createServerRole } from "../../../../../firebase";
 import { useServersState } from "../../../../features/servers";
 import {
   setEditRoleOpen,
@@ -8,6 +9,7 @@ import {
 } from "../../../../features/serverSettings";
 import { useAppDispatch } from "../../../../redux/hooks";
 import ServerRolesSidebar from "./ServerRolesSidebar";
+import ServerEditRole from "./SeverEditRole";
 
 export default function ServerRoles() {
   const { server } = useServersState();
@@ -25,11 +27,16 @@ export default function ServerRoles() {
   }, [server, serverCopy]);
 
   function handleClick() {
+    createServerRole(server);
+
     dispatch(setEditRoleOpen(true));
   }
 
   return editRoleOpen ? (
-    <ServerRolesSidebar />
+    <EditContainer>
+      <ServerRolesSidebar />
+      <ServerEditRole />
+    </EditContainer>
   ) : (
     <Container>
       <Heading>ROLES</Heading>
@@ -63,6 +70,10 @@ export default function ServerRoles() {
 
 const Container = tw.main`
   min-w-[542px] max-w-[740px] pt-15 px-10 pb-20
+`;
+
+const EditContainer = tw.main`
+  flex min-w-[524px] max-w-[740px] pr-10
 `;
 
 const Heading = tw.h2`
