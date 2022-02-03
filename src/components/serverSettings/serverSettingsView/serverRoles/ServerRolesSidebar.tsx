@@ -33,11 +33,11 @@ export default function ServerRolesSidebar() {
 }
 
 const Container = tw.div`
-  flex flex-col items-end w-1/4
+  flex flex-col items-end w-fit border-r
 `;
 
 const NavContainer = tw.nav`
-  w-[218px] py-15 pr-1.5 pl-5
+  w-[232px] py-15 pr-1.5 pl-5
 `;
 
 const SettingsList = tw.ol`
