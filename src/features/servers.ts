@@ -176,6 +176,10 @@ export const serversSlice = createSlice({
       state.server.img = action.payload;
     },
 
+    updateServerRole(state, action) {
+      state.server.roles[action.payload.index] = action.payload.newRole;
+    },
+
     setServerContentFilter(state, action) {
       state.server.contentFilter = action.payload;
     },
@@ -247,6 +251,7 @@ export const {
   setServer,
   setServerName,
   setServerImage,
+  updateServerRole,
   setServerContentFilter,
   setChannels,
   setChannel,
