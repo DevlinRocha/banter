@@ -4,6 +4,7 @@ import { createServerRole } from "../../../../../firebase";
 import { useServersState } from "../../../../features/servers";
 import {
   setEditRoleOpen,
+  setRolesCopy,
   setServerChangesMade,
   useServerSettingsState,
 } from "../../../../features/serverSettings";
@@ -15,6 +16,10 @@ export default function ServerRoles() {
   const { server } = useServersState();
   const { serverCopy, editRoleOpen } = useServerSettingsState();
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(setRolesCopy(server.roles));
+  }, []);
 
   useEffect(() => {
     if (!serverCopy) return;
