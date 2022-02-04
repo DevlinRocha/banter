@@ -73,7 +73,7 @@ const BackButton = tw.span`
 `;
 
 const RoleContainer = tw.div<RoleContainerProps>`
-  px-2.5 py-1.5 mb-0.5 font-medium rounded-md cursor-pointer
+  min-h-[34px] px-2.5 py-1.5 mb-0.5 font-medium rounded-md cursor-pointer truncate
   hover:bg-gray-100
   ${(props) => (props.currentRole.sort === props.sort ? "bg-gray-300" : "")}
 `;
