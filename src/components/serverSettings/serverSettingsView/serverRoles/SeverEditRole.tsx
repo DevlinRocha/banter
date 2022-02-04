@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import tw from "tailwind-styled-components/dist/tailwind";
+import { useServerSettingsState } from "../../../../features/serverSettings";
 import { useUserState } from "../../../../features/user";
 import {
   setUserChangesMade,
@@ -10,6 +11,7 @@ import { useAppDispatch } from "../../../../redux/hooks";
 export default function ServerEditRole() {
   //   const { user } = useUserState();
   //   const { userCopy } = useUserSettingsState();
+  const { currentRole } = useServerSettingsState();
   const dispatch = useAppDispatch();
 
   //   useEffect(() => {
@@ -37,7 +39,7 @@ export default function ServerEditRole() {
   return (
     <Container>
       <Header>
-        <Heading>EDIT ROLE - NEW ROLE</Heading>
+        <Heading>EDIT ROLE - {currentRole.name.toUpperCase()}</Heading>
         <Separator />
       </Header>
 
@@ -51,7 +53,7 @@ export default function ServerEditRole() {
             <RoleName
               //   onChange={handleRoleRename}
               type="text"
-              defaultValue="new role"
+              defaultValue={currentRole.name}
               maxLength={100}
               required
             />
