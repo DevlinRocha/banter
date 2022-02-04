@@ -527,6 +527,7 @@ export async function createServerRole(server: ServerData) {
             name: "new role",
             color: "#99AAB5",
             separateDisplay: false,
+            sort: server.roles.length,
             permissions: {
               manageChannels: false,
               manageRoles: false,
@@ -539,6 +540,7 @@ export async function createServerRole(server: ServerData) {
             name: "new role",
             color: "#99AAB5",
             separateDisplay: false,
+            sort: 0,
             permissions: {
               manageChannels: false,
               manageRoles: false,

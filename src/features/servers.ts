@@ -60,6 +60,7 @@ export interface RoleData {
   name: string;
   color: string;
   separateDisplay: boolean;
+  sort: number;
   permissions: PermissionsData;
 }
 
