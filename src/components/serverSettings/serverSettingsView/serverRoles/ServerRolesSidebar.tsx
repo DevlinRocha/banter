@@ -1,14 +1,24 @@
 import tw from "tailwind-styled-components/dist/tailwind";
 import { useAppDispatch } from "../../../../redux/hooks";
-import { useServersState } from "../../../../features/servers";
-import { setEditRoleOpen } from "../../../../features/serverSettings";
+import { RoleData, useServersState } from "../../../../features/servers";
+import {
+  setCurrentRole,
+  setEditRoleOpen,
+  useServerSettingsState,
+} from "../../../../features/serverSettings";
 
 export default function ServerRolesSidebar() {
   const { server } = useServersState();
+  const { currentRole } = useServerSettingsState();
   const dispatch = useAppDispatch();
 
   function goBack() {
     dispatch(setEditRoleOpen(false));
+  }
+
+  function handleClick(sort: number) {
+    const role = server.roles.find((role) => role.sort === sort);
+    dispatch(setCurrentRole(role));
   }
 
   return (
@@ -21,7 +31,12 @@ export default function ServerRolesSidebar() {
         <SettingsList>
           {server.roles.map((role, index) => {
             return (
-              <RoleContainer key={index}>
+              <RoleContainer
+                currentRole={currentRole}
+                sort={role.sort}
+                onClick={() => handleClick(role.sort)}
+                key={index}
+              >
                 <RoleName>{role.name}</RoleName>
               </RoleContainer>
             );
@@ -31,6 +46,11 @@ export default function ServerRolesSidebar() {
     </Container>
   );
 }
+
+type RoleContainerProps = {
+  currentRole: RoleData;
+  sort: number;
+};
 
 const Container = tw.div`
   flex flex-col items-end w-fit border-r
@@ -52,9 +72,10 @@ const BackButton = tw.span`
   hover:text-black
 `;
 
-const RoleContainer = tw.div`
+const RoleContainer = tw.div<RoleContainerProps>`
   px-2.5 py-1.5 mb-0.5 font-medium rounded-md cursor-pointer
-  hover:bg-gray-200
+  hover:bg-gray-100
+  ${(props) => (props.currentRole.sort === props.sort ? "bg-gray-300" : "")}
 `;
 
 const RoleName = tw.span`
