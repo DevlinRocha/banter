@@ -9,6 +9,7 @@ export interface ServerSettingsState {
   serverSettingsScreen: "Overview" | "Roles" | "Moderation";
   editRoleOpen: boolean;
   currentRole: RoleData;
+  rolesCopy: RoleData[] | null;
   deleteServerConfirmOpen: boolean;
   serverChangesMade: boolean;
   serverIconPreview?: File;
@@ -34,6 +35,7 @@ const initialState: ServerSettingsState = {
       manageServer: false,
     },
   },
+  rolesCopy: null,
   deleteServerConfirmOpen: false,
   serverChangesMade: false,
   serverCopy: null,
@@ -71,6 +73,10 @@ export const userSettingsSlice = createSlice({
       state.currentRole = action.payload;
     },
 
+    setRolesCopy(state, action) {
+      state.rolesCopy = action.payload;
+    },
+
     setDeleteServerConfirmOpen(state, action) {
       state.deleteServerConfirmOpen = action.payload;
     },
@@ -101,6 +107,7 @@ export const {
   setServerSettingsScreen,
   setEditRoleOpen,
   setCurrentRole,
+  setRolesCopy,
   setDeleteServerConfirmOpen,
   setServerChangesMade,
   setServerIconPreview,
