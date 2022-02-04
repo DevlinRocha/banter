@@ -1,28 +1,19 @@
-import { useEffect } from "react";
+import { useState } from "react";
 import tw from "tailwind-styled-components/dist/tailwind";
-import { useServerSettingsState } from "../../../../features/serverSettings";
-import { useUserState } from "../../../../features/user";
 import {
-  setUserChangesMade,
-  useUserSettingsState,
-} from "../../../../features/userSettings";
+  updateServerRole,
+  useServersState,
+} from "../../../../features/servers";
+import { useServerSettingsState } from "../../../../features/serverSettings";
 import { useAppDispatch } from "../../../../redux/hooks";
 
 export default function ServerEditRole() {
-  //   const { user } = useUserState();
-  //   const { userCopy } = useUserSettingsState();
-  const { currentRole } = useServerSettingsState();
+  const { server } = useServersState();
+  const { currentRole, rolesCopy } = useServerSettingsState();
+  const [updateTimeout, setUpdateTimeout] = useState<NodeJS.Timeout | null>(
+    null
+  );
   const dispatch = useAppDispatch();
-
-  //   useEffect(() => {
-  //     if (!roleCopy) return;
-
-  //     if (role !== roleCopy) {
-  //       dispatch(setUserChangesMade(true));
-  //     } else {
-  //       dispatch(setUserChangesMade(false));
-  //     }
-  //   }, [role, roleCopy]);
 
   function handleClick() {
     // dispatch(setRoleColor("#7CC6FE"));
@@ -32,8 +23,22 @@ export default function ServerEditRole() {
     // dispatch(setRoleColor(e.target.value));
   }
 
-  function handleRoleRename(e: React.ChangeEvent<HTMLTextAreaElement>) {
-    // dispatch(setRoleName(e.target.value));
+  function handleRoleRename(e: React.ChangeEvent<HTMLInputElement>) {
+    if (!rolesCopy) return;
+    if (updateTimeout) clearTimeout(updateTimeout);
+
+    const newRoles = [...server.roles];
+    const newRole = { ...currentRole };
+
+    newRole.name = e.target.value;
+
+    const index = newRoles.findIndex((role) => role.sort === newRole.sort);
+
+    const timer = setTimeout(() => {
+      dispatch(updateServerRole({ index: index, newRole: newRole }));
+    }, 500);
+
+    setUpdateTimeout(timer);
   }
 
   return (
@@ -51,7 +56,7 @@ export default function ServerEditRole() {
             </SettingsHeading>
 
             <RoleName
-              //   onChange={handleRoleRename}
+              onChange={(e) => handleRoleRename(e)}
               type="text"
               defaultValue={currentRole.name}
               maxLength={100}
