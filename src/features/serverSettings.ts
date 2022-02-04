@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { useAppSelector } from "../redux/hooks";
-import { ServerData } from "./servers";
+import { RoleData, ServerData } from "./servers";
 
 export interface ServerSettingsState {
   serverDropdownOpen: boolean;
@@ -8,6 +8,7 @@ export interface ServerSettingsState {
   serverSettingsOpen: boolean;
   serverSettingsScreen: "Overview" | "Roles" | "Moderation";
   editRoleOpen: boolean;
+  currentRole: RoleData;
   deleteServerConfirmOpen: boolean;
   serverChangesMade: boolean;
   serverIconPreview?: File;
@@ -22,6 +23,17 @@ const initialState: ServerSettingsState = {
   serverSettingsOpen: false,
   serverSettingsScreen: "Overview",
   editRoleOpen: false,
+  currentRole: {
+    name: "",
+    color: "",
+    separateDisplay: false,
+    sort: 0,
+    permissions: {
+      manageChannels: false,
+      manageRoles: false,
+      manageServer: false,
+    },
+  },
   deleteServerConfirmOpen: false,
   serverChangesMade: false,
   serverCopy: null,
@@ -55,6 +67,10 @@ export const userSettingsSlice = createSlice({
       state.editRoleOpen = action.payload;
     },
 
+    setCurrentRole(state, action) {
+      state.currentRole = action.payload;
+    },
+
     setDeleteServerConfirmOpen(state, action) {
       state.deleteServerConfirmOpen = action.payload;
     },
@@ -84,6 +100,7 @@ export const {
   setServerSettingsOpen,
   setServerSettingsScreen,
   setEditRoleOpen,
+  setCurrentRole,
   setDeleteServerConfirmOpen,
   setServerChangesMade,
   setServerIconPreview,
