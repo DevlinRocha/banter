@@ -149,8 +149,13 @@ export default function ServerRoles() {
 
       {server.roles &&
         server.roles.map((role, index) => {
+          const RoleColorStyle = {
+            backgroundColor: role.color,
+          };
+
           return (
             <RoleContainer onClick={() => editRole(role.sort)} key={index}>
+              <RoleColor style={RoleColorStyle} />
               <RoleName>{role.name}</RoleName>
             </RoleContainer>
           );
@@ -200,6 +205,9 @@ const RoleContainer = tw.div`
   hover:bg-gray-100
 `;
 
+const RoleColor = tw.div`
+  w-3 h-3 mr-2.5 rounded-full
+`;
+
 const RoleName = tw.span`
-  ml-4
 `;
