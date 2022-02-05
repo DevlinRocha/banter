@@ -103,6 +103,12 @@ export default function ServerRoles() {
           },
         ];
 
+    const role = newServer.roles.find(
+      (role) => role.sort === newServer.roles.length - 1
+    );
+
+    dispatch(setCurrentRole(role));
+
     dispatch(setServer(newServer));
 
     if (serverChangesMade) return dispatch(setServerCopy(serverVersion));
