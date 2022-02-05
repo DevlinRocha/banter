@@ -30,6 +30,10 @@ export default function ServerRolesSidebar() {
 
         <SettingsList>
           {server.roles.map((role, index) => {
+            const RoleColorStyle = {
+              backgroundColor: role.color,
+            };
+
             return (
               <RoleContainer
                 currentRole={currentRole}
@@ -37,6 +41,7 @@ export default function ServerRolesSidebar() {
                 onClick={() => handleClick(role.sort)}
                 key={index}
               >
+                <RoleColor style={RoleColorStyle} />
                 <RoleName>{role.name}</RoleName>
               </RoleContainer>
             );
@@ -73,10 +78,15 @@ const BackButton = tw.span`
 `;
 
 const RoleContainer = tw.div<RoleContainerProps>`
-  min-h-[34px] px-2.5 py-1.5 mb-0.5 font-medium rounded-md cursor-pointer truncate
+  flex items-center min-h-[34px] px-2.5 py-1.5 mb-0.5 font-medium rounded-md cursor-pointer truncate
   hover:bg-gray-100
   ${(props) => (props.currentRole.sort === props.sort ? "bg-gray-300" : "")}
 `;
 
+const RoleColor = tw.div`
+  w-3 h-3 rounded-full
+`;
+
 const RoleName = tw.span`
+  text-sm ml-2
 `;
