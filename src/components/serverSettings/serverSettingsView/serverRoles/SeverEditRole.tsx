@@ -100,6 +100,11 @@ export default function ServerEditRole() {
               ROLE COLOR <RedText>*</RedText>
             </SettingsHeading>
 
+            <SettingsText>
+              Members use the color of the highest role they have on the roles
+              list.
+            </SettingsText>
+
             <ColorInputsContainer>
               <ColorInputContainer>
                 <DefaultColorButton onClick={handleClick} type="button" />
@@ -132,11 +137,11 @@ export default function ServerEditRole() {
 }
 
 const Container = tw.div`
-  pt-15 px-10 pb-20 min-w-[293px] max-w-[508px]
+  pt-15 pl-6 pb-20 min-w-[293px] max-w-[508px]
 `;
 
 const Header = tw.div`
-  min-w-[243px] max-w-[458px]
+  min-w-[243px] max-w-[508px]
 `;
 
 const Heading = tw.h1`
@@ -160,6 +165,10 @@ const SettingsContainer = tw.div`
 `;
 const SettingsHeading = tw.h5`
   mb-2 text-xs text-gray-600 font-semibold
+`;
+
+const SettingsText = tw.span`
+  flex mb-2 text-sm text-gray-800
 `;
 
 const ColorInputsContainer = tw.div`
