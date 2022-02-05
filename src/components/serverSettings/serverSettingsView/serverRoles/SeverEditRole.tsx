@@ -40,7 +40,17 @@ export default function ServerEditRole() {
   }
 
   function handleColorChange(e: React.ChangeEvent<HTMLInputElement>) {
-    // dispatch(setRoleColor(e.target.value));
+    const newRole = { ...currentRole };
+
+    newRole.color = e.target.value;
+
+    const index = server.roles.findIndex(
+      (role) => role.sort === currentRole.sort
+    );
+
+    dispatch(updateServerRole({ index: index, newRole: newRole }));
+
+    dispatch(setCurrentRole(newRole));
   }
 
   function handleRoleRename(e: React.ChangeEvent<HTMLInputElement>) {
@@ -101,7 +111,7 @@ export default function ServerEditRole() {
                 <ColorInput
                   onChange={handleColorChange}
                   type="color"
-                  //   value={server.role.color}
+                  defaultValue={"#FFFFFF"}
                 />
 
                 <ColorInputLabel>Custom</ColorInputLabel>
