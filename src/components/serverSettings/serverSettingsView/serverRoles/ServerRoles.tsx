@@ -3,6 +3,7 @@ import tw from "tailwind-styled-components/dist/tailwind";
 import { createServerRole } from "../../../../../firebase";
 import { setServer, useServersState } from "../../../../features/servers";
 import {
+  setCurrentRole,
   setEditRoleOpen,
   setRolesCopy,
   setServerChangesMade,
@@ -109,7 +110,10 @@ export default function ServerRoles() {
     dispatch(setServerCopy(newServer));
   }
 
-  function editRole() {
+  function editRole(sort: number) {
+    const role = server.roles.find((role) => role.sort === sort);
+
+    dispatch(setCurrentRole(role));
     dispatch(setEditRoleOpen(true));
   }
 
@@ -140,7 +144,7 @@ export default function ServerRoles() {
       {server.roles &&
         server.roles.map((role, index) => {
           return (
-            <RoleContainer onClick={editRole} key={index}>
+            <RoleContainer onClick={() => editRole(role.sort)} key={index}>
               <RoleName>{role.name}</RoleName>
             </RoleContainer>
           );
