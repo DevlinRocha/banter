@@ -24,7 +24,7 @@ import {
 } from "firebase/auth";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { UserData } from "./src/features/user";
-import { ServerData } from "./src/features/servers";
+import { RoleData, ServerData } from "./src/features/servers";
 
 // import { getAnalytics } from "firebase/analytics";
 
@@ -473,6 +473,9 @@ export async function saveServerChanges(
     case newServer.name !== oldServer.name:
       await updateServerDatabase(newServer.serverID, "name", newServer.name);
 
+    case newServer.roles !== oldServer.roles:
+      await updateServerDatabase(newServer.serverID, "roles", newServer.roles);
+
     case newServer.contentFilter !== oldServer.contentFilter:
       await updateServerDatabase(
         newServer.serverID,
@@ -554,7 +557,7 @@ export async function createServerRole(server: ServerData) {
 async function updateServerDatabase(
   serverID: string,
   property: string,
-  newValue: string
+  newValue: string | RoleData[]
 ) {
   await updateDoc(doc(db, "servers", serverID), {
     [property]: newValue,
