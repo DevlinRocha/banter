@@ -26,7 +26,17 @@ export default function ServerEditRole() {
   }, [currentRole]);
 
   function handleClick() {
-    // dispatch(setRoleColor("#7CC6FE"));
+    const newRole = { ...currentRole };
+
+    newRole.color = "#99AAB5";
+
+    const index = server.roles.findIndex(
+      (role) => role.sort === currentRole.sort
+    );
+
+    dispatch(updateServerRole({ index: index, newRole: newRole }));
+
+    dispatch(setCurrentRole(newRole));
   }
 
   function handleColorChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -37,12 +47,11 @@ export default function ServerEditRole() {
     if (!rolesCopy) return;
     if (updateTimeout) clearTimeout(updateTimeout);
 
-    const newRoles = [...server.roles];
     const newRole = { ...currentRole };
 
     newRole.name = e.target.value;
 
-    const index = newRoles.findIndex((role) => role.sort === newRole.sort);
+    const index = server.roles.findIndex((role) => role.sort === newRole.sort);
 
     const timer = setTimeout(() => {
       dispatch(updateServerRole({ index: index, newRole: newRole }));
@@ -83,7 +92,7 @@ export default function ServerEditRole() {
 
             <ColorInputsContainer>
               <ColorInputContainer>
-                <ColorButton onClick={handleClick} type="button" />
+                <DefaultColorButton onClick={handleClick} type="button" />
 
                 <ColorInputLabel>Default</ColorInputLabel>
               </ColorInputContainer>
@@ -155,8 +164,8 @@ const ColorInput = tw.input`
   w-[66px] h-[50px] rounded border-none cursor-pointer
 `;
 
-const ColorButton = tw(ColorInput)`
-  bg-gray-400
+const DefaultColorButton = tw(ColorInput)`
+  bg-[#99AAB5]
 `;
 
 const ColorInputLabel = tw.label`
