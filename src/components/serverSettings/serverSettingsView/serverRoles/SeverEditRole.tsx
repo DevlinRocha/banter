@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import tw from "tailwind-styled-components/dist/tailwind";
 import {
   updateServerRole,
@@ -16,7 +16,14 @@ export default function ServerEditRole() {
   const [updateTimeout, setUpdateTimeout] = useState<NodeJS.Timeout | null>(
     null
   );
+  const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (!inputRef.current) return;
+
+    inputRef.current.value = currentRole.name;
+  }, [currentRole]);
 
   function handleClick() {
     // dispatch(setRoleColor("#7CC6FE"));
@@ -61,6 +68,7 @@ export default function ServerEditRole() {
 
             <RoleName
               onChange={(e) => handleRoleRename(e)}
+              ref={inputRef}
               type="text"
               defaultValue={currentRole.name}
               maxLength={100}
