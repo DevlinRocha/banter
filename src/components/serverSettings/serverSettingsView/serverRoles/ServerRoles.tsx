@@ -33,7 +33,7 @@ export default function ServerRoles() {
     }
   }, [server, serverCopy]);
 
-  function handleClick() {
+  function createRole() {
     if (!serverCopy) return;
 
     createServerRole(serverCopy);
@@ -109,6 +109,10 @@ export default function ServerRoles() {
     dispatch(setServerCopy(newServer));
   }
 
+  function editRole() {
+    dispatch(setEditRoleOpen(true));
+  }
+
   return editRoleOpen ? (
     <EditContainer>
       <ServerRolesSidebar />
@@ -128,7 +132,7 @@ export default function ServerRoles() {
           </SubText>
         </SubTextContainer>
 
-        <CreateRoleButton onClick={handleClick}>Create Role</CreateRoleButton>
+        <CreateRoleButton onClick={createRole}>Create Role</CreateRoleButton>
       </ServerSettings>
 
       <Divider></Divider>
@@ -136,7 +140,7 @@ export default function ServerRoles() {
       {server.roles &&
         server.roles.map((role, index) => {
           return (
-            <RoleContainer onClick={handleClick} key={index}>
+            <RoleContainer onClick={editRole} key={index}>
               <RoleName>{role.name}</RoleName>
             </RoleContainer>
           );
