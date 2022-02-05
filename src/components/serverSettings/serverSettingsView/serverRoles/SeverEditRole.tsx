@@ -4,7 +4,10 @@ import {
   updateServerRole,
   useServersState,
 } from "../../../../features/servers";
-import { useServerSettingsState } from "../../../../features/serverSettings";
+import {
+  setCurrentRole,
+  useServerSettingsState,
+} from "../../../../features/serverSettings";
 import { useAppDispatch } from "../../../../redux/hooks";
 
 export default function ServerEditRole() {
@@ -36,6 +39,7 @@ export default function ServerEditRole() {
 
     const timer = setTimeout(() => {
       dispatch(updateServerRole({ index: index, newRole: newRole }));
+      dispatch(setCurrentRole(newRole));
     }, 500);
 
     setUpdateTimeout(timer);
