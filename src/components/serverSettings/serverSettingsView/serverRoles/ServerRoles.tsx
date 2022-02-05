@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import tw from "tailwind-styled-components/dist/tailwind";
 import { createServerRole } from "../../../../../firebase";
-import { useServersState } from "../../../../features/servers";
+import { setServer, useServersState } from "../../../../features/servers";
 import {
   setEditRoleOpen,
   setRolesCopy,
   setServerChangesMade,
+  setServerCopy,
   useServerSettingsState,
 } from "../../../../features/serverSettings";
 import { useAppDispatch } from "../../../../redux/hooks";
@@ -14,7 +15,8 @@ import ServerEditRole from "./SeverEditRole";
 
 export default function ServerRoles() {
   const { server } = useServersState();
-  const { serverCopy, editRoleOpen } = useServerSettingsState();
+  const { serverCopy, editRoleOpen, serverChangesMade } =
+    useServerSettingsState();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -32,9 +34,79 @@ export default function ServerRoles() {
   }, [server, serverCopy]);
 
   function handleClick() {
-    createServerRole(server);
+    if (!serverCopy) return;
+
+    createServerRole(serverCopy);
 
     dispatch(setEditRoleOpen(true));
+
+    const newServer = { ...server };
+
+    const serverVersion = { ...serverCopy };
+
+    newServer.roles = server.roles
+      ? [
+          ...server.roles,
+          {
+            name: "new role",
+            color: "#99AAB5",
+            separateDisplay: false,
+            sort: server.roles.length,
+            permissions: {
+              manageChannels: false,
+              manageRoles: false,
+              manageServer: false,
+            },
+          },
+        ]
+      : [
+          {
+            name: "new role",
+            color: "#99AAB5",
+            separateDisplay: false,
+            sort: 0,
+            permissions: {
+              manageChannels: false,
+              manageRoles: false,
+              manageServer: false,
+            },
+          },
+        ];
+
+    serverVersion.roles = serverCopy.roles
+      ? [
+          ...serverCopy.roles,
+          {
+            name: "new role",
+            color: "#99AAB5",
+            separateDisplay: false,
+            sort: server.roles.length,
+            permissions: {
+              manageChannels: false,
+              manageRoles: false,
+              manageServer: false,
+            },
+          },
+        ]
+      : [
+          {
+            name: "new role",
+            color: "#99AAB5",
+            separateDisplay: false,
+            sort: 0,
+            permissions: {
+              manageChannels: false,
+              manageRoles: false,
+              manageServer: false,
+            },
+          },
+        ];
+
+    dispatch(setServer(newServer));
+
+    if (serverChangesMade) return dispatch(setServerCopy(serverVersion));
+
+    dispatch(setServerCopy(newServer));
   }
 
   return editRoleOpen ? (
