@@ -16,7 +16,8 @@ export default function ServerEditRole() {
   const [updateTimeout, setUpdateTimeout] = useState<NodeJS.Timeout | null>(
     null
   );
-  const inputRef = useRef<HTMLInputElement>(null);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const colorRef = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
 
   const topColors = [
@@ -46,9 +47,13 @@ export default function ServerEditRole() {
   ];
 
   useEffect(() => {
-    if (!inputRef.current) return;
+    if (!nameRef.current || !colorRef.current) return;
 
-    inputRef.current.value = currentRole.name;
+    nameRef.current.value = currentRole.name;
+
+    colorRef.current.value = currentRole.color.includes("rgb")
+      ? "#FFFFFF"
+      : currentRole.color;
   }, [currentRole]);
 
   function handleClick() {
@@ -113,7 +118,7 @@ export default function ServerEditRole() {
 
             <RoleName
               onChange={(e) => handleRoleRename(e)}
-              ref={inputRef}
+              ref={nameRef}
               type="text"
               defaultValue={currentRole.name}
               maxLength={100}
@@ -141,8 +146,13 @@ export default function ServerEditRole() {
               <ColorInputContainer>
                 <ColorInput
                   onChange={handleColorChange}
+                  ref={colorRef}
                   type="color"
-                  defaultValue={"#FFFFFF"}
+                  defaultValue={
+                    currentRole.color.includes("rgb")
+                      ? "#FFFFFF"
+                      : currentRole.color
+                  }
                 />
 
                 <ColorInputLabel>Custom</ColorInputLabel>
