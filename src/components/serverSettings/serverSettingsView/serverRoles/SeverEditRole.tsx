@@ -56,24 +56,16 @@ export default function ServerEditRole() {
       : currentRole.color;
   }, [currentRole]);
 
-  function handleClick() {
-    const newRole = { ...currentRole };
+  function handleColorChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const color = e.target.value;
 
-    newRole.color = "rgb(153, 170, 181)";
-
-    const index = server.roles.findIndex(
-      (role) => role.sort === currentRole.sort
-    );
-
-    dispatch(updateServerRole({ index: index, newRole: newRole }));
-
-    dispatch(setCurrentRole(newRole));
+    changeColor(color);
   }
 
-  function handleColorChange(e: React.ChangeEvent<HTMLInputElement>) {
+  function changeColor(color: string) {
     const newRole = { ...currentRole };
 
-    newRole.color = e.target.value;
+    newRole.color = color;
 
     const index = server.roles.findIndex(
       (role) => role.sort === currentRole.sort
@@ -138,7 +130,10 @@ export default function ServerEditRole() {
 
             <ColorInputsContainer>
               <ColorInputContainer>
-                <DefaultColorButton onClick={handleClick} type="button" />
+                <DefaultColorButton
+                  onClick={() => changeColor("rgb(153, 170, 181)")}
+                  type="button"
+                />
 
                 <ColorInputLabel>Default</ColorInputLabel>
               </ColorInputContainer>
