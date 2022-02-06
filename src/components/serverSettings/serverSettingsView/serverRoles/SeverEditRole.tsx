@@ -141,11 +141,11 @@ const Container = tw.div`
 `;
 
 const Header = tw.div`
-  min-w-[243px] max-w-[508px]
+  flex flex-col min-w-[243px] max-w-[508px]
 `;
 
 const Heading = tw.h1`
-  mb-5 text-xl font-semibold w-165
+  mb-5 font-semibold truncate leading-5
 `;
 
 const Separator = tw.div`
@@ -200,13 +200,13 @@ const RedText = tw.span`
 `;
 
 const PermissionsContainer = tw.div`
-  flex mb-5
+  flex items-center mb-5
 `;
 
 const PermissionLabel = tw.label`
-  font-medium cursor-pointer
+  min-w-[187px] max-w-[402px] font-medium cursor-pointer
 `;
 
 const PermissionInput = tw.input`
-  cursor-pointer
+  w-10 h-6 cursor-pointer
 `;
