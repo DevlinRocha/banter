@@ -19,6 +19,32 @@ export default function ServerEditRole() {
   const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
 
+  const topColors = [
+    "rgb(26, 188, 156)",
+    "rgb(46, 204, 113)",
+    "rgb(52, 152, 219)",
+    "rgb(155, 89, 182)",
+    "rgb(233, 30, 99)",
+    "rgb(241, 196, 15)",
+    "rgb(230, 126, 34)",
+    "rgb(231, 76, 60)",
+    "rgb(149, 165, 166)",
+    "rgb(96, 125, 139)",
+  ];
+
+  const bottomColors = [
+    "rgb(17, 128, 106)",
+    "rgb(31, 139, 76)",
+    "rgb(32, 102, 148)",
+    "rgb(113, 54, 138)",
+    "rgb(173, 20, 87)",
+    "rgb(194, 124, 14)",
+    "rgb(168, 67, 0)",
+    "rgb(153, 45, 34)",
+    "rgb(151, 156, 159)",
+    "rgb(84, 110, 122)",
+  ];
+
   useEffect(() => {
     if (!inputRef.current) return;
 
@@ -28,7 +54,7 @@ export default function ServerEditRole() {
   function handleClick() {
     const newRole = { ...currentRole };
 
-    newRole.color = "#99AAB5";
+    newRole.color = "rgb(153, 170, 181)";
 
     const index = server.roles.findIndex(
       (role) => role.sort === currentRole.sort
@@ -121,6 +147,32 @@ export default function ServerEditRole() {
 
                 <ColorInputLabel>Custom</ColorInputLabel>
               </ColorInputContainer>
+
+              <SmallColorsContainer>
+                <ColorsRowContainer>
+                  {topColors.map((color, index) => {
+                    return (
+                      <SmallColorButton
+                        style={{ backgroundColor: color }}
+                        value={color}
+                        key={index}
+                      />
+                    );
+                  })}
+                </ColorsRowContainer>
+
+                <BottomColorsRowContainer>
+                  {bottomColors.map((color, index) => {
+                    return (
+                      <SmallColorButton
+                        style={{ backgroundColor: color }}
+                        value={color}
+                        key={index}
+                      />
+                    );
+                  })}
+                </BottomColorsRowContainer>
+              </SmallColorsContainer>
             </ColorInputsContainer>
           </SettingsContainer>
 
@@ -189,6 +241,23 @@ const DefaultColorButton = tw(ColorInput)`
 
 const ColorInputLabel = tw.label`
   mt-1 text-xs text-gray-600
+`;
+
+const SmallColorsContainer = tw.div`
+  flex flex-col
+`;
+
+const ColorsRowContainer = tw.div`
+  flex
+`;
+
+const BottomColorsRowContainer = tw(ColorsRowContainer)`
+  mt-2.5
+`;
+
+const SmallColorButton = tw.button`
+  w-5 h-5 rounded-middle border mr-2.5
+  ${(props) => `bg-[${props.color}]`}
 `;
 
 const RoleName = tw.input`
