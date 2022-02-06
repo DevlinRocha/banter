@@ -23,11 +23,13 @@ export default function ServerRolesSidebar() {
 
   return (
     <Container>
-      <NavContainer>
-        <TitleContainer>
+      <TitleContainer>
+        <BackButtonContainer>
           <BackButton onClick={goBack}>BACK</BackButton>
-        </TitleContainer>
+        </BackButtonContainer>
+      </TitleContainer>
 
+      <NavContainer>
         <SettingsList>
           {server.roles.map((role, index) => {
             const RoleColorStyle = {
@@ -62,14 +64,18 @@ const Container = tw.div`
 `;
 
 const NavContainer = tw.nav`
-  w-[232px] py-15 pr-1.5 pl-5
+  w-[232px] pr-2 pb-24 pl-10
 `;
 
 const SettingsList = tw.ol`
 `;
 
 const TitleContainer = tw.div`
-  px-2.5 pb-1.5 font-semibold
+  w-full
+`;
+
+const BackButtonContainer = tw.div`
+  mr-2 mb-2 ml-4 pt-15 px-2 pb-4 font-semibold
 `;
 
 const BackButton = tw.span`
@@ -78,15 +84,15 @@ const BackButton = tw.span`
 `;
 
 const RoleContainer = tw.div<RoleContainerProps>`
-  flex items-center min-h-[34px] px-2.5 py-1.5 mb-0.5 font-medium rounded-md cursor-pointer truncate
+  flex items-center w-[181px] min-h-[34px] px-2.5 py-1.5 mb-0.5 -ml-1.5 font-medium rounded-md cursor-pointer
   hover:bg-gray-100
   ${(props) => (props.currentRole.sort === props.sort ? "bg-gray-300" : "")}
 `;
 
 const RoleColor = tw.div`
-  w-3 h-3 rounded-full
+  flex-none w-3 h-3 rounded-full
 `;
 
 const RoleName = tw.span`
-  text-sm ml-2
+  text-sm ml-2 truncate
 `;
