@@ -189,11 +189,11 @@ const HeadingContainer = tw.div`
 `;
 
 const ProfileHeading = tw.h3`
-  mb-2 text-xs font-bold
+  mb-2 text-gray-600 text-xs font-bold
 `;
 
 const AboutMeContainer = tw.div`
-  select-text
+  text-sm select-text
 `;
 
 const AddRoleIconContainer = tw.div`
