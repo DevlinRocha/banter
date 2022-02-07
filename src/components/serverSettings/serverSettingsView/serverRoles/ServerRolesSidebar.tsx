@@ -16,8 +16,8 @@ export default function ServerRolesSidebar() {
     dispatch(setEditRoleOpen(false));
   }
 
-  function handleClick(sort: number) {
-    const role = server.roles.find((role) => role.sort === sort);
+  function handleClick(roleID: string) {
+    const role = server.roles.find((role) => role.roleID === roleID);
     dispatch(setCurrentRole(role));
   }
 
@@ -39,8 +39,8 @@ export default function ServerRolesSidebar() {
             return (
               <RoleContainer
                 currentRole={currentRole}
-                sort={role.sort}
-                onClick={() => handleClick(role.sort)}
+                roleID={role.roleID}
+                onClick={() => handleClick(role.roleID)}
                 key={index}
               >
                 <RoleColor style={RoleColorStyle} />
@@ -56,7 +56,7 @@ export default function ServerRolesSidebar() {
 
 type RoleContainerProps = {
   currentRole: RoleData;
-  sort: number;
+  roleID: string;
 };
 
 const Container = tw.div`
@@ -86,7 +86,7 @@ const BackButton = tw.span`
 const RoleContainer = tw.div<RoleContainerProps>`
   flex items-center w-[181px] min-h-[34px] px-2.5 py-1.5 mb-0.5 -ml-1.5 font-medium rounded-md cursor-pointer
   hover:bg-gray-100
-  ${(props) => (props.currentRole.sort === props.sort ? "bg-gray-300" : "")}
+  ${(props) => (props.currentRole.roleID === props.roleID ? "bg-gray-300" : "")}
 `;
 
 const RoleColor = tw.div`
