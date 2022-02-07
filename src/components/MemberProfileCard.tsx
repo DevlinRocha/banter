@@ -11,6 +11,7 @@ import { useEffect, useLayoutEffect, useRef } from "react";
 import { doc, onSnapshot } from "firebase/firestore";
 import { UserData } from "../features/user";
 import { db } from "../../firebase";
+import addRoleIcon from "../../assets/addRoleIcon.svg";
 
 export default function MemberProfileCard() {
   const { member, memberProfileCardPosition } = useServersState();
@@ -118,12 +119,24 @@ export default function MemberProfileCard() {
             <Divider />
 
             {member.about && (
-              <>
+              <HeadingContainer>
                 <ProfileHeading>ABOUT ME</ProfileHeading>
 
                 <AboutMeContainer>{member.about}</AboutMeContainer>
-              </>
+              </HeadingContainer>
             )}
+
+            {member.roles ? (
+              member.roles.map((role, index) => {
+                return <div key={index}>{role.name}</div>;
+              })
+            ) : (
+              <ProfileHeading>NO ROLES</ProfileHeading>
+            )}
+
+            <AddRoleIconContainer>
+              <AddRoleIcon src={addRoleIcon} width={24} height={22} />
+            </AddRoleIconContainer>
           </ProfileContainer>
         </Container>
       )}
@@ -171,10 +184,22 @@ const Divider = tw.div`
   w-full h-px mb-4 bg-gray-200
 `;
 
+const HeadingContainer = tw.div`
+  mb-4
+`;
+
 const ProfileHeading = tw.h3`
   mb-2 text-xs font-bold
 `;
 
 const AboutMeContainer = tw.div`
   select-text
+`;
+
+const AddRoleIconContainer = tw.div`
+`;
+
+const AddRoleIcon = tw(Image)`
+  rounded
+  hover:cursor-pointer
 `;
