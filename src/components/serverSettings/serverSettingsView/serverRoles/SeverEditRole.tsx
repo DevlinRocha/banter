@@ -160,7 +160,6 @@ export default function ServerEditRole() {
                       <SmallColorButton
                         style={{ backgroundColor: color }}
                         onClick={() => changeColor(color)}
-                        value={color}
                         key={index}
                       />
                     );
@@ -173,7 +172,6 @@ export default function ServerEditRole() {
                       <SmallColorButton
                         style={{ backgroundColor: color }}
                         onClick={() => changeColor(color)}
-                        value={color}
                         key={index}
                       />
                     );
