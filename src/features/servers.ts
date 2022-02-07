@@ -62,6 +62,7 @@ export interface RoleData {
   separateDisplay: boolean;
   sort: number;
   permissions: PermissionsData;
+  roleID: string;
 }
 
 export interface PermissionsData {
