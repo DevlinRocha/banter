@@ -34,6 +34,7 @@ const initialState: ServerSettingsState = {
       manageRoles: false,
       manageServer: false,
     },
+    roleID: "",
   },
   rolesCopy: null,
   deleteServerConfirmOpen: false,
