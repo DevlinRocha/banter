@@ -521,7 +521,7 @@ async function getServerImageURL(serverID: string) {
   return await getDownloadURL(ref(storage, `servers/${serverID}/serverImage`));
 }
 
-export async function createServerRole(server: ServerData) {
+export async function createServerRole(server: ServerData, newRoleID: string) {
   await updateDoc(doc(db, "servers", server.serverID), {
     roles: server.roles
       ? [
@@ -536,6 +536,7 @@ export async function createServerRole(server: ServerData) {
               manageRoles: false,
               manageServer: false,
             },
+            roleID: newRoleID,
           },
         ]
       : [
@@ -549,6 +550,7 @@ export async function createServerRole(server: ServerData) {
               manageRoles: false,
               manageServer: false,
             },
+            roleID: newRoleID,
           },
         ],
   });

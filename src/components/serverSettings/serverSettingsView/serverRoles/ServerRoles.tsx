@@ -13,6 +13,7 @@ import {
 import { useAppDispatch } from "../../../../redux/hooks";
 import ServerRolesSidebar from "./ServerRolesSidebar";
 import ServerEditRole from "./SeverEditRole";
+import { v4 as uuidv4 } from "uuid";
 
 export default function ServerRoles() {
   const { server } = useServersState();
@@ -37,7 +38,8 @@ export default function ServerRoles() {
   function createRole() {
     if (!serverCopy) return;
 
-    createServerRole(serverCopy);
+    const newRoleID = uuidv4();
+    createServerRole(serverCopy, newRoleID);
 
     dispatch(setEditRoleOpen(true));
 
@@ -58,6 +60,7 @@ export default function ServerRoles() {
               manageRoles: false,
               manageServer: false,
             },
+            roleID: newRoleID,
           },
         ]
       : [
@@ -71,6 +74,7 @@ export default function ServerRoles() {
               manageRoles: false,
               manageServer: false,
             },
+            roleID: newRoleID,
           },
         ];
 
@@ -87,6 +91,7 @@ export default function ServerRoles() {
               manageRoles: false,
               manageServer: false,
             },
+            roleID: newRoleID,
           },
         ]
       : [
@@ -100,6 +105,7 @@ export default function ServerRoles() {
               manageRoles: false,
               manageServer: false,
             },
+            roleID: newRoleID,
           },
         ];
 
