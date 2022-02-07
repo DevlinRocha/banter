@@ -528,7 +528,7 @@ export async function createServerRole(server: ServerData, newRoleID: string) {
           ...server.roles,
           {
             name: "new role",
-            color: "#99AAB5",
+            color: "rgb(153,170,181)",
             separateDisplay: false,
             sort: server.roles.length,
             permissions: {
@@ -542,7 +542,7 @@ export async function createServerRole(server: ServerData, newRoleID: string) {
       : [
           {
             name: "new role",
-            color: "#99AAB5",
+            color: "rgb(153,170,181)",
             separateDisplay: false,
             sort: 0,
             permissions: {
