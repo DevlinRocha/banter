@@ -9,11 +9,12 @@ import {
 import { useAppDispatch } from "../redux/hooks";
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { doc, onSnapshot } from "firebase/firestore";
-import { UserData } from "../features/user";
+import { UserData, useUserState } from "../features/user";
 import { db } from "../../firebase";
 import addRoleIcon from "../../assets/addRoleIcon.svg";
 
 export default function MemberProfileCard() {
+  const { user } = useUserState();
   const { member, memberProfileCardPosition } = useServersState();
   const dispatch = useAppDispatch();
   const containerRef = useRef<HTMLElement | null>(null);
@@ -135,7 +136,9 @@ export default function MemberProfileCard() {
             )}
 
             <AddRoleIconContainer>
-              <AddRoleIcon src={addRoleIcon} width={24} height={22} />
+              {user.userRoles?.serverOwner && (
+                <AddRoleIcon src={addRoleIcon} width={24} height={22} />
+              )}
             </AddRoleIconContainer>
           </ProfileContainer>
         </Container>
