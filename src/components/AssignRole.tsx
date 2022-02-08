@@ -1,15 +1,23 @@
+import { useEffect, useLayoutEffect, useRef } from "react";
 import tw from "tailwind-styled-components";
 import { useServersState } from "../features/servers";
+import { useServerSettingsState } from "../features/serverSettings";
 
 export default function AssignRole() {
   const { server } = useServersState();
+  const { assignRolePosition } = useServerSettingsState();
+  const containerRef = useRef<HTMLDivElement>(null);
 
   function stopPropagation(e: React.MouseEvent<HTMLDivElement>) {
     e.stopPropagation();
   }
 
   return (
-    <Container onClick={stopPropagation}>
+    <Container
+      onClick={stopPropagation}
+      ref={containerRef}
+      style={assignRolePosition}
+    >
       {server.roles ? (
         <ResultsContainer>
           {server.roles.map((role, index) => {
@@ -35,7 +43,7 @@ export default function AssignRole() {
 }
 
 const Container = tw.div`
-  w-[250px] min-h-[144px] max-h-[290px] p-2 bg-white border
+  absolute w-[250px] min-h-[144px] max-h-[290px] p-2 bg-white border
 `;
 
 const ResultsContainer = tw.div`
