@@ -88,6 +88,7 @@ export default function MemberProfileCard() {
 
   function closeWindow() {
     dispatch(setMemberProfileCardOpen(false));
+    dispatch(setAssignRoleOpen(false));
   }
 
   function stopPropagation(e: React.MouseEvent<HTMLDivElement>) {
