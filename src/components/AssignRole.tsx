@@ -17,6 +17,7 @@ export default function AssignRole() {
       onClick={stopPropagation}
       ref={containerRef}
       style={assignRolePosition}
+      roles={server.roles ? true : false}
     >
       {server.roles ? (
         <ResultsContainer>
@@ -42,8 +43,13 @@ export default function AssignRole() {
   );
 }
 
-const Container = tw.div`
+type ContainerProps = {
+  roles: boolean;
+};
+
+const Container = tw.div<ContainerProps>`
   absolute w-[250px] min-h-[144px] max-h-[290px] p-2 bg-white border rounded
+  ${(props) => (props.roles ? "h-[290px]" : "h-[144px]")}
 `;
 
 const ResultsContainer = tw.div`
