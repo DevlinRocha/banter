@@ -43,14 +43,15 @@ export default function AssignRole() {
 }
 
 const Container = tw.div`
-  absolute w-[250px] min-h-[144px] max-h-[290px] p-2 bg-white border
+  absolute w-[250px] min-h-[144px] max-h-[290px] p-2 bg-white border rounded
 `;
 
 const ResultsContainer = tw.div`
+  mt-2 py-2
 `;
 
-const RoleContainer = tw.div`
-  flex items-center w-[232px] px-2.5 py-1.5 mb-0.5 -ml-1.5 font-medium rounded-md cursor-pointer
+const RoleContainer = tw.li`
+  flex items-center w-[232px] px-2 py-2.5 mb-1 font-medium rounded-md cursor-pointer
   hover:bg-gray-100
 `;
 
