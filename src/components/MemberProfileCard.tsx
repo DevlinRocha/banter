@@ -12,10 +12,16 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { UserData, useUserState } from "../features/user";
 import { db } from "../../firebase";
 import addRoleIcon from "../../assets/addRoleIcon.svg";
+import {
+  setAssignRoleOpen,
+  useServerSettingsState,
+} from "../features/serverSettings";
+import AssignRole from "./AssignRole";
 
 export default function MemberProfileCard() {
   const { user } = useUserState();
   const { member, memberProfileCardPosition } = useServersState();
+  const { assignRoleOpen } = useServerSettingsState();
   const dispatch = useAppDispatch();
   const containerRef = useRef<HTMLElement | null>(null);
   const skippedRender = useRef(false);
@@ -86,6 +92,10 @@ export default function MemberProfileCard() {
     e.stopPropagation();
   }
 
+  function handleClick() {
+    dispatch(setAssignRoleOpen(true));
+  }
+
   const bannerStyle = {
     backgroundColor: member.banner,
   };
@@ -137,12 +147,18 @@ export default function MemberProfileCard() {
 
             <AddRoleIconContainer>
               {user.userRoles?.serverOwner && (
-                <AddRoleIcon src={addRoleIcon} width={24} height={22} />
+                <AddRoleIcon
+                  onClick={handleClick}
+                  src={addRoleIcon}
+                  width={24}
+                  height={22}
+                />
               )}
             </AddRoleIconContainer>
           </ProfileContainer>
         </Container>
       )}
+      {assignRoleOpen && <AssignRole />}
     </Backdrop>
   );
 }
