@@ -14,6 +14,7 @@ import { db } from "../../firebase";
 import addRoleIcon from "../../assets/addRoleIcon.svg";
 import {
   setAssignRoleOpen,
+  setAssignRolePosition,
   useServerSettingsState,
 } from "../features/serverSettings";
 import AssignRole from "./AssignRole";
@@ -25,6 +26,7 @@ export default function MemberProfileCard() {
   const dispatch = useAppDispatch();
   const containerRef = useRef<HTMLElement | null>(null);
   const skippedRender = useRef(false);
+  const addRoleIconRef = useRef<HTMLDivElement | null>(null);
 
   const onRef = (node: HTMLElement) => {
     if (node) containerRef.current = node;
@@ -93,7 +95,22 @@ export default function MemberProfileCard() {
   }
 
   function handleClick() {
-    dispatch(setAssignRoleOpen(true));
+    dispatch(setAssignRoleOpen(!assignRoleOpen));
+
+    if (!addRoleIconRef.current) return;
+
+    const assignRolePositionX =
+      addRoleIconRef.current.getBoundingClientRect().left - 125;
+
+    const assignRolePositionY =
+      addRoleIconRef.current.getBoundingClientRect().top + 32;
+
+    dispatch(
+      setAssignRolePosition({
+        left: assignRolePositionX,
+        top: assignRolePositionY,
+      })
+    );
   }
 
   const bannerStyle = {
@@ -145,7 +162,7 @@ export default function MemberProfileCard() {
               <ProfileHeading>NO ROLES</ProfileHeading>
             )}
 
-            <AddRoleIconContainer>
+            <AddRoleIconContainer ref={addRoleIconRef}>
               {user.userRoles?.serverOwner && (
                 <AddRoleIcon
                   onClick={handleClick}
