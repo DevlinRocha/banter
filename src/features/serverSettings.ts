@@ -15,6 +15,7 @@ export interface ServerSettingsState {
   serverIconPreview?: File;
   serverCopy: ServerData | null;
   createChannelOpen: boolean;
+  assignRoleOpen: boolean;
   loading: "idle" | "pending" | "succeeded" | "failed";
 }
 
@@ -41,6 +42,7 @@ const initialState: ServerSettingsState = {
   serverChangesMade: false,
   serverCopy: null,
   createChannelOpen: false,
+  assignRoleOpen: false,
   loading: "idle",
 };
 
@@ -98,6 +100,10 @@ export const userSettingsSlice = createSlice({
       state.createChannelOpen = action.payload;
       state.serverDropdownOpen = false;
     },
+
+    setAssignRoleOpen(state, action) {
+      state.assignRoleOpen = action.payload;
+    },
   },
 });
 
@@ -114,6 +120,7 @@ export const {
   setServerIconPreview,
   setServerCopy,
   setCreateChannelOpen,
+  setAssignRoleOpen,
 } = userSettingsSlice.actions;
 
 export const useServerSettingsState = () =>
