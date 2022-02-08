@@ -101,7 +101,7 @@ export default function MemberProfileCard() {
     if (!addRoleIconRef.current) return;
 
     const assignRolePositionX =
-      addRoleIconRef.current.getBoundingClientRect().left - 125;
+      addRoleIconRef.current.getBoundingClientRect().left - 113;
 
     const assignRolePositionY =
       addRoleIconRef.current.getBoundingClientRect().top + 32;
