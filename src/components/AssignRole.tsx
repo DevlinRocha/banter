@@ -1,16 +1,37 @@
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import tw from "tailwind-styled-components";
 import { useServersState } from "../features/servers";
-import { useServerSettingsState } from "../features/serverSettings";
+import {
+  setAssignRolePosition,
+  useServerSettingsState,
+} from "../features/serverSettings";
+import { useAppDispatch } from "../redux/hooks";
 
 export default function AssignRole() {
   const { server } = useServersState();
   const { assignRolePosition } = useServerSettingsState();
   const containerRef = useRef<HTMLDivElement>(null);
+  const dispatch = useAppDispatch();
 
   function stopPropagation(e: React.MouseEvent<HTMLDivElement>) {
     e.stopPropagation();
   }
+
+  useLayoutEffect(() => {
+    if (!assignRolePosition || !assignRolePosition.top || !containerRef.current)
+      return;
+
+    const containerHeight = containerRef.current.getBoundingClientRect().height;
+
+    if (assignRolePosition.top + containerHeight > window.innerHeight) {
+      dispatch(
+        setAssignRolePosition({
+          ...assignRolePosition,
+          top: window.innerHeight - containerHeight - 64,
+        })
+      );
+    }
+  }, [assignRolePosition, containerRef]);
 
   return (
     <Container
