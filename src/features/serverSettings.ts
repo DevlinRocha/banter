@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { useAppSelector } from "../redux/hooks";
-import { RoleData, ServerData } from "./servers";
+import { PositionData, RoleData, ServerData } from "./servers";
 
 export interface ServerSettingsState {
   serverDropdownOpen: boolean;
@@ -16,6 +16,7 @@ export interface ServerSettingsState {
   serverCopy: ServerData | null;
   createChannelOpen: boolean;
   assignRoleOpen: boolean;
+  assignRolePosition: PositionData;
   loading: "idle" | "pending" | "succeeded" | "failed";
 }
 
@@ -43,6 +44,7 @@ const initialState: ServerSettingsState = {
   serverCopy: null,
   createChannelOpen: false,
   assignRoleOpen: false,
+  assignRolePosition: {},
   loading: "idle",
 };
 
@@ -104,6 +106,10 @@ export const userSettingsSlice = createSlice({
     setAssignRoleOpen(state, action) {
       state.assignRoleOpen = action.payload;
     },
+
+    setAssignRolePosition(state, action) {
+      state.assignRolePosition = action.payload;
+    },
   },
 });
 
@@ -121,6 +127,7 @@ export const {
   setServerCopy,
   setCreateChannelOpen,
   setAssignRoleOpen,
+  setAssignRolePosition,
 } = userSettingsSlice.actions;
 
 export const useServerSettingsState = () =>
