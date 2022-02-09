@@ -77,10 +77,16 @@ export default function Members() {
         memberList.push(member);
       });
 
-      const newMembers = memberList.map((member1) => ({
-        ...member1,
-        ...memberRoles.find((member2) => member2.userID === member1.userID),
-      }));
+      const newMembers = [];
+
+      for (let i = 0; i < memberList.length; i++) {
+        newMembers.push({
+          ...memberList[i],
+          ...memberRoles.find(
+            (member) => member.userID === memberList[i].userID
+          ),
+        });
+      }
 
       dispatch(setMembers(newMembers));
     });
