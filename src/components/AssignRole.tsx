@@ -1,14 +1,16 @@
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import tw from "tailwind-styled-components";
+import { setServerRole } from "../../firebase";
 import { useServersState } from "../features/servers";
 import {
+  setAssignRoleOpen,
   setAssignRolePosition,
   useServerSettingsState,
 } from "../features/serverSettings";
 import { useAppDispatch } from "../redux/hooks";
 
 export default function AssignRole() {
-  const { server } = useServersState();
+  const { server, member } = useServersState();
   const { assignRolePosition } = useServerSettingsState();
   const containerRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
@@ -33,6 +35,18 @@ export default function AssignRole() {
     }
   }, [assignRolePosition, containerRef]);
 
+  function handleClick(roleID: string) {
+    dispatch(setAssignRoleOpen(false));
+
+    const newRoles = member.roles;
+
+    if (!newRoles)
+      return setServerRole(server.serverID, member.userID, [roleID]);
+
+    newRoles.push(roleID);
+    setServerRole(server.serverID, member.userID, newRoles);
+  }
+
   return (
     <Container
       onClick={stopPropagation}
@@ -48,7 +62,10 @@ export default function AssignRole() {
             };
 
             return (
-              <RoleContainer key={index}>
+              <RoleContainer
+                onClick={() => handleClick(role.roleID)}
+                key={index}
+              >
                 <RoleColor style={RoleColorStyle} />
                 <RoleName>{role.name}</RoleName>
               </RoleContainer>
