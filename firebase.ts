@@ -556,6 +556,16 @@ export async function createServerRole(server: ServerData, newRoleID: string) {
   });
 }
 
+export async function setServerRole(
+  serverID: string,
+  userID: string,
+  newRoles: string[]
+) {
+  await updateDoc(doc(db, "servers", serverID, "members", userID), {
+    roles: newRoles,
+  });
+}
+
 async function updateServerDatabase(
   serverID: string,
   property: string,
