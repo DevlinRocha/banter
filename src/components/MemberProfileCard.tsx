@@ -84,6 +84,41 @@ export default function MemberProfileCard() {
     e.stopPropagation();
   }
 
+  function findLinks(message: string): string | JSX.Element | undefined {
+    if (!message) return;
+
+    if (!message.includes("https://") && !message.includes("http://"))
+      return message;
+
+    const messageArray = message.split(/(https?:\/\/\w[^ ]+)/);
+
+    const fixedArray = addSlash(messageArray);
+
+    return (
+      <>
+        {fixedArray.map((message, index) => {
+          return index % 2 === 0 ? (
+            <>{message}</>
+          ) : (
+            <LinkText href={message} rel="noreferrer noopener" target="_blank">
+              {message}
+            </LinkText>
+          );
+        })}
+      </>
+    );
+  }
+
+  function addSlash(messageArray: string[]) {
+    return messageArray.map((message, index) => {
+      return index % 2 === 0
+        ? message
+        : message.includes("/", 8)
+        ? message
+        : message.concat("/");
+    });
+  }
+
   const bannerStyle = {
     backgroundColor: member.banner,
   };
@@ -121,7 +156,7 @@ export default function MemberProfileCard() {
               <>
                 <ProfileHeading>ABOUT ME</ProfileHeading>
 
-                <AboutMeContainer>{member.about}</AboutMeContainer>
+                <AboutMeContainer>{findLinks(member.about)}</AboutMeContainer>
               </>
             )}
           </ProfileContainer>
@@ -176,5 +211,10 @@ const ProfileHeading = tw.h3`
 `;
 
 const AboutMeContainer = tw.div`
-  select-text
+  select-text whitespace-pre-wrap
+`;
+
+const LinkText = tw.a`
+  text-blue-600
+  hover:underline
 `;
