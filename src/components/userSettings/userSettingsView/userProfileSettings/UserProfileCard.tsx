@@ -8,6 +8,41 @@ export default function UserProfileCard() {
   const { user } = useUserState();
   const dispatch = useAppDispatch();
 
+  function findLinks(message: string): string | JSX.Element | undefined {
+    if (!message) return;
+
+    if (!message.includes("https://") && !message.includes("http://"))
+      return message;
+
+    const messageArray = message.split(/(https?:\/\/\w[^ ]+)/);
+
+    const fixedArray = addSlash(messageArray);
+
+    return (
+      <>
+        {fixedArray.map((message, index) => {
+          return index % 2 === 0 ? (
+            <>{message}</>
+          ) : (
+            <LinkText href={message} rel="noreferrer noopener" target="_blank">
+              {message}
+            </LinkText>
+          );
+        })}
+      </>
+    );
+  }
+
+  function addSlash(messageArray: string[]) {
+    return messageArray.map((message, index) => {
+      return index % 2 === 0
+        ? message
+        : message.includes("/", 8)
+        ? message
+        : message.concat("/");
+    });
+  }
+
   const bannerStyle = {
     backgroundColor: user.banner,
   };
@@ -42,7 +77,7 @@ export default function UserProfileCard() {
 
         <ProfileHeading>ABOUT ME</ProfileHeading>
 
-        <AboutMeContainer>{user.about}</AboutMeContainer>
+        <AboutMeContainer>{findLinks(user.about)}</AboutMeContainer>
       </ProfileContainer>
     </Container>
   );
@@ -98,5 +133,10 @@ const ProfileHeading = tw.h3`
 `;
 
 const AboutMeContainer = tw.div`
-  select-text break-words
+  select-text break-words whitespace-pre-wrap
+`;
+
+const LinkText = tw.a`
+  text-blue-600
+  hover:underline
 `;
