@@ -38,7 +38,7 @@ export interface MemberData {
   about: string;
   banner: string;
   serverOwner: boolean | JSX.Element | null;
-  roles: string[] | null;
+  roles: (string | RoleData)[] | null;
   permissions: [];
 }
 
