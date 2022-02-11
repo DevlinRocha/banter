@@ -157,7 +157,9 @@ export default function MemberProfileCard() {
 
             {member.roles ? (
               member.roles.map((role, index) => {
-                return <div key={index}>{role.name}</div>;
+                return (
+                  <div key={index}>{typeof role !== "string" && role.name}</div>
+                );
               })
             ) : (
               <ProfileHeading>NO ROLES</ProfileHeading>
