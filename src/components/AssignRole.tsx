@@ -38,10 +38,10 @@ export default function AssignRole() {
   function handleClick(roleID: string) {
     dispatch(setAssignRoleOpen(false));
 
-    const newRoles = member.roles;
-
-    if (!newRoles)
+    if (!member.roles)
       return setServerRole(server.serverID, member.userID, [roleID]);
+
+    const newRoles = member.roles;
 
     newRoles.push(roleID);
     setServerRole(server.serverID, member.userID, newRoles);
