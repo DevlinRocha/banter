@@ -52,7 +52,7 @@ export interface MemberInfo {
 export interface MemberRole {
   userID: string;
   serverOwner: boolean;
-  roles: string[];
+  roles: (string | RoleData)[];
   permissions: PermissionsData;
 }
 
