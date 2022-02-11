@@ -37,9 +37,9 @@ export interface MemberData {
   avatar: string;
   about: string;
   banner: string;
-  serverOwner?: boolean;
-  roles?: RoleData[];
-  permissions?: [];
+  serverOwner: boolean | JSX.Element | null;
+  roles: string[] | null;
+  permissions: [];
 }
 
 export interface MemberInfo {
@@ -52,7 +52,7 @@ export interface MemberInfo {
 export interface MemberRole {
   userID: string;
   serverOwner: boolean;
-  roles: RoleData[];
+  roles: string[];
   permissions: PermissionsData;
 }
 
@@ -90,7 +90,7 @@ export interface ServersState {
   channel: ChannelData;
   voiceChannel: ChannelData;
   messages: MessageData[];
-  members: MemberInfo[];
+  members: MemberInfo[] | MemberData[];
   memberRoles: MemberRole[];
   member: MemberData;
   memberProfileCardOpen: boolean;
@@ -141,6 +141,9 @@ const initialState: ServersState = {
     about: "",
     banner: "",
     userID: "",
+    serverOwner: false,
+    roles: [],
+    permissions: [],
   },
 
   memberRoles: [],
