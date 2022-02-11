@@ -559,7 +559,7 @@ export async function createServerRole(server: ServerData, newRoleID: string) {
 export async function setServerRole(
   serverID: string,
   userID: string,
-  newRoles: string[]
+  newRoles: (string | RoleData)[]
 ) {
   await updateDoc(doc(db, "servers", serverID, "members", userID), {
     roles: newRoles,
