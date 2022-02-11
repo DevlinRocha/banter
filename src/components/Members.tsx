@@ -11,6 +11,7 @@ import {
   setMemberRoles,
   MemberRole,
   MemberInfo,
+  RoleData,
 } from "../features/servers";
 import { useAppDispatch } from "../redux/hooks";
 import Image from "next/image";
@@ -59,7 +60,9 @@ export default function Members() {
       const memberList: MemberInfo[] = [];
       const memberIDs: string[] = [];
 
-      memberRoles.map((member) => memberIDs.push(member.userID));
+      const members = getRoles(server.roles, memberRoles);
+
+      members.map((member) => memberIDs.push(member.userID));
 
       querySnapshot.forEach((doc) => {
         if (!memberIDs.includes(doc.id)) return;
@@ -82,9 +85,7 @@ export default function Members() {
       for (let i = 0; i < memberList.length; i++) {
         newMembers.push({
           ...memberList[i],
-          ...memberRoles.find(
-            (member) => member.userID === memberList[i].userID
-          ),
+          ...members.find((member) => member.userID === memberList[i].userID),
         });
       }
 
@@ -95,6 +96,29 @@ export default function Members() {
       unsubscribe();
     };
   }, [memberRoles]);
+
+  function getRoles(serverRoles: RoleData[], memberRoles: MemberRole[]) {
+    const newMembers: MemberRole[] = JSON.parse(JSON.stringify(memberRoles));
+
+    const members = newMembers.map((member) => {
+      if (!member.roles) return member;
+
+      if (member.roles.length <= 0) return member;
+      for (let i = 0; i < member.roles.length; i++) {
+        if (serverRoles.length <= 0) return member;
+        for (let j = 0; j < serverRoles.length; j++) {
+          if (member.roles[i] !== serverRoles[j].roleID) return member;
+          member.roles[i] = serverRoles[j];
+
+          return member;
+        }
+        return member;
+      }
+      return member;
+    });
+
+    return members;
+  }
 
   function viewProfile(userID: string, index: number) {
     dispatch(setMemberProfileCardOpen(!memberProfileCardOpen));
