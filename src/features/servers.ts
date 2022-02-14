@@ -38,7 +38,16 @@ export interface MemberData {
   about: string;
   banner: string;
   serverOwner: boolean | JSX.Element | null;
-  roles: (string | RoleData)[] | null;
+  roles: MemberRole | null | undefined;
+  permissions: [];
+}
+
+export interface MemberPreview {
+  userID: string;
+  username: string;
+  avatar: string;
+  serverOwner: boolean | JSX.Element | null;
+  roles: (string | RoleData)[] | null | undefined;
   permissions: [];
 }
 
@@ -46,14 +55,14 @@ export interface MemberInfo {
   username: string;
   avatar: string;
   userID: string;
-  serverOwner?: JSX.Element;
+  serverOwner?: boolean | JSX.Element | null;
 }
 
 export interface MemberRole {
   userID: string;
-  serverOwner: boolean;
-  roles: (string | RoleData)[];
-  permissions: PermissionsData;
+  serverOwner: boolean | JSX.Element | null;
+  roles: (string | RoleData)[] | null | undefined;
+  // permissions: PermissionsData;
 }
 
 export interface RoleData {
@@ -93,6 +102,7 @@ export interface ServersState {
   members: MemberInfo[] | MemberData[];
   memberRoles: MemberRole[];
   member: MemberData;
+  memberPreview: MemberPreview;
   memberProfileCardOpen: boolean;
   memberProfileCardPosition: PositionData;
   viewMediaOpen: boolean;
@@ -142,7 +152,21 @@ const initialState: ServersState = {
     banner: "",
     userID: "",
     serverOwner: false,
-    roles: [],
+    roles: {
+      userID: "",
+      serverOwner: false,
+      roles: [],
+      // permissions: PermissionsData;
+    },
+    permissions: [],
+  },
+
+  memberPreview: {
+    userID: "",
+    username: "",
+    avatar: "",
+    serverOwner: false,
+    roles: null,
     permissions: [],
   },
 
@@ -216,8 +240,8 @@ export const serversSlice = createSlice({
       state.memberRoles = action.payload;
     },
 
-    setMemberID(state, action) {
-      state.member.userID = action.payload;
+    setMemberPreview(state, action) {
+      state.memberPreview = action.payload;
     },
 
     setMemberProfileCardOpen(state, action) {
@@ -264,7 +288,7 @@ export const {
   setMembers,
   setMember,
   setMemberRoles,
-  setMemberID,
+  setMemberPreview,
   setMemberProfileCardOpen,
   setMemberProfileCardPosition,
   setViewMediaOpen,
