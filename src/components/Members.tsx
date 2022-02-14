@@ -6,12 +6,13 @@ import {
   useServersState,
   setMembers,
   setMemberProfileCardOpen,
-  setMemberID,
   setMemberProfileCardPosition,
   setMemberRoles,
   MemberRole,
   MemberInfo,
   RoleData,
+  MemberData,
+  setMemberPreview,
 } from "../features/servers";
 import { useAppDispatch } from "../redux/hooks";
 import Image from "next/image";
@@ -40,7 +41,7 @@ export default function Members() {
 
           roles: docData.roles,
 
-          permissions: docData.permissions,
+          // permissions: docData.permissions,
         };
 
         memberRolesList.push(memberRoles);
@@ -120,7 +121,7 @@ export default function Members() {
     return members;
   }
 
-  function viewProfile(userID: string, index: number) {
+  function viewProfile(member: MemberInfo | MemberData, index: number) {
     dispatch(setMemberProfileCardOpen(!memberProfileCardOpen));
 
     if (!memberRef.current) return;
@@ -128,7 +129,7 @@ export default function Members() {
     const memberProfileCardY =
       memberRef.current[index].getBoundingClientRect().top;
 
-    dispatch(setMemberID(userID));
+    dispatch(setMemberPreview(member));
 
     dispatch(
       setMemberProfileCardPosition({ top: memberProfileCardY, right: 248 })
@@ -143,7 +144,7 @@ export default function Members() {
           {members.map((member, index) => {
             return (
               <MemberContainer
-                onClick={() => viewProfile(member.userID, index)}
+                onClick={() => viewProfile(member, index)}
                 ref={(el: HTMLLIElement) => (memberRef.current[index] = el)}
                 key={index}
               >
