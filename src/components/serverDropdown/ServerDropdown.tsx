@@ -5,11 +5,11 @@ import {
   setServerDropdownOpen,
   setServerSettingsOpen,
 } from "../../features/serverSettings";
-import { UserRole } from "../../features/user";
+import { MemberRole } from "../../features/servers";
 import { useAppDispatch } from "../../redux/hooks";
 
 interface ServerDropdownProps {
-  userRoles: UserRole | undefined;
+  roles: MemberRole | undefined;
 }
 
 export default function ServerDropdown(props: ServerDropdownProps) {
@@ -31,13 +31,13 @@ export default function ServerDropdown(props: ServerDropdownProps) {
             Invite people
           </ListItemInvite>
 
-          {props.userRoles && props.userRoles.serverOwner && (
+          {props.roles && props.roles.serverOwner && (
             <ListItem onClick={() => dispatch(setServerSettingsOpen(true))}>
               Server Settings
             </ListItem>
           )}
 
-          {props.userRoles && props.userRoles.serverOwner && (
+          {props.roles && props.roles.serverOwner && (
             <ListItem onClick={() => dispatch(setCreateChannelOpen(true))}>
               Create Channel
             </ListItem>
