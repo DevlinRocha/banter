@@ -3,7 +3,6 @@ import tw from "tailwind-styled-components";
 import Image from "next/image";
 import {
   MessageData,
-  setMemberID,
   setMemberProfileCardPosition,
   setMemberProfileCardOpen,
   useServersState,
@@ -118,7 +117,7 @@ export default function Message(props: MessageProps) {
     const memberProfileCardX = ref.current.getBoundingClientRect().right;
     const memberProfileCardY = ref.current.getBoundingClientRect().top;
 
-    dispatch(setMemberID(userID));
+    // dispatch(setMemberID(userID));
 
     dispatch(
       setMemberProfileCardPosition({
