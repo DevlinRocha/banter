@@ -170,26 +170,38 @@ export default function MemberProfileCard() {
               </HeadingContainer>
             )}
 
-            {member.roles && member.roles.roles ? (
-              member.roles.roles.map((role, index) => {
-                return (
-                  <div key={index}>{typeof role !== "string" && role.name}</div>
-                );
-              })
-            ) : (
-              <ProfileHeading>NO ROLES</ProfileHeading>
-            )}
+            <RolesList>
+              {member.roles && member.roles.roles ? (
+                member.roles.roles.map((role, index) => {
+                  if (typeof role === "string")
+                    return <RoleName key={index}>{role}</RoleName>;
 
-            <AddRoleIconContainer ref={addRoleIconRef}>
-              {user.roles.serverOwner && (
-                <AddRoleIcon
-                  onClick={handleClick}
-                  src={addRoleIcon}
-                  width={24}
-                  height={22}
-                />
+                  const RoleColorStyle = {
+                    backgroundColor: role.color,
+                  };
+
+                  return (
+                    <RoleContainer key={index}>
+                      <RoleColor style={RoleColorStyle} />
+                      <RoleName>{role.name}</RoleName>
+                    </RoleContainer>
+                  );
+                })
+              ) : (
+                <ProfileHeading>NO ROLES</ProfileHeading>
               )}
-            </AddRoleIconContainer>
+
+              <AddRoleIconContainer ref={addRoleIconRef}>
+                {user.roles.serverOwner && (
+                  <AddRoleIcon
+                    onClick={handleClick}
+                    src={addRoleIcon}
+                    width={24}
+                    height={22}
+                  />
+                )}
+              </AddRoleIconContainer>
+            </RolesList>
           </ProfileContainer>
         </Container>
       )}
@@ -242,6 +254,23 @@ const HeadingContainer = tw.div`
   mb-4
 `;
 
+const RolesList = tw.div`
+  flex
+`;
+
+const RoleContainer = tw.div`
+  flex h-6 items-center p-1 mr-1 mb-1 rounded bg-gray-100 cursor-pointer
+  hover:bg-gray-100
+`;
+
+const RoleColor = tw.div`
+  w-3 h-3 mr-2.5 rounded-full
+`;
+
+const RoleName = tw.span`
+  text-xs font-medium
+`;
+
 const ProfileHeading = tw.h3`
   mb-2 text-gray-600 text-xs font-bold
 `;
@@ -251,6 +280,7 @@ const AboutMeContainer = tw.div`
 `;
 
 const AddRoleIconContainer = tw.div`
+  flex-none mr-1 mb-1
 `;
 
 const AddRoleIcon = tw(Image)`
