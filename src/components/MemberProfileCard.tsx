@@ -21,7 +21,8 @@ import AssignRole from "./AssignRole";
 
 export default function MemberProfileCard() {
   const { user } = useUserState();
-  const { member, memberProfileCardPosition } = useServersState();
+  const { member, memberPreview, memberProfileCardPosition } =
+    useServersState();
   const { assignRoleOpen } = useServerSettingsState();
   const dispatch = useAppDispatch();
   const containerRef = useRef<HTMLElement | null>(null);
@@ -60,27 +61,41 @@ export default function MemberProfileCard() {
   }, [memberProfileCardPosition, onRef]);
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(doc(db, "users", member.userID), (doc) => {
-      if (!doc.exists()) return;
+    const unsubscribe = onSnapshot(
+      doc(db, "users", memberPreview.userID),
+      (doc) => {
+        if (!doc.exists()) return;
 
-      const docData = doc.data();
+        const docData = doc.data();
 
-      const member: UserData = {
-        username: docData.username,
+        const member: UserData = {
+          username: docData.username,
 
-        tag: docData.tag,
+          tag: docData.tag,
 
-        avatar: docData.avatar,
+          avatar: docData.avatar,
 
-        about: docData.about,
+          about: docData.about,
 
-        banner: docData.banner,
+          banner: docData.banner,
 
-        userID: doc.id,
-      };
+          roles: {
+            // permissions: memberPreview.permissions,
+            userID: memberPreview.userID,
 
-      dispatch(setMember(member));
-    });
+            roles: memberPreview.roles ? memberPreview.roles : undefined,
+
+            serverOwner: memberPreview.serverOwner
+              ? memberPreview.serverOwner
+              : false,
+          },
+
+          userID: doc.id,
+        };
+
+        dispatch(setMember(member));
+      }
+    );
     return () => {
       unsubscribe();
     };
@@ -155,8 +170,8 @@ export default function MemberProfileCard() {
               </HeadingContainer>
             )}
 
-            {member.roles ? (
-              member.roles.map((role, index) => {
+            {member.roles && member.roles.roles ? (
+              member.roles.roles.map((role, index) => {
                 return (
                   <div key={index}>{typeof role !== "string" && role.name}</div>
                 );
@@ -166,7 +181,7 @@ export default function MemberProfileCard() {
             )}
 
             <AddRoleIconContainer ref={addRoleIconRef}>
-              {user.userRoles?.serverOwner && (
+              {user.roles.serverOwner && (
                 <AddRoleIcon
                   onClick={handleClick}
                   src={addRoleIcon}
