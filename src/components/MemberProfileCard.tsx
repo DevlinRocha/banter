@@ -170,7 +170,9 @@ export default function MemberProfileCard() {
               </HeadingContainer>
             )}
 
-            <RolesList>
+            <RolesList
+              roles={member.roles && member.roles.roles ? true : false}
+            >
               {member.roles && member.roles.roles ? (
                 member.roles.roles.map((role, index) => {
                   if (typeof role === "string")
@@ -209,6 +211,10 @@ export default function MemberProfileCard() {
     </Backdrop>
   );
 }
+
+type RolesListProps = {
+  roles: boolean;
+};
 
 const Backdrop = tw.div`
   fixed w-full h-full z-20
@@ -254,8 +260,9 @@ const HeadingContainer = tw.div`
   mb-4
 `;
 
-const RolesList = tw.div`
+const RolesList = tw.div<RolesListProps>`
   flex
+  ${(props) => (props.roles ? "flex-row" : "flex-col")}
 `;
 
 const RoleContainer = tw.div`
