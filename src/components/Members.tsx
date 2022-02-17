@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { query, collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase";
 import tw from "tailwind-styled-components/dist/tailwind";
@@ -21,6 +21,7 @@ export default function Members() {
   const { server, members, memberRoles, memberProfileCardOpen } =
     useServersState();
   const memberRef = useRef<HTMLLIElement[]>([]);
+  const [assignedRoles, setAssignedRoles] = useState<Set<RoleData>>();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -97,6 +98,23 @@ export default function Members() {
       unsubscribe();
     };
   }, [memberRoles]);
+
+  useEffect(() => {
+    const membersWithRoles = members.filter(
+      (member) => member.roles !== undefined
+    );
+
+    let rolesList = [];
+    for (let i = 0; i < membersWithRoles.length; i++) {
+      const roleLength = membersWithRoles[i].roles.length;
+
+      for (let j = 0; j < roleLength; j++) {
+        rolesList.push(membersWithRoles[i].roles[j].name);
+      }
+    }
+
+    setAssignedRoles(new Set(rolesList));
+  }, [members]);
 
   function getRoles(serverRoles: RoleData[], memberRoles: MemberRole[]) {
     const newMembers: MemberRole[] = JSON.parse(JSON.stringify(memberRoles));
