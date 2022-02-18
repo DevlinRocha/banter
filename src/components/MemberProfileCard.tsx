@@ -83,7 +83,7 @@ export default function MemberProfileCard() {
             // permissions: memberPreview.permissions,
             userID: memberPreview.userID,
 
-            roles: memberPreview.roles ? memberPreview.roles : undefined,
+            roles: memberPreview.roles ? memberPreview.roles : null,
 
             serverOwner: memberPreview.serverOwner
               ? memberPreview.serverOwner
@@ -326,9 +326,8 @@ const AddRoleIconContainer = tw.div`
 `;
 
 const AddRoleIcon = tw(Image)`
-  rounded
+  rounded select-text whitespace-pre-wrap
   hover:cursor-pointer
-  select-text whitespace-pre-wrap
 `;
 
 const LinkText = tw.a`
