@@ -28,13 +28,13 @@ export default function ServerDropdown() {
             Invite people
           </ListItemInvite>
 
-          {user.serverOwner && (
+          {user.roles.serverOwner && (
             <ListItem onClick={() => dispatch(setServerSettingsOpen(true))}>
               Server Settings
             </ListItem>
           )}
 
-          {user.serverOwner && (
+          {user.roles.serverOwner && (
             <ListItem onClick={() => dispatch(setCreateChannelOpen(true))}>
               Create Channel
             </ListItem>

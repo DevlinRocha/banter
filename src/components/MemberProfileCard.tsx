@@ -1,6 +1,7 @@
 import tw from "tailwind-styled-components/dist/tailwind";
 import Image from "next/image";
 import {
+  MemberData,
   setMember,
   setMemberProfileCardOpen,
   setMemberProfileCardPosition,
@@ -68,7 +69,7 @@ export default function MemberProfileCard() {
 
         const docData = doc.data();
 
-        const member: UserData = {
+        const member: MemberData = {
           username: docData.username,
 
           tag: docData.tag,
@@ -202,8 +203,10 @@ export default function MemberProfileCard() {
               </HeadingContainer>
             )}
 
-            <RolesList roles={member.roles.length > 0 ? true : false}>
-              {member.roles.length > 0 ? (
+            <RolesList
+              roles={member.roles && member.roles.length > 0 ? true : false}
+            >
+              {member.roles && member.roles.length > 0 ? (
                 member.roles.map((role, index) => {
                   const RoleColorStyle = {
                     backgroundColor: role.color,
@@ -221,7 +224,7 @@ export default function MemberProfileCard() {
               )}
 
               <AddRoleIconContainer ref={addRoleIconRef}>
-                {user.serverOwner && (
+                {user.roles.serverOwner && (
                   <AddRoleIcon
                     onClick={handleClick}
                     src={addRoleIcon}
