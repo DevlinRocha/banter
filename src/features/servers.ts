@@ -39,7 +39,7 @@ export interface MemberData {
   banner: string;
   serverOwner: boolean | JSX.Element | null;
   roles: RoleData[];
-  permissions: [];
+  // permissions: [];
 }
 
 export interface MemberPreview {
@@ -155,7 +155,7 @@ const initialState: ServersState = {
     roles: [
       // permissions: PermissionsData;
     ],
-    permissions: [],
+    // permissions: [],
   },
 
   memberPreview: {
