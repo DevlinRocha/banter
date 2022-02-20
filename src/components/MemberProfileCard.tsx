@@ -79,16 +79,13 @@ export default function MemberProfileCard() {
 
           banner: docData.banner,
 
-          roles: {
-            // permissions: memberPreview.permissions,
-            userID: memberPreview.userID,
+          // permissions: memberPreview.permissions,
 
-            roles: memberPreview.roles ? memberPreview.roles : null,
+          roles: memberPreview.roles,
 
-            serverOwner: memberPreview.serverOwner
-              ? memberPreview.serverOwner
-              : false,
-          },
+          serverOwner: memberPreview.serverOwner
+            ? memberPreview.serverOwner
+            : false,
 
           userID: doc.id,
         };
@@ -205,14 +202,9 @@ export default function MemberProfileCard() {
               </HeadingContainer>
             )}
 
-            <RolesList
-              roles={member.roles && member.roles.roles ? true : false}
-            >
-              {member.roles && member.roles.roles ? (
-                member.roles.roles.map((role, index) => {
-                  if (typeof role === "string")
-                    return <RoleName key={index}>{role}</RoleName>;
-
+            <RolesList roles={member.roles.length > 0 ? true : false}>
+              {member.roles.length > 0 ? (
+                member.roles.map((role, index) => {
                   const RoleColorStyle = {
                     backgroundColor: role.color,
                   };
@@ -229,7 +221,7 @@ export default function MemberProfileCard() {
               )}
 
               <AddRoleIconContainer ref={addRoleIconRef}>
-                {user.roles.serverOwner && (
+                {user.serverOwner && (
                   <AddRoleIcon
                     onClick={handleClick}
                     src={addRoleIcon}
