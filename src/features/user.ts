@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { useAppSelector } from "../redux/hooks";
-import { MemberRole } from "./servers";
+import { RoleData } from "./servers";
 
 export interface UserData {
   username: string;
@@ -10,7 +10,8 @@ export interface UserData {
   banner: string;
   userID: string;
   email?: string;
-  roles: MemberRole;
+  serverOwner: boolean | JSX.Element | null;
+  roles: RoleData[];
 }
 
 export interface UserState {
@@ -29,12 +30,9 @@ const initialState: UserState = {
     banner: "",
     userID: "",
     email: "",
-    roles: {
-      userID: "",
-      serverOwner: false,
-      roles: [],
-      // permissions: {},
-    },
+    serverOwner: false,
+    roles: [],
+    // permissions: {},
   },
   loading: "idle",
 };
