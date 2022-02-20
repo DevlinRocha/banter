@@ -21,7 +21,7 @@ export default function Members() {
   const { server, members, memberRoles, memberProfileCardOpen } =
     useServersState();
   const memberRef = useRef<HTMLLIElement[]>([]);
-  const [assignedRoles, setAssignedRoles] = useState<Set<RoleData>>();
+  const [assignedRoles, setAssignedRoles] = useState<RoleData[]>();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -100,20 +100,21 @@ export default function Members() {
   }, [memberRoles]);
 
   useEffect(() => {
-    const membersWithRoles = members.filter(
-      (member) => member.roles !== undefined
+    const membersWithRoles: MemberData[] = members.filter(
+      (member) => member.roles
     );
 
-    let rolesList = [];
+    const rolesList: any[] = [];
+
     for (let i = 0; i < membersWithRoles.length; i++) {
       const roleLength = membersWithRoles[i].roles.length;
 
       for (let j = 0; j < roleLength; j++) {
-        rolesList.push(membersWithRoles[i].roles[j].name);
+        rolesList.push(membersWithRoles[i].roles[j]);
       }
     }
 
-    setAssignedRoles(new Set(rolesList));
+    setAssignedRoles(Array.from(new Set(rolesList)));
   }, [members]);
 
   function getRoles(serverRoles: RoleData[], memberRoles: MemberRole[]) {
@@ -139,7 +140,7 @@ export default function Members() {
     return members;
   }
 
-  function viewProfile(member: MemberInfo | MemberData, index: number) {
+  function viewProfile(member: MemberData, index: number) {
     dispatch(setMemberProfileCardOpen(!memberProfileCardOpen));
 
     if (!memberRef.current) return;
