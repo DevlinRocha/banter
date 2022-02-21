@@ -21,7 +21,7 @@ export default function Members() {
   const { server, members, memberRoles, memberProfileCardOpen } =
     useServersState();
   const memberRef = useRef<HTMLLIElement[]>([]);
-  const [assignedRoles, setAssignedRoles] = useState<RoleData[]>();
+  const [assignedRoles, setAssignedRoles] = useState<RoleData[][]>();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -114,7 +114,9 @@ export default function Members() {
       }
     }
 
-    setAssignedRoles(Array.from(new Set(rolesList)));
+    const organizedRoles = organizeRoles(rolesList);
+
+    setAssignedRoles(organizedRoles);
   }, [members]);
 
   function getRoles(serverRoles: RoleData[], memberRoles: MemberRole[]) {
@@ -138,6 +140,24 @@ export default function Members() {
     });
 
     return members;
+  }
+
+  function organizeRoles(rolesList: RoleData[]) {
+    const results = [];
+
+    for (let i = 0; i < rolesList.length; i++) {
+      if (!results.length) results.push([rolesList[i]]);
+
+      for (let j = 0; j < results.length; j++) {
+        if (rolesList[i].roleID === results[j][0].roleID) {
+          results[j].push(rolesList[i]);
+        } else {
+          results.push([rolesList[i]]);
+        }
+      }
+    }
+
+    return results;
   }
 
   function viewProfile(member: MemberData, index: number) {
