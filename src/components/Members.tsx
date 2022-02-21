@@ -104,7 +104,7 @@ export default function Members() {
       (member) => member.roles
     );
 
-    const rolesList: any[] = [];
+    const rolesList: RoleData[] = [];
 
     for (let i = 0; i < membersWithRoles.length; i++) {
       const roleLength = membersWithRoles[i].roles.length;
