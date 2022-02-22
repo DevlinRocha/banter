@@ -22,7 +22,7 @@ export default function Members() {
   const { server, members, memberRoles, memberProfileCardOpen } =
     useServersState();
   const memberRef = useRef<HTMLLIElement[]>([]);
-  const [assignedRoles, setAssignedRoles] = useState<RoleListData[]>();
+  const [assignedRoles, setAssignedRoles] = useState<RoleListData[]>([]);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -192,6 +192,46 @@ export default function Members() {
     <Container>
       <Sidebar>
         <MemberList>
+          {assignedRoles.length
+            ? assignedRoles.map((role, index) => {
+                return (
+                  <>
+                    <Heading key={index}>
+                      {role.name.toUpperCase()} - {role.members.length}
+                    </Heading>
+
+                    {role.members.map((member, index) => {
+                      return (
+                        <MemberContainer
+                          onClick={() => viewProfile(member, index)}
+                          ref={(el: HTMLLIElement) =>
+                            (memberRef.current[index] = el)
+                          }
+                          key={index}
+                        >
+                          <Member>
+                            <StyledImage
+                              loader={() => member.avatar}
+                              src={member.avatar}
+                              width={32}
+                              height={32}
+                              alt={`${member.username}'s profile picture`}
+                            />
+                            <UsernameContainer>
+                              <Username>{member.username}</Username>
+
+                              {member.serverOwner && (
+                                <ServerOwnerIcon>&#128081;</ServerOwnerIcon>
+                              )}
+                            </UsernameContainer>
+                          </Member>
+                        </MemberContainer>
+                      );
+                    })}
+                  </>
+                );
+              })
+            : null}
           <Heading>MEMBERS - {members.length}</Heading>
           {members.map((member, index) => {
             return (
