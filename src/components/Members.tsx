@@ -13,6 +13,7 @@ import {
   RoleData,
   MemberData,
   setMemberPreview,
+  RoleListData,
 } from "../features/servers";
 import { useAppDispatch } from "../redux/hooks";
 import Image from "next/image";
@@ -21,7 +22,7 @@ export default function Members() {
   const { server, members, memberRoles, memberProfileCardOpen } =
     useServersState();
   const memberRef = useRef<HTMLLIElement[]>([]);
-  const [assignedRoles, setAssignedRoles] = useState<RoleData[][]>();
+  const [assignedRoles, setAssignedRoles] = useState<RoleListData[]>();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -114,7 +115,10 @@ export default function Members() {
       }
     }
 
-    const organizedRoles = organizeRoles(rolesList);
+    const organizedRoles = organizeRoles(
+      Array.from(new Set(rolesList)),
+      membersWithRoles
+    );
 
     setAssignedRoles(organizedRoles);
   }, [members]);
@@ -142,17 +146,26 @@ export default function Members() {
     return members;
   }
 
-  function organizeRoles(rolesList: RoleData[]) {
-    const results = [];
+  function organizeRoles(
+    rolesList: RoleData[],
+    membersWithRoles: MemberData[]
+  ) {
+    const results: RoleListData[] = [];
 
-    for (let i = 0; i < rolesList.length; i++) {
-      if (!results.length) results.push([rolesList[i]]);
+    for (const role in rolesList) {
+      const item = {
+        ...rolesList[role],
+        members: [],
+      };
+      results.push(item);
+    }
 
-      for (let j = 0; j < results.length; j++) {
-        if (rolesList[i].roleID === results[j][0].roleID) {
-          results[j].push(rolesList[i]);
-        } else {
-          results.push([rolesList[i]]);
+    for (const role in rolesList) {
+      for (const member in membersWithRoles) {
+        if (
+          rolesList[role].roleID === membersWithRoles[member].roles[0].roleID
+        ) {
+          results[role].members.push(membersWithRoles[member]);
         }
       }
     }
