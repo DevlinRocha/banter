@@ -74,6 +74,10 @@ export interface RoleData {
   roleID: string;
 }
 
+export interface RoleListData extends RoleData {
+  members: MemberData[];
+}
+
 export interface PermissionsData {
   manageChannels: boolean;
   manageRoles: boolean;
