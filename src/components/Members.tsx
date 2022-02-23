@@ -194,6 +194,9 @@ export default function Members() {
         <MemberList>
           {assignedRoles.length
             ? assignedRoles.map((role, index) => {
+                const roleStyle = {
+                  color: role.color,
+                };
                 return (
                   <>
                     <Heading key={index}>
@@ -207,6 +210,7 @@ export default function Members() {
                           ref={(el: HTMLLIElement) =>
                             (memberRef.current[index] = el)
                           }
+                          style={roleStyle}
                           key={index}
                         >
                           <Member>
