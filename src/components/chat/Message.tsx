@@ -8,6 +8,8 @@ import {
   useServersState,
   setViewMediaOpen,
   setViewMedia,
+  MemberData,
+  setMemberPreview,
 } from "../../features/servers";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../../firebase";
@@ -25,6 +27,7 @@ export default function Message(props: MessageProps) {
   const avatarRef = useRef<HTMLDivElement>(null);
   const messageRef = useRef<HTMLHeadingElement>(null);
   const { memberProfileCardOpen } = useServersState();
+  const [memberID, setMemberID] = useState("");
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -45,6 +48,46 @@ export default function Message(props: MessageProps) {
       unsubscribe();
     };
   }, [props.message.userID]);
+
+  useEffect(() => {
+    if (!memberID) return;
+
+    const unsubscribe = onSnapshot(doc(db, "users", memberID), (doc) => {
+      const docData = doc.data();
+
+      console.log(doc.id);
+
+      if (!docData) return;
+
+      const member: MemberData = {
+        username: docData.username,
+
+        tag: docData.tag,
+
+        avatar: docData.avatar,
+
+        about: docData.about,
+
+        banner: docData.banner,
+
+        userID: doc.id,
+
+        serverOwner: docData.serverOwner,
+
+        roles: docData.roles,
+
+        // permissions: docData.permissions,
+      };
+
+      dispatch(setMemberPreview(member));
+
+      dispatch(setMemberProfileCardOpen(!memberProfileCardOpen));
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [memberID]);
 
   function getDate() {
     const timestamp = props.message.timestamp;
@@ -110,14 +153,12 @@ export default function Message(props: MessageProps) {
     userID: string,
     ref: RefObject<HTMLHeadingElement | HTMLDivElement>
   ) {
-    dispatch(setMemberProfileCardOpen(!memberProfileCardOpen));
-
     if (!ref.current) return;
 
     const memberProfileCardX = ref.current.getBoundingClientRect().right;
     const memberProfileCardY = ref.current.getBoundingClientRect().top;
 
-    // dispatch(setMemberID(userID));
+    setMemberID(userID);
 
     dispatch(
       setMemberProfileCardPosition({
