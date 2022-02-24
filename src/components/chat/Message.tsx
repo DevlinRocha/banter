@@ -20,14 +20,20 @@ interface MessageProps {
 }
 
 export default function Message(props: MessageProps) {
-  const [username, setUsername] = useState("");
-  const [avatar, setAvatar] = useState(
-    "https://firebasestorage.googleapis.com/v0/b/banter-69832.appspot.com/o/defaultProfilePicture.svg?alt=media&token=e0ee525e-6ad5-4098-9198-77608ec38f3a"
-  );
+  const [sender, setSender] = useState<MemberData>({
+    userID: "",
+    username: "",
+    avatar:
+      "https://firebasestorage.googleapis.com/v0/b/banter-69832.appspot.com/o/defaultProfilePicture.svg?alt=media&token=e0ee525e-6ad5-4098-9198-77608ec38f3a",
+    tag: "",
+    about: "",
+    banner: "",
+    serverOwner: false,
+    roles: [],
+  });
   const avatarRef = useRef<HTMLDivElement>(null);
   const messageRef = useRef<HTMLHeadingElement>(null);
-  const { memberProfileCardOpen } = useServersState();
-  const [memberID, setMemberID] = useState("");
+  const { memberProfileCardOpen, memberPreview } = useServersState();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -37,27 +43,6 @@ export default function Message(props: MessageProps) {
       if (!doc.exists()) return;
 
       const docData = doc.data();
-
-      const username = docData.username;
-      const avatar = docData.avatar;
-
-      setUsername(username);
-      setAvatar(avatar);
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, [props.message.userID]);
-
-  useEffect(() => {
-    if (!memberID) return;
-
-    const unsubscribe = onSnapshot(doc(db, "users", memberID), (doc) => {
-      const docData = doc.data();
-
-      console.log(doc.id);
-
-      if (!docData) return;
 
       const member: MemberData = {
         username: docData.username,
@@ -79,15 +64,12 @@ export default function Message(props: MessageProps) {
         // permissions: docData.permissions,
       };
 
-      dispatch(setMemberPreview(member));
-
-      dispatch(setMemberProfileCardOpen(!memberProfileCardOpen));
+      setSender(member);
     });
-
     return () => {
       unsubscribe();
     };
-  }, [memberID]);
+  }, [props.message.userID]);
 
   function getDate() {
     const timestamp = props.message.timestamp;
@@ -150,15 +132,17 @@ export default function Message(props: MessageProps) {
   }
 
   function viewProfile(
-    userID: string,
+    member: MemberData,
     ref: RefObject<HTMLHeadingElement | HTMLDivElement>
   ) {
+    dispatch(setMemberProfileCardOpen(!memberProfileCardOpen));
+
     if (!ref.current) return;
 
     const memberProfileCardX = ref.current.getBoundingClientRect().right;
     const memberProfileCardY = ref.current.getBoundingClientRect().top;
 
-    setMemberID(userID);
+    dispatch(setMemberPreview(member));
 
     dispatch(
       setMemberProfileCardPosition({
@@ -212,12 +196,12 @@ export default function Message(props: MessageProps) {
     <Container>
       <MessageContainer>
         <ProfilePictureContainer
-          onClick={() => viewProfile(props.message.userID, avatarRef)}
+          onClick={() => viewProfile(sender, avatarRef)}
           ref={avatarRef}
         >
           <ProfilePicture
-            loader={() => avatar}
-            src={avatar}
+            loader={() => sender.avatar}
+            src={sender.avatar}
             width={40}
             height={40}
             alt="Profile picture"
@@ -228,10 +212,10 @@ export default function Message(props: MessageProps) {
           <MessageContent>
             <MessageInfo>
               <Username
-                onClick={() => viewProfile(props.message.userID, messageRef)}
+                onClick={() => viewProfile(sender, messageRef)}
                 ref={messageRef}
               >
-                {username}
+                {sender.username}
               </Username>
 
               <MessageDate>{getDate()}</MessageDate>
