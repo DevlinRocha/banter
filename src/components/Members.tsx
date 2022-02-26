@@ -127,18 +127,15 @@ export default function Members() {
     const newMembers: MemberRole[] = JSON.parse(JSON.stringify(memberRoles));
 
     const members = newMembers.map((member) => {
-      if (!member.roles) return member;
-
-      if (member.roles.length <= 0) return member;
-      for (let i = 0; i < member.roles.length; i++) {
-        if (serverRoles.length <= 0) return member;
-        for (let j = 0; j < serverRoles.length; j++) {
-          if (member.roles[i] !== serverRoles[j].roleID) return member;
-          member.roles[i] = serverRoles[j];
-
-          return member;
-        }
+      if (!member.roles || member.roles.length <= 0 || serverRoles.length <= 0)
         return member;
+
+      for (let i = 0; i < member.roles.length; i++) {
+        for (let j = 0; j < serverRoles.length; j++) {
+          if (member.roles[i] === serverRoles[j].roleID) {
+            member.roles[i] = serverRoles[j];
+          }
+        }
       }
       return member;
     });
