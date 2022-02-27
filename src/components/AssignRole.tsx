@@ -41,11 +41,11 @@ export default function AssignRole() {
     if (!member.roles)
       return setServerRole(server.serverID, member.userID, [roleID]);
 
-    const newRoles = [...member.roles];
+    const newRoles = member.roles.map((role) => role.roleID);
 
-    // newRoles.push(roleID);
+    newRoles.push(roleID);
 
-    // setServerRole(server.serverID, member.userID, newRoles);
+    setServerRole(server.serverID, member.userID, newRoles);
   }
 
   return (
