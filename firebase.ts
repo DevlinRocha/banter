@@ -9,6 +9,7 @@ import {
   getDoc,
   DocumentData,
   DocumentReference,
+  deleteField,
 } from "firebase/firestore";
 import {
   getAuth,
@@ -559,11 +560,15 @@ export async function createServerRole(server: ServerData, newRoleID: string) {
 export async function setServerRole(
   serverID: string,
   userID: string,
-  newRoles: (string | RoleData)[]
+  newRoles: string[]
 ) {
-  await updateDoc(doc(db, "servers", serverID, "members", userID), {
-    roles: newRoles,
-  });
+  newRoles.length > 0
+    ? await updateDoc(doc(db, "servers", serverID, "members", userID), {
+        roles: newRoles,
+      })
+    : await updateDoc(doc(db, "servers", serverID, "members", userID), {
+        roles: deleteField(),
+      });
 }
 
 async function updateServerDatabase(
