@@ -10,8 +10,8 @@ import {
 import { useAppDispatch } from "../redux/hooks";
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { doc, onSnapshot } from "firebase/firestore";
-import { UserData, useUserState } from "../features/user";
-import { db } from "../../firebase";
+import { useUserState } from "../features/user";
+import { db, setServerRole } from "../../firebase";
 import addRoleIcon from "../../assets/addRoleIcon.svg";
 import {
   setAssignRoleOpen,
@@ -22,7 +22,7 @@ import AssignRole from "./AssignRole";
 
 export default function MemberProfileCard() {
   const { user } = useUserState();
-  const { member, memberPreview, memberProfileCardPosition } =
+  const { server, member, memberPreview, memberProfileCardPosition } =
     useServersState();
   const { assignRoleOpen } = useServerSettingsState();
   const dispatch = useAppDispatch();
@@ -62,6 +62,7 @@ export default function MemberProfileCard() {
   }, [memberProfileCardPosition, onRef]);
 
   useEffect(() => {
+    if (!memberPreview.userID) return;
     const unsubscribe = onSnapshot(
       doc(db, "users", memberPreview.userID),
       (doc) => {
@@ -162,6 +163,16 @@ export default function MemberProfileCard() {
     });
   }
 
+  function removeRole(member: MemberData, roleID: string) {
+    const newMember = { ...member };
+
+    const roleIDList = newMember.roles.map((role) => role.roleID);
+
+    const newRoles = roleIDList.filter((role) => role !== roleID);
+
+    setServerRole(server.serverID, member.userID, newRoles);
+  }
+
   const bannerStyle = {
     backgroundColor: member.banner,
   };
@@ -213,7 +224,10 @@ export default function MemberProfileCard() {
                   };
 
                   return (
-                    <RoleContainer key={index}>
+                    <RoleContainer
+                      onClick={() => removeRole(member, role.roleID)}
+                      key={index}
+                    >
                       <RoleColor style={RoleColorStyle} />
                       <RoleName>{role.name}</RoleName>
                     </RoleContainer>
