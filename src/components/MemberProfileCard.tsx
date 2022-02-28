@@ -164,6 +164,8 @@ export default function MemberProfileCard() {
   }
 
   function removeRole(member: MemberData, roleID: string) {
+    if (!user.serverOwner) return;
+
     const newMember = { ...member };
 
     const roleIDList = newMember.roles.map((role) => role.roleID);
