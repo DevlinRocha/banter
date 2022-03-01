@@ -11,8 +11,6 @@ import {
   MemberData,
   setMemberPreview,
 } from "../../features/servers";
-import { doc, onSnapshot } from "firebase/firestore";
-import { db } from "../../../firebase";
 import { useAppDispatch } from "../../redux/hooks";
 
 interface MessageProps {
@@ -31,45 +29,21 @@ export default function Message(props: MessageProps) {
     serverOwner: false,
     roles: [],
   });
+  const [senderStyle, setSenderStyle] = useState<object>({});
   const avatarRef = useRef<HTMLDivElement>(null);
   const messageRef = useRef<HTMLHeadingElement>(null);
-  const { memberProfileCardOpen, memberPreview } = useServersState();
+  const { members, memberProfileCardOpen, memberPreview } = useServersState();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     const userID = props.message.userID;
 
-    const unsubscribe = onSnapshot(doc(db, "users", userID), (doc) => {
-      if (!doc.exists()) return;
+    const member = members.find((member) => member.userID === userID);
 
-      const docData = doc.data();
+    if (!member) return;
 
-      const member: MemberData = {
-        username: docData.username,
-
-        tag: docData.tag,
-
-        avatar: docData.avatar,
-
-        about: docData.about,
-
-        banner: docData.banner,
-
-        userID: doc.id,
-
-        serverOwner: docData.serverOwner,
-
-        roles: docData.roles,
-
-        // permissions: docData.permissions,
-      };
-
-      setSender(member);
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, [props.message.userID]);
+    setSender(member);
+  }, [props.message.userID, members]);
 
   function getDate() {
     const timestamp = props.message.timestamp;
@@ -192,6 +166,17 @@ export default function Message(props: MessageProps) {
     });
   }
 
+  useEffect(() => {
+    if (!sender.roles || sender.roles.length <= 0)
+      return setSenderStyle({ color: "#060607" });
+
+    const senderStyle = {
+      color: sender.roles[0].color,
+    };
+
+    setSenderStyle(senderStyle);
+  }, [sender]);
+
   return (
     <Container>
       <MessageContainer>
@@ -214,6 +199,7 @@ export default function Message(props: MessageProps) {
               <Username
                 onClick={() => viewProfile(sender, messageRef)}
                 ref={messageRef}
+                style={senderStyle}
               >
                 {sender.username}
               </Username>
