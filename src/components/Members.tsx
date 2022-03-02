@@ -23,6 +23,7 @@ export default function Members() {
     useServersState();
   const memberRef = useRef<HTMLLIElement[]>([]);
   const [assignedRoles, setAssignedRoles] = useState<RoleListData[]>([]);
+  const [unassignedRoles, setUnassignedRoles] = useState<MemberData[]>([]);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -105,6 +106,10 @@ export default function Members() {
       (member) => member.roles
     );
 
+    const membersWithoutRoles: MemberData[] = members.filter(
+      (member) => !member.roles
+    );
+
     const rolesList: RoleData[] = [];
 
     for (let i = 0; i < membersWithRoles.length; i++) {
@@ -119,6 +124,8 @@ export default function Members() {
       Array.from(new Set(rolesList)),
       membersWithRoles
     );
+
+    setUnassignedRoles(membersWithoutRoles);
 
     setAssignedRoles(organizedRoles);
   }, [members]);
@@ -233,33 +240,37 @@ export default function Members() {
                 );
               })
             : null}
-          <Heading>MEMBERS - {members.length}</Heading>
-          {members.map((member, index) => {
-            return (
-              <MemberContainer
-                onClick={() => viewProfile(member, index)}
-                ref={(el: HTMLLIElement) => (memberRef.current[index] = el)}
-                key={index}
-              >
-                <Member>
-                  <StyledImage
-                    loader={() => member.avatar}
-                    src={member.avatar}
-                    width={32}
-                    height={32}
-                    alt={`${member.username}'s profile picture`}
-                  />
-                  <UsernameContainer>
-                    <Username>{member.username}</Username>
+          {unassignedRoles.length ? (
+            <>
+              <Heading>ONLINE - {unassignedRoles.length}</Heading>
+              {unassignedRoles.map((member, index) => {
+                return (
+                  <MemberContainer
+                    onClick={() => viewProfile(member, index)}
+                    ref={(el: HTMLLIElement) => (memberRef.current[index] = el)}
+                    key={index}
+                  >
+                    <Member>
+                      <StyledImage
+                        loader={() => member.avatar}
+                        src={member.avatar}
+                        width={32}
+                        height={32}
+                        alt={`${member.username}'s profile picture`}
+                      />
+                      <UsernameContainer>
+                        <Username>{member.username}</Username>
 
-                    {member.serverOwner && (
-                      <ServerOwnerIcon>&#128081;</ServerOwnerIcon>
-                    )}
-                  </UsernameContainer>
-                </Member>
-              </MemberContainer>
-            );
-          })}
+                        {member.serverOwner && (
+                          <ServerOwnerIcon>&#128081;</ServerOwnerIcon>
+                        )}
+                      </UsernameContainer>
+                    </Member>
+                  </MemberContainer>
+                );
+              })}
+            </>
+          ) : null}
         </MemberList>
       </Sidebar>
     </Container>
