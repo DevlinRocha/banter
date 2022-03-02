@@ -174,7 +174,7 @@ export default function Members() {
       }
     }
 
-    return results;
+    return results.sort((a, b) => (a.sort < b.sort ? -1 : 1));
   }
 
   function viewProfile(member: MemberData, index: number) {
