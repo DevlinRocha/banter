@@ -84,6 +84,8 @@ export default function Members() {
         memberList.push(member);
       });
 
+      memberList.sort((a, b) => a.username.localeCompare(b.username));
+
       const newMembers = [];
 
       for (let i = 0; i < memberList.length; i++) {
