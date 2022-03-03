@@ -43,6 +43,14 @@ export default function AssignRole() {
 
     const newRoles = member.roles.map((role) => role.roleID);
 
+    let duplicate = false;
+
+    for (const role of newRoles) {
+      if (role === roleID) return (duplicate = true);
+    }
+
+    if (duplicate) return;
+
     newRoles.push(roleID);
 
     setServerRole(server.serverID, member.userID, newRoles);
