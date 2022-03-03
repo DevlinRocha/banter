@@ -1,7 +1,7 @@
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import tw from "tailwind-styled-components";
 import { setServerRole } from "../../firebase";
-import { useServersState } from "../features/servers";
+import { RoleData, useServersState } from "../features/servers";
 import {
   setAssignRoleOpen,
   setAssignRolePosition,
@@ -10,6 +10,7 @@ import {
 import { useAppDispatch } from "../redux/hooks";
 
 export default function AssignRole() {
+  const [leftoverRoles, setLeftoverRoles] = useState<RoleData[]>([]);
   const { server, member } = useServersState();
   const { assignRolePosition } = useServerSettingsState();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -34,6 +35,16 @@ export default function AssignRole() {
       );
     }
   }, [assignRolePosition, containerRef]);
+
+  useEffect(() => {
+    let leftoverRoles: RoleData[] = [];
+
+    for (const role of member.roles) {
+      leftoverRoles = server.roles.filter((r) => r.roleID !== role.roleID);
+    }
+
+    setLeftoverRoles(leftoverRoles);
+  }, [member]);
 
   function handleClick(roleID: string) {
     dispatch(setAssignRoleOpen(false));
@@ -63,9 +74,9 @@ export default function AssignRole() {
       style={assignRolePosition}
       roles={server.roles ? true : false}
     >
-      {server.roles ? (
+      {leftoverRoles ? (
         <ResultsContainer>
-          {server.roles.map((role, index) => {
+          {leftoverRoles.map((role, index) => {
             const RoleColorStyle = {
               backgroundColor: role.color,
             };
