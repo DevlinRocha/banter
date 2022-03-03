@@ -37,6 +37,8 @@ export default function AssignRole() {
   }, [assignRolePosition, containerRef]);
 
   useEffect(() => {
+    if (!member.roles) return setLeftoverRoles(server.roles);
+
     let leftoverRoles: RoleData[] = [];
 
     for (const role of member.roles) {
