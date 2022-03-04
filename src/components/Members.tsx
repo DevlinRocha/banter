@@ -22,6 +22,7 @@ export default function Members() {
   const { server, members, memberRoles, memberProfileCardOpen } =
     useServersState();
   const memberRef = useRef<HTMLLIElement[]>([]);
+  const memberListRef = useRef<HTMLUListElement>(null);
   const [assignedRoles, setAssignedRoles] = useState<RoleListData[]>([]);
   const [unassignedRoles, setUnassignedRoles] = useState<MemberData[]>([]);
   const dispatch = useAppDispatch();
@@ -194,27 +195,50 @@ export default function Members() {
     );
   }
 
+  function findLength(array: RoleListData[]) {
+    let sum = 0;
+
+    for (const role of array) {
+      sum += role.members.length;
+    }
+
+    return sum;
+  }
+
   return (
     <Container>
       <Sidebar>
         <MemberList>
           {assignedRoles.length
-            ? assignedRoles.map((role, index) => {
+            ? assignedRoles.map((role, outerIndex) => {
                 const roleStyle = {
                   color: role.color,
                 };
                 return (
                   <>
-                    <Heading key={index}>
+                    <Heading key={outerIndex}>
                       {role.name.toUpperCase()} - {role.members.length}
                     </Heading>
 
                     {role.members.map((member, index) => {
                       return (
                         <MemberContainer
-                          onClick={() => viewProfile(member, index)}
+                          onClick={() =>
+                            viewProfile(
+                              member,
+                              outerIndex > 0
+                                ? assignedRoles[outerIndex - 1].members.length +
+                                    index
+                                : index
+                            )
+                          }
                           ref={(el: HTMLLIElement) =>
-                            (memberRef.current[index] = el)
+                            (memberRef.current[
+                              index +
+                                (outerIndex > 0
+                                  ? assignedRoles[outerIndex - 1].members.length
+                                  : 0)
+                            ] = el)
                           }
                           style={roleStyle}
                           key={index}
@@ -248,8 +272,18 @@ export default function Members() {
               {unassignedRoles.map((member, index) => {
                 return (
                   <MemberContainer
-                    onClick={() => viewProfile(member, index)}
-                    ref={(el: HTMLLIElement) => (memberRef.current[index] = el)}
+                    onClick={() =>
+                      viewProfile(
+                        member,
+                        assignedRoles.length > 0
+                          ? index + findLength(assignedRoles)
+                          : 0
+                      )
+                    }
+                    ref={(el: HTMLLIElement) =>
+                      (memberRef.current[index + findLength(assignedRoles)] =
+                        el)
+                    }
                     key={index}
                   >
                     <Member>
