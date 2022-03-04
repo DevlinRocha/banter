@@ -41,8 +41,8 @@ export default function AssignRole() {
 
     let leftoverRoles: RoleData[] = [];
 
-    for (const role of member.roles) {
-      leftoverRoles = server.roles.filter((r) => r.roleID !== role.roleID);
+    for (const role of server.roles) {
+      if (!member.roles.includes(role)) leftoverRoles.push(role);
     }
 
     setLeftoverRoles(leftoverRoles);
@@ -74,9 +74,9 @@ export default function AssignRole() {
       onClick={stopPropagation}
       ref={containerRef}
       style={assignRolePosition}
-      roles={server.roles ? true : false}
+      roles={leftoverRoles.length > 0 ? true : false}
     >
-      {leftoverRoles ? (
+      {leftoverRoles.length > 0 ? (
         <ResultsContainer>
           {leftoverRoles.map((role, index) => {
             const RoleColorStyle = {
