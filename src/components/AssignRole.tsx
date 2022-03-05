@@ -108,8 +108,8 @@ type ContainerProps = {
 };
 
 const Container = tw.div<ContainerProps>`
-  absolute w-[250px] min-h-[144px] max-h-[290px] p-2 bg-white border rounded
-  ${(props) => (props.roles ? "h-[290px]" : "h-[144px]")}
+  absolute w-[250px] min-h-[78px] max-h-[256px] p-2 bg-white border rounded
+  ${(props) => (props.roles ? "h-[256px]" : "h-[78px]")}
 `;
 
 const ResultsContainer = tw.div`
