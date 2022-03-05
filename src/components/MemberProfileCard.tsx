@@ -83,7 +83,7 @@ export default function MemberProfileCard() {
 
           // permissions: memberPreview.permissions,
 
-          roles: memberPreview.roles,
+          roles: memberPreview.roles || [],
 
           serverOwner: memberPreview.serverOwner
             ? memberPreview.serverOwner
@@ -220,40 +220,40 @@ export default function MemberProfileCard() {
               roles={member.roles && member.roles.length > 0 ? true : false}
             >
               <ProfileHeading>
-                {member.roles.length > 1 ? "ROLES" : "ROLE"}
+                {member.roles.length > 0
+                  ? member.roles.length > 1
+                    ? "ROLES"
+                    : "ROLE"
+                  : "NO ROLES"}
               </ProfileHeading>
 
-              {member.roles && member.roles.length > 0 ? (
-                <RolesList>
-                  {member.roles.map((role, index) => {
-                    const RoleColorStyle = {
-                      backgroundColor: role.color,
-                    };
+              <RolesList>
+                {member.roles.map((role, index) => {
+                  const RoleColorStyle = {
+                    backgroundColor: role.color,
+                  };
 
-                    return (
-                      <RoleContainer
-                        onClick={() => removeRole(member, role.roleID)}
-                        key={index}
-                      >
-                        <RoleColor style={RoleColorStyle} />
-                        <RoleName>{role.name}</RoleName>
-                      </RoleContainer>
-                    );
-                  })}
-                  <AddRoleIconContainer ref={addRoleIconRef}>
-                    {user.roles.serverOwner && (
-                      <AddRoleIcon
-                        onClick={handleClick}
-                        src={addRoleIcon}
-                        width={24}
-                        height={22}
-                      />
-                    )}
-                  </AddRoleIconContainer>
-                </RolesList>
-              ) : (
-                <ProfileHeading>NO ROLES</ProfileHeading>
-              )}
+                  return (
+                    <RoleContainer
+                      onClick={() => removeRole(member, role.roleID)}
+                      key={index}
+                    >
+                      <RoleColor style={RoleColorStyle} />
+                      <RoleName>{role.name}</RoleName>
+                    </RoleContainer>
+                  );
+                })}
+                <AddRoleIconContainer ref={addRoleIconRef}>
+                  {user.roles.serverOwner && (
+                    <AddRoleIcon
+                      onClick={handleClick}
+                      src={addRoleIcon}
+                      width={24}
+                      height={22}
+                    />
+                  )}
+                </AddRoleIconContainer>
+              </RolesList>
             </Roles>
           </ProfileContainer>
         </Container>
