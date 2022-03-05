@@ -30,7 +30,7 @@ export default function AssignRole() {
       dispatch(
         setAssignRolePosition({
           ...assignRolePosition,
-          top: window.innerHeight - containerHeight - 64,
+          top: window.innerHeight - containerHeight - 72,
         })
       );
     }
