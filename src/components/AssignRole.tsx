@@ -74,9 +74,9 @@ export default function AssignRole() {
       onClick={stopPropagation}
       ref={containerRef}
       style={assignRolePosition}
-      roles={leftoverRoles.length > 0 ? true : false}
+      roles={leftoverRoles && leftoverRoles.length > 0 ? true : false}
     >
-      {leftoverRoles.length > 0 ? (
+      {leftoverRoles && leftoverRoles.length > 0 ? (
         <ResultsContainer>
           {leftoverRoles.map((role, index) => {
             const RoleColorStyle = {
