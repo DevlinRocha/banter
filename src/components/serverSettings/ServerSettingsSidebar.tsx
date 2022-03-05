@@ -3,6 +3,7 @@ import { useAppDispatch } from "../../redux/hooks";
 import { useServersState } from "../../features/servers";
 import {
   setDeleteServerConfirmOpen,
+  setEditRoleOpen,
   setServerSettingsScreen,
   useServerSettingsState,
 } from "../../features/serverSettings";
@@ -31,6 +32,7 @@ export default function ServerSettingsSidebar() {
     if (unsavedChanges()) return;
 
     dispatch(setServerSettingsScreen(screen));
+    dispatch(setEditRoleOpen(false));
   }
 
   return (
@@ -48,6 +50,13 @@ export default function ServerSettingsSidebar() {
             onClick={() => changeServerSettings("Overview")}
           >
             Overview
+          </ListItem>
+
+          <ListItem
+            className={`${serverSettingsScreen === "Roles" && "bg-gray-300"}`}
+            onClick={() => changeServerSettings("Roles")}
+          >
+            Roles
           </ListItem>
 
           <ListItem

@@ -6,16 +6,11 @@ import Channels from "../../../components/channels/Channels";
 import Chat from "../../../components/chat/Chat";
 import UserSettings from "../../../components/userSettings/UserSettings";
 import tw from "tailwind-styled-components/dist/tailwind";
-import {
-  setUser,
-  resetUserState,
-  useUserState,
-  UserRole,
-} from "../../../features/user";
+import { setUser, resetUserState, useUserState } from "../../../features/user";
 import { useAppDispatch } from "../../../redux/hooks";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
-import { useServersState } from "../../../features/servers";
+import { MemberRole, useServersState } from "../../../features/servers";
 import { useUserSettingsState } from "../../../features/userSettings";
 import { db } from "../../../../firebase";
 import { useRouter } from "next/router";
@@ -121,17 +116,17 @@ const Home: NextPage = () => {
     const unsubscribe = onSnapshot(docRef, (doc) => {
       const docData = doc.data();
 
-      const userRoles: UserRole = {
+      const roles: MemberRole = {
         userID: doc.id,
 
         serverOwner: docData?.serverOwner,
 
         roles: docData?.roles,
 
-        permissions: docData?.permissions,
+        // permissions: docData?.permissions,
       };
 
-      dispatch(setUser({ ...user, userRoles }));
+      dispatch(setUser({ ...user, roles }));
     });
 
     return () => {
@@ -159,7 +154,7 @@ const Home: NextPage = () => {
 
       {addServerOpen && <AddServer />}
 
-      {serverDropdownOpen && <ServerDropdown userRoles={user.userRoles} />}
+      {serverDropdownOpen && <ServerDropdown />}
 
       {serverSettingsOpen && <ServerSettings />}
 

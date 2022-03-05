@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { query, collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase";
 import tw from "tailwind-styled-components/dist/tailwind";
@@ -6,11 +6,14 @@ import {
   useServersState,
   setMembers,
   setMemberProfileCardOpen,
-  setMemberID,
   setMemberProfileCardPosition,
   setMemberRoles,
   MemberRole,
   MemberInfo,
+  RoleData,
+  MemberData,
+  setMemberPreview,
+  RoleListData,
 } from "../features/servers";
 import { useAppDispatch } from "../redux/hooks";
 import Image from "next/image";
@@ -19,6 +22,9 @@ export default function Members() {
   const { server, members, memberRoles, memberProfileCardOpen } =
     useServersState();
   const memberRef = useRef<HTMLLIElement[]>([]);
+  const memberListRef = useRef<HTMLUListElement>(null);
+  const [assignedRoles, setAssignedRoles] = useState<RoleListData[]>([]);
+  const [unassignedRoles, setUnassignedRoles] = useState<MemberData[]>([]);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -39,7 +45,7 @@ export default function Members() {
 
           roles: docData.roles,
 
-          permissions: docData.permissions,
+          // permissions: docData.permissions,
         };
 
         memberRolesList.push(memberRoles);
@@ -59,7 +65,9 @@ export default function Members() {
       const memberList: MemberInfo[] = [];
       const memberIDs: string[] = [];
 
-      memberRoles.map((member) => memberIDs.push(member.userID));
+      const members = getRoles(server.roles, memberRoles);
+
+      members.map((member) => memberIDs.push(member.userID));
 
       querySnapshot.forEach((doc) => {
         if (!memberIDs.includes(doc.id)) return;
@@ -77,10 +85,16 @@ export default function Members() {
         memberList.push(member);
       });
 
-      const newMembers = memberList.map((member1) => ({
-        ...member1,
-        ...memberRoles.find((member2) => member2.userID === member1.userID),
-      }));
+      memberList.sort((a, b) => a.username.localeCompare(b.username));
+
+      const newMembers = [];
+
+      for (let i = 0; i < memberList.length; i++) {
+        newMembers.push({
+          ...memberList[i],
+          ...members.find((member) => member.userID === memberList[i].userID),
+        });
+      }
 
       dispatch(setMembers(newMembers));
     });
@@ -90,7 +104,83 @@ export default function Members() {
     };
   }, [memberRoles]);
 
-  function viewProfile(userID: string, index: number) {
+  useEffect(() => {
+    const membersWithRoles: MemberData[] = members.filter(
+      (member) => member.roles
+    );
+
+    const membersWithoutRoles: MemberData[] = members.filter(
+      (member) => !member.roles
+    );
+
+    const rolesList: RoleData[] = [];
+
+    for (let i = 0; i < membersWithRoles.length; i++) {
+      const roleLength = membersWithRoles[i].roles.length;
+
+      for (let j = 0; j < roleLength; j++) {
+        rolesList.push(membersWithRoles[i].roles[j]);
+      }
+    }
+
+    const organizedRoles = organizeRoles(
+      Array.from(new Set(rolesList)),
+      membersWithRoles
+    );
+
+    setUnassignedRoles(membersWithoutRoles);
+
+    setAssignedRoles(organizedRoles);
+  }, [members]);
+
+  function getRoles(serverRoles: RoleData[], memberRoles: MemberRole[]) {
+    const newMembers: MemberRole[] = JSON.parse(JSON.stringify(memberRoles));
+
+    const members = newMembers.map((member) => {
+      if (!member.roles || member.roles.length <= 0 || serverRoles.length <= 0)
+        return member;
+
+      for (let i = 0; i < member.roles.length; i++) {
+        for (let j = 0; j < serverRoles.length; j++) {
+          if (member.roles[i] === serverRoles[j].roleID) {
+            member.roles[i] = serverRoles[j];
+          }
+        }
+      }
+      return member;
+    });
+
+    return members;
+  }
+
+  function organizeRoles(
+    rolesList: RoleData[],
+    membersWithRoles: MemberData[]
+  ) {
+    const results: RoleListData[] = [];
+
+    for (const role in rolesList) {
+      const item = {
+        ...rolesList[role],
+        members: [],
+      };
+      results.push(item);
+    }
+
+    for (const role in rolesList) {
+      for (const member in membersWithRoles) {
+        if (
+          rolesList[role].roleID === membersWithRoles[member].roles[0].roleID
+        ) {
+          results[role].members.push(membersWithRoles[member]);
+        }
+      }
+    }
+
+    return results.sort((a, b) => (a.sort < b.sort ? -1 : 1));
+  }
+
+  function viewProfile(member: MemberData, index: number) {
     dispatch(setMemberProfileCardOpen(!memberProfileCardOpen));
 
     if (!memberRef.current) return;
@@ -98,44 +188,125 @@ export default function Members() {
     const memberProfileCardY =
       memberRef.current[index].getBoundingClientRect().top;
 
-    dispatch(setMemberID(userID));
+    dispatch(setMemberPreview(member));
 
     dispatch(
       setMemberProfileCardPosition({ top: memberProfileCardY, right: 248 })
     );
   }
 
+  function findLength(array: RoleListData[]) {
+    let sum = 0;
+
+    for (const role of array) {
+      sum += role.members.length;
+    }
+
+    return sum;
+  }
+
   return (
     <Container>
       <Sidebar>
         <MemberList>
-          <Heading>MEMBERS - {members.length}</Heading>
-          {members.map((member, index) => {
-            return (
-              <MemberContainer
-                onClick={() => viewProfile(member.userID, index)}
-                ref={(el: HTMLLIElement) => (memberRef.current[index] = el)}
-                key={index}
-              >
-                <Member>
-                  <StyledImage
-                    loader={() => member.avatar}
-                    src={member.avatar}
-                    width={32}
-                    height={32}
-                    alt={`${member.username}'s profile picture`}
-                  />
-                  <UsernameContainer>
-                    <Username>{member.username}</Username>
+          {assignedRoles.length
+            ? assignedRoles.map((role, outerIndex) => {
+                const roleStyle = {
+                  color: role.color,
+                };
+                return (
+                  <>
+                    <Heading key={outerIndex}>
+                      {role.name.toUpperCase()} - {role.members.length}
+                    </Heading>
 
-                    {member.serverOwner && (
-                      <ServerOwnerIcon>&#128081;</ServerOwnerIcon>
-                    )}
-                  </UsernameContainer>
-                </Member>
-              </MemberContainer>
-            );
-          })}
+                    {role.members.map((member, index) => {
+                      return (
+                        <MemberContainer
+                          onClick={() =>
+                            viewProfile(
+                              member,
+                              outerIndex > 0
+                                ? assignedRoles[outerIndex - 1].members.length +
+                                    index
+                                : index
+                            )
+                          }
+                          ref={(el: HTMLLIElement) =>
+                            (memberRef.current[
+                              index +
+                                (outerIndex > 0
+                                  ? assignedRoles[outerIndex - 1].members.length
+                                  : 0)
+                            ] = el)
+                          }
+                          style={roleStyle}
+                          key={index}
+                        >
+                          <Member>
+                            <StyledImage
+                              loader={() => member.avatar}
+                              src={member.avatar}
+                              width={32}
+                              height={32}
+                              alt={`${member.username}'s profile picture`}
+                            />
+                            <UsernameContainer>
+                              <Username>{member.username}</Username>
+
+                              {member.serverOwner && (
+                                <ServerOwnerIcon>&#128081;</ServerOwnerIcon>
+                              )}
+                            </UsernameContainer>
+                          </Member>
+                        </MemberContainer>
+                      );
+                    })}
+                  </>
+                );
+              })
+            : null}
+          {unassignedRoles.length ? (
+            <>
+              <Heading>ONLINE - {unassignedRoles.length}</Heading>
+              {unassignedRoles.map((member, index) => {
+                return (
+                  <MemberContainer
+                    onClick={() =>
+                      viewProfile(
+                        member,
+                        assignedRoles.length > 0
+                          ? index + findLength(assignedRoles)
+                          : 0
+                      )
+                    }
+                    ref={(el: HTMLLIElement) =>
+                      (memberRef.current[index + findLength(assignedRoles)] =
+                        el)
+                    }
+                    key={index}
+                  >
+                    <Member>
+                      <StyledImage
+                        loader={() => member.avatar}
+                        src={member.avatar}
+                        width={32}
+                        height={32}
+                        alt={`${member.username}'s profile picture`}
+                      />
+                      <UsernameContainer>
+                        <Username>{member.username}</Username>
+
+                        {member.serverOwner && (
+                          <ServerOwnerIcon>&#128081;</ServerOwnerIcon>
+                        )}
+                      </UsernameContainer>
+                    </Member>
+                  </MemberContainer>
+                );
+              })}
+            </>
+          ) : null}
         </MemberList>
       </Sidebar>
     </Container>

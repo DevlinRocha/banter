@@ -5,14 +5,11 @@ import {
   setServerDropdownOpen,
   setServerSettingsOpen,
 } from "../../features/serverSettings";
-import { UserRole } from "../../features/user";
 import { useAppDispatch } from "../../redux/hooks";
+import { useUserState } from "../../features/user";
 
-interface ServerDropdownProps {
-  userRoles: UserRole | undefined;
-}
-
-export default function ServerDropdown(props: ServerDropdownProps) {
+export default function ServerDropdown() {
+  const { user } = useUserState();
   const dispatch = useAppDispatch();
 
   function closeWindow(e: React.MouseEvent) {
@@ -31,13 +28,13 @@ export default function ServerDropdown(props: ServerDropdownProps) {
             Invite people
           </ListItemInvite>
 
-          {props.userRoles && props.userRoles.serverOwner && (
+          {user.roles.serverOwner && (
             <ListItem onClick={() => dispatch(setServerSettingsOpen(true))}>
               Server Settings
             </ListItem>
           )}
 
-          {props.userRoles && props.userRoles.serverOwner && (
+          {user.roles.serverOwner && (
             <ListItem onClick={() => dispatch(setCreateChannelOpen(true))}>
               Create Channel
             </ListItem>

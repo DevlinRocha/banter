@@ -9,6 +9,7 @@ import {
   getDoc,
   DocumentData,
   DocumentReference,
+  deleteField,
 } from "firebase/firestore";
 import {
   getAuth,
@@ -24,7 +25,7 @@ import {
 } from "firebase/auth";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { UserData } from "./src/features/user";
-import { ServerData } from "./src/features/servers";
+import { RoleData, ServerData } from "./src/features/servers";
 
 // import { getAnalytics } from "firebase/analytics";
 
@@ -473,6 +474,9 @@ export async function saveServerChanges(
     case newServer.name !== oldServer.name:
       await updateServerDatabase(newServer.serverID, "name", newServer.name);
 
+    case newServer.roles !== oldServer.roles:
+      await updateServerDatabase(newServer.serverID, "roles", newServer.roles);
+
     case newServer.contentFilter !== oldServer.contentFilter:
       await updateServerDatabase(
         newServer.serverID,
@@ -518,10 +522,59 @@ async function getServerImageURL(serverID: string) {
   return await getDownloadURL(ref(storage, `servers/${serverID}/serverImage`));
 }
 
+export async function createServerRole(server: ServerData, newRoleID: string) {
+  await updateDoc(doc(db, "servers", server.serverID), {
+    roles: server.roles
+      ? [
+          ...server.roles,
+          {
+            name: "new role",
+            color: "rgb(153,170,181)",
+            separateDisplay: false,
+            sort: server.roles.length,
+            permissions: {
+              manageChannels: false,
+              manageRoles: false,
+              manageServer: false,
+            },
+            roleID: newRoleID,
+          },
+        ]
+      : [
+          {
+            name: "new role",
+            color: "rgb(153,170,181)",
+            separateDisplay: false,
+            sort: 0,
+            permissions: {
+              manageChannels: false,
+              manageRoles: false,
+              manageServer: false,
+            },
+            roleID: newRoleID,
+          },
+        ],
+  });
+}
+
+export async function setServerRole(
+  serverID: string,
+  userID: string,
+  newRoles: string[]
+) {
+  newRoles.length > 0
+    ? await updateDoc(doc(db, "servers", serverID, "members", userID), {
+        roles: newRoles,
+      })
+    : await updateDoc(doc(db, "servers", serverID, "members", userID), {
+        roles: deleteField(),
+      });
+}
+
 async function updateServerDatabase(
   serverID: string,
   property: string,
-  newValue: string
+  newValue: string | RoleData[]
 ) {
   await updateDoc(doc(db, "servers", serverID), {
     [property]: newValue,

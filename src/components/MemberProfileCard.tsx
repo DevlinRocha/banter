@@ -1,6 +1,7 @@
 import tw from "tailwind-styled-components/dist/tailwind";
 import Image from "next/image";
 import {
+  MemberData,
   setMember,
   setMemberProfileCardOpen,
   setMemberProfileCardPosition,
@@ -9,14 +10,25 @@ import {
 import { useAppDispatch } from "../redux/hooks";
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { doc, onSnapshot } from "firebase/firestore";
-import { UserData } from "../features/user";
-import { db } from "../../firebase";
+import { useUserState } from "../features/user";
+import { db, setServerRole } from "../../firebase";
+import addRoleIcon from "../../assets/addRoleIcon.svg";
+import {
+  setAssignRoleOpen,
+  setAssignRolePosition,
+  useServerSettingsState,
+} from "../features/serverSettings";
+import AssignRole from "./AssignRole";
 
 export default function MemberProfileCard() {
-  const { member, memberProfileCardPosition } = useServersState();
+  const { user } = useUserState();
+  const { server, member, memberPreview, memberProfileCardPosition } =
+    useServersState();
+  const { assignRoleOpen } = useServerSettingsState();
   const dispatch = useAppDispatch();
   const containerRef = useRef<HTMLElement | null>(null);
   const skippedRender = useRef(false);
+  const addRoleIconRef = useRef<HTMLDivElement | null>(null);
 
   const onRef = (node: HTMLElement) => {
     if (node) containerRef.current = node;
@@ -50,27 +62,39 @@ export default function MemberProfileCard() {
   }, [memberProfileCardPosition, onRef]);
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(doc(db, "users", member.userID), (doc) => {
-      if (!doc.exists()) return;
+    if (!memberPreview.userID) return;
+    const unsubscribe = onSnapshot(
+      doc(db, "users", memberPreview.userID),
+      (doc) => {
+        if (!doc.exists()) return;
 
-      const docData = doc.data();
+        const docData = doc.data();
 
-      const member: UserData = {
-        username: docData.username,
+        const member: MemberData = {
+          username: docData.username,
 
-        tag: docData.tag,
+          tag: docData.tag,
 
-        avatar: docData.avatar,
+          avatar: docData.avatar,
 
-        about: docData.about,
+          about: docData.about,
 
-        banner: docData.banner,
+          banner: docData.banner,
 
-        userID: doc.id,
-      };
+          // permissions: memberPreview.permissions,
 
-      dispatch(setMember(member));
-    });
+          roles: memberPreview.roles || [],
+
+          serverOwner: memberPreview.serverOwner
+            ? memberPreview.serverOwner
+            : false,
+
+          userID: doc.id,
+        };
+
+        dispatch(setMember(member));
+      }
+    );
     return () => {
       unsubscribe();
     };
@@ -78,10 +102,30 @@ export default function MemberProfileCard() {
 
   function closeWindow() {
     dispatch(setMemberProfileCardOpen(false));
+    dispatch(setAssignRoleOpen(false));
   }
 
   function stopPropagation(e: React.MouseEvent<HTMLDivElement>) {
     e.stopPropagation();
+  }
+
+  function handleClick() {
+    dispatch(setAssignRoleOpen(!assignRoleOpen));
+
+    if (!addRoleIconRef.current) return;
+
+    const assignRolePositionX =
+      addRoleIconRef.current.getBoundingClientRect().left - 113;
+
+    const assignRolePositionY =
+      addRoleIconRef.current.getBoundingClientRect().top + 32;
+
+    dispatch(
+      setAssignRolePosition({
+        left: assignRolePositionX,
+        top: assignRolePositionY,
+      })
+    );
   }
 
   function findLinks(message: string): string | JSX.Element | undefined {
@@ -119,6 +163,18 @@ export default function MemberProfileCard() {
     });
   }
 
+  function removeRole(member: MemberData, roleID: string) {
+    if (!user.roles.serverOwner) return;
+
+    const newMember = { ...member };
+
+    const roleIDList = newMember.roles.map((role) => role.roleID);
+
+    const newRoles = roleIDList.filter((role) => role !== roleID);
+
+    setServerRole(server.serverID, member.userID, newRoles);
+  }
+
   const bannerStyle = {
     backgroundColor: member.banner,
   };
@@ -153,18 +209,63 @@ export default function MemberProfileCard() {
             <Divider />
 
             {member.about && (
-              <>
+              <HeadingContainer>
                 <ProfileHeading>ABOUT ME</ProfileHeading>
 
                 <AboutMeContainer>{findLinks(member.about)}</AboutMeContainer>
-              </>
+              </HeadingContainer>
             )}
+
+            <Roles
+              roles={member.roles && member.roles.length > 0 ? true : false}
+            >
+              <ProfileHeading>
+                {member.roles.length > 0
+                  ? member.roles.length > 1
+                    ? "ROLES"
+                    : "ROLE"
+                  : "NO ROLES"}
+              </ProfileHeading>
+
+              <RolesList>
+                {member.roles.map((role, index) => {
+                  const RoleColorStyle = {
+                    backgroundColor: role.color,
+                  };
+
+                  return (
+                    <RoleContainer
+                      onClick={() => removeRole(member, role.roleID)}
+                      key={index}
+                    >
+                      <RoleColor style={RoleColorStyle} />
+                      <RoleName>{role.name}</RoleName>
+                    </RoleContainer>
+                  );
+                })}
+                <AddRoleIconContainer ref={addRoleIconRef}>
+                  {user.roles.serverOwner && (
+                    <AddRoleIcon
+                      onClick={handleClick}
+                      src={addRoleIcon}
+                      width={24}
+                      height={22}
+                    />
+                  )}
+                </AddRoleIconContainer>
+              </RolesList>
+            </Roles>
           </ProfileContainer>
         </Container>
       )}
+      {assignRoleOpen && <AssignRole />}
     </Backdrop>
   );
 }
+
+type RolesListProps = {
+  roles: boolean;
+};
 
 const Backdrop = tw.div`
   fixed w-full h-full z-20
@@ -206,12 +307,47 @@ const Divider = tw.div`
   w-full h-px mb-4 bg-gray-200
 `;
 
+const HeadingContainer = tw.div`
+  mb-4
+`;
+
+const Roles = tw.div<RolesListProps>`
+  flex flex-col
+  ${(props) => (props.roles ? "flex-row" : "flex-col")}
+`;
+
+const RolesList = tw.div`
+  flex
+`;
+
+const RoleContainer = tw.div`
+  flex h-6 items-center p-1 mr-1 mb-1 rounded bg-gray-100 cursor-pointer
+  hover:bg-gray-100
+`;
+
+const RoleColor = tw.div`
+  w-3 h-3 mr-2.5 rounded-full
+`;
+
+const RoleName = tw.span`
+  text-xs font-medium
+`;
+
 const ProfileHeading = tw.h3`
-  mb-2 text-xs font-bold
+  mb-2 text-gray-600 text-xs font-bold
 `;
 
 const AboutMeContainer = tw.div`
-  select-text whitespace-pre-wrap
+  text-sm select-text
+`;
+
+const AddRoleIconContainer = tw.div`
+  flex-none mr-1 mb-1
+`;
+
+const AddRoleIcon = tw(Image)`
+  rounded select-text whitespace-pre-wrap
+  hover:cursor-pointer
 `;
 
 const LinkText = tw.a`

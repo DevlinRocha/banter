@@ -3,15 +3,14 @@ import tw from "tailwind-styled-components";
 import Image from "next/image";
 import {
   MessageData,
-  setMemberID,
   setMemberProfileCardPosition,
   setMemberProfileCardOpen,
   useServersState,
   setViewMediaOpen,
   setViewMedia,
+  MemberData,
+  setMemberPreview,
 } from "../../features/servers";
-import { doc, onSnapshot } from "firebase/firestore";
-import { db } from "../../../firebase";
 import { useAppDispatch } from "../../redux/hooks";
 
 interface MessageProps {
@@ -19,33 +18,32 @@ interface MessageProps {
 }
 
 export default function Message(props: MessageProps) {
-  const [username, setUsername] = useState("");
-  const [avatar, setAvatar] = useState(
-    "https://firebasestorage.googleapis.com/v0/b/banter-69832.appspot.com/o/defaultProfilePicture.svg?alt=media&token=e0ee525e-6ad5-4098-9198-77608ec38f3a"
-  );
+  const [sender, setSender] = useState<MemberData>({
+    userID: "",
+    username: "",
+    avatar:
+      "https://firebasestorage.googleapis.com/v0/b/banter-69832.appspot.com/o/defaultProfilePicture.svg?alt=media&token=e0ee525e-6ad5-4098-9198-77608ec38f3a",
+    tag: "",
+    about: "",
+    banner: "",
+    serverOwner: false,
+    roles: [],
+  });
+  const [senderStyle, setSenderStyle] = useState<object>({});
   const avatarRef = useRef<HTMLDivElement>(null);
   const messageRef = useRef<HTMLHeadingElement>(null);
-  const { memberProfileCardOpen } = useServersState();
+  const { members, memberProfileCardOpen, memberPreview } = useServersState();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     const userID = props.message.userID;
 
-    const unsubscribe = onSnapshot(doc(db, "users", userID), (doc) => {
-      if (!doc.exists()) return;
+    const member = members.find((member) => member.userID === userID);
 
-      const docData = doc.data();
+    if (!member) return;
 
-      const username = docData.username;
-      const avatar = docData.avatar;
-
-      setUsername(username);
-      setAvatar(avatar);
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, [props.message.userID]);
+    setSender(member);
+  }, [props.message.userID, members]);
 
   function getDate() {
     const timestamp = props.message.timestamp;
@@ -108,7 +106,7 @@ export default function Message(props: MessageProps) {
   }
 
   function viewProfile(
-    userID: string,
+    member: MemberData,
     ref: RefObject<HTMLHeadingElement | HTMLDivElement>
   ) {
     dispatch(setMemberProfileCardOpen(!memberProfileCardOpen));
@@ -118,7 +116,7 @@ export default function Message(props: MessageProps) {
     const memberProfileCardX = ref.current.getBoundingClientRect().right;
     const memberProfileCardY = ref.current.getBoundingClientRect().top;
 
-    dispatch(setMemberID(userID));
+    dispatch(setMemberPreview(member));
 
     dispatch(
       setMemberProfileCardPosition({
@@ -168,16 +166,27 @@ export default function Message(props: MessageProps) {
     });
   }
 
+  useEffect(() => {
+    if (!sender.roles || sender.roles.length <= 0)
+      return setSenderStyle({ color: "#060607" });
+
+    const senderStyle = {
+      color: sender.roles[0].color,
+    };
+
+    setSenderStyle(senderStyle);
+  }, [sender]);
+
   return (
     <Container>
       <MessageContainer>
         <ProfilePictureContainer
-          onClick={() => viewProfile(props.message.userID, avatarRef)}
+          onClick={() => viewProfile(sender, avatarRef)}
           ref={avatarRef}
         >
           <ProfilePicture
-            loader={() => avatar}
-            src={avatar}
+            loader={() => sender.avatar}
+            src={sender.avatar}
             width={40}
             height={40}
             alt="Profile picture"
@@ -188,10 +197,11 @@ export default function Message(props: MessageProps) {
           <MessageContent>
             <MessageInfo>
               <Username
-                onClick={() => viewProfile(props.message.userID, messageRef)}
+                onClick={() => viewProfile(sender, messageRef)}
                 ref={messageRef}
+                style={senderStyle}
               >
-                {username}
+                {sender.username}
               </Username>
 
               <MessageDate>{getDate()}</MessageDate>

@@ -68,6 +68,8 @@ export default function Servers() {
 
           defaultChannel: docData?.defaultChannel,
 
+          roles: docData.roles,
+
           contentFilter: docData.contentFilter,
         };
 

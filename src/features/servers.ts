@@ -7,6 +7,7 @@ export interface ServerData {
   path: string;
   serverID: string;
   defaultChannel: string;
+  roles: RoleData[];
   contentFilter: "off" | "low" | "medium" | "high";
 }
 
@@ -36,23 +37,51 @@ export interface MemberData {
   avatar: string;
   about: string;
   banner: string;
-  serverOwner?: boolean;
-  roles?: string[];
-  permissions?: [];
+  serverOwner: boolean | JSX.Element | null;
+  roles: RoleData[];
+  // permissions: [];
+}
+
+export interface MemberPreview {
+  userID: string;
+  username: string;
+  avatar: string;
+  serverOwner: boolean | JSX.Element | null;
+  roles: RoleData[];
+  permissions: [];
 }
 
 export interface MemberInfo {
   username: string;
   avatar: string;
   userID: string;
-  serverOwner?: JSX.Element;
+  serverOwner?: boolean | JSX.Element | null;
 }
 
 export interface MemberRole {
   userID: string;
-  serverOwner: boolean;
-  roles: string[];
-  permissions: [];
+  serverOwner: boolean | JSX.Element | null;
+  roles: (string | RoleData)[];
+  // permissions: PermissionsData;
+}
+
+export interface RoleData {
+  name: string;
+  color: string;
+  separateDisplay: boolean;
+  sort: number;
+  permissions: PermissionsData;
+  roleID: string;
+}
+
+export interface RoleListData extends RoleData {
+  members: MemberData[];
+}
+
+export interface PermissionsData {
+  manageChannels: boolean;
+  manageRoles: boolean;
+  manageServer: boolean;
 }
 
 export interface PositionData {
@@ -74,9 +103,10 @@ export interface ServersState {
   channel: ChannelData;
   voiceChannel: ChannelData;
   messages: MessageData[];
-  members: MemberInfo[];
+  members: MemberData[];
   memberRoles: MemberRole[];
   member: MemberData;
+  memberPreview: MemberPreview;
   memberProfileCardOpen: boolean;
   memberProfileCardPosition: PositionData;
   viewMediaOpen: boolean;
@@ -94,6 +124,7 @@ const initialState: ServersState = {
     path: "",
     serverID: "",
     defaultChannel: "",
+    roles: [],
     contentFilter: "off",
   },
 
@@ -124,6 +155,20 @@ const initialState: ServersState = {
     about: "",
     banner: "",
     userID: "",
+    serverOwner: false,
+    roles: [
+      // permissions: PermissionsData;
+    ],
+    // permissions: [],
+  },
+
+  memberPreview: {
+    userID: "",
+    username: "",
+    avatar: "",
+    serverOwner: false,
+    roles: [],
+    permissions: [],
   },
 
   memberRoles: [],
@@ -160,6 +205,10 @@ export const serversSlice = createSlice({
       state.server.img = action.payload;
     },
 
+    updateServerRole(state, action) {
+      state.server.roles[action.payload.index] = action.payload.newRole;
+    },
+
     setServerContentFilter(state, action) {
       state.server.contentFilter = action.payload;
     },
@@ -192,8 +241,8 @@ export const serversSlice = createSlice({
       state.memberRoles = action.payload;
     },
 
-    setMemberID(state, action) {
-      state.member.userID = action.payload;
+    setMemberPreview(state, action) {
+      state.memberPreview = action.payload;
     },
 
     setMemberProfileCardOpen(state, action) {
@@ -231,6 +280,7 @@ export const {
   setServer,
   setServerName,
   setServerImage,
+  updateServerRole,
   setServerContentFilter,
   setChannels,
   setChannel,
@@ -239,7 +289,7 @@ export const {
   setMembers,
   setMember,
   setMemberRoles,
-  setMemberID,
+  setMemberPreview,
   setMemberProfileCardOpen,
   setMemberProfileCardPosition,
   setViewMediaOpen,
