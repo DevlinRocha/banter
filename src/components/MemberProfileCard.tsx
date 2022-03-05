@@ -216,40 +216,45 @@ export default function MemberProfileCard() {
               </HeadingContainer>
             )}
 
-            <RolesList
+            <Roles
               roles={member.roles && member.roles.length > 0 ? true : false}
             >
-              {member.roles && member.roles.length > 0 ? (
-                member.roles.map((role, index) => {
-                  const RoleColorStyle = {
-                    backgroundColor: role.color,
-                  };
+              <ProfileHeading>
+                {member.roles.length > 1 ? "ROLES" : "ROLE"}
+              </ProfileHeading>
 
-                  return (
-                    <RoleContainer
-                      onClick={() => removeRole(member, role.roleID)}
-                      key={index}
-                    >
-                      <RoleColor style={RoleColorStyle} />
-                      <RoleName>{role.name}</RoleName>
-                    </RoleContainer>
-                  );
-                })
+              {member.roles && member.roles.length > 0 ? (
+                <RolesList>
+                  {member.roles.map((role, index) => {
+                    const RoleColorStyle = {
+                      backgroundColor: role.color,
+                    };
+
+                    return (
+                      <RoleContainer
+                        onClick={() => removeRole(member, role.roleID)}
+                        key={index}
+                      >
+                        <RoleColor style={RoleColorStyle} />
+                        <RoleName>{role.name}</RoleName>
+                      </RoleContainer>
+                    );
+                  })}
+                  <AddRoleIconContainer ref={addRoleIconRef}>
+                    {user.roles.serverOwner && (
+                      <AddRoleIcon
+                        onClick={handleClick}
+                        src={addRoleIcon}
+                        width={24}
+                        height={22}
+                      />
+                    )}
+                  </AddRoleIconContainer>
+                </RolesList>
               ) : (
                 <ProfileHeading>NO ROLES</ProfileHeading>
               )}
-
-              <AddRoleIconContainer ref={addRoleIconRef}>
-                {user.roles.serverOwner && (
-                  <AddRoleIcon
-                    onClick={handleClick}
-                    src={addRoleIcon}
-                    width={24}
-                    height={22}
-                  />
-                )}
-              </AddRoleIconContainer>
-            </RolesList>
+            </Roles>
           </ProfileContainer>
         </Container>
       )}
@@ -306,9 +311,13 @@ const HeadingContainer = tw.div`
   mb-4
 `;
 
-const RolesList = tw.div<RolesListProps>`
-  flex
+const Roles = tw.div<RolesListProps>`
+  flex flex-col
   ${(props) => (props.roles ? "flex-row" : "flex-col")}
+`;
+
+const RolesList = tw.div`
+  flex
 `;
 
 const RoleContainer = tw.div`
