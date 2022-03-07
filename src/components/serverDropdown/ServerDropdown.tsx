@@ -25,7 +25,7 @@ export default function ServerDropdown() {
       <Container onClick={stopPropagation}>
         <ListContainer>
           <ListItemInvite onClick={() => dispatch(setInviteFriendsOpen(true))}>
-            Invite people
+            Invite People
           </ListItemInvite>
 
           {user.roles.serverOwner && (
