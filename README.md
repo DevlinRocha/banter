@@ -51,7 +51,9 @@ NEXT_PUBLIC_FIREBASE_APP_ID = "appIdValue"
 
 ```bash
 npm run dev
+
 # or
+
 yarn dev
 ```
 
