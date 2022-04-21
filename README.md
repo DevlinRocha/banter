@@ -41,24 +41,32 @@ npm install
 yarn install
 ```
 
-3. Create a new project on Firebase. You can name it anything you want. Analytics are not recommended.
+3. Create a new project on Firebase
+    - Go to [Firebase](https://firebase.google.com/) → Get Started / Go to console → Add project
+    - You can name it anything you want. Analytics are not recommended.
 
-4. Add the project to a web app. You can name it anything. Hosting is not required.
+4. Enable Firestore
+    - Go to Firestore Database → Create database
 
-5. Take the config values they give you and create a new `.env.local` file in `banter/` root folder.
+5. Register a web app for the project.
+    - Go to Project Overview and select the `</>` (Web) icon
+    - You can name it anything. Hosting is not required.
 
-6. Paste the following into the new file. Replace the text wrapped in `""` with the corresponding value from Firebase:
+6. Take each config value given and create a new `.env.local` file in `banter/` root folder.
+    - Can be found in Project settings → General → Your apps → SDK setup and configuration → Config
 
+7. Paste the following into the new file. Replace each value with given values from Firebase web app config
 ```
-NEXT_PUBLIC_FIREBASE_API_KEY = "apiKeyValue"
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN = "authDomainValue"
-NEXT_PUBLIC_FIREBASE_PROJECT_ID = "projectIdValue"
-NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET = "storageBucketValue"
-NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID = "messagingSenderIdValue"
-NEXT_PUBLIC_FIREBASE_APP_ID = "appIdValue"
+NEXT_PUBLIC_FIREBASE_API_KEY = apiKeyValue
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN = authDomainValue
+NEXT_PUBLIC_FIREBASE_PROJECT_ID = projectIdValue
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET = storageBucketValue
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID = messagingSenderIdValue
+NEXT_PUBLIC_FIREBASE_APP_ID = appIdValue
 ```
 
-7. Run the development server:
+
+8. Run the development server:
 
 ```bash
 npm run dev
