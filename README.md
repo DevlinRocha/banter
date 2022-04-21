@@ -1,8 +1,19 @@
 # Banter - A Discord Clone
 
-Banter is a full-stack Discord clone built with React, Redux Toolkit, Next.JS, TypeScript, styled-components, Tailwind CSS, and uses Firebase to communicate with the back-end.
+Banter is a feature-packed Discord clone built with React, Redux Toolkit, Next.JS, TypeScript, styled-components, Tailwind CSS, and uses Firebase to communicate with the back-end.
 
 [Join the conversation!](https://banter-kappa.vercel.app/) 👈
+
+## Features
+
+- Send messages with gifs, images, videos, or text
+- Customize profile avatar, banner, bio, username, and more
+- Use a guest account or register to save credentials
+- Chat with people around the world in global server
+- Create a server and invite others with a unique code
+- Customize the server icon, name, and moderation content filter for gifs
+- Create separate channels within the server to discuss different topics
+- Create and customize different roles to assign members of the server
 
 ## Getting Started
 
