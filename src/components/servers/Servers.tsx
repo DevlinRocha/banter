@@ -97,7 +97,7 @@ export default function Servers() {
       <Sidebar>
         <Link href="/channels/@me" passHref>
           <BanterIcon onClick={() => dispatch(resetServerState())}>
-            <ServerBar serverID={"@me"} path={router.asPath} />
+            <ServerBar server-id={"@me"} path={router.asPath} />
 
             <BanterImage
               path={router.asPath}
@@ -115,10 +115,10 @@ export default function Servers() {
           return (
             <Link href={server.path} passHref key={index}>
               <ServerContainer onClick={() => handleClick(server)}>
-                <ServerBar serverID={server.serverID} path={router.asPath} />
+                <ServerBar server-id={server.serverID} path={router.asPath} />
                 {server.img ? (
                   <CustomServerIcon
-                    serverID={server.serverID}
+                    server-id={server.serverID}
                     path={router.asPath}
                     loader={() => server.img}
                     src={server.img}
