@@ -124,7 +124,7 @@ export default function CreateChannel() {
   );
 }
 
-type CreateButtonProps = {
+interface CreateButtonProps {
   isInputEmpty: boolean;
 };
 
@@ -180,7 +180,7 @@ const CancelButton = tw.button`
   hover:underline
 `;
 
-const CreateButton = tw.button<CreateButtonProps>`
+const CreateButton = tw.button`
   w-fit h-9.5 px-4 py-0.5 bg-indigo-500 text-white rounded-middle
-  ${(props) => (props.isInputEmpty ? "opacity-50 cursor-not-allowed" : null)}
+  ${(props: CreateButtonProps) => (props.isInputEmpty ? "opacity-50 cursor-not-allowed" : null)}
 `;

@@ -151,7 +151,7 @@ export default function CustomizeServer() {
   );
 }
 
-type CreateButtonProps = {
+interface CreateButtonProps {
   isInputEmpty: boolean;
 };
 
@@ -236,7 +236,7 @@ const BackButton = tw.button`
   px-1 py-0.5 text-sm font-medium
 `;
 
-const CreateButton = tw.button<CreateButtonProps>`
+const CreateButton = tw.button`
   w-24 h-9.5 px-4 py-0.5 bg-indigo-500 text-white rounded-middle
-  ${(props) => (props.isInputEmpty ? "opacity-50 cursor-not-allowed" : null)}
+  ${(props: CreateButtonProps) => (props.isInputEmpty ? "opacity-50 cursor-not-allowed" : null)}
 `;

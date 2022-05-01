@@ -146,12 +146,12 @@ export default function Servers() {
   );
 }
 
-type ServerIconProps = {
+interface ServerIconProps {
   server: ServerData;
   path: string;
 };
 
-type BanterProps = {
+interface BanterProps {
   serverID?: string;
   path: string;
 };
@@ -172,10 +172,10 @@ const ServerContainer = tw.li`
   relative flex justify-center mb-2 w-full cursor-pointer group
 `;
 
-const ServerBar = tw.span<BanterProps>`
+const ServerBar = tw.span`
   absolute left-0 w-1 h-10 bg-black rounded-r-middle
   group-hover:flex
-  ${(props) =>
+  ${(props:BanterProps) =>
     props.serverID && props.path.includes(props.serverID)
       ? "flex h-10 top-1"
       : "hidden h-5 top-3.5"}
@@ -186,15 +186,15 @@ const StyledImage = tw(Image)`
   group-hover:rounded-xl
 `;
 
-const CustomServerIcon = tw(StyledImage)<BanterProps>`
-  ${(props) =>
+const CustomServerIcon = tw(StyledImage)`
+  ${(props: BanterProps) =>
     props.serverID && props.path.includes(props.serverID)
       ? "rounded-xl fill-primary"
       : "rounded-3xl fill-white"}
 `;
 
-const BanterImage = tw(StyledImage)<BanterProps>`
-  ${(props) => {
+const BanterImage = tw(StyledImage)`
+  ${(props:BanterProps) => {
     switch (props.path) {
       case "/channels/@me":
         return "rounded-xl";
@@ -205,10 +205,10 @@ const BanterImage = tw(StyledImage)<BanterProps>`
   }}
 `;
 
-const ServerIcon = tw(DefaultServerIcon)<ServerIconProps>`
+const ServerIcon = tw(DefaultServerIcon)`
   text-lg transition-all ease-linear
   group-hover:rounded-xl group-hover:fill-primary
-  ${(props) =>
+  ${(props: ServerIconProps) =>
     props.path.includes(props.server.serverID)
       ? "rounded-xl fill-primary"
       : "rounded-3xl fill-white"}

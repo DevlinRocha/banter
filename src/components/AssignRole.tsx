@@ -103,13 +103,13 @@ export default function AssignRole() {
   );
 }
 
-type ContainerProps = {
+interface ContainerProps {
   roles: boolean;
 };
 
-const Container = tw.div<ContainerProps>`
+const Container = tw.div`
   absolute w-[250px] min-h-[78px] max-h-[256px] p-2 bg-white border rounded
-  ${(props) => (props.roles ? "h-[256px]" : "h-[78px]")}
+  ${(props: ContainerProps) => (props.roles ? "h-[256px]" : "h-[78px]")}
 `;
 
 const ResultsContainer = tw.div`

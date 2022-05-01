@@ -54,7 +54,7 @@ export default function ServerRolesSidebar() {
   );
 }
 
-type RoleContainerProps = {
+interface RoleContainerProps {
   currentRole: RoleData;
   roleID: string;
 };
@@ -83,10 +83,10 @@ const BackButton = tw.span`
   hover:text-black
 `;
 
-const RoleContainer = tw.div<RoleContainerProps>`
+const RoleContainer = tw.div`
   flex items-center w-[181px] min-h-[34px] px-2.5 py-1.5 mb-0.5 -ml-1.5 font-medium rounded-md cursor-pointer
   hover:bg-gray-100
-  ${(props) => (props.currentRole.roleID === props.roleID ? "bg-gray-300" : "")}
+  ${(props:RoleContainerProps) => (props.currentRole.roleID === props.roleID ? "bg-gray-300" : "")}
 `;
 
 const RoleColor = tw.div`

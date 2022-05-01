@@ -95,7 +95,7 @@ export default function InviteFriends() {
   );
 }
 
-type CopySuccess = {
+interface CopySuccess {
   copySuccess: boolean;
 };
 
@@ -126,9 +126,9 @@ const ContentContainer = tw.div`
   flex flex-col mb-5 pr-2 pl-4
 `;
 
-const InviteCodeContainer = tw.div<CopySuccess>`
+const InviteCodeContainer = tw.div`
   flex justify-between items-center bg-gray-100 border rounded-middle
-  ${(props) => (props.copySuccess ? "border-green-600" : "border-gray-400")}
+  ${(props: CopySuccess) => (props.copySuccess ? "border-green-600" : "border-gray-400")}
 `;
 
 const InviteCodeInput = tw.input`
@@ -139,9 +139,9 @@ const InviteCodeLabel = tw.h5`
   mb-4 text-sm text-gray-600 font-semibold
 `;
 
-const CopyButton = tw.button<CopySuccess>`
+const CopyButton = tw.button`
   flex-none w-[75px] h-8 mr-1 px-4 py-0.5  text-white font-medium rounded-middle
-  ${(props) =>
+  ${(props: CopySuccess) =>
     props.copySuccess
       ? "bg-green-600 hover:bg-green-700"
       : "bg-indigo-500 hover:bg-indigo-600"}

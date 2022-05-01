@@ -109,7 +109,7 @@ export default function ServerEditRole() {
             </SettingsHeading>
 
             <RoleName
-              onChange={(e) => handleRoleRename(e)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleRoleRename(e)}
               ref={nameRef}
               type="text"
               defaultValue={currentRole.name}
@@ -193,6 +193,10 @@ export default function ServerEditRole() {
   );
 }
 
+interface ButtonProps {
+  color: string;
+};
+
 const Container = tw.div`
   pt-15 pl-6 pb-20 min-w-[293px] max-w-[508px]
 `;
@@ -262,7 +266,7 @@ const BottomColorsRowContainer = tw(ColorsRowContainer)`
 
 const SmallColorButton = tw.button`
   w-5 h-5 rounded-middle border mr-2.5
-  ${(props) => `bg-[${props.color}]`}
+  ${(props: ButtonProps) => `bg-[${props.color}]`}
 `;
 
 const RoleName = tw.input`

@@ -263,7 +263,7 @@ export default function MemberProfileCard() {
   );
 }
 
-type RolesListProps = {
+interface RolesListProps {
   roles: boolean;
 };
 
@@ -311,9 +311,9 @@ const HeadingContainer = tw.div`
   mb-4
 `;
 
-const Roles = tw.div<RolesListProps>`
+const Roles = tw.div`
   flex flex-col
-  ${(props) => (props.roles ? "flex-row" : "flex-col")}
+  ${(props: RolesListProps) => (props.roles ? "flex-row" : "flex-col")}
 `;
 
 const RolesList = tw.div`
