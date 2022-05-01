@@ -216,7 +216,7 @@ export default function Members() {
                 };
                 return (
                   <>
-                    <Heading key={outerIndex}>
+                    <Heading key={role.roleID}>
                       {role.name.toUpperCase()} - {role.members.length}
                     </Heading>
 
@@ -241,7 +241,7 @@ export default function Members() {
                             ] = el)
                           }
                           style={roleStyle}
-                          key={index}
+                          key={member.userID}
                         >
                           <Member>
                             <StyledImage
@@ -284,7 +284,7 @@ export default function Members() {
                       (memberRef.current[index + findLength(assignedRoles)] =
                         el)
                     }
-                    key={index}
+                    key={member.userID}
                   >
                     <Member>
                       <StyledImage
