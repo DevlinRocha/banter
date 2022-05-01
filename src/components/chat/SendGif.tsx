@@ -89,7 +89,7 @@ export default function SendGif() {
           <Header>
             <GifSearchContainer>
               <GifSearch
-                onChange={(e) => setSearchInput(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchInput(e.target.value)}
                 ref={inputRef}
                 type="text"
                 placeholder="Search Tenor"

@@ -11,7 +11,7 @@ export default function LoginForm() {
   const passwordRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
-  function handleSubmit(e: any) {
+  function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
 
     let email = "";
