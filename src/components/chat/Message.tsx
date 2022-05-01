@@ -145,9 +145,14 @@ export default function Message(props: MessageProps) {
       <>
         {fixedArray.map((message, index) => {
           return index % 2 === 0 ? (
-            <>{message}</>
+            <span key={index}>{message}</span>
           ) : (
-            <LinkText href={message} rel="noreferrer noopener" target="_blank">
+            <LinkText
+              href={message}
+              rel="noreferrer noopener"
+              target="_blank"
+              key={index}
+            >
               {message}
             </LinkText>
           );
