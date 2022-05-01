@@ -83,6 +83,7 @@ export default function ServerOverview() {
                   src={server.img}
                   width={100}
                   height={100}
+                  unoptimized
                 />
               ) : (
                 <ServerIcon

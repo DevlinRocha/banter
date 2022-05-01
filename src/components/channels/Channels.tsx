@@ -130,7 +130,7 @@ export default function Channels() {
 interface ChannelProps {
   channel: ChannelData;
   path: string;
-};
+}
 
 const Container = tw.nav`
   flex flex-col bg-gray-100 w-60 h-full

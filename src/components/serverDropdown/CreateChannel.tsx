@@ -126,7 +126,7 @@ export default function CreateChannel() {
 
 interface CreateButtonProps {
   isInputEmpty: boolean;
-};
+}
 
 const Backdrop = tw.div`
   fixed w-full h-full bg-black bg-opacity-[0.85] z-20
@@ -182,5 +182,6 @@ const CancelButton = tw.button`
 
 const CreateButton = tw.button`
   w-fit h-9.5 px-4 py-0.5 bg-indigo-500 text-white rounded-middle
-  ${(props: CreateButtonProps) => (props.isInputEmpty ? "opacity-50 cursor-not-allowed" : null)}
+  ${(props: CreateButtonProps) =>
+    props.isInputEmpty ? "opacity-50 cursor-not-allowed" : null}
 `;

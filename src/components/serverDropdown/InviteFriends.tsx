@@ -97,7 +97,7 @@ export default function InviteFriends() {
 
 interface CopySuccess {
   copySuccess: boolean;
-};
+}
 
 const Backdrop = tw.div`
   fixed w-full h-full bg-black bg-opacity-[0.85] z-20
@@ -128,7 +128,8 @@ const ContentContainer = tw.div`
 
 const InviteCodeContainer = tw.div`
   flex justify-between items-center bg-gray-100 border rounded-middle
-  ${(props: CopySuccess) => (props.copySuccess ? "border-green-600" : "border-gray-400")}
+  ${(props: CopySuccess) =>
+    props.copySuccess ? "border-green-600" : "border-gray-400"}
 `;
 
 const InviteCodeInput = tw.input`

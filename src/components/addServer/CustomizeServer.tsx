@@ -95,6 +95,7 @@ export default function CustomizeServer() {
                   src={serverImageURL}
                   width={80}
                   height={80}
+                  unoptimized
                 />
               ) : (
                 <UploadImageIcon
@@ -153,7 +154,7 @@ export default function CustomizeServer() {
 
 interface CreateButtonProps {
   isInputEmpty: boolean;
-};
+}
 
 const Backdrop = tw.div`
   fixed w-full h-full bg-black bg-opacity-[0.85] z-20
@@ -238,5 +239,6 @@ const BackButton = tw.button`
 
 const CreateButton = tw.button`
   w-24 h-9.5 px-4 py-0.5 bg-indigo-500 text-white rounded-middle
-  ${(props: CreateButtonProps) => (props.isInputEmpty ? "opacity-50 cursor-not-allowed" : null)}
+  ${(props: CreateButtonProps) =>
+    props.isInputEmpty ? "opacity-50 cursor-not-allowed" : null}
 `;

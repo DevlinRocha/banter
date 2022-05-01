@@ -105,7 +105,7 @@ export default function AssignRole() {
 
 interface ContainerProps {
   roles: boolean;
-};
+}
 
 const Container = tw.div`
   absolute w-[250px] min-h-[78px] max-h-[256px] p-2 bg-white border rounded

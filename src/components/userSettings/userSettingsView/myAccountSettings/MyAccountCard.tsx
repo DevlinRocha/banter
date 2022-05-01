@@ -27,6 +27,7 @@ export default function MyAccountCard() {
             src={user.avatar}
             width={80}
             height={80}
+            unoptimized
             alt="Profile picture"
           />
         </ProfilePicture>

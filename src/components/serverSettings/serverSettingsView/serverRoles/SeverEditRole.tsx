@@ -109,7 +109,9 @@ export default function ServerEditRole() {
             </SettingsHeading>
 
             <RoleName
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleRoleRename(e)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleRoleRename(e)
+              }
               ref={nameRef}
               type="text"
               defaultValue={currentRole.name}
@@ -195,7 +197,7 @@ export default function ServerEditRole() {
 
 interface ButtonProps {
   color: string;
-};
+}
 
 const Container = tw.div`
   pt-15 pl-6 pb-20 min-w-[293px] max-w-[508px]

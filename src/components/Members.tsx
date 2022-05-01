@@ -249,6 +249,7 @@ export default function Members() {
                               src={member.avatar}
                               width={32}
                               height={32}
+                              unoptimized
                               alt={`${member.username}'s profile picture`}
                             />
                             <UsernameContainer>
@@ -292,6 +293,7 @@ export default function Members() {
                         src={member.avatar}
                         width={32}
                         height={32}
+                        unoptimized
                         alt={`${member.username}'s profile picture`}
                       />
                       <UsernameContainer>

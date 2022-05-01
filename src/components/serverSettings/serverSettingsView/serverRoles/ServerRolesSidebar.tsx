@@ -57,7 +57,7 @@ export default function ServerRolesSidebar() {
 interface RoleContainerProps {
   currentRole: RoleData;
   roleID: string;
-};
+}
 
 const Container = tw.div`
   flex flex-col items-end w-fit border-r
@@ -86,7 +86,8 @@ const BackButton = tw.span`
 const RoleContainer = tw.div`
   flex items-center w-[181px] min-h-[34px] px-2.5 py-1.5 mb-0.5 -ml-1.5 font-medium rounded-md cursor-pointer
   hover:bg-gray-100
-  ${(props:RoleContainerProps) => (props.currentRole.roleID === props.roleID ? "bg-gray-300" : "")}
+  ${(props: RoleContainerProps) =>
+    props.currentRole.roleID === props.roleID ? "bg-gray-300" : ""}
 `;
 
 const RoleColor = tw.div`

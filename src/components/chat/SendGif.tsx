@@ -89,7 +89,9 @@ export default function SendGif() {
           <Header>
             <GifSearchContainer>
               <GifSearch
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchInput(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setSearchInput(e.target.value)
+                }
                 ref={inputRef}
                 type="text"
                 placeholder="Search Tenor"
@@ -116,6 +118,7 @@ export default function SendGif() {
                           src={url}
                           width={194}
                           height={110}
+                          unoptimized
                         />
                       </CategoryContainer>
                     );

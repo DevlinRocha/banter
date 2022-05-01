@@ -124,6 +124,7 @@ export default function Servers() {
                     src={server.img}
                     width={48}
                     height={48}
+                    unoptimized
                     alt="Server icon"
                   />
                 ) : (
@@ -149,12 +150,12 @@ export default function Servers() {
 interface ServerIconProps {
   server: ServerData;
   path: string;
-};
+}
 
 interface BanterProps {
   serverID?: string;
   path: string;
-};
+}
 
 const Nav = tw.nav`
   w-18 h-full
@@ -175,7 +176,7 @@ const ServerContainer = tw.li`
 const ServerBar = tw.span`
   absolute left-0 w-1 h-10 bg-black rounded-r-middle
   group-hover:flex
-  ${(props:BanterProps) =>
+  ${(props: BanterProps) =>
     props.serverID && props.path.includes(props.serverID)
       ? "flex h-10 top-1"
       : "hidden h-5 top-3.5"}
@@ -194,7 +195,7 @@ const CustomServerIcon = tw(StyledImage)`
 `;
 
 const BanterImage = tw(StyledImage)`
-  ${(props:BanterProps) => {
+  ${(props: BanterProps) => {
     switch (props.path) {
       case "/channels/@me":
         return "rounded-xl";

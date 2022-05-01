@@ -25,6 +25,7 @@ export default function ViewMedia() {
             src={viewMedia.src}
             width={992}
             height={609}
+            unoptimized
           />
         )}
 

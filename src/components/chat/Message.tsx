@@ -194,6 +194,7 @@ export default function Message(props: MessageProps) {
             src={sender.avatar}
             width={40}
             height={40}
+            unoptimized
             alt="Profile picture"
           />
         </ProfilePictureContainer>

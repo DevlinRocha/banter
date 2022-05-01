@@ -195,6 +195,7 @@ export default function MemberProfileCard() {
               src={member.avatar}
               width={80}
               height={80}
+              unoptimized
               alt="Profile picture"
             />
           </ProfilePicture>
@@ -265,7 +266,7 @@ export default function MemberProfileCard() {
 
 interface RolesListProps {
   roles: boolean;
-};
+}
 
 const Backdrop = tw.div`
   fixed w-full h-full z-20

@@ -36,6 +36,7 @@ export default function UserPanel() {
             src={user.avatar}
             width={32}
             height={32}
+            unoptimized
             alt="Profile picture"
           />
         </ProfilePicture>

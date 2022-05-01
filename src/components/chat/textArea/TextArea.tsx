@@ -79,6 +79,7 @@ export default function TextArea() {
                       loader={() => messageImageURL}
                       src={messageImageURL}
                       layout="fill"
+                      unoptimized
                     />
                   </UploadedImageContainer>
                 </MessageImagePreview>
