@@ -1,19 +1,25 @@
 import { NextResponse } from "next/server";
 import type { NextFetchEvent, NextRequest } from "next/server";
 
-export async function middleware(req: NextRequest, ev: NextFetchEvent) {
-  const { pathname } = req.nextUrl;
+export async function middleware(request: NextRequest, ev: NextFetchEvent) {
+  const { pathname } = request.nextUrl;
+  const url = request.nextUrl.clone();
 
   if (pathname === "/") {
-    return NextResponse.redirect("/login");
+    url.pathname = "/login";
+    return NextResponse.redirect(url);
   }
 
   if (pathname === "/channels") {
-    return NextResponse.redirect("/login");
+    url.pathname = "/login";
+
+    return NextResponse.redirect(url);
   }
 
   if (pathname === "/app") {
-    return NextResponse.redirect("/channels/@me");
+    url.pathname = "/channels/@me";
+
+    return NextResponse.redirect(url);
   }
 
   return NextResponse.next();
