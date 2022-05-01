@@ -83,7 +83,9 @@ export default function ServerModeration() {
             }
           >
             <SettingInput
-              onChange={(e) => handleChange(e)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleChange(e)
+              }
               name="contentFilter"
               value="off"
               ref={offInputRef}
@@ -108,7 +110,9 @@ export default function ServerModeration() {
             }
           >
             <SettingInput
-              onChange={(e) => handleChange(e)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleChange(e)
+              }
               name="contentFilter"
               value="low"
               ref={lowInputRef}
@@ -131,7 +135,9 @@ export default function ServerModeration() {
             }
           >
             <SettingInput
-              onChange={(e) => handleChange(e)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleChange(e)
+              }
               name="contentFilter"
               value="medium"
               ref={mediumInputRef}
@@ -156,7 +162,9 @@ export default function ServerModeration() {
             }
           >
             <SettingInput
-              onChange={(e) => handleChange(e)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleChange(e)
+              }
               name="contentFilter"
               value="high"
               ref={highInputRef}
