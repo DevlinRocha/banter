@@ -245,13 +245,15 @@ export default function MemberProfileCard() {
                   );
                 })}
                 <AddRoleIconContainer ref={addRoleIconRef}>
-                  {user.roles.serverOwner && (
+                  {user.roles.serverOwner ? (
                     <AddRoleIcon
                       onClick={handleClick}
                       src={addRoleIcon}
                       width={24}
                       height={22}
                     />
+                  ) : (
+                    ""
                   )}
                 </AddRoleIconContainer>
               </RolesList>
