@@ -217,9 +217,7 @@ export default function MemberProfileCard() {
               </HeadingContainer>
             )}
 
-            <Roles
-              roles={member.roles && member.roles.length > 0 ? true : false}
-            >
+            <Roles>
               <ProfileHeading>
                 {member.roles.length > 0
                   ? member.roles.length > 1
@@ -264,10 +262,6 @@ export default function MemberProfileCard() {
       {assignRoleOpen && <AssignRole />}
     </Backdrop>
   );
-}
-
-interface RolesListProps {
-  roles: boolean;
 }
 
 const Backdrop = tw.div`
@@ -316,7 +310,6 @@ const HeadingContainer = tw.div`
 
 const Roles = tw.div`
   flex flex-col
-  ${(props: RolesListProps) => (props.roles ? "flex-row" : "flex-col")}
 `;
 
 const RolesList = tw.div`
