@@ -100,7 +100,7 @@ interface CopySuccess {
 }
 
 const Backdrop = tw.div`
-  fixed w-full h-full bg-black bg-opacity-[0.85] z-20
+  fixed w-full h-full bg-black/[0.85] z-20
 `;
 
 const Container = tw.div`
