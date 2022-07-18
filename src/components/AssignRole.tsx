@@ -39,7 +39,7 @@ export default function AssignRole() {
   useEffect(() => {
     if (!member.roles) return setLeftoverRoles(server.roles);
 
-    let leftoverRoles: RoleData[] = [];
+    const leftoverRoles: RoleData[] = [];
 
     for (const role of server.roles) {
       if (!member.roles.includes(role)) leftoverRoles.push(role);
