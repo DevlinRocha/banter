@@ -93,7 +93,7 @@ const ProfileContainer = tw.section`
 `;
 
 const HoverTextBackdrop = tw.div`
-  absolute hidden w-full h-full bg-black bg-opacity-50 rounded-full z-10 group pointer-events-none
+  absolute hidden w-full h-full bg-black/50 rounded-full z-10 group pointer-events-none
   group-hover:block
 `;
 

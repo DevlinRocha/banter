@@ -185,7 +185,7 @@ const CategoryContainer = tw.div`
 `;
 
 const CategoryBackdrop = tw(Backdrop)`
-  fixed bg-black bg-opacity-[0.4]
+  absolute bg-black/[0.4]
 `;
 
 const CategoryText = tw.span`

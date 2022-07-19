@@ -170,7 +170,7 @@ const ServerIconContainer = tw.div`
 `;
 
 const HoverTextBackdrop = tw.div`
-  absolute hidden w-full h-full bg-black bg-opacity-50 rounded-full z-10 group pointer-events-none leading-3
+  absolute hidden w-full h-full bg-black/50 rounded-full z-10 group pointer-events-none leading-3
   group-hover:flex group-hover:flex-col group-hover:justify-center
 `;
 
