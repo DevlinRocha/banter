@@ -98,7 +98,7 @@ const HoverTextBackdrop = tw.div`
 `;
 
 const HoverText = tw.span`
-  absolute flex w-full h-full text-center items-center text-[10px] text-white font-bold
+  absolute flex w-full h-full text-center justify-center items-center text-[10px] text-white font-bold
 `;
 
 const Banner = tw.span`
