@@ -156,7 +156,7 @@ const AttachButton = tw(Image)`
 `;
 
 const FileInput = tw.input`
-  absolute top-0 left-0 w-full h-full text-[0px] cursor-pointer
+  absolute top-0 left-0 w-full h-full text-[0px] invisible
   file:w-full file:h-full file:bg-transparent file:border-0
 `;
 
