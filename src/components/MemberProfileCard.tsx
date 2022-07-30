@@ -122,8 +122,8 @@ export default function MemberProfileCard() {
 
     dispatch(
       setAssignRolePosition({
-        left: assignRolePositionX,
         top: assignRolePositionY,
+        left: assignRolePositionX,
       })
     );
   }

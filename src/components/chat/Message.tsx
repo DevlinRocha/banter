@@ -120,8 +120,8 @@ export default function Message(props: MessageProps) {
 
     dispatch(
       setMemberProfileCardPosition({
-        left: memberProfileCardX + 6,
         top: memberProfileCardY,
+        left: memberProfileCardX + 6,
       })
     );
   }
