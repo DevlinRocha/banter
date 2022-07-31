@@ -41,9 +41,10 @@ export default function AssignRole() {
 
     const leftoverRoles: RoleData[] = [];
 
-    for (const role of server.roles) {
-      if (!member.roles.includes(role)) leftoverRoles.push(role);
-    }
+    if (!!server.roles)
+      for (const role of server.roles) {
+        if (!member.roles.includes(role)) leftoverRoles.push(role);
+      }
 
     setLeftoverRoles(leftoverRoles);
   }, [member]);
