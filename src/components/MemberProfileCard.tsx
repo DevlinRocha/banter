@@ -24,7 +24,7 @@ export default function MemberProfileCard() {
   const { user } = useUserState();
   const { server, member, memberPreview, memberProfileCardPosition } =
     useServersState();
-  const { assignRoleOpen } = useServerSettingsState();
+  const { assignRoleOpen, assignRoleHeight } = useServerSettingsState();
   const dispatch = useAppDispatch();
   const containerRef = useRef<HTMLElement | null>(null);
   const skippedRender = useRef(false);
@@ -100,6 +100,27 @@ export default function MemberProfileCard() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!addRoleIconRef.current) return;
+
+    const assignRolePositionX =
+      addRoleIconRef.current.getBoundingClientRect().left - 113;
+
+    const assignRolePositionY =
+      addRoleIconRef.current.getBoundingClientRect().top + 32;
+
+    dispatch(
+      setAssignRolePosition({
+        top:
+          assignRolePositionY + assignRoleHeight > window.innerHeight
+            ? addRoleIconRef.current.getBoundingClientRect().top -
+              (assignRoleHeight + 8)
+            : assignRolePositionY,
+        left: assignRolePositionX,
+      })
+    );
+  }, [assignRoleHeight]);
+
   function closeWindow() {
     dispatch(setMemberProfileCardOpen(false));
     dispatch(setAssignRoleOpen(false));
@@ -111,23 +132,7 @@ export default function MemberProfileCard() {
 
   function handleClick() {
     dispatch(setAssignRoleOpen(!assignRoleOpen));
-
-    if (!addRoleIconRef.current) return;
-
-    const assignRolePositionX =
-      addRoleIconRef.current.getBoundingClientRect().left - 113;
-
-    const assignRolePositionY =
-      addRoleIconRef.current.getBoundingClientRect().top + 32;
-
-    dispatch(
-      setAssignRolePosition({
-        top: assignRolePositionY,
-        left: assignRolePositionX,
-      })
-    );
   }
-
   function findLinks(message: string): string | JSX.Element | undefined {
     if (!message) return;
 

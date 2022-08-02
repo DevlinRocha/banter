@@ -4,7 +4,7 @@ import { setServerRole } from "../../firebase";
 import { RoleData, useServersState } from "../features/servers";
 import {
   setAssignRoleOpen,
-  setAssignRolePosition,
+  setAssignRoleHeight,
   useServerSettingsState,
 } from "../features/serverSettings";
 import { useAppDispatch } from "../redux/hooks";
@@ -21,22 +21,14 @@ export default function AssignRole() {
   }
 
   useLayoutEffect(() => {
-    if (!assignRolePosition || !assignRolePosition.top || !containerRef.current)
-      return;
+    if (!containerRef.current) return;
 
-    const containerHeight = containerRef.current.getBoundingClientRect().height;
+    dispatch(
+      setAssignRoleHeight(containerRef.current.getBoundingClientRect().height)
+    );
+  }, [leftoverRoles]);
 
-    if (assignRolePosition.top + containerHeight > window.innerHeight) {
-      dispatch(
-        setAssignRolePosition({
-          ...assignRolePosition,
-          top: window.innerHeight - containerHeight - 72,
-        })
-      );
-    }
-  }, [assignRolePosition, containerRef]);
-
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!member.roles) return setLeftoverRoles(server.roles);
 
     const leftoverRoles: RoleData[] = [];
