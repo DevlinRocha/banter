@@ -17,6 +17,7 @@ export interface ServerSettingsState {
   createChannelOpen: boolean;
   assignRoleOpen: boolean;
   assignRolePosition: PositionData;
+  assignRoleHeight: 256 | 78;
   loading: "idle" | "pending" | "succeeded" | "failed";
 }
 
@@ -44,6 +45,7 @@ const initialState: ServerSettingsState = {
   serverCopy: null,
   createChannelOpen: false,
   assignRoleOpen: false,
+  assignRoleHeight: 78,
   assignRolePosition: {},
   loading: "idle",
 };
@@ -110,6 +112,10 @@ export const userSettingsSlice = createSlice({
     setAssignRolePosition(state, action) {
       state.assignRolePosition = action.payload;
     },
+
+    setAssignRoleHeight(state, action) {
+      state.assignRoleHeight = action.payload;
+    },
   },
 });
 
@@ -128,6 +134,7 @@ export const {
   setCreateChannelOpen,
   setAssignRoleOpen,
   setAssignRolePosition,
+  setAssignRoleHeight,
 } = userSettingsSlice.actions;
 
 export const useServerSettingsState = () =>
