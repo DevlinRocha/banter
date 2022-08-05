@@ -40,7 +40,13 @@ export default function LoginForm() {
         <EmailField>
           <EmailLabel htmlFor="emailInput">Email</EmailLabel>
 
-          <EmailInput ref={emailRef} type="email" required id="emailInput" />
+          <EmailInput
+            ref={emailRef}
+            type="email"
+            required
+            autoComplete="username"
+            id="emailInput"
+          />
         </EmailField>
 
         <PasswordField>
@@ -50,6 +56,7 @@ export default function LoginForm() {
             ref={passwordRef}
             type="password"
             required
+            autoComplete="current-password"
             id="passwordInput"
           />
           <Link href="/login" passHref>
