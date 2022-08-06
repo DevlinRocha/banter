@@ -50,6 +50,7 @@ export default function RegistrationForm() {
             type="text"
             required
             placeholder="What should everyone call you?"
+            autoComplete="username"
             id="usernameInput"
             minLength={2}
             maxLength={32}
@@ -64,6 +65,7 @@ export default function RegistrationForm() {
             type="password"
             required
             placeholder="Password"
+            autoComplete="new-password"
             id="passwordInput"
           />
         </PasswordField>
