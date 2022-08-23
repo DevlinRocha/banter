@@ -191,7 +191,7 @@ export default function Message(props: MessageProps) {
 
           return match ? (
             <ChannelLink href={match.path} key={index}>
-              {message}
+              <ChannelLinkText>{message}</ChannelLinkText>
             </ChannelLink>
           ) : (
             <span key={index}>{message}</span>
@@ -329,4 +329,9 @@ const LinkText = tw.a`
 `;
 
 const ChannelLink = tw(Link)`
+`;
+
+const ChannelLinkText = tw.span`
+  text-blue-600 bg-blue-100 rounded px-0.5 cursor-pointer
+  hover:text-white hover:bg-blue-600
 `;
