@@ -32,7 +32,7 @@ export default function Message(props: MessageProps) {
   const [senderStyle, setSenderStyle] = useState<object>({});
   const avatarRef = useRef<HTMLDivElement>(null);
   const messageRef = useRef<HTMLHeadingElement>(null);
-  const { members, memberProfileCardOpen, memberPreview } = useServersState();
+  const { members, memberProfileCardOpen } = useServersState();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
