@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, RefObject } from "react";
 import tw from "tailwind-styled-components";
 import Image from "next/image";
+import Link from "next/link";
 import {
   MessageData,
   setMemberProfileCardPosition,
@@ -32,7 +33,7 @@ export default function Message(props: MessageProps) {
   const [senderStyle, setSenderStyle] = useState<object>({});
   const avatarRef = useRef<HTMLDivElement>(null);
   const messageRef = useRef<HTMLHeadingElement>(null);
-  const { members, memberProfileCardOpen } = useServersState();
+  const { channels, members, memberProfileCardOpen } = useServersState();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -171,6 +172,35 @@ export default function Message(props: MessageProps) {
     });
   }
 
+  function findChannels(message: string) {
+    if (!message) return;
+
+    if (!message.includes("#")) return message;
+
+    const messageArray = message
+      .split(/(#\w[^ ]+)/)
+      .join("")
+      .split(" ");
+
+    return (
+      <>
+        {messageArray.map((message, index) => {
+          const match = channels.find(
+            (channel) => message.substring(1) === channel.name
+          );
+
+          return match ? (
+            <ChannelLink href={match.path} key={index}>
+              {message}
+            </ChannelLink>
+          ) : (
+            <span key={index}>{message}</span>
+          );
+        })}
+      </>
+    );
+  }
+
   useEffect(() => {
     if (!sender.roles || sender.roles.length <= 0)
       return setSenderStyle({ color: "#060607" });
@@ -296,4 +326,7 @@ const MessageVideo = tw.video`
 const LinkText = tw.a`
   text-blue-600
   hover:underline
+`;
+
+const ChannelLink = tw(Link)`
 `;
