@@ -175,14 +175,9 @@ export default function Message(props: MessageProps) {
   }
 
   function findChannels(message: string) {
-    if (!message) return;
+    if (!message || !message.includes("#")) return message;
 
-    if (!message.includes("#")) return message;
-
-    const messageArray = message
-      .split(/(#\w[^ ]+)/)
-      .join("")
-      .split(" ");
+    const messageArray = message.split(/(#\w[^ ]+)/);
 
     return (
       <>
