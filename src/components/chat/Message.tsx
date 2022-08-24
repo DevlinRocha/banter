@@ -11,6 +11,7 @@ import {
   setViewMedia,
   MemberData,
   setMemberPreview,
+  setChannel,
 } from "../../features/servers";
 import { useAppDispatch } from "../../redux/hooks";
 
@@ -133,10 +134,11 @@ export default function Message(props: MessageProps) {
   }
 
   function findLinks(message: string): string | JSX.Element | undefined {
-    if (!message) return;
-
-    if (!message.includes("https://") && !message.includes("http://"))
-      return message;
+    if (
+      !message ||
+      (!message.includes("https://") && !message.includes("http://"))
+    )
+      return findChannels(message);
 
     const messageArray = message.split(/(https?:\/\/\w[^ ]+)/);
 
@@ -146,7 +148,7 @@ export default function Message(props: MessageProps) {
       <>
         {fixedArray.map((message, index) => {
           return index % 2 === 0 ? (
-            <span key={index}>{message}</span>
+            <span key={index}>{findChannels(message)}</span>
           ) : (
             <LinkText
               href={message}
@@ -154,7 +156,7 @@ export default function Message(props: MessageProps) {
               target="_blank"
               key={index}
             >
-              {message}
+              {findChannels(message)}
             </LinkText>
           );
         })}
@@ -191,7 +193,9 @@ export default function Message(props: MessageProps) {
 
           return match ? (
             <ChannelLink href={match.path} key={index}>
-              <ChannelLinkText>{message}</ChannelLinkText>
+              <ChannelLinkText onClick={() => dispatch(setChannel(match))}>
+                {message}
+              </ChannelLinkText>
             </ChannelLink>
           ) : (
             <span key={index}>{message}</span>
