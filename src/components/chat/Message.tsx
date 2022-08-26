@@ -11,9 +11,9 @@ import {
   setViewMedia,
   MemberData,
   setMemberPreview,
-  setChannel,
 } from "../../features/servers";
 import { useAppDispatch } from "../../redux/hooks";
+import { findLinks } from "../../utilities/functions";
 
 interface MessageProps {
   message: MessageData;
@@ -133,73 +133,6 @@ export default function Message(props: MessageProps) {
     dispatch(setViewMedia({ src, type }));
   }
 
-  function findLinks(message: string): string | JSX.Element | undefined {
-    if (
-      !message ||
-      (!message.includes("https://") && !message.includes("http://"))
-    )
-      return findChannels(message);
-
-    const messageArray = message.split(/(https?:\/\/\w[^ ]+)/);
-
-    const fixedArray = addSlash(messageArray);
-
-    return (
-      <>
-        {fixedArray.map((message, index) => {
-          return index % 2 === 0 ? (
-            <span key={index}>{findChannels(message)}</span>
-          ) : (
-            <LinkText
-              href={message}
-              rel="noreferrer noopener"
-              target="_blank"
-              key={index}
-            >
-              {findChannels(message)}
-            </LinkText>
-          );
-        })}
-      </>
-    );
-  }
-
-  function addSlash(messageArray: string[]) {
-    return messageArray.map((message, index) => {
-      return index % 2 === 0
-        ? message
-        : message.includes("/", 8)
-        ? message
-        : message.concat("/");
-    });
-  }
-
-  function findChannels(message: string) {
-    if (!message || !message.includes("#")) return message;
-
-    const messageArray = message.split(/(#\w[^ ]+)/);
-
-    return (
-      <>
-        {messageArray.map((message, index) => {
-          const match = channels.find(
-            (channel) => message.substring(1) === channel.name
-          );
-
-          return match ? (
-            <ChannelLink href={match.path} key={index}>
-              <ChannelLinkText onClick={() => dispatch(setChannel(match))}>
-                {message}
-              </ChannelLinkText>
-            </ChannelLink>
-          ) : (
-            <span key={index}>{message}</span>
-          );
-        })}
-      </>
-    );
-  }
-
   useEffect(() => {
     if (!sender.roles || sender.roles.length <= 0)
       return setSenderStyle({ color: "#060607" });
@@ -241,7 +174,9 @@ export default function Message(props: MessageProps) {
 
               <MessageDate>{getDate()}</MessageDate>
             </MessageInfo>
-            <Content>{findLinks(props.message.content)}</Content>
+            <Content>
+              {findLinks(props.message.content, channels, dispatch)}
+            </Content>
           </MessageContent>
           {props.message.image && (
             <MessageAccessories>
@@ -320,17 +255,4 @@ const MessageImage = tw.img`
 
 const MessageVideo = tw.video`
   object-contain rounded-middle cursor-pointer
-`;
-
-const LinkText = tw.a`
-  text-blue-600
-  hover:underline
-`;
-
-const ChannelLink = tw(Link)`
-`;
-
-const ChannelLinkText = tw.span`
-  text-blue-600 bg-blue-100 rounded px-0.5 cursor-pointer
-  hover:text-white hover:bg-blue-600
 `;
