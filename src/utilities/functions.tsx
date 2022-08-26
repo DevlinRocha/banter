@@ -76,11 +76,10 @@ function findChannels(
 }
 
 const LinkText = tw.a`
-  text-blue-600
+  text-url-link
   hover:underline
 `;
 
 const ChannelLinkText = tw.a`
-  text-blue-600 bg-blue-100 rounded px-0.5 cursor-pointer
-  hover:text-white hover:bg-blue-600
-`;
+  text-channel-link bg-channel-link-background/[0.15] rounded-[3px] px-0.5 cursor-pointer
+  hover:text-white hover:bg-channel-link-background/100`;
