@@ -1,18 +1,16 @@
 import tw from "tailwind-styled-components/dist/tailwind";
 import Link from "next/link";
-import { ChannelData, setChannel } from "../features/servers";
-import { store } from "../redux/store";
+import { setChannel, useServersState } from "../features/servers";
+import { useAppDispatch } from "../redux/hooks";
 
-export function findLinks(
-  message: string,
-  channels: ChannelData[],
-  dispatch: typeof store.dispatch
-) {
+export function findLinks(message: string) {
+  const findChannels = useFindChannels;
+
   if (
     !message ||
     (!message.includes("https://") && !message.includes("http://"))
   )
-    return findChannels(message, channels, dispatch);
+    return findChannels(message);
 
   const messageArray = message.split(/(https?:\/\/\w[^ ]+)/);
 
@@ -22,11 +20,11 @@ export function findLinks(
     <>
       {fixedArray.map((message, index) => {
         return index % 2 === 0 ? (
-          <span key={index}>{findChannels(message, channels, dispatch)}</span>
+          <span key={index}>{findChannels(message)}</span>
         ) : (
           <Link href={message} passHref key={index}>
             <LinkText rel="noreferrer noopener" target="_blank">
-              {findChannels(message, channels, dispatch)}
+              {findChannels(message)}
             </LinkText>
           </Link>
         );
@@ -45,11 +43,10 @@ function addSlash(messageArray: string[]) {
   });
 }
 
-function findChannels(
-  message: string,
-  channels: ChannelData[],
-  dispatch: typeof store.dispatch
-) {
+function useFindChannels(message: string) {
+  const { channels } = useServersState();
+  const dispatch = useAppDispatch();
+
   if (!message || !message.includes("#")) return message;
 
   const messageArray = message.split(/(#\w[^ ]+)/);

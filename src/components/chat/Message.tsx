@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef, RefObject } from "react";
 import tw from "tailwind-styled-components";
 import Image from "next/image";
-import Link from "next/link";
 import {
   MessageData,
   setMemberProfileCardPosition,
@@ -174,9 +173,7 @@ export default function Message(props: MessageProps) {
 
               <MessageDate>{getDate()}</MessageDate>
             </MessageInfo>
-            <Content>
-              {findLinks(props.message.content, channels, dispatch)}
-            </Content>
+            <Content>{findLinks(props.message.content)}</Content>
           </MessageContent>
           {props.message.image && (
             <MessageAccessories>
