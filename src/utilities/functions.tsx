@@ -72,6 +72,34 @@ function useFindChannels(message: string) {
   );
 }
 
+export function findURLs(message: string) {
+  if (
+    !message ||
+    (!message.includes("https://") && !message.includes("http://"))
+  )
+    return message;
+
+  const messageArray = message.split(/(https?:\/\/\w[^ ]+)/);
+
+  const fixedArray = addSlash(messageArray);
+
+  return (
+    <>
+      {fixedArray.map((message, index) => {
+        return index % 2 === 0 ? (
+          <span key={index}>{message}</span>
+        ) : (
+          <Link href={message} passHref key={index}>
+            <LinkText rel="noreferrer noopener" target="_blank">
+              {message}
+            </LinkText>
+          </Link>
+        );
+      })}
+    </>
+  );
+}
+
 const LinkText = tw.a`
   text-url-link
   hover:underline
