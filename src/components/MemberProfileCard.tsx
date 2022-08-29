@@ -19,6 +19,7 @@ import {
   useServerSettingsState,
 } from "../features/serverSettings";
 import AssignRole from "./AssignRole";
+import { findURLs } from "../utilities/functions";
 
 export default function MemberProfileCard() {
   const { user } = useUserState();
@@ -133,40 +134,6 @@ export default function MemberProfileCard() {
   function handleClick() {
     dispatch(setAssignRoleOpen(!assignRoleOpen));
   }
-  function findLinks(message: string): string | JSX.Element | undefined {
-    if (!message) return;
-
-    if (!message.includes("https://") && !message.includes("http://"))
-      return message;
-
-    const messageArray = message.split(/(https?:\/\/\w[^ ]+)/);
-
-    const fixedArray = addSlash(messageArray);
-
-    return (
-      <>
-        {fixedArray.map((message, index) => {
-          return index % 2 === 0 ? (
-            <>{message}</>
-          ) : (
-            <LinkText href={message} rel="noreferrer noopener" target="_blank">
-              {message}
-            </LinkText>
-          );
-        })}
-      </>
-    );
-  }
-
-  function addSlash(messageArray: string[]) {
-    return messageArray.map((message, index) => {
-      return index % 2 === 0
-        ? message
-        : message.includes("/", 8)
-        ? message
-        : message.concat("/");
-    });
-  }
 
   function removeRole(member: MemberData, roleID: string) {
     if (!user.roles.serverOwner) return;
@@ -218,7 +185,7 @@ export default function MemberProfileCard() {
               <HeadingContainer>
                 <ProfileHeading>ABOUT ME</ProfileHeading>
 
-                <AboutMeContainer>{findLinks(member.about)}</AboutMeContainer>
+                <AboutMeContainer>{findURLs(member.about)}</AboutMeContainer>
               </HeadingContainer>
             )}
 
