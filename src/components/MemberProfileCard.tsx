@@ -19,7 +19,7 @@ import {
   useServerSettingsState,
 } from "../features/serverSettings";
 import AssignRole from "./AssignRole";
-import { findURLs } from "../utilities/functions";
+import { parseURLs } from "../utilities/functions";
 
 export default function MemberProfileCard() {
   const { user } = useUserState();
@@ -185,7 +185,7 @@ export default function MemberProfileCard() {
               <HeadingContainer>
                 <ProfileHeading>ABOUT ME</ProfileHeading>
 
-                <AboutMeContainer>{findURLs(member.about)}</AboutMeContainer>
+                <AboutMeContainer>{parseURLs(member.about)}</AboutMeContainer>
               </HeadingContainer>
             )}
 

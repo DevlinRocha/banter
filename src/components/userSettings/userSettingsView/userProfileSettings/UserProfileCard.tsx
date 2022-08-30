@@ -3,7 +3,7 @@ import tw from "tailwind-styled-components/dist/tailwind";
 import Image from "next/image";
 import { useAppDispatch } from "../../../../redux/hooks";
 import { setChangeAvatarOpen } from "../../../../features/userSettings";
-import { findURLs } from "../../../../utilities/functions";
+import { parseURLs } from "../../../../utilities/functions";
 
 export default function UserProfileCard() {
   const { user } = useUserState();
@@ -44,7 +44,7 @@ export default function UserProfileCard() {
 
         <ProfileHeading>ABOUT ME</ProfileHeading>
 
-        <AboutMeContainer>{findURLs(user.about)}</AboutMeContainer>
+        <AboutMeContainer>{parseURLs(user.about)}</AboutMeContainer>
       </ProfileContainer>
     </Container>
   );

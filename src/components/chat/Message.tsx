@@ -12,7 +12,7 @@ import {
   setMemberPreview,
 } from "../../features/servers";
 import { useAppDispatch } from "../../redux/hooks";
-import { findLinks } from "../../utilities/functions";
+import { useParseLinks } from "../../utilities/functions";
 
 interface MessageProps {
   message: MessageData;
@@ -173,7 +173,7 @@ export default function Message(props: MessageProps) {
 
               <MessageDate>{getDate()}</MessageDate>
             </MessageInfo>
-            <Content>{findLinks(props.message.content)}</Content>
+            <Content>{useParseLinks(props.message.content)}</Content>
           </MessageContent>
           {props.message.image && (
             <MessageAccessories>
