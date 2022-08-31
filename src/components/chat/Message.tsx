@@ -12,6 +12,7 @@ import {
   setMemberPreview,
 } from "../../features/servers";
 import { useAppDispatch } from "../../redux/hooks";
+import { useParseLinks } from "../../utilities/functions";
 
 interface MessageProps {
   message: MessageData;
@@ -32,7 +33,7 @@ export default function Message(props: MessageProps) {
   const [senderStyle, setSenderStyle] = useState<object>({});
   const avatarRef = useRef<HTMLDivElement>(null);
   const messageRef = useRef<HTMLHeadingElement>(null);
-  const { members, memberProfileCardOpen, memberPreview } = useServersState();
+  const { channels, members, memberProfileCardOpen } = useServersState();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -131,46 +132,6 @@ export default function Message(props: MessageProps) {
     dispatch(setViewMedia({ src, type }));
   }
 
-  function findLinks(message: string): string | JSX.Element | undefined {
-    if (!message) return;
-
-    if (!message.includes("https://") && !message.includes("http://"))
-      return message;
-
-    const messageArray = message.split(/(https?:\/\/\w[^ ]+)/);
-
-    const fixedArray = addSlash(messageArray);
-
-    return (
-      <>
-        {fixedArray.map((message, index) => {
-          return index % 2 === 0 ? (
-            <span key={index}>{message}</span>
-          ) : (
-            <LinkText
-              href={message}
-              rel="noreferrer noopener"
-              target="_blank"
-              key={index}
-            >
-              {message}
-            </LinkText>
-          );
-        })}
-      </>
-    );
-  }
-
-  function addSlash(messageArray: string[]) {
-    return messageArray.map((message, index) => {
-      return index % 2 === 0
-        ? message
-        : message.includes("/", 8)
-        ? message
-        : message.concat("/");
-    });
-  }
-
   useEffect(() => {
     if (!sender.roles || sender.roles.length <= 0)
       return setSenderStyle({ color: "#060607" });
@@ -212,7 +173,7 @@ export default function Message(props: MessageProps) {
 
               <MessageDate>{getDate()}</MessageDate>
             </MessageInfo>
-            <Content>{findLinks(props.message.content)}</Content>
+            <Content>{useParseLinks(props.message.content)}</Content>
           </MessageContent>
           {props.message.image && (
             <MessageAccessories>
@@ -291,9 +252,4 @@ const MessageImage = tw.img`
 
 const MessageVideo = tw.video`
   object-contain rounded-middle cursor-pointer
-`;
-
-const LinkText = tw.a`
-  text-blue-600
-  hover:underline
 `;

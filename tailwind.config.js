@@ -17,6 +17,12 @@ module.exports = {
         primary: "#7CC6FE",
 
         active: "#3BA55D",
+
+        "url-link": "#0068E0",
+
+        "channel-link": "#505CDC",
+
+        "channel-link-background": "#5865F2",
       },
 
       fontFamily: {
@@ -74,4 +80,11 @@ module.exports = {
   },
 
   plugins: [],
+
+  safelist: [
+    "text-url-link",
+    "text-channel-link",
+    "bg-channel-link-background/[0.15]",
+    "hover:bg-channel-link-background/100",
+  ],
 };
