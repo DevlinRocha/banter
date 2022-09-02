@@ -13,7 +13,6 @@ export interface UserSettingsState {
   userChangesMade: boolean;
   userCopy: UserData | null;
   unsavedChangesError: boolean;
-  loading: "idle" | "pending" | "succeeded" | "failed";
 }
 
 const initialState: UserSettingsState = {
@@ -27,7 +26,6 @@ const initialState: UserSettingsState = {
   userChangesMade: false,
   userCopy: null,
   unsavedChangesError: false,
-  loading: "idle",
 };
 
 export const userSettingsSlice = createSlice({
