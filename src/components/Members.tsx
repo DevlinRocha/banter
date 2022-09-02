@@ -22,7 +22,6 @@ export default function Members() {
   const { server, members, memberRoles, memberProfileCardOpen } =
     useServersState();
   const memberRef = useRef<HTMLLIElement[]>([]);
-  const memberListRef = useRef<HTMLUListElement>(null);
   const [assignedRoles, setAssignedRoles] = useState<RoleListData[]>([]);
   const [unassignedRoles, setUnassignedRoles] = useState<MemberData[]>([]);
   const dispatch = useAppDispatch();

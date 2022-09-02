@@ -112,7 +112,6 @@ export interface ServersState {
   viewMediaOpen: boolean;
   viewMedia: MediaData;
   serverIDs: string[];
-  loading: "idle" | "pending" | "succeeded" | "failed";
 }
 
 const initialState: ServersState = {
@@ -181,7 +180,6 @@ const initialState: ServersState = {
     type: null,
   },
   serverIDs: [],
-  loading: "idle",
 };
 
 export const serversSlice = createSlice({

@@ -3,12 +3,10 @@ import { useAppSelector } from "../redux/hooks";
 
 export interface SendGifState {
   sendGifOpen: boolean;
-  loading: "idle" | "pending" | "succeeded" | "failed";
 }
 
 const initialState: SendGifState = {
   sendGifOpen: false,
-  loading: "idle",
 };
 
 export const sendGifSlice = createSlice({

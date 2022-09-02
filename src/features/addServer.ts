@@ -8,13 +8,11 @@ export interface AddServerState {
     | "Join Server"
     | "About Server"
     | "Customize Server";
-  loading: "idle" | "pending" | "succeeded" | "failed";
 }
 
 const initialState: AddServerState = {
   addServerOpen: false,
   addServerWindow: "Create Server",
-  loading: "idle",
 };
 
 export const addServerSlice = createSlice({

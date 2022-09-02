@@ -17,7 +17,6 @@ export interface UserData {
 export interface UserState {
   user: UserData;
   avatarPreview?: File;
-  loading: "idle" | "pending" | "succeeded" | "failed";
 }
 
 const initialState: UserState = {
@@ -38,7 +37,6 @@ const initialState: UserState = {
     },
     // permissions: {},
   },
-  loading: "idle",
 };
 
 export const userSlice = createSlice({

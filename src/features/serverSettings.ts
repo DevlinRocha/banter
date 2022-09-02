@@ -18,7 +18,6 @@ export interface ServerSettingsState {
   assignRoleOpen: boolean;
   assignRolePosition: PositionData;
   assignRoleHeight: 256 | 78;
-  loading: "idle" | "pending" | "succeeded" | "failed";
 }
 
 const initialState: ServerSettingsState = {
@@ -47,7 +46,6 @@ const initialState: ServerSettingsState = {
   assignRoleOpen: false,
   assignRoleHeight: 78,
   assignRolePosition: {},
-  loading: "idle",
 };
 
 export const userSettingsSlice = createSlice({
