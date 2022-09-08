@@ -97,7 +97,7 @@ export default function TextArea() {
 
           <TextInput
             ref={inputRef}
-            type="text"
+            contenteditable="true"
             placeholder={`Message #${channel.name}`}
           />
 
@@ -160,8 +160,8 @@ const FileInput = tw.input`
   file:w-full file:h-full file:bg-transparent file:border-0
 `;
 
-const TextInput = tw.input`
-  py-2.5 w-full h-full bg-transparent font-medium placeholder-gray-500 text-gray-800 outline-0 outline-hidden
+const TextInput = tw.div`
+  py-2.5 w-full h-full bg-transparent font-medium placeholder-gray-500 text-gray-800 outline-0 outline-hidden break-words
   focus:outline-0 focus:outline-hidden
 `;
 
