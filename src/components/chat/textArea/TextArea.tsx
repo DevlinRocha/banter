@@ -162,6 +162,7 @@ const FileInput = tw.input`
 
 const TextInput = tw.div`
   py-2.5 w-full h-full bg-transparent font-medium placeholder-gray-500 text-gray-800 outline-0 outline-hidden break-words
+  empty:before:content-[attr(placeholder)] empty:before:text-[#5E6772]
   focus:outline-0 focus:outline-hidden
 `;
 
