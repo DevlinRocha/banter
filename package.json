@@ -1,5 +1,6 @@
 {
   "name": "banter",
+  "version": "0.1.0-alpha",
   "private": true,
   "scripts": {
     "dev": "next dev",
