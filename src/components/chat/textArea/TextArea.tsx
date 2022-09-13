@@ -97,7 +97,7 @@ export default function TextArea() {
 
           <TextInput
             ref={inputRef}
-            contenteditable="true"
+            contentEditable
             placeholder={`Message #${channel.name}`}
           />
 
