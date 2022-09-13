@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, Fragment } from "react";
 import { query, collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase";
 import tw from "tailwind-styled-components/dist/tailwind";
@@ -214,8 +214,8 @@ export default function Members() {
                   color: role.color,
                 };
                 return (
-                  <>
-                    <Heading key={role.roleID}>
+                  <Fragment key={role.roleID}>
+                    <Heading>
                       {role.name.toUpperCase()} - {role.members.length}
                     </Heading>
 
@@ -262,7 +262,7 @@ export default function Members() {
                         </MemberContainer>
                       );
                     })}
-                  </>
+                  </Fragment>
                 );
               })
             : null}
