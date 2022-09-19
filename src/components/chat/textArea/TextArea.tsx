@@ -10,7 +10,7 @@ import { useAppDispatch } from "../../../redux/hooks";
 import { setSendGifOpen, useSendGifState } from "../../../features/sendGif";
 
 export default function TextArea() {
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLDivElement>(null);
   const { server, channel } = useServersState();
   const { user } = useUserState();
   const { sendGifOpen } = useSendGifState();
@@ -18,21 +18,29 @@ export default function TextArea() {
   const [messageImage, setMessageImage] = useState<File>();
   const dispatch = useAppDispatch();
 
+  function handleInput(e: any) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      sendMessage();
+      return;
+    }
+  }
+
   function getText() {
-    if (!inputRef.current || inputRef.current.value.trim() === "") return "";
+    if (
+      !inputRef.current?.textContent ||
+      inputRef.current.textContent.trim() === ""
+    )
+      return "";
 
-    let messageContent;
+    const messageContent = inputRef.current.textContent;
 
-    messageContent = inputRef.current.value;
-
-    inputRef.current.value = "";
+    inputRef.current.textContent = "";
 
     return messageContent;
   }
 
-  async function sendMessage(e: React.FormEvent) {
-    e.preventDefault();
-
+  async function sendMessage() {
     const content = getText();
 
     if (!content && !messageImageURL) return;
@@ -89,7 +97,7 @@ export default function TextArea() {
           </>
         )}
 
-        <FormContainer onSubmit={sendMessage}>
+        <FormContainer>
           <AttachButtonContainer>
             <AttachButton src={uploadImageIcon} width={24} height={24} />
             <FileInput type="file" onChange={uploadImage} />
@@ -98,6 +106,7 @@ export default function TextArea() {
           <TextInput
             ref={inputRef}
             contentEditable
+            onKeyDown={handleInput}
             placeholder={`Message #${channel.name}`}
           />
 
