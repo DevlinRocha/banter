@@ -19,7 +19,7 @@ export default function TextArea() {
   const dispatch = useAppDispatch();
 
   function handleInput(e: any) {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && e.shiftKey === false) {
       e.preventDefault();
       sendMessage();
       return;
@@ -170,9 +170,9 @@ const FileInput = tw.input`
 `;
 
 const TextInput = tw.div`
-  py-2.5 w-full h-full bg-transparent font-medium text-gray-800 outline-0 outline-hidden break-all
-  empty:before:content-[attr(placeholder)] empty:before:text-[#5E6772]
+  py-2.5 w-full h-full bg-transparent font-medium text-gray-800 outline-0 outline-hidden break-all whitespace-pre-wrap
   focus:outline-0 focus:outline-hidden
+  empty:before:content-[attr(placeholder)] empty:before:text-[#5E6772]
 `;
 
 const GifButtonContainer = tw.div`
