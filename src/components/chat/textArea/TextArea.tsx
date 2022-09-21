@@ -33,7 +33,7 @@ export default function TextArea() {
     )
       return "";
 
-    const messageContent = inputRef.current.textContent;
+    const messageContent = inputRef.current.textContent.trim();
 
     inputRef.current.textContent = "";
 
