@@ -18,7 +18,7 @@ export default function TextArea() {
   const [messageImage, setMessageImage] = useState<File>();
   const dispatch = useAppDispatch();
 
-  function handleInput(e: any) {
+  function handleKeyDown(e: KeyboardEvent) {
     if (e.key === "Enter" && e.shiftKey === false) {
       e.preventDefault();
       sendMessage();
@@ -106,7 +106,7 @@ export default function TextArea() {
           <TextInput
             ref={inputRef}
             contentEditable
-            onKeyDown={handleInput}
+            onKeyDown={handleKeyDown}
             placeholder={`Message #${channel.name}`}
           />
 
