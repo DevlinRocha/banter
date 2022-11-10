@@ -100,7 +100,7 @@ export default function Messages() {
 }
 
 const Container = tw.div`
-  absolute flex w-full h-full overflow-y-scroll
+  absolute flex w-full h-full overflow-x-clip overflow-y-scroll break-words whitespace-pre-wrap
 `;
 
 const List = tw.ol`

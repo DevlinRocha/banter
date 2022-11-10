@@ -3,7 +3,7 @@ import Link from "next/link";
 import { setChannel, useServersState } from "../features/servers";
 import { useAppDispatch } from "../redux/hooks";
 
-export function parseURLs(message: string) {
+export function parseURLs(message: string, link = true) {
   if (
     !message ||
     (!message.includes("https://") && !message.includes("http://"))
@@ -19,12 +19,14 @@ export function parseURLs(message: string) {
       {fixedArray.map((message, index) => {
         return index % 2 === 0 ? (
           <span key={index}>{message}</span>
-        ) : (
+        ) : link ? (
           <Link href={message} passHref key={index}>
             <LinkText rel="noreferrer noopener" target="_blank">
               {message}
             </LinkText>
           </Link>
+        ) : (
+          <DummyLinkText>{message}</DummyLinkText>
         );
       })}
     </>
@@ -41,7 +43,7 @@ function addSlash(messageArray: string[]) {
   });
 }
 
-export function useParseLinks(message: string) {
+export function useParseLinks(message: string, link = true) {
   const { channels } = useServersState();
   const dispatch = useAppDispatch();
 
@@ -57,11 +59,17 @@ export function useParseLinks(message: string) {
         );
 
         return match ? (
-          <Link href={match.path} passHref key={index}>
-            <ChannelLinkText onClick={() => dispatch(setChannel(match))}>
-              {parseURLs(message)}
-            </ChannelLinkText>
-          </Link>
+          link ? (
+            <Link href={match.path} passHref key={index}>
+              <ChannelLinkText onClick={() => dispatch(setChannel(match))}>
+                {parseURLs(message, link)}
+              </ChannelLinkText>
+            </Link>
+          ) : (
+            <DummyChannelLinkText>
+              {parseURLs(message, link)}
+            </DummyChannelLinkText>
+          )
         ) : (
           <span key={index}>{parseURLs(message)}</span>
         );
@@ -77,4 +85,13 @@ const LinkText = tw.a`
 
 const ChannelLinkText = tw.a`
   text-channel-link bg-channel-link-background/[0.15] rounded-[3px] px-0.5 cursor-pointer
-  hover:text-white hover:bg-channel-link-background/100`;
+  hover:text-white hover:bg-channel-link-background/100
+`;
+
+const DummyLinkText = tw.span`
+  text-url-link
+`;
+
+const DummyChannelLinkText = tw.span`
+  text-channel-link bg-channel-link-background/[0.15] rounded-[3px] px-0.5 cursor-pointer
+`;
