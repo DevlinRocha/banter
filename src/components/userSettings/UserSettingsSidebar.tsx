@@ -11,6 +11,7 @@ import {
   useUserSettingsState,
 } from "../../features/userSettings";
 import { useUserState } from "../../features/user";
+import { version } from "../../../package.json";
 
 export default function SettingsSidebar() {
   const { userSettingsScreen, logoutConfirmOpen, userCopy } =
@@ -48,7 +49,6 @@ export default function SettingsSidebar() {
     <Container>
       <NavContainer>
         <ListHeading>USER SETTINGS</ListHeading>
-
         <SettingsList>
           <MyAccount
             className={`${
@@ -68,17 +68,13 @@ export default function SettingsSidebar() {
             User Profile
           </UserProfile>
         </SettingsList>
-
         <Divider />
-
         <SettingsList>
           <LogOut onClick={() => dispatch(setLogoutConfirmOpen(true))}>
             Log Out
           </LogOut>
         </SettingsList>
-
         <Divider />
-
         <SocialLinks>
           <SocialLink href="https://twitter.com/DevlinRocha" target="_blank">
             <StyledImage src={twitterIcon} width={16} height={16} />
@@ -98,6 +94,7 @@ export default function SettingsSidebar() {
             <StyledImage src={instagramIcon} width={16} height={16} />
           </SocialLink>
         </SocialLinks>
+        <Info>v{version}</Info>
       </NavContainer>
     </Container>
   );
@@ -144,6 +141,11 @@ const SocialLinks = tw(SettingsList)`
 const SocialLink = tw.a`
   px-0.5 mr-2
 `;
+
+const Info = tw.section`
+  px-2.5 py-2
+`;
+
 const StyledImage = tw(Image)`
   object-contain
 `;
