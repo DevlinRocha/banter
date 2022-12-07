@@ -134,6 +134,7 @@ interface ChannelProps {
 
 const Container = tw.nav`
   flex flex-col bg-gray-100 w-60 h-full
+  dark:bg-dark-200
 `;
 
 const ChannelListContainer = tw.div`

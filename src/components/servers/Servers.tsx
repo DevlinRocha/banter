@@ -163,6 +163,7 @@ const Nav = tw.nav`
 
 const Sidebar = tw.ol`
   flex flex-col bg-gray-200 pt-3 w-18 h-full items-center overflow-x-hidden overflow-y-auto
+  dark:bg-dark-400
 `;
 
 const BanterIcon = tw.figure`
