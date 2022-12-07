@@ -18,6 +18,13 @@ module.exports = {
 
         active: "#3BA55D",
 
+        dark: {
+          100: "#36393F",
+          200: "#2F3136",
+          300: "#292B2F",
+          400: "#202225",
+        },
+
         "url-link": "#0068E0",
 
         "channel-link": "#505CDC",
