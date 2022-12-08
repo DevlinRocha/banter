@@ -25,6 +25,10 @@ module.exports = {
           400: "#202225",
         },
 
+        text: {
+          primary: "#B9BBBE",
+        },
+
         "url-link": "#0068E0",
 
         "channel-link": "#505CDC",
