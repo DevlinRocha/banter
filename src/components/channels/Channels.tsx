@@ -149,6 +149,7 @@ const Header = tw.header`
 
 const Heading = tw.h1`
   font-semibold truncate
+  dark:text-white
 `;
 
 const StyledImage = tw(Image)`
@@ -161,8 +162,8 @@ const ChannelContainer = tw.li`
   flex cursor-pointer py-1 pr-2 mx-2 pl-2 rounded-md
   ${(props: ChannelProps) =>
     props.path.includes(props.channel.channelID)
-      ? "bg-gray-500/[0.24]"
-      : "hover:bg-gray-500/[0.08]"}
+      ? "bg-gray-500/[0.24] dark:text-white"
+      : "hover:bg-gray-500/[0.08] dark:text-text-secondary"}
 `;
 
 const ChannelIcon = tw.span`
