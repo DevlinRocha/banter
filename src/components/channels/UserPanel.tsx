@@ -82,10 +82,11 @@ const Username = tw.span`
 
 const DisplayName = tw.span`
   text-sm font-semibold truncate
+  dark:text-white
 `;
 
 const Tag = tw.span`
-  text-gray-600 text-xs font-medium
+  text-text-primary text-xs font-medium
 `;
 
 const IconsPanel = tw.div`
