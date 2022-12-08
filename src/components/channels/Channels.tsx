@@ -144,6 +144,7 @@ const ChannelListContainer = tw.div`
 
 const Header = tw.header`
   flex flex-none justify-between items-center w-60 h-12 mb-4 px-4 border-b border-gray-300 cursor-pointer
+  dark:border-black
 `;
 
 const Heading = tw.h1`
