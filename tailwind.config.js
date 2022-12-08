@@ -27,6 +27,7 @@ module.exports = {
 
         text: {
           primary: "#B9BBBE",
+          secondary: "#96989D",
         },
 
         "url-link": "#0068E0",
