@@ -125,6 +125,7 @@ const Container = tw.div`
 
 const MessageContainer = tw.div`
   flex flex-col w-full bg-gray-200/50 rounded-lg
+  dark:bg-dark-50
 `;
 
 const MessageImagePreviewContainer = tw.div`

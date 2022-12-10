@@ -316,7 +316,7 @@ export default function Members() {
 
 const Container = tw.div`
   relative flex-none w-60 h-full bg-gray-100
-  dark:bg-dark-200
+  dark:bg-dark-200 dark:text-text-secondary
 `;
 
 const Sidebar = tw.aside`
