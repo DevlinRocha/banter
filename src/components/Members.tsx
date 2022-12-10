@@ -216,7 +216,7 @@ export default function Members() {
                 return (
                   <Fragment key={role.roleID}>
                     <Heading>
-                      {role.name.toUpperCase()} - {role.members.length}
+                      {role.name.toUpperCase()} — {role.members.length}
                     </Heading>
 
                     {role.members.map((member, index) => {
@@ -329,7 +329,7 @@ const MemberList = tw.ol`
 `;
 
 const Heading = tw.h2`
-  pt-6 pr-2 pl-4
+  pt-6 pr-2 pl-4 text-xs font-semibold
 `;
 
 const MemberContainer = tw.li`
