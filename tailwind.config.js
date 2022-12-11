@@ -29,6 +29,8 @@ module.exports = {
         text: {
           primary: "#B9BBBE",
           secondary: "#96989D",
+          tertiary: "#DCDDDE",
+          quaternary: "#A3A6AA",
         },
 
         "url-link": "#0068E0",
