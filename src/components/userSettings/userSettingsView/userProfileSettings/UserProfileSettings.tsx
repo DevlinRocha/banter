@@ -126,6 +126,7 @@ const Container = tw.main`
 
 const Heading = tw.h1`
   mb-5 text-xl font-semibold w-165
+  dark:text-white
 `;
 
 const Separator = tw.div`
@@ -145,6 +146,7 @@ const SettingsContainer = tw.div`
 `;
 const SettingsHeading = tw.h5`
   mb-2 text-xs text-gray-600 font-semibold
+  dark:text-text-primary
 `;
 
 const AvatarButtonsContainer = tw.div`
@@ -156,6 +158,7 @@ const ChangeAvatarButton = tw.button`
 
 const RemoveAvatarButton = tw(ChangeAvatarButton)`
   bg-white text-sm text-gray-500
+  dark:bg-dark-100 dark:text-white
 `;
 
 const ColorInputsContainer = tw.div`
