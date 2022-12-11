@@ -183,7 +183,8 @@ const AboutContainer = tw(SettingsContainer)`
 `;
 
 const AboutMe = tw.textarea`
-  w-full p-2.5 pr-8 bg-gray-50 border border-gray-300 rounded-middle resize-none
+  w-full p-2.5 pr-8 bg-gray-50 rounded-middle resize-none
+  bg-dark-400
 `;
 
 const UserProfileCardContainer = tw.div`

@@ -227,6 +227,7 @@ const ProfilePicture = tw(Image)`
 
 const MessageInfo = tw.div`
   flex flex-wrap
+  dark:text-text-quaternary
 `;
 
 const Username = tw.h2`
@@ -240,6 +241,7 @@ const MessageDate = tw.span`
 
 const Content = tw.div`
   font-medium text-gray-800
+  dark:text-text-tertiary
 `;
 
 const MessageAccessories = tw.div`

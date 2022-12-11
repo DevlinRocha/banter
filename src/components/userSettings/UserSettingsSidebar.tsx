@@ -105,6 +105,7 @@ export default function SettingsSidebar() {
 
 const Container = tw.div`
   flex flex-col items-end w-1/2 bg-gray-100
+  dark:bg-dark-200
 `;
 
 const NavContainer = tw.nav`
