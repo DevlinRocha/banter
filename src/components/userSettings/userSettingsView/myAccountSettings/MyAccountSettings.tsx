@@ -27,10 +27,12 @@ const Container = tw.main`
 
 const Heading = tw.h2`
   mb-5 text-xl font-semibold
+  dark:text-white
 `;
 
 const SubHeading = tw.h5`
   mt-10 text-xs font-semibold
+  dark:text-text-primary
 `;
 
 const Divider = tw.div`
