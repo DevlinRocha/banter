@@ -125,7 +125,7 @@ const ListHeading = tw.h3`
 const ListItem = tw.li`
   px-2.5 py-1.5 mb-0.5 font-medium rounded-md cursor-pointer
   hover:bg-gray-200
-  dark:text-text-primary dark:hover:bg-dark-50 dark:hover:text-black
+  dark:text-text-primary dark:hover:bg-dark-50 dark:hover:text-tertiary
 `;
 
 const MyAccount = tw(ListItem)`
