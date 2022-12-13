@@ -80,6 +80,7 @@ export default function MyAccountCard() {
 
 const Container = tw.section`
   relative flex flex-col min-w-[655px] max-w-[660px] bg-gray-200 rounded
+  dark:bg-dark-400
 `;
 
 const ProfileContainer = tw.section`
@@ -88,6 +89,7 @@ const ProfileContainer = tw.section`
 
 const SettingContainer = tw.section`
   flex flex-col m-4 mt-2 p-4 bg-gray-100 rounded
+  bg-dark-200
 `;
 
 const Banner = tw.span`
@@ -96,6 +98,7 @@ const Banner = tw.span`
 
 const ProfilePicture = tw.div`
   absolute top-19 left-4 flex border-[7px] rounded-full
+  dark:border-dark-400
 `;
 
 const StyledImage = tw(Image)`
@@ -107,6 +110,7 @@ const DisplayName = tw.div`
 `;
 
 const UsernameDisplay = tw.span`
+  dark:text-white
 `;
 
 const UserProfileButton = tw.button`
@@ -114,10 +118,12 @@ const UserProfileButton = tw.button`
 `;
 
 const Username = tw.span`
+  dark:text-white
 `;
 
 const Tag = tw(Username)`
   text-gray-600
+  dark:text-text-primary
 `;
 
 const UsernameSettingContainer = tw.div`
@@ -133,7 +139,8 @@ const SettingDisplay = tw.div`
 `;
 
 const SettingsLabel = tw.div`
-  mb-1 text-xs
+  mb-1 text-xs font-bold
+  dark:text-text-primary
 `;
 
 const UsernameContainer = tw.div`
@@ -147,4 +154,5 @@ const EditButtonContent = tw.span`
 `;
 
 const Email = tw.span`
+  dark:text-white
 `;
