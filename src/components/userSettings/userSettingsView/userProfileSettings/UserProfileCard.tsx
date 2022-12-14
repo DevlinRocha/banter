@@ -89,7 +89,7 @@ const StyledImage = tw(Image)`
 `;
 
 const UsernameContainer = tw.div`
-  pt-3 text-xl font-medium select-text
+  pt-3 text-xl font-semibold select-text
 `;
 
 const Username = tw.span`

@@ -100,6 +100,10 @@ export default function UserProfileSettings() {
           <AboutContainer>
             <SettingsHeading>ABOUT ME</SettingsHeading>
 
+            <SettingsSubheading>
+              You can use links if you'd like.
+            </SettingsSubheading>
+
             <AboutMe
               onChange={handleAboutChange}
               value={user.about}
@@ -151,6 +155,10 @@ const SettingsHeading = tw.h5`
   dark:text-text-primary
 `;
 
+const SettingsSubheading = tw.div`
+  mb-4 text-sm text-text-primary
+`;
+
 const AvatarButtonsContainer = tw.div`
 `;
 
@@ -181,6 +189,7 @@ const ColorButton = tw(ColorInput)`
 
 const ColorInputLabel = tw.label`
   mt-1 text-xs text-gray-600
+  dark:text-text-primary
 `;
 
 const AboutContainer = tw(SettingsContainer)`
