@@ -76,7 +76,7 @@ export default function UserProfileSettings() {
           </SettingsContainer>
 
           <SettingsContainer>
-            <SettingsHeading>PROFILE COLOR</SettingsHeading>
+            <SettingsHeading>BANNER COLOR</SettingsHeading>
 
             <ColorInputsContainer>
               <ColorInputContainer>
