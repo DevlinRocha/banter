@@ -18,6 +18,15 @@ module.exports = {
 
         active: "#3BA55D",
 
+        "dark-primary": "#949CF7",
+
+        "dark-secondary": "#4752C4",
+
+        danger: {
+          100: "#D83C3E",
+          200: "#ED4245",
+        },
+
         dark: {
           25: "#4F545C99",
           50: "#4F545C66",
@@ -27,6 +36,7 @@ module.exports = {
           300: "#292B2F",
           400: "#202225",
           500: "#050506",
+          600: "#18191C",
         },
 
         text: {
