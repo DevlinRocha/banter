@@ -101,7 +101,7 @@ export default function UserProfileSettings() {
             <SettingsHeading>ABOUT ME</SettingsHeading>
 
             <SettingsSubheading>
-              You can use links if you'd like.
+              You can use links if you{"'"}d like.
             </SettingsSubheading>
 
             <AboutMe
