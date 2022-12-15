@@ -2,7 +2,7 @@ import { useUserSettingsState } from "../../../features/userSettings";
 import UserProfileSettings from "./userProfileSettings/UserProfileSettings";
 import MyAccountSettings from "./myAccountSettings/MyAccountSettings";
 import UnsavedChanges from "../../UnsavedChanges";
-import AppearanceSettings from "./appearanceSettings/appearanceSettings";
+import AppearanceSettings from "./appearanceSettings/AppearanceSettings";
 
 export default function SettingsView() {
   const { userSettingsScreen, userChangesMade } = useUserSettingsState();
