@@ -44,6 +44,12 @@ export default function SettingsSidebar() {
     dispatch(setUserSettingsScreen("User Profile"));
   }
 
+  function viewAppAppearance() {
+    if (unsavedChanges()) return;
+
+    dispatch(setUserSettingsScreen("Appearance"));
+  }
+
   return (
     <Container>
       <NavContainer>
@@ -69,6 +75,22 @@ export default function SettingsSidebar() {
           >
             User Profile
           </UserProfile>
+        </SettingsList>
+
+        <Divider />
+
+        <ListHeading>APP SETTINGS</ListHeading>
+
+        <SettingsList>
+          <Appearance
+            className={`${
+              userSettingsScreen === "Appearance" &&
+              "bg-gray-300 dark:bg-dark-25 dark:text-white dark:hover:text-white"
+            }`}
+            onClick={viewAppAppearance}
+          >
+            Appearance
+          </Appearance>
         </SettingsList>
 
         <Divider />
@@ -132,6 +154,9 @@ const MyAccount = tw(ListItem)`
 `;
 
 const UserProfile = tw(ListItem)`
+`;
+
+const Appearance = tw(ListItem)`
 `;
 
 const Divider = tw.div`
