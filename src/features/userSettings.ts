@@ -4,7 +4,7 @@ import { UserData } from "./user";
 
 export interface UserSettingsState {
   userSettingsOpen: boolean;
-  userSettingsScreen: "My Account" | "User Profile";
+  userSettingsScreen: "My Account" | "User Profile" | "Appearance";
   logoutConfirmOpen: boolean;
   changeUsernameOpen: boolean;
   changeEmailOpen: boolean;
@@ -13,6 +13,7 @@ export interface UserSettingsState {
   userChangesMade: boolean;
   userCopy: UserData | null;
   unsavedChangesError: boolean;
+  theme: "dark" | "light";
 }
 
 const initialState: UserSettingsState = {
@@ -26,6 +27,7 @@ const initialState: UserSettingsState = {
   userChangesMade: false,
   userCopy: null,
   unsavedChangesError: false,
+  theme: "dark",
 };
 
 export const userSettingsSlice = createSlice({
@@ -72,6 +74,12 @@ export const userSettingsSlice = createSlice({
     setUnsavedChangesError(state, action) {
       state.unsavedChangesError = action.payload;
     },
+
+    setTheme(state, action) {
+      window.document.documentElement.classList.remove(state.theme);
+      state.theme = action.payload;
+      window.document.documentElement.classList.add(state.theme);
+    },
   },
 });
 
@@ -86,6 +94,7 @@ export const {
   setUserChangesMade,
   setUserCopy,
   setUnsavedChangesError,
+  setTheme,
 } = userSettingsSlice.actions;
 
 export const useUserSettingsState = () =>
