@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
 import tw from "tailwind-styled-components/dist/tailwind";
-import { useServersState } from "../../../../features/servers";
 import {
   setTheme,
   useUserSettingsState,
@@ -11,7 +10,6 @@ export default function MyAccountSettings() {
   const darkInputRef = useRef<HTMLInputElement>(null);
   const lightInputRef = useRef<HTMLInputElement>(null);
   const { theme } = useUserSettingsState();
-  const { server } = useServersState();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -39,8 +37,8 @@ export default function MyAccountSettings() {
         <SettingsContainer>
           <SettingContainer
             className={
-              server.contentFilter === "off"
-                ? "bg-gray-200"
+              theme === "dark"
+                ? "bg-dark-25"
                 : "bg-gray-100 hover:bg-gray-100/75"
             }
           >
@@ -61,9 +59,7 @@ export default function MyAccountSettings() {
 
           <SettingContainer
             className={
-              server.contentFilter === "low"
-                ? "bg-gray-200"
-                : "bg-gray-100 hover:bg-gray-100/75"
+              theme === "light" ? "bg-gray-200" : "bg-dark-200 hover:bg-dark-50"
             }
           >
             <SettingInput
@@ -110,6 +106,7 @@ const SettingsContainer = tw.div`
 
 const SettingContainer = tw.div`
   flex items-center mb-2 p-2.5 rounded-middle cursor-pointer
+  dark:text-white
 `;
 
 const SettingInput = tw.input`
