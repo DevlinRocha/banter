@@ -89,7 +89,7 @@ const ProfileContainer = tw.section`
 
 const SettingContainer = tw.section`
   flex flex-col m-4 mt-2 p-4 bg-gray-100 rounded
-  bg-dark-200
+  dark:bg-dark-200
 `;
 
 const Banner = tw.span`
