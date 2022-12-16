@@ -44,10 +44,12 @@ export default function LogoutConfirm() {
 
 const Backdrop = tw.div`
   fixed w-full h-full bg-black/[0.85] z-10
+  dark:text-white
 `;
 
 const Container = tw.div`
   fixed flex flex-col top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-110 h-50 bg-white rounded-md z-20
+  dark:bg-dark-100
 `;
 
 const Heading = tw.h2`
@@ -56,10 +58,12 @@ const Heading = tw.h2`
 
 const Body = tw.p`
   w-full h-18.5 pr-2 pb-5 pl-4 text-gray-500
+  dark:text-text-tertiary
 `;
 
 const Buttons = tw.div`
   flex justify-end w-full h-17.5 p-4 bg-gray-100
+  dark:bg-dark-200
 `;
 
 const CancelButton = tw.button`
