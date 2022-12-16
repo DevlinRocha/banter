@@ -207,7 +207,7 @@ const Container = tw.li`
 const MessageContainer = tw.div`
   flex w-full mt-[17px] py-0.5 pr-12 pl-4
   hover:bg-gray-50
-  dark:hover:bg-dark-500
+  dark:hover:bg-dark-150
 `;
 
 const ProfilePictureContainer = tw.div`
