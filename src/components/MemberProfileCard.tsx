@@ -249,7 +249,7 @@ const ProfileContainer = tw.section`
 `;
 
 const Banner = tw.span`
-  h-15 rounded-t-lg
+  h-15
 `;
 
 const ProfilePicture = tw.div`
