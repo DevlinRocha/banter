@@ -339,6 +339,7 @@ const MemberContainer = tw.li`
 const Member = tw.div`
   flex items-center h-full px-2 rounded cursor-pointer
   hover:bg-gray-200
+  dark:hover:bg-dark-50 dark:hover:text-text-tertiary
 `;
 
 const StyledImage = tw(Image)`
