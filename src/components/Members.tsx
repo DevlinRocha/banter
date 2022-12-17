@@ -347,7 +347,7 @@ const StyledImage = tw(Image)`
 `;
 
 const UsernameContainer = tw.div`
-  flex w-[164px]
+  flex w-[164px] items-center
 `;
 
 const Username = tw.span`
@@ -355,5 +355,5 @@ const Username = tw.span`
 `;
 
 const ServerOwnerIcon = tw.span`
-  ml-1
+  ml-1 text-xs
 `;
