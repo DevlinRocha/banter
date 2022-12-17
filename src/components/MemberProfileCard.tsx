@@ -243,12 +243,12 @@ const Backdrop = tw.div`
 `;
 
 const Container = tw.section`
-  absolute flex flex-col w-[21.25rem] bg-white rounded-lg drop-shadow-xl
+  absolute flex flex-col w-[21.25rem] bg-gray-200 rounded-lg drop-shadow-xl
   dark:bg-dark-300 dark:text-white
 `;
 
 const ProfileContainer = tw.section`
-  flex flex-col m-4 mt-16 rounded-lg
+  flex flex-col m-4 mt-16 bg-white rounded-lg
   dark:bg-dark-400
 `;
 
@@ -257,7 +257,7 @@ const Banner = tw.span`
 `;
 
 const ProfilePicture = tw.div`
-  absolute top-4 left-4 flex border-[7px] border-white rounded-full
+  absolute top-4 left-4 flex border-[7px] border-gray-200 rounded-full
   dark:text-white dark:border-dark-300
 `;
 
@@ -266,7 +266,7 @@ const StyledImage = tw(Image)`
 `;
 
 const UsernameContainer = tw.div`
-  p-3 pb-0 text-xl font-medium select-text
+  p-3 pb-0 text-xl font-semibold select-text
 `;
 
 const Username = tw.span`
@@ -314,7 +314,7 @@ const RoleName = tw.span`
 `;
 
 const ProfileHeading = tw.h3`
-  mb-2 text-gray-600 text-xs font-bold
+  mb-2 text-[#060607] text-xs font-bold
   dark:text-white
 `;
 
@@ -329,9 +329,4 @@ const AddRoleIconContainer = tw.div`
 const AddRoleIcon = tw(Image)`
   rounded select-text whitespace-pre-wrap
   hover:cursor-pointer
-`;
-
-const LinkText = tw.a`
-  text-blue-600
-  hover:underline
 `;
