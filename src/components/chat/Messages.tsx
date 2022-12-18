@@ -87,7 +87,7 @@ export default function Messages() {
           <Subtext>This is the start of the #{channel.name} channel.</Subtext>
         </WelcomeMessage>
 
-        <Separator />
+        {messages.length > 0 && <Separator />}
 
         {messages.map((message, index) => {
           return <Message message={message} key={index} />;
@@ -113,16 +113,19 @@ const WelcomeMessage = tw.div`
 
 const Heading = tw.h1`
   my-2 font-bold text-double text-ellipsis
+  dark:text-white
 `;
 
 const Subtext = tw.span`
   text-gray-500
+  dark:text-text-primary
 `;
 
 const Separator = tw.div`
-  flex h-0 mr-3.5 ml-4 border-t border-gray-300
+  flex h-0 mr-3.5 mt-6 mb-2 ml-4 border-t border-gray-300
+  dark:border-dark-75
 `;
 
 const Scroll = tw.span`
-  w-px h-4
+  w-px h-3
 `;
