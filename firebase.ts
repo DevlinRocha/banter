@@ -76,6 +76,8 @@ export async function createAccount(
       banner: "#7CC6FE",
 
       email: user.email,
+
+      theme: "dark",
     });
     // Database updated
 
@@ -86,7 +88,7 @@ export async function createAccount(
   }
 }
 
-async function updateUserDatabase(property: string, newValue: string) {
+export async function updateUserDatabase(property: string, newValue: string) {
   if (!auth.currentUser) return;
 
   const user = auth.currentUser;
@@ -168,6 +170,8 @@ export async function signInAsGuest() {
       banner: "#7CC6FE",
 
       email: guest.email,
+
+      theme: "dark",
     });
     // Database updated
 
