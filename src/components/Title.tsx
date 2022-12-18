@@ -20,7 +20,7 @@ export default function Title() {
   return (
     <Container>
       <HeadingContainer>
-        <Hashtag>#</Hashtag>
+        <HeadingIcon>#</HeadingIcon>
         <Heading>{channel.name}</Heading>
         {channel.topic && (
           <>
@@ -53,8 +53,8 @@ const HeadingContainer = tw.div`
   dark:text-[#8E9297]
 `;
 
-const Hashtag = tw.div`
-  mx-2 text-3xl
+const HeadingIcon = tw.div`
+  mx-2 text-3xl font-thin
 `;
 
 const Heading = tw.h3`

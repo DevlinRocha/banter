@@ -159,7 +159,7 @@ const ChannelList = tw.ol`
 `;
 
 const ChannelContainer = tw.li`
-  flex cursor-pointer py-1 pr-2 mx-2 pl-2 rounded-md
+  flex items-center cursor-pointer py-1 pr-2 mx-2 pl-2 max-h-8 rounded-md
   ${(props: ChannelProps) =>
     props.path.includes(props.channel.channelID)
       ? "bg-gray-500/[0.24] dark:text-white"
@@ -167,9 +167,9 @@ const ChannelContainer = tw.li`
 `;
 
 const ChannelIcon = tw.span`
-  mr-1.5 text-gray-500 font-bold
+  mr-1.5 text-gray-500 font-bold text-2xl font-thin
 `;
 
 const ChannelName = tw.span`
-  truncate
+  font-medium truncate
 `;
