@@ -151,6 +151,7 @@ const Backdrop = tw.div`
 
 const Container = tw.section`
   absolute right-4 bottom-0 w-[424px] h-[412px] bg-gray-100 rounded-lg drop-shadow-lg
+  dark:bg-dark-200
 `;
 
 const GifPicker = tw.div`
@@ -163,11 +164,13 @@ const Header = tw.header`
 
 const GifSearchContainer = tw.div`
   flex w-full h-[34px] bg-gray-200 rounded-middle
+  dark:bg-dark-400 dark:text-text-tertiary
 `;
 
 const GifSearch = tw.input`
   w-full h-[30px] m-px px-2 bg-transparent
   placeholder-gray-500
+  outline-none
 `;
 
 const ContentContainer = tw.div`
