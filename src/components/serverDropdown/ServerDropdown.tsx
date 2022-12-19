@@ -62,9 +62,9 @@ const ListContainer = tw.ol`
 `;
 
 const ListItem = tw.li`
-  flex items-center my-0.5 py-1.5 pl-2 h-8 text-sm rounded-middle cursor-pointer
+  flex items-center my-0.5 py-1.5 pl-2 h-8 text-sm font-medium rounded-middle cursor-pointer
   hover:bg-indigo-800 hover:text-white
-  dark:text-text-primary dark:hover:bg-dark-secondary
+  dark:text-text-primary dark:hover:bg-dark-secondary dark:hover:text-white
 `;
 
 const ListItemInvite = tw(ListItem)`
@@ -79,5 +79,6 @@ const ListItemLeave = tw(ListItem)`
 `;
 
 const Separator = tw.div`
-  w-[196px] h-px border-b border-gray-300 m-1
+  w-[196px] h-px m-1 border-b border-gray-300
+  dark:border-dark-75
 `;
