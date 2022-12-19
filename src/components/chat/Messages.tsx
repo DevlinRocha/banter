@@ -122,7 +122,7 @@ const Subtext = tw.span`
 `;
 
 const Separator = tw.div`
-  flex h-0 mr-3.5 mt-6 mb-2 ml-4 border-t border-gray-300
+  flex h-0 mr-3.5 mt-2 mb-2 ml-4 border-t border-gray-300
   dark:border-dark-75
 `;
 
