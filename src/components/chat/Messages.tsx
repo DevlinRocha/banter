@@ -5,6 +5,7 @@ import {
   useServersState,
   MessageData,
 } from "../../features/servers";
+import { useUserSettingsState } from "../../features/userSettings";
 import tw from "tailwind-styled-components";
 import Message from "./Message";
 import { query, collection, onSnapshot } from "firebase/firestore";
@@ -12,6 +13,7 @@ import { db } from "../../../firebase";
 
 export default function Messages() {
   const { server, channel, messages } = useServersState();
+  const { theme } = useUserSettingsState();
   const scrollRef = useRef<any>();
   const dispatch = useAppDispatch();
 
@@ -80,7 +82,12 @@ export default function Messages() {
   }, [channel.channelID]);
 
   return (
-    <Container>
+    <Container
+      style={{
+        "scrollbar-color":
+          theme === "dark" ? "#202225 #2F3136" : "#E3E5E8 #F2F3F5",
+      }}
+    >
       <List>
         <WelcomeMessage>
           <Heading>Welcome to #{channel.name}!</Heading>
