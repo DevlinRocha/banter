@@ -159,7 +159,8 @@ const GifPicker = tw.div`
 `;
 
 const Header = tw.header`
-  px-4 pb-3 border-b h-[46px]
+  px-4 pb-3 h-[46px] shadow-[0_1px_0_0_rgba(185,187,190,0.3)]
+  dark:shadow-[0_1px_0_0_rgba(24,25,28,0.3),0_1px_2px_0_rgba(24,25,28,0.3)]
 `;
 
 const GifSearchContainer = tw.div`
