@@ -153,7 +153,7 @@ const UsernameContainer = tw.div`
 `;
 
 const FieldInput = tw.input`
-  w-full h-10 p-2.5 text-gray-800 font-medium outline-0
+  w-full h-10 p-2.5 text-gray-800 font-medium outline-none
 `;
 
 const TagInput = tw(FieldInput)`
