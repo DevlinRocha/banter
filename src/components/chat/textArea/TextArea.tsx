@@ -4,15 +4,18 @@ import tw from "tailwind-styled-components";
 import { useServersState } from "../../../features/servers";
 import { useUserState } from "../../../features/user";
 import uploadImageIcon from "../../../../assets/uploadImageIcon.svg";
+import uploadImageIconDark from "../../../../assets/uploadImageIconDark.svg";
 import Image from "next/image";
 import gifButton from "../../../../assets/gifButton.svg";
 import { useAppDispatch } from "../../../redux/hooks";
 import { setSendGifOpen, useSendGifState } from "../../../features/sendGif";
+import { useUserSettingsState } from "../../../features/userSettings";
 
 export default function TextArea() {
   const inputRef = useRef<HTMLDivElement>(null);
   const { server, channel } = useServersState();
   const { user } = useUserState();
+  const { theme } = useUserSettingsState();
   const { sendGifOpen } = useSendGifState();
   const [messageImageURL, setMessageImageURL] = useState<string>("");
   const [messageImage, setMessageImage] = useState<File>();
@@ -99,7 +102,11 @@ export default function TextArea() {
 
         <FormContainer>
           <AttachButtonContainer>
-            <AttachButton src={uploadImageIcon} width={24} height={24} />
+            <AttachButton
+              src={theme === "dark" ? uploadImageIconDark : uploadImageIcon}
+              width={24}
+              height={24}
+            />
             <FileInput type="file" onChange={uploadImage} />
           </AttachButtonContainer>
 
@@ -157,7 +164,7 @@ const FormContainer = tw.form`
 `;
 
 const AttachButtonContainer = tw.div`
-  relative flex items-center w-10
+  relative flex items-center w-14 px-4
 `;
 
 const AttachButton = tw(Image)`
@@ -171,8 +178,7 @@ const FileInput = tw.input`
 `;
 
 const TextInput = tw.div`
-  py-2.5 w-full h-full bg-transparent font-medium text-gray-800 outline-0 outline-hidden break-all whitespace-pre-wrap
-  focus:outline-0 focus:outline-hidden
+  py-2.5 w-full h-full bg-transparent font-medium text-gray-800 outline-none break-all whitespace-pre-wrap
   empty:before:content-[attr(placeholder)] empty:before:text-[#5E6772]
 `;
 
