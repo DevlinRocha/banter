@@ -13,6 +13,7 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { useUserState } from "../features/user";
 import { db, setServerRole } from "../../firebase";
 import addRoleIcon from "../../assets/addRoleIcon.svg";
+import addRoleIconDark from "../../assets/addRoleIconDark.svg";
 import {
   setAssignRoleOpen,
   setAssignRolePosition,
@@ -20,12 +21,14 @@ import {
 } from "../features/serverSettings";
 import AssignRole from "./AssignRole";
 import { parseURLs } from "../utilities/functions";
+import { useUserSettingsState } from "../features/userSettings";
 
 export default function MemberProfileCard() {
   const { user } = useUserState();
   const { server, member, memberPreview, memberProfileCardPosition } =
     useServersState();
   const { assignRoleOpen, assignRoleHeight } = useServerSettingsState();
+  const { theme } = useUserSettingsState();
   const dispatch = useAppDispatch();
   const containerRef = useRef<HTMLElement | null>(null);
   const skippedRender = useRef(false);
@@ -216,15 +219,13 @@ export default function MemberProfileCard() {
                     );
                   })}
                   <AddRoleIconContainer ref={addRoleIconRef}>
-                    {user.roles.serverOwner ? (
+                    {user.roles.serverOwner && (
                       <AddRoleIcon
                         onClick={handleClick}
-                        src={addRoleIcon}
+                        src={theme === "dark" ? addRoleIconDark : addRoleIcon}
                         width={24}
                         height={22}
                       />
-                    ) : (
-                      ""
                     )}
                   </AddRoleIconContainer>
                 </RolesList>
