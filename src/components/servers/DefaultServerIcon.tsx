@@ -27,7 +27,7 @@ export default function DefaultServerIcon(props: DefaultServerIconProps) {
     <svg width={512} height={512} xmlns="http://www.w3.org/2000/svg" {...props}>
       <rect width={512} height={512} />
       <text
-        className={`front-medium group-hover:fill-white
+        className={`front-medium group-hover:fill-white dark:fill-text-tertiary
         ${
           props.path.includes(props.server.serverID)
             ? "fill-white"
