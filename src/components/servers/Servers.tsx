@@ -208,12 +208,11 @@ const BanterImage = tw(StyledImage)`
 `;
 
 const ServerIcon = tw(DefaultServerIcon)`
-  text-lg transition-all ease-linear
+  text-lg rounded-3xl transition-all ease-linear fill-white
   group-hover:rounded-xl group-hover:fill-primary
+  dark:text-white dark:fill-dark-100
   ${(props: ServerIconProps) =>
-    props.path.includes(props.server.serverID)
-      ? "rounded-xl fill-primary"
-      : "rounded-3xl fill-white"}
+    props.path.includes(props.server.serverID) && "rounded-xl fill-primary"}
 `;
 
 const AddServerIconContainer = tw.div`
@@ -227,4 +226,5 @@ const CreateServerIcon = tw(AddServerIcon)`
 
 const Separator = tw.div`
   w-8 h-0.5 my-2 bg-gray-300
+  dark:bg-dark-75
 `;
