@@ -45,7 +45,7 @@ export default function Title() {
 
 const Container = tw.section`
   flex flex-none h-12 px-2 items-center justify-between bg-white z-10 border-b border-gray-300
-  dark:bg-dark-100 dark:border-black
+  dark:bg-dark-100 dark:border-0 dark:shadow-[0_1px_0_0_rgba(4,4,5,0.2),0_1.5px_0_0_rgba(6,6,7,0.05),0_2px_0_0_rgba(4,4,5,0.05)]
 `;
 
 const HeadingContainer = tw.div`
