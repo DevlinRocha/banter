@@ -209,7 +209,7 @@ const ServerIcon = tw(DefaultServerIcon)`
 `;
 
 const StyledImage = tw(Image)`
-  rounded-full object-cover
+  rounded-full
 `;
 
 const ServerNameInputContainer = tw.div`
