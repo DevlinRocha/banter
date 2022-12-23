@@ -240,5 +240,5 @@ const BackButton = tw.button`
 const CreateButton = tw.button`
   w-24 h-9.5 px-4 py-0.5 bg-indigo-500 text-white rounded-middle
   ${(props: CreateButtonProps) =>
-    props.isInputEmpty ? "opacity-50 cursor-not-allowed" : null}
+    props.isInputEmpty && "opacity-50 cursor-not-allowed"}
 `;
