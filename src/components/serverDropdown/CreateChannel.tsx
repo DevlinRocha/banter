@@ -9,7 +9,7 @@ import { useServersState } from "../../features/servers";
 
 export default function CreateChannel() {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [isInputEmpty, setIsInputEmpty] = useState(false);
+  const [isInputEmpty, setIsInputEmpty] = useState(true);
   const { server } = useServersState();
   const [channelType, setChannelType] = useState("text");
   const dispatch = useAppDispatch();
@@ -67,17 +67,13 @@ export default function CreateChannel() {
     return input.replace(/\s+/g, "-").toLowerCase();
   }
 
-  function capitalize(string: string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-
   return (
     <Backdrop onClick={closeWindow}>
       <Container onClick={stopPropagation}>
         <HeadingContainer>
-          <Heading>Create {capitalize(channelType)} Channel</Heading>
+          <Heading>Create Channel</Heading>
 
-          <Body>Post images, GIFS, stickers, opinions, and puns</Body>
+          <Body>Send messages, images, GIFs, opinions, and puns</Body>
 
           <CloseIcon onClick={closeWindow}>
             <StyledImage
