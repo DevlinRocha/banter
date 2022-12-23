@@ -84,7 +84,7 @@ export default function Messages() {
   return (
     <Container
       style={{
-        "scrollbar-color":
+        scrollbarColor:
           theme === "dark" ? "#202225 #2F3136" : "#E3E5E8 #F2F3F5",
       }}
     >
