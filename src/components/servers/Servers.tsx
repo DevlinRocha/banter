@@ -153,7 +153,8 @@ interface ServerIconProps {
 }
 
 interface BanterProps {
-  serverID?: string;
+  serverID: string;
+  serverPath: string;
   path: string;
 }
 
@@ -175,12 +176,11 @@ const ServerContainer = tw.li`
 `;
 
 const ServerBar = tw.span`
-  absolute left-0 w-1 h-10 bg-black rounded-r-middle
+  absolute left-0 w-1 h-5 bg-black rounded-r-middle top-3.5 hidden
   group-hover:flex
+  dark:bg-white
   ${(props: BanterProps) =>
-    props.serverID && props.path.includes(props.serverID)
-      ? "flex h-10 top-1"
-      : "hidden h-5 top-3.5"}
+    props.path.includes(props.serverID) && "flex h-10 top-1"}
 `;
 
 const StyledImage = tw(Image)`
@@ -189,10 +189,10 @@ const StyledImage = tw(Image)`
 `;
 
 const CustomServerIcon = tw(StyledImage)`
-  ${(props: BanterProps) =>
-    props.serverID && props.path.includes(props.serverID)
-      ? "rounded-xl fill-primary"
-      : "rounded-3xl fill-white"}
+  rounded-3xl
+  ${(props: BanterProps) => {
+    props.path.includes(props.serverID) && "rounded-xl";
+  }}
 `;
 
 const BanterImage = tw(StyledImage)`
@@ -222,6 +222,7 @@ const AddServerIconContainer = tw.div`
 const CreateServerIcon = tw(AddServerIcon)`
   transition-all ease-linear flex-none rounded-3xl fill-white cursor-pointer
   group-hover:rounded-xl group-hover:fill-active
+  dark:fill-dark-100
 `;
 
 const Separator = tw.div`
