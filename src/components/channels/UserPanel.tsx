@@ -49,11 +49,17 @@ export default function UserPanel() {
       </UserInfo>
 
       <IconsPanel>
-        <Icon src={muteIcon} width={20} height={20} />
+        <IconContainer>
+          <Icon src={muteIcon} width={20} height={20} />
+        </IconContainer>
 
-        <Icon src={deafenIcon} width={20} height={20} />
+        <IconContainer>
+          <Icon src={deafenIcon} width={20} height={20} />
+        </IconContainer>
 
-        <Icon onClick={handleClick} src={settingsIcon} width={20} height={20} />
+        <IconContainer onClick={handleClick}>
+          <Icon src={settingsIcon} width={20} height={20} />
+        </IconContainer>
       </IconsPanel>
     </Container>
   );
@@ -96,6 +102,12 @@ const IconsPanel = tw.div`
   flex justify-around align-center w-24
 `;
 
+const IconContainer = tw.div`
+  flex items-center p-1.5 rounded cursor-pointer
+  hover:bg-gray-500/25
+  dark:hover:bg-dark-25
+`;
+
 const Icon = tw(Image)`
-  cursor-pointer object-contain
+  object-contain
 `;
