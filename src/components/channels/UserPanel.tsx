@@ -60,12 +60,12 @@ export default function UserPanel() {
 }
 
 const Container = tw.section`
-  flex justify-between w-60 h-[52px] px-2 bg-gray-200/50
+  flex justify-between w-60 h-[52px] px-2 mb-px bg-gray-200/50
   dark:bg-dark-300
 `;
 
 const UserInfo = tw.div`
-  flex items-center
+  flex items-center pl-0.5 ml-[-2px] mr-2
 `;
 
 const ProfilePicture = tw.div`
@@ -77,16 +77,16 @@ const StyledImage = tw(Image)`
 `;
 
 const Username = tw.span`
-  flex flex-col w-[84px] overflow-hidden select-text cursor-pointer
+  flex flex-col w-[84px] py-1 mr-1 overflow-hidden select-text cursor-pointer
 `;
 
 const DisplayName = tw.span`
-  text-sm font-semibold truncate
+  text-sm font-semibold truncate leading-[1.125rem]
   dark:text-white
 `;
 
 const Tag = tw.span`
-  text-text-primary text-xs font-medium
+  text-text-primary text-xs leading-[0.8125rem]
 `;
 
 const IconsPanel = tw.div`
