@@ -27,6 +27,7 @@ module.exports = {
         danger: {
           100: "#D83C3E",
           200: "#ED4245",
+          300: "#A12D2F",
         },
 
         dark: {
