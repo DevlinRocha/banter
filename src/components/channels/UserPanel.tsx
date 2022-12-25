@@ -2,9 +2,9 @@ import { useAppDispatch } from "../../redux/hooks";
 import Image from "next/image";
 import tw from "tailwind-styled-components/dist/tailwind";
 import { useUserState } from "../../features/user";
-import muteIcon from "../../../assets/muteIcon.png";
-import deafenIcon from "../../../assets/deafenIcon.png";
-import settingsIcon from "../../../assets/settingsIcon.svg";
+import MuteIcon from "./MuteIcon";
+import DeafenIcon from "./DeafenIcon";
+import SettingsIcon from "./SettingsIcon";
 import {
   setUserSettingsOpen,
   useUserSettingsState,
@@ -50,15 +50,15 @@ export default function UserPanel() {
 
       <IconsPanel>
         <IconContainer>
-          <Icon src={muteIcon} width={20} height={20} />
+          <Mute />
         </IconContainer>
 
         <IconContainer>
-          <Icon src={deafenIcon} width={20} height={20} />
+          <Deafen />
         </IconContainer>
 
         <IconContainer onClick={handleClick}>
-          <Icon src={settingsIcon} width={20} height={20} />
+          <Settings />
         </IconContainer>
       </IconsPanel>
     </Container>
@@ -108,6 +108,11 @@ const IconContainer = tw.div`
   dark:hover:bg-dark-25
 `;
 
-const Icon = tw(Image)`
-  object-contain
+const Mute = tw(MuteIcon)`
+`;
+
+const Deafen = tw(DeafenIcon)`
+`;
+
+const Settings = tw(SettingsIcon)`
 `;
