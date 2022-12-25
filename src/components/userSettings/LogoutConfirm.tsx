@@ -32,7 +32,7 @@ export default function LogoutConfirm() {
       <Container onClick={stopPropagation}>
         <Heading>Log Out</Heading>
 
-        <Body>Are you sure you want to log out?</Body>
+        <Body>Are you sure you want to logout?</Body>
         <Buttons>
           <CancelButton onClick={closeWindow}>Cancel</CancelButton>
           <LogOutButton onClick={handleLogOut}>Log Out</LogOutButton>
@@ -48,12 +48,12 @@ const Backdrop = tw.div`
 `;
 
 const Container = tw.div`
-  fixed flex flex-col top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-110 h-50 bg-white rounded-md z-20
+  fixed flex flex-col top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-110 h-50 bg-white rounded z-20
   dark:bg-dark-100
 `;
 
 const Heading = tw.h2`
-  w-full p-4 text-lg font-semibold
+  w-full p-4 text-xl font-semibold leading-6
 `;
 
 const Body = tw.p`
@@ -62,14 +62,17 @@ const Body = tw.p`
 `;
 
 const Buttons = tw.div`
-  flex justify-end w-full h-17.5 p-4 bg-gray-100
+  flex justify-end w-full h-17.5 p-4 bg-gray-100 rounded-b
   dark:bg-dark-200
 `;
 
 const CancelButton = tw.button`
-  py-0.5 px-4 h-full
+  py-0.5 px-4 w-24 h-full text-sm font-medium leading-4
+  hover:underline
 `;
 
 const LogOutButton = tw(CancelButton)`
-  bg-red-500 text-white rounded-md
+  bg-red-500 text-white rounded-[3px] ease-in duration-[170ms]
+  hover:no-underline hover:ease-in
+  dark:bg-danger-100 dark:hover:bg-danger-300
 `;
