@@ -79,12 +79,12 @@ export default function MyAccountCard() {
 }
 
 const Container = tw.section`
-  relative flex flex-col min-w-[655px] max-w-[660px] bg-gray-200 rounded
+  relative flex flex-col min-w-[655px] max-w-[660px] bg-gray-200 rounded-md
   dark:bg-dark-400
 `;
 
 const ProfileContainer = tw.section`
-  flex h-18 pt-4 pr-4 pl-30 rounded-md overflow-clip
+  flex h-18 pt-4 pr-4 pl-30 overflow-clip
 `;
 
 const SettingContainer = tw.section`
@@ -147,7 +147,8 @@ const UsernameContainer = tw.div`
 `;
 
 const EditButton = tw.button`
-  my-0.5 py-0.5 px-4 bg-gray-500 rounded text-sm text-white font-medium
+  my-0.5 py-0.5 px-4 w-15 h-8 bg-gray-500 rounded text-sm text-white font-medium
+  dark:bg-dark-50
 `;
 
 const EditButtonContent = tw.span`
