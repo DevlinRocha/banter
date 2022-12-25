@@ -227,5 +227,5 @@ const CreateServerIcon = tw(AddServerIcon)`
 
 const Separator = tw.div`
   w-8 h-0.5 my-2 bg-gray-300
-  dark:bg-dark-75
+  dark:bg-dark-50/[.48]
 `;

@@ -38,7 +38,7 @@ export default function MyAccountSettings() {
           <SettingContainer
             className={
               theme === "dark"
-                ? "bg-dark-25"
+                ? "bg-dark-50/60"
                 : "bg-gray-100 hover:bg-gray-100/75"
             }
           >
@@ -59,7 +59,9 @@ export default function MyAccountSettings() {
 
           <SettingContainer
             className={
-              theme === "light" ? "bg-gray-200" : "bg-dark-200 hover:bg-dark-50"
+              theme === "light"
+                ? "bg-gray-200"
+                : "bg-dark-200 hover:bg-dark-50/40"
             }
           >
             <SettingInput

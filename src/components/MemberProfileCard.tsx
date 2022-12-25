@@ -281,7 +281,7 @@ const Tag = tw.span`
 
 const Divider = tw.div`
   h-px m-3 mb-0 bg-gray-200
-  dark:bg-dark-75
+  dark:bg-dark-50/[.48]
 `;
 
 const ProfileDetails = tw.div`

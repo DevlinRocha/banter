@@ -59,7 +59,7 @@ export default function SettingsSidebar() {
           <MyAccount
             className={`${
               userSettingsScreen === "My Account" &&
-              "bg-gray-300 dark:bg-dark-25 dark:text-white dark:hover:text-white"
+              "bg-gray-300 dark:bg-dark-50/60 dark:text-white dark:hover:text-white"
             }`}
             onClick={viewMyAccount}
           >
@@ -69,7 +69,7 @@ export default function SettingsSidebar() {
           <UserProfile
             className={`${
               userSettingsScreen === "User Profile" &&
-              "bg-gray-300 dark:bg-dark-25 dark:text-white dark:hover:text-white"
+              "bg-gray-300 dark:bg-dark-50/60 dark:text-white dark:hover:text-white"
             }`}
             onClick={viewUserProfile}
           >
@@ -85,7 +85,7 @@ export default function SettingsSidebar() {
           <Appearance
             className={`${
               userSettingsScreen === "Appearance" &&
-              "bg-gray-300 dark:bg-dark-25 dark:text-white dark:hover:text-white"
+              "bg-gray-300 dark:bg-dark-50/60 dark:text-white dark:hover:text-white"
             }`}
             onClick={viewAppAppearance}
           >
@@ -147,7 +147,7 @@ const ListHeading = tw.h3`
 const ListItem = tw.li`
   px-2.5 py-1.5 mb-0.5 font-medium rounded-md cursor-pointer
   hover:bg-gray-200
-  dark:text-text-primary dark:hover:bg-dark-50 dark:hover:text-tertiary
+  dark:text-text-primary dark:hover:bg-dark-50/40 dark:hover:text-tertiary
 `;
 
 const MyAccount = tw(ListItem)`
@@ -161,7 +161,7 @@ const Appearance = tw(ListItem)`
 
 const Divider = tw.div`
   h-px mx-2.5 my-2 bg-gray-200
-  dark:bg-dark-75
+  dark:bg-dark-50/[.48]
 `;
 
 const LogOut = tw(ListItem)`

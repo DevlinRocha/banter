@@ -80,5 +80,5 @@ const ListItemLeave = tw(ListItem)`
 
 const Separator = tw.div`
   w-[196px] h-px m-1 border-b border-gray-300
-  dark:border-dark-75
+  dark:border-dark-50/[.48]
 `;

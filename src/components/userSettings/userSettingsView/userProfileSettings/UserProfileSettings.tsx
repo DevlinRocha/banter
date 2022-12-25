@@ -135,7 +135,7 @@ const Heading = tw.h1`
 
 const Separator = tw.div`
   w-full mb-6 pb-1 border-b border-gray-200
-  dark:border-dark-75
+  dark:border-dark-50/[.48]
 `;
 
 const ContentContainer = tw.div`
@@ -148,7 +148,7 @@ const CustomizationContainer = tw.div`
 
 const SettingsContainer = tw.div`
   mb-6 pb-6 border-b
-  dark:border-dark-75
+  dark:border-dark-50/[.48]
 `;
 const SettingsHeading = tw.h5`
   mb-2 text-xs text-gray-600 font-semibold

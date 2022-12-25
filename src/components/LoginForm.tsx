@@ -178,7 +178,7 @@ const Fine = tw.span`
 
 const Separator = tw.div`
   w-0 h-0 border mx-8 self-center
-  dark:border-dark-75
+  dark:border-dark-50/[.48]
 `;
 
 const BanterContainer = tw.div`

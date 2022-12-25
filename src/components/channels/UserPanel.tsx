@@ -73,7 +73,7 @@ const Container = tw.section`
 const UserInfo = tw.div`
   flex items-center h-min pl-0.5 ml-[-2px] mr-2 rounded
   hover:bg-gray-500/25
-  dark:hover:bg-dark-25
+  dark:hover:bg-dark-50/60
 `;
 
 const ProfilePicture = tw.div`
@@ -105,7 +105,7 @@ const IconsPanel = tw.div`
 const IconContainer = tw.div`
   flex items-center p-1.5 rounded cursor-pointer
   hover:bg-gray-500/25
-  dark:hover:bg-dark-25
+  dark:hover:bg-dark-50/60
 `;
 
 const Mute = tw(MuteIcon)`
