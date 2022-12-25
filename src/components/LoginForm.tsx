@@ -38,7 +38,9 @@ export default function LoginForm() {
         <Subheading>{"We're so excited to see you again!"}</Subheading>
 
         <EmailField>
-          <EmailLabel htmlFor="emailInput">Email</EmailLabel>
+          <EmailLabel htmlFor="emailInput">
+            EMAIL <Required>*</Required>
+          </EmailLabel>
 
           <EmailInput
             ref={emailRef}
@@ -50,7 +52,9 @@ export default function LoginForm() {
         </EmailField>
 
         <PasswordField>
-          <PasswordLabel htmlFor="passwordInput">Password</PasswordLabel>
+          <PasswordLabel htmlFor="passwordInput">
+            PASSWORD <Required>*</Required>
+          </PasswordLabel>
 
           <PasswordInput
             ref={passwordRef}
@@ -101,6 +105,7 @@ export default function LoginForm() {
 
 const Container = tw.form`
   flex w-196 h-102 p-8 justify-between bg-white rounded-md select-none
+  dark:bg-dark-100 dark:text-text-primary
 `;
 
 const LoginContainer = tw.div`
@@ -109,10 +114,12 @@ const LoginContainer = tw.div`
 
 const Heading = tw.h3`
   text-2xl text-center font-semibold mb-2
+  dark:text-white
 `;
 
 const Subheading = tw.span`
   text-center mb-5 text-gray-600
+  dark:text-text-primary
 `;
 
 const LinkText = tw.span`
@@ -126,10 +133,16 @@ const GenericFieldset = tw.fieldset`
 
 const GenericLabel = tw.label`
   mb-2 text-xs text-gray-600 font-semibold
+  dark:text-text-primary
 `;
 
 const GenericInput = tw.input`
-  border-2 rounded-md p-1
+  rounded-md p-1 outline-none p-2
+  dark:bg-dark-400
+`;
+
+const Required = tw.span`
+  text-red-500
 `;
 
 const EmailField = tw(GenericFieldset)`
@@ -160,10 +173,12 @@ const LoginText = tw.span`
 
 const Fine = tw.span`
   text-sm text-gray-500 mt-1
+  dark:text-text-primary
 `;
 
 const Separator = tw.div`
   w-0 h-0 border mx-8 self-center
+  dark:border-dark-75
 `;
 
 const BanterContainer = tw.div`
@@ -179,10 +194,12 @@ const StyledImage = tw(Image)`
 
 const Caption = tw.h3`
   text-2xl font-semibold mb-2
+  dark:text-white
 `;
 
 const SubCaption = tw.span`
   text-gray-600
+  dark:text-text-primary
 `;
 
 const Bold = tw.span`
