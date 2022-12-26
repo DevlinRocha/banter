@@ -103,20 +103,21 @@ const SubHeading = tw.h5`
 `;
 
 const SettingsContainer = tw.div`
-  flex flex-col max-w-[660px]
+  flex flex-col min-w-[440px]
 `;
 
 const SettingContainer = tw.div`
-  flex items-center mb-2 p-2.5 rounded-middle cursor-pointer
+  flex items-center mb-2 pl-2.5 rounded-middle cursor-pointer w-full h-[47px]
   dark:text-white
 `;
 
 const SettingInput = tw.input`
-  w-min h-min ml-2 cursor-pointer scale-[1.75]
+  w-5 h-5 cursor-pointer accent-black
+  dark:accent-white
 `;
 
 const SettingInputLabel = tw.label`
-  flex flex-col w-full mr-2 ml-4 cursor-pointer
+  flex flex-col w-full p-2.5 cursor-pointer
 `;
 
 const SettingLabelText = tw.span`
