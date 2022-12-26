@@ -13,8 +13,7 @@ import {
 import { useUserState } from "../../features/user";
 
 export default function SettingsSidebar() {
-  const { userSettingsScreen, logoutConfirmOpen, userCopy } =
-    useUserSettingsState();
+  const { userSettingsScreen, userCopy } = useUserSettingsState();
   const { user } = useUserState();
   const dispatch = useAppDispatch();
 
@@ -96,9 +95,9 @@ export default function SettingsSidebar() {
         <Divider />
 
         <SettingsList>
-          <LogOut onClick={() => dispatch(setLogoutConfirmOpen(true))}>
+          <ListItem onClick={() => dispatch(setLogoutConfirmOpen(true))}>
             Log Out
-          </LogOut>
+          </ListItem>
         </SettingsList>
 
         <Divider />
@@ -162,10 +161,6 @@ const Appearance = tw(ListItem)`
 const Divider = tw.div`
   h-px mx-2.5 my-2 bg-gray-200
   dark:bg-dark-50/[.48]
-`;
-
-const LogOut = tw(ListItem)`
-  text-red-500
 `;
 
 const SocialLinks = tw(SettingsList)`
