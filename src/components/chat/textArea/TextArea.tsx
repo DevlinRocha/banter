@@ -6,7 +6,7 @@ import { useUserState } from "../../../features/user";
 import uploadImageIcon from "../../../../assets/uploadImageIcon.svg";
 import uploadImageIconDark from "../../../../assets/uploadImageIconDark.svg";
 import Image from "next/image";
-import gifButton from "../../../../assets/gifButton.svg";
+import GifIcon from "./GifIcon";
 import { useAppDispatch } from "../../../redux/hooks";
 import { setSendGifOpen, useSendGifState } from "../../../features/sendGif";
 import { useUserSettingsState } from "../../../features/userSettings";
@@ -118,7 +118,7 @@ export default function TextArea() {
           />
 
           <GifButtonContainer onClick={openGif}>
-            <GifButton src={gifButton} width={24} height={24} />
+            <GifButton />
           </GifButtonContainer>
         </FormContainer>
       </MessageContainer>
@@ -186,6 +186,5 @@ const GifButtonContainer = tw.div`
   flex flex-none items-center w-max h-max cursor-pointer
 `;
 
-const GifButton = tw(Image)`
-  w-full h-full
+const GifButton = tw(GifIcon)`
 `;
