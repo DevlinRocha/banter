@@ -35,13 +35,7 @@ export default function MyAccountSettings() {
         <SubHeading>THEME</SubHeading>
 
         <SettingsContainer>
-          <SettingContainer
-            className={
-              theme === "dark"
-                ? "bg-dark-50/60"
-                : "bg-gray-100 hover:bg-gray-100/75"
-            }
-          >
+          <SettingContainer>
             <SettingInput
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 handleChange(e)
@@ -57,13 +51,7 @@ export default function MyAccountSettings() {
             </SettingInputLabel>
           </SettingContainer>
 
-          <SettingContainer
-            className={
-              theme === "light"
-                ? "bg-gray-200"
-                : "bg-dark-200 hover:bg-dark-50/40"
-            }
-          >
+          <SettingContainerLight>
             <SettingInput
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 handleChange(e)
@@ -77,7 +65,7 @@ export default function MyAccountSettings() {
             <SettingInputLabel htmlFor="low">
               <SettingLabelText>Light</SettingLabelText>
             </SettingInputLabel>
-          </SettingContainer>
+          </SettingContainerLight>
         </SettingsContainer>
       </AppearanceSettings>
     </Container>
@@ -107,8 +95,14 @@ const SettingsContainer = tw.div`
 `;
 
 const SettingContainer = tw.div`
-  flex items-center mb-2 pl-2.5 rounded-middle cursor-pointer w-full h-[47px]
-  dark:text-white
+  flex items-center mb-2 pl-2.5 bg-gray-100 rounded-middle cursor-pointer w-full h-[47px] text-text-quinary
+  hover:bg-gray-100/75
+  dark:bg-dark-50/60 dark:text-white
+`;
+
+const SettingContainerLight = tw(SettingContainer)`
+  bg-gray-200 text-text-senary
+  dark:bg-dark-200 dark:text-text-primary dark:hover:bg-dark-50/40
 `;
 
 const SettingInput = tw.input`
