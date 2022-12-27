@@ -164,7 +164,7 @@ const FormContainer = tw.form`
 `;
 
 const AttachButtonContainer = tw.div`
-  relative flex items-center w-14 px-4
+  relative flex items-center w-12
 `;
 
 const AttachButton = tw(Image)`
