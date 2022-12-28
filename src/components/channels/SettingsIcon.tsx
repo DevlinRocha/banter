@@ -1,16 +1,11 @@
-import { SVGProps } from "react";
-import { useUserSettingsState } from "../../features/userSettings";
-
-export default function SettingsIcon(props: SVGProps<SVGSVGElement>) {
-  const { theme } = useUserSettingsState();
-
+export default function SettingsIcon() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
-      width="20px"
-      height="20px"
-      fill={theme === "dark" ? "#B9BBBE" : "#4F5660"}
+      width="20"
+      height="20"
+      className=" fill-text-quinary dark:fill-text-primary"
     >
       <path
         fillRule="evenodd"
