@@ -48,6 +48,7 @@ module.exports = {
           quaternary: "#A3A6AA",
           quinary: "#4F5660",
           senary: "#060607",
+          septenary: "#2E3338",
         },
 
         "url-link": "#0068E0",
