@@ -168,10 +168,6 @@ const SocialLink = tw.a`
   px-0.5 mr-2
 `;
 
-const Info = tw.section`
-  px-2.5 py-2
-`;
-
 const Twitter = tw(TwitterIcon)`
 `;
 
@@ -179,4 +175,9 @@ const Github = tw(GithubIcon)`
 `;
 
 const Instagram = tw(InstagramIcon)`
+`;
+
+const Info = tw.section`
+  px-2.5 py-2 text-xs text-text-muted select-text
+  dark:text-text-quaternary
 `;
