@@ -105,7 +105,7 @@ export default function LoginForm() {
 
 const Container = tw.form`
   flex w-196 h-102 p-8 justify-between bg-white rounded-md select-none
-  dark:bg-dark-100 dark:text-text-primary
+  dark:bg-dark-100 dark:text-text-tertiary
 `;
 
 const LoginContainer = tw.div`
