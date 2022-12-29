@@ -15,6 +15,7 @@ import { db } from "../../../firebase";
 import { useRouter } from "next/router";
 import { useAddServerState } from "../../features/addServer";
 import AddServer from "../../components/addServer/AddServer";
+import LandingPage from "../../components/LandingPage";
 
 const Home: NextPage = () => {
   const auth = getAuth();
@@ -112,6 +113,8 @@ const Home: NextPage = () => {
       <Servers />
 
       <Channels />
+
+      <LandingPage />
     </PageContainer>
   );
 };
