@@ -26,6 +26,14 @@ export default function TextArea() {
     }
   }
 
+  function handlePaste(e: ClipboardEvent) {
+    e.preventDefault();
+    if (!e.clipboardData) return;
+
+    const target = e.target as HTMLElement;
+    target.textContent = e.clipboardData.getData("text/plain");
+  }
+
   function getText() {
     if (
       !inputRef.current?.textContent ||
@@ -108,6 +116,7 @@ export default function TextArea() {
             contentEditable
             onKeyDown={handleKeyDown}
             placeholder={`Message #${channel.name}`}
+            onPaste={handlePaste}
           />
 
           <GifButtonContainer onClick={openGif}>

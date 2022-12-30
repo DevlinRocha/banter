@@ -4,12 +4,6 @@ import { setChannel, useServersState } from "../features/servers";
 import { useAppDispatch } from "../redux/hooks";
 
 export function parseURLs(message: string, link = true) {
-  if (
-    !message ||
-    (!message.includes("https://") && !message.includes("http://"))
-  )
-    return message;
-
   const messageArray = message.split(/(https?:\/\/\w[^ ]+)/);
 
   const fixedArray = addSlash(messageArray);
@@ -47,35 +41,44 @@ export function useParseLinks(message: string, link = true) {
   const { channels } = useServersState();
   const dispatch = useAppDispatch();
 
-  if (!message || !message.includes("#")) return parseURLs(message);
+  if (message && (message.includes("https://") || message.includes("http://")))
+    return parseURLs(message);
 
-  const messageArray = message.split(/(#\w[^ ]+)/);
+  return findChannels(message);
 
-  return (
-    <>
-      {messageArray.map((message, index) => {
-        const match = channels.find(
-          (channel) => message.substring(1) === channel.name
-        );
+  function findChannels(message: string) {
+    if (!message || !message.includes("#")) return message;
 
-        return match ? (
-          link ? (
-            <Link href={match.path} passHref key={index}>
-              <ChannelLinkText onClick={() => dispatch(setChannel(match))}>
-                {parseURLs(message, link)}
-              </ChannelLinkText>
-            </Link>
+    const messageArray = message.split(/(#\w[^ ]+)/);
+
+    return (
+      <>
+        {messageArray.map((message, index) => {
+          const match = channels.find((channel) =>
+            message.includes(channel.name)
+          );
+
+          return match ? (
+            link ? (
+              <Link href={match.path} passHref key={index}>
+                <>
+                  {findChannels(message.split(match.name)[0].slice(0, -1))}
+                  <ChannelLinkText onClick={() => dispatch(setChannel(match))}>
+                    #{match.name}
+                  </ChannelLinkText>
+                  {findChannels(message.split(match.name)[1])}
+                </>
+              </Link>
+            ) : (
+              <DummyChannelLinkText>{message}</DummyChannelLinkText>
+            )
           ) : (
-            <DummyChannelLinkText>
-              {parseURLs(message, link)}
-            </DummyChannelLinkText>
-          )
-        ) : (
-          <span key={index}>{parseURLs(message)}</span>
-        );
-      })}
-    </>
-  );
+            <span key={index}>{message}</span>
+          );
+        })}
+      </>
+    );
+  }
 }
 
 const LinkText = tw.a`
