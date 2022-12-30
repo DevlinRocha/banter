@@ -236,6 +236,7 @@ const MessageInfo = tw.div`
 const Username = tw.h2`
   mr-1 text-gray-900 font-semibold cursor-pointer break-all
   hover:underline hover:decoration-gray-900
+  dark:text-white
 `;
 
 const MessageDate = tw.span`
