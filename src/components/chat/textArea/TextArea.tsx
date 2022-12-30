@@ -8,13 +8,11 @@ import UploadImageIcon from "./UploadImageIcon";
 import GifIcon from "./GifIcon";
 import { useAppDispatch } from "../../../redux/hooks";
 import { setSendGifOpen, useSendGifState } from "../../../features/sendGif";
-import { useUserSettingsState } from "../../../features/userSettings";
 
 export default function TextArea() {
   const inputRef = useRef<HTMLDivElement>(null);
   const { server, channel } = useServersState();
   const { user } = useUserState();
-  const { theme } = useUserSettingsState();
   const { sendGifOpen } = useSendGifState();
   const [messageImageURL, setMessageImageURL] = useState<string>("");
   const [messageImage, setMessageImage] = useState<File>();
