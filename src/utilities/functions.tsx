@@ -4,12 +4,6 @@ import { setChannel, useServersState } from "../features/servers";
 import { useAppDispatch } from "../redux/hooks";
 
 export function parseURLs(message: string, link = true) {
-  if (
-    !message ||
-    (!message.includes("https://") && !message.includes("http://"))
-  )
-    return message;
-
   const messageArray = message.split(/(https?:\/\/\w[^ ]+)/);
 
   const fixedArray = addSlash(messageArray);
@@ -47,10 +41,13 @@ export function useParseLinks(message: string, link = true) {
   const { channels } = useServersState();
   const dispatch = useAppDispatch();
 
+  if (message && (message.includes("https://") || message.includes("http://")))
+    return parseURLs(message);
+
   return findChannels(message);
 
   function findChannels(message: string) {
-    if (!message || !message.includes("#")) return parseURLs(message);
+    if (!message || !message.includes("#")) return message;
 
     const messageArray = message.split(/(#\w[^ ]+)/);
 
@@ -73,12 +70,10 @@ export function useParseLinks(message: string, link = true) {
                 </>
               </Link>
             ) : (
-              <DummyChannelLinkText>
-                {parseURLs(message, link)}
-              </DummyChannelLinkText>
+              <DummyChannelLinkText>{message}</DummyChannelLinkText>
             )
           ) : (
-            <span key={index}>{parseURLs(message)}</span>
+            <span key={index}>{message}</span>
           );
         })}
       </>
