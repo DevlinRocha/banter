@@ -47,35 +47,43 @@ export function useParseLinks(message: string, link = true) {
   const { channels } = useServersState();
   const dispatch = useAppDispatch();
 
-  if (!message || !message.includes("#")) return parseURLs(message);
+  return findChannels(message);
 
-  const messageArray = message.split(/(#\w[^ ]+)/);
+  function findChannels(message: string) {
+    if (!message || !message.includes("#")) return parseURLs(message);
 
-  return (
-    <>
-      {messageArray.map((message, index) => {
-        const match = channels.find(
-          (channel) => message.substring(1) === channel.name
-        );
+    const messageArray = message.split(/(#\w[^ ]+)/);
 
-        return match ? (
-          link ? (
-            <Link href={match.path} passHref key={index}>
-              <ChannelLinkText onClick={() => dispatch(setChannel(match))}>
+    return (
+      <>
+        {messageArray.map((message, index) => {
+          const match = channels.find((channel) =>
+            message.includes(channel.name)
+          );
+
+          return match ? (
+            link ? (
+              <Link href={match.path} passHref key={index}>
+                <>
+                  {findChannels(message.split(match.name)[0].slice(0, -1))}
+                  <ChannelLinkText onClick={() => dispatch(setChannel(match))}>
+                    #{match.name}
+                  </ChannelLinkText>
+                  {findChannels(message.split(match.name)[1])}
+                </>
+              </Link>
+            ) : (
+              <DummyChannelLinkText>
                 {parseURLs(message, link)}
-              </ChannelLinkText>
-            </Link>
+              </DummyChannelLinkText>
+            )
           ) : (
-            <DummyChannelLinkText>
-              {parseURLs(message, link)}
-            </DummyChannelLinkText>
-          )
-        ) : (
-          <span key={index}>{parseURLs(message)}</span>
-        );
-      })}
-    </>
-  );
+            <span key={index}>{parseURLs(message)}</span>
+          );
+        })}
+      </>
+    );
+  }
 }
 
 const LinkText = tw.a`
