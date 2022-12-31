@@ -123,8 +123,9 @@ const Subheading = tw.span`
 `;
 
 const LinkText = tw.span`
-  text-blue-600 font-medium cursor-pointer
-  hover:underline hover:decoration-blue-600
+  text-url-link font-medium cursor-pointer
+  hover:underline
+  dark:text-url-link-dark
 `;
 
 const GenericFieldset = tw.fieldset`
