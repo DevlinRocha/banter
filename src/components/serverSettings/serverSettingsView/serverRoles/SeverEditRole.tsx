@@ -97,7 +97,7 @@ export default function ServerEditRole() {
   return (
     <Container>
       <Header>
-        <Heading>EDIT ROLE - {currentRole.name.toUpperCase()}</Heading>
+        <Heading>EDIT ROLE — {currentRole.name.toUpperCase()}</Heading>
         <Separator />
       </Header>
 
