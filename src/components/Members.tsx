@@ -216,7 +216,7 @@ export default function Members() {
                 return (
                   <Fragment key={role.roleID}>
                     <Heading>
-                      {role.name.toUpperCase()} - {role.members.length}
+                      {role.name.toUpperCase()} — {role.members.length}
                     </Heading>
 
                     {role.members.map((member, index) => {
@@ -316,6 +316,7 @@ export default function Members() {
 
 const Container = tw.div`
   relative flex-none w-60 h-full bg-gray-100
+  dark:bg-dark-200 dark:text-text-secondary
 `;
 
 const Sidebar = tw.aside`
@@ -328,7 +329,7 @@ const MemberList = tw.ol`
 `;
 
 const Heading = tw.h2`
-  pt-6 pr-2 pl-4
+  pt-6 pr-2 pl-4 text-xs font-semibold
 `;
 
 const MemberContainer = tw.li`
@@ -338,6 +339,7 @@ const MemberContainer = tw.li`
 const Member = tw.div`
   flex items-center h-full px-2 rounded cursor-pointer
   hover:bg-gray-200
+  dark:hover:bg-dark-50/40 dark:hover:text-text-tertiary
 `;
 
 const StyledImage = tw(Image)`
@@ -345,7 +347,7 @@ const StyledImage = tw(Image)`
 `;
 
 const UsernameContainer = tw.div`
-  flex w-[164px]
+  flex w-[164px] items-center
 `;
 
 const Username = tw.span`
@@ -353,5 +355,5 @@ const Username = tw.span`
 `;
 
 const ServerOwnerIcon = tw.span`
-  ml-1
+  ml-1 text-xs
 `;

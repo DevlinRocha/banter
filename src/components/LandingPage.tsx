@@ -24,6 +24,7 @@ export default function Title() {
 
 const Container = tw.section`
   flex flex-col h-full w-full items-center justify-center
+  dark:text-text-primary
 `;
 
 const Subcontainer = tw.section`
@@ -32,6 +33,7 @@ const Subcontainer = tw.section`
 
 const Code = tw.span`
   bg-slate-100
+  dark:bg-dark-600
 `;
 
 const Welcome = tw.span`

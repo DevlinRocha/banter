@@ -31,25 +31,18 @@ export default function RegistrationForm() {
 
       <RegisterContainer>
         <EmailField>
-          <EmailLabel htmlFor="emailInput">Email</EmailLabel>
+          <EmailLabel htmlFor="emailInput">EMAIL</EmailLabel>
 
-          <EmailInput
-            ref={emailRef}
-            type="email"
-            required
-            placeholder="Email"
-            id="emailInput"
-          />
+          <EmailInput ref={emailRef} type="email" required id="emailInput" />
         </EmailField>
 
         <UsernameField>
-          <UsernameLabel htmlFor="usernameInput">Username</UsernameLabel>
+          <UsernameLabel htmlFor="usernameInput">USERNAME</UsernameLabel>
 
           <UsernameInput
             ref={usernameRef}
             type="text"
             required
-            placeholder="What should everyone call you?"
             autoComplete="username"
             id="usernameInput"
             minLength={2}
@@ -58,13 +51,12 @@ export default function RegistrationForm() {
         </UsernameField>
 
         <PasswordField>
-          <PasswordLabel htmlFor="passwordInput">Password</PasswordLabel>
+          <PasswordLabel htmlFor="passwordInput">PASSWORD</PasswordLabel>
 
           <PasswordInput
             ref={passwordRef}
             type="password"
             required
-            placeholder="Password"
             autoComplete="new-password"
             id="passwordInput"
           />
@@ -87,10 +79,12 @@ export default function RegistrationForm() {
 
 const Container = tw.form`
   flex flex-col w-120 bg-white rounded-md p-8
+  dark:bg-dark-100
 `;
 
 const Header = tw.h3`
   text-center text-2xl leading-[1.875rem] font-semibold
+  dark:text-white
 `;
 
 const RegisterContainer = tw.div`
@@ -102,11 +96,13 @@ const GenericFieldset = tw.fieldset`
 `;
 
 const GenericLabel = tw.label`
-  mb-2 text-xs text-gray-600 font-semibold
+  mb-2 text-xs text-gray-600 font-bold
+  dark:text-text-primary
 `;
 
 const GenericInput = tw.input`
-  border-2 rounded-md p-1
+  rounded-md p-2.5 h-10 outline-none
+  dark:bg-dark-400 dark:text-text-tertiary
 `;
 
 const EmailField = tw(GenericFieldset)`
@@ -141,10 +137,12 @@ const ContinueButton = tw.input`
 `;
 
 const LinkText = tw.button`
-  text-blue-600 cursor-pointer w-fit mt-2 text-sm font-medium
-  hover:underline hover:decoration-blue-600
+  text-url-link cursor-pointer w-fit mt-2 text-sm font-medium
+  hover:underline
+  dark:text-url-link-dark
 `;
 
 const Fine = tw.span`
   mt-5 text-xs
+  dark:text-text-quaternary
 `;

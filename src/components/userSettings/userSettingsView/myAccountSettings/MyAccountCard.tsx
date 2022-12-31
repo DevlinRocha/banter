@@ -79,15 +79,17 @@ export default function MyAccountCard() {
 }
 
 const Container = tw.section`
-  relative flex flex-col min-w-[655px] max-w-[660px] bg-gray-200 rounded
+  relative flex flex-col min-w-[655px] max-w-[660px] bg-gray-200 rounded-md
+  dark:bg-dark-400
 `;
 
 const ProfileContainer = tw.section`
-  flex h-18 pt-4 pr-4 pl-30 rounded-md overflow-clip
+  flex h-18 pt-4 pr-4 pl-30 overflow-clip
 `;
 
 const SettingContainer = tw.section`
   flex flex-col m-4 mt-2 p-4 bg-gray-100 rounded
+  dark:bg-dark-200
 `;
 
 const Banner = tw.span`
@@ -96,6 +98,7 @@ const Banner = tw.span`
 
 const ProfilePicture = tw.div`
   absolute top-19 left-4 flex border-[7px] rounded-full
+  dark:border-dark-400
 `;
 
 const StyledImage = tw(Image)`
@@ -107,6 +110,7 @@ const DisplayName = tw.div`
 `;
 
 const UsernameDisplay = tw.span`
+  dark:text-white
 `;
 
 const UserProfileButton = tw.button`
@@ -114,10 +118,12 @@ const UserProfileButton = tw.button`
 `;
 
 const Username = tw.span`
+  dark:text-white
 `;
 
 const Tag = tw(Username)`
   text-gray-600
+  dark:text-text-primary
 `;
 
 const UsernameSettingContainer = tw.div`
@@ -133,18 +139,21 @@ const SettingDisplay = tw.div`
 `;
 
 const SettingsLabel = tw.div`
-  mb-1 text-xs
+  mb-1 text-xs font-bold
+  dark:text-text-primary
 `;
 
 const UsernameContainer = tw.div`
 `;
 
 const EditButton = tw.button`
-  my-0.5 py-0.5 px-4 bg-gray-500 rounded text-sm text-white font-medium
+  my-0.5 py-0.5 px-4 w-15 h-8 bg-gray-500 rounded text-sm text-white font-medium
+  dark:bg-dark-50
 `;
 
 const EditButtonContent = tw.span`
 `;
 
 const Email = tw.span`
+  dark:text-white
 `;

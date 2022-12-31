@@ -61,6 +61,7 @@ interface RoleContainerProps {
 
 const Container = tw.div`
   flex flex-col items-end w-fit border-r
+  dark:border-r-dark-50/[.48]
 `;
 
 const NavContainer = tw.nav`
@@ -81,13 +82,18 @@ const BackButtonContainer = tw.div`
 const BackButton = tw.span`
   text-gray-600 cursor-pointer
   hover:text-black
+  dark:text-text-primary
+  dark:hover:text-white
 `;
 
 const RoleContainer = tw.div`
   flex items-center w-[181px] min-h-[34px] px-2.5 py-1.5 mb-0.5 -ml-1.5 font-medium rounded-md cursor-pointer
   hover:bg-gray-100
+  dark:text-white
+  dark:hover:bg-dark-50/60
   ${(props: RoleContainerProps) =>
-    props.currentRole.roleID === props.roleID ? "bg-gray-300" : ""}
+    props.currentRole.roleID === props.roleID &&
+    "bg-gray-300 dark:bg-dark-50/60"}
 `;
 
 const RoleColor = tw.div`

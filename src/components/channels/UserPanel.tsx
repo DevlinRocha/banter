@@ -2,9 +2,9 @@ import { useAppDispatch } from "../../redux/hooks";
 import Image from "next/image";
 import tw from "tailwind-styled-components/dist/tailwind";
 import { useUserState } from "../../features/user";
-import muteIcon from "../../../assets/muteIcon.png";
-import deafenIcon from "../../../assets/deafenIcon.png";
-import settingsIcon from "../../../assets/settingsIcon.svg";
+import MuteIcon from "./MuteIcon";
+import DeafenIcon from "./DeafenIcon";
+import SettingsIcon from "./SettingsIcon";
 import {
   setUserSettingsOpen,
   useUserSettingsState,
@@ -49,22 +49,31 @@ export default function UserPanel() {
       </UserInfo>
 
       <IconsPanel>
-        <Icon src={muteIcon} width={20} height={20} />
+        <IconContainer>
+          <Mute />
+        </IconContainer>
 
-        <Icon src={deafenIcon} width={20} height={20} />
+        <IconContainer>
+          <Deafen />
+        </IconContainer>
 
-        <Icon onClick={handleClick} src={settingsIcon} width={20} height={20} />
+        <IconContainer onClick={handleClick}>
+          <Settings />
+        </IconContainer>
       </IconsPanel>
     </Container>
   );
 }
 
 const Container = tw.section`
-  flex justify-between w-60 h-[52px] px-2 bg-gray-200/50
+  flex justify-between items-center w-60 h-[52px] px-2 mb-px bg-gray-200/50
+  dark:bg-dark-300
 `;
 
 const UserInfo = tw.div`
-  flex items-center
+  flex items-center h-min pl-0.5 ml-[-2px] mr-2 rounded
+  hover:bg-gray-500/25
+  dark:hover:bg-dark-50/60
 `;
 
 const ProfilePicture = tw.div`
@@ -76,21 +85,34 @@ const StyledImage = tw(Image)`
 `;
 
 const Username = tw.span`
-  flex flex-col w-[84px] overflow-hidden select-text cursor-pointer
+  flex flex-col w-21 py-1 mr-1 overflow-hidden select-text cursor-pointer
 `;
 
 const DisplayName = tw.span`
-  text-sm font-semibold truncate
+  text-sm font-semibold truncate leading-[1.125rem]
+  dark:text-white
 `;
 
 const Tag = tw.span`
-  text-gray-600 text-xs font-medium
+  text-[#4F5660] text-xs leading-[0.8125rem]
+  dark:text-text-primary
 `;
 
 const IconsPanel = tw.div`
   flex justify-around align-center w-24
 `;
 
-const Icon = tw(Image)`
-  cursor-pointer object-contain
+const IconContainer = tw.div`
+  flex items-center p-1.5 rounded cursor-pointer
+  hover:bg-gray-500/25
+  dark:hover:bg-dark-50/60
+`;
+
+const Mute = tw(MuteIcon)`
+`;
+
+const Deafen = tw(DeafenIcon)`
+`;
+
+const Settings = tw(SettingsIcon)`
 `;

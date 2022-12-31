@@ -21,6 +21,7 @@ export default function Chat() {
 
 const Container = tw.main`
   flex flex-col w-full h-full
+  dark:bg-dark-100
 `;
 
 const MessagesContainer = tw.div`

@@ -125,8 +125,8 @@ const SubText = tw.span`
 `;
 
 const LinkText = tw.span`
-  text-sm text-blue-600 cursor-pointer
-  hover:underline hover:decoration-blue-600
+  text-sm text-url-link cursor-pointer
+  hover:underline
 `;
 
 const BackButtonContainer = tw.div`

@@ -94,7 +94,7 @@ export default function UnsavedChanges(props: UnsavedChangesProps) {
     <Container>
       <ContentContainer unsavedChangesError={unsavedChangesError}>
         <Text unsavedChangesError={unsavedChangesError}>
-          Careful - you have unsaved changes!
+          Careful — you have unsaved changes!
         </Text>
 
         <ButtonsContainer>
@@ -123,6 +123,7 @@ const Container = tw.div`
 
 const ContentContainer = tw.div`
   flex justify-between items-center p-2.5 pl-4 rounded-[5px] drop-shadow-xl
+  dark:bg-dark-600
   ${(props: UnsavedChangesError) =>
     props.unsavedChangesError ? "bg-red-500" : "bg-gray-50"}
 
@@ -130,6 +131,7 @@ const ContentContainer = tw.div`
 
 const Text = tw.span`
   mr-2.5 font-medium
+  dark:text-text-tertiary
   ${(props: UnsavedChangesError) =>
     props.unsavedChangesError ? "text-white" : "text-gray-600"}
 
@@ -145,6 +147,7 @@ const SaveChangesButton = tw.button`
 
 const ResetChangesButton = tw.button`
   w-15 h-8 ml-2.5 py-0.5 text-sm font-medium
+  dark:text-text-tertiary
   ${(props: UnsavedChangesError) =>
     props.unsavedChangesError ? "text-white" : "text-gray-600"}
 

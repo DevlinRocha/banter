@@ -33,29 +33,37 @@ export default function UserProfileCard() {
         />
       </ProfilePicture>
 
-      <UsernameContainer>
-        <Username>{user.username}</Username>
+      <SettingContainer>
+        <UsernameContainer>
+          <Username>{user.username}</Username>
 
-        <Tag>#{user.tag}</Tag>
-      </UsernameContainer>
+          <Tag>#{user.tag}</Tag>
+        </UsernameContainer>
 
-      <ProfileContainer>
         <Divider />
 
-        <ProfileHeading>ABOUT ME</ProfileHeading>
+        <ProfileContainer>
+          <ProfileHeading>ABOUT ME</ProfileHeading>
 
-        <AboutMeContainer>{parseURLs(user.about)}</AboutMeContainer>
-      </ProfileContainer>
+          <AboutMeContainer>{parseURLs(user.about)}</AboutMeContainer>
+        </ProfileContainer>
+      </SettingContainer>
     </Container>
   );
 }
 
 const Container = tw.section`
   relative flex flex-col w-[18.75rem] bg-white rounded drop-shadow-xl
+  dark:bg-dark-300
 `;
 
 const ProfileContainer = tw.section`
-  flex flex-col p-4 pt-0
+  flex flex-col pt-4 pb-3
+`;
+
+const SettingContainer = tw.section`
+  flex flex-col m-4 mt-16 px-3 bg-gray-100 rounded
+  dark:bg-dark-600 dark:text-text-tertiary
 `;
 
 const HoverTextBackdrop = tw.div`
@@ -73,6 +81,7 @@ const Banner = tw.span`
 
 const ProfilePicture = tw.div`
   absolute top-4 left-4 flex border-[7px] border-white rounded-full group
+  dark:border-dark-300
 `;
 
 const StyledImage = tw(Image)`
@@ -80,30 +89,34 @@ const StyledImage = tw(Image)`
 `;
 
 const UsernameContainer = tw.div`
-  pt-16 pb-4 pl-4 text-xl font-medium select-text
+  pt-3 text-xl font-semibold select-text
 `;
 
 const Username = tw.span`
   break-all
+  dark:text-white
 `;
 
 const Tag = tw.span`
   text-gray-600
+  dark:text-text-primary
 `;
 
 const Divider = tw.div`
-  w-full h-px mb-4 bg-gray-200
+  w-full h-px mt-3 bg-gray-200
+  dark:bg-dark-50/[.48]
 `;
 
 const ProfileHeading = tw.h3`
   mb-2 text-xs font-bold
+  dark:text-white
 `;
 
 const AboutMeContainer = tw.div`
-  select-text break-words whitespace-pre-wrap
+  text-sm select-text break-words whitespace-pre-wrap
 `;
 
 const LinkText = tw.a`
-  text-blue-600
+  text-url-link
   hover:underline
 `;

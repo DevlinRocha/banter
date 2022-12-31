@@ -99,7 +99,7 @@ export default function SendGif() {
             </GifSearchContainer>
           </Header>
 
-          <ContentContainer>
+          <ContentContainer style={{ scrollbarWidth: "thin" }}>
             <GifContainer>
               {!searchResults
                 ? categories &&
@@ -116,7 +116,7 @@ export default function SendGif() {
                         <GifCategory
                           loader={() => url}
                           src={url}
-                          width={194}
+                          width={231}
                           height={110}
                           unoptimized
                         />
@@ -150,7 +150,8 @@ const Backdrop = tw.div`
 `;
 
 const Container = tw.section`
-  absolute right-4 bottom-0 w-[424px] h-[412px] bg-gray-100 rounded-lg drop-shadow-lg
+  absolute right-4 bottom-0 w-[498px] h-[498px] bg-gray-100 rounded-lg drop-shadow-lg
+  dark:bg-dark-200
 `;
 
 const GifPicker = tw.div`
@@ -158,34 +159,35 @@ const GifPicker = tw.div`
 `;
 
 const Header = tw.header`
-  px-4 pb-4 border-b h-[46px]
+  px-4 pb-3 h-[46px] shadow-[0_1px_0_0_rgba(185,187,190,0.3)]
+  dark:shadow-[0_1px_0_0_rgba(24,25,28,0.3),0_1px_2px_0_rgba(24,25,28,0.3)]
 `;
 
 const GifSearchContainer = tw.div`
   flex w-full h-[34px] bg-gray-200 rounded-middle
+  dark:bg-dark-400 dark:text-text-tertiary
 `;
 
 const GifSearch = tw.input`
-  w-full h-[30px] m-px px-2 bg-transparent
-  placeholder-gray-500
+  w-full h-[30px] m-px px-2 bg-transparent placeholder-gray-500 outline-none
 `;
 
 const ContentContainer = tw.div`
-  relative w-full h-full p-2 overflow-hidden
+  relative w-full h-full p-[11px] overflow-hidden
   hover:overflow-y-scroll
 `;
 
 const GifContainer = tw.div`
-  absolute flex flex-wrap gap-2
+  absolute flex flex-wrap gap-3
 `;
 
 const CategoryContainer = tw.div`
-  relative w-[194px] h-[110px] rounded-[5px] cursor-pointer
-  hover:outline hover:outline-[3px] hover:outline-primary hover:drop-shadow-md
+  relative w-[231px] h-[110px] rounded-[5px] cursor-pointer
+  hover:outline hover:outline-2 hover:outline-primary hover:drop-shadow-md
 `;
 
 const CategoryBackdrop = tw(Backdrop)`
-  absolute bg-black/[0.4]
+  absolute bg-black/[0.4] rounded-[5px]
 `;
 
 const CategoryText = tw.span`
@@ -197,6 +199,6 @@ const GifCategory = tw(Image)`
 `;
 
 const Gif = tw.video`
-  w-[194px] h-fit rounded-[5px] object-cover cursor-pointer
-  hover:outline hover:outline-[3px] hover:outline-primary hover:drop-shadow-md
+  w-[231px] h-fit rounded-[5px] object-cover cursor-pointer
+  hover:outline hover:outline-2 hover:outline-primary hover:drop-shadow-md
 `;

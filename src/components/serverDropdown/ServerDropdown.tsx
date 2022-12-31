@@ -55,25 +55,30 @@ const Backdrop = tw.div`
 
 const Container = tw.div`
   absolute flex flex-col w-[220px] top-[50px] left-20.5 px-2 py-1.5 bg-white rounded-middle drop-shadow-xl
+  dark:bg-dark-600
 `;
 
 const ListContainer = tw.ol`
 `;
 
 const ListItem = tw.li`
-  flex items-center my-0.5 py-1.5 pl-2 h-8 rounded-middle cursor-pointer
+  flex items-center my-0.5 py-1.5 pl-2 h-8 text-sm font-medium rounded-middle cursor-pointer
   hover:bg-indigo-800 hover:text-white
+  dark:text-text-primary dark:hover:bg-dark-secondary dark:hover:text-white
 `;
 
 const ListItemInvite = tw(ListItem)`
   text-indigo-500
+  dark:text-dark-primary
 `;
 
 const ListItemLeave = tw(ListItem)`
-  text-red-500
-  hover:bg-red-500
+  text-danger-100
+  hover:bg-danger-100
+  dark:text-danger-200 dark:hover:bg-danger-100
 `;
 
 const Separator = tw.div`
-  w-[196px] h-px border-b border-gray-300 m-1
+  w-[196px] h-px m-1 border-b border-gray-300
+  dark:border-dark-50/[.48]
 `;

@@ -1,8 +1,7 @@
 import tw from "tailwind-styled-components/dist/tailwind";
-import Image from "next/image";
-import twitterIcon from "../../../assets/twitterIcon.svg";
-import githubIcon from "../../../assets/githubIcon.svg";
-import instagramIcon from "../../../assets/instagramIcon.svg";
+import TwitterIcon from "./TwitterIcon";
+import GithubIcon from "./GithubIcon";
+import InstagramIcon from "./InstagramIcon";
 import { useAppDispatch } from "../../redux/hooks";
 import {
   setLogoutConfirmOpen,
@@ -14,8 +13,7 @@ import { useUserState } from "../../features/user";
 import { version } from "../../../package.json";
 
 export default function SettingsSidebar() {
-  const { userSettingsScreen, logoutConfirmOpen, userCopy } =
-    useUserSettingsState();
+  const { userSettingsScreen, userCopy } = useUserSettingsState();
   const { user } = useUserState();
   const dispatch = useAppDispatch();
 
@@ -45,6 +43,12 @@ export default function SettingsSidebar() {
     dispatch(setUserSettingsScreen("User Profile"));
   }
 
+  function viewAppAppearance() {
+    if (unsavedChanges()) return;
+
+    dispatch(setUserSettingsScreen("Appearance"));
+  }
+
   return (
     <Container>
       <NavContainer>
@@ -52,7 +56,8 @@ export default function SettingsSidebar() {
         <SettingsList>
           <MyAccount
             className={`${
-              userSettingsScreen === "My Account" && "bg-gray-300"
+              userSettingsScreen === "My Account" &&
+              "bg-gray-300 dark:bg-dark-50/60 dark:text-white dark:hover:text-white"
             }`}
             onClick={viewMyAccount}
           >
@@ -61,37 +66,55 @@ export default function SettingsSidebar() {
 
           <UserProfile
             className={`${
-              userSettingsScreen === "User Profile" && "bg-gray-300"
+              userSettingsScreen === "User Profile" &&
+              "bg-gray-300 dark:bg-dark-50/60 dark:text-white dark:hover:text-white"
             }`}
             onClick={viewUserProfile}
           >
             User Profile
           </UserProfile>
         </SettingsList>
+
+        <Divider />
+
+        <ListHeading>APP SETTINGS</ListHeading>
+
+        <SettingsList>
+          <Appearance
+            className={`${
+              userSettingsScreen === "Appearance" &&
+              "bg-gray-300 dark:bg-dark-50/60 dark:text-white dark:hover:text-white"
+            }`}
+            onClick={viewAppAppearance}
+          >
+            Appearance
+          </Appearance>
+        </SettingsList>
+
         <Divider />
         <SettingsList>
-          <LogOut onClick={() => dispatch(setLogoutConfirmOpen(true))}>
+          <ListItem onClick={() => dispatch(setLogoutConfirmOpen(true))}>
             Log Out
-          </LogOut>
+          </ListItem>
         </SettingsList>
         <Divider />
         <SocialLinks>
           <SocialLink href="https://twitter.com/DevlinRocha" target="_blank">
-            <StyledImage src={twitterIcon} width={16} height={16} />
+            <Twitter />
           </SocialLink>
 
           <SocialLink
             href="https://github.com/DevlinRocha/banter"
             target="_blank"
           >
-            <StyledImage src={githubIcon} width={16} height={16} />
+            <Github />
           </SocialLink>
 
           <SocialLink
             href="https://www.instagram.com/devlinrocha/"
             target="_blank"
           >
-            <StyledImage src={instagramIcon} width={16} height={16} />
+            <Instagram />
           </SocialLink>
         </SocialLinks>
         <Info>v{version}</Info>
@@ -102,6 +125,7 @@ export default function SettingsSidebar() {
 
 const Container = tw.div`
   flex flex-col items-end w-1/2 bg-gray-100
+  dark:bg-dark-200
 `;
 
 const NavContainer = tw.nav`
@@ -113,11 +137,13 @@ const SettingsList = tw.ol`
 
 const ListHeading = tw.h3`
   px-2.5 pb-1.5 text-xs font-bold
+  dark:text-text-secondary
 `;
 
 const ListItem = tw.li`
   px-2.5 py-1.5 mb-0.5 font-medium rounded-md cursor-pointer
   hover:bg-gray-200
+  dark:text-text-primary dark:hover:bg-dark-50/40 dark:hover:text-tertiary
 `;
 
 const MyAccount = tw(ListItem)`
@@ -126,12 +152,12 @@ const MyAccount = tw(ListItem)`
 const UserProfile = tw(ListItem)`
 `;
 
-const Divider = tw.div`
-  h-px mx-2.5 my-2 bg-gray-200
+const Appearance = tw(ListItem)`
 `;
 
-const LogOut = tw(ListItem)`
-  text-red-500
+const Divider = tw.div`
+  h-px mx-2.5 my-2 bg-gray-200
+  dark:bg-dark-50/[.48]
 `;
 
 const SocialLinks = tw(SettingsList)`
@@ -142,10 +168,16 @@ const SocialLink = tw.a`
   px-0.5 mr-2
 `;
 
-const Info = tw.section`
-  px-2.5 py-2
+const Twitter = tw(TwitterIcon)`
 `;
 
-const StyledImage = tw(Image)`
-  object-contain
+const Github = tw(GithubIcon)`
+`;
+
+const Instagram = tw(InstagramIcon)`
+`;
+
+const Info = tw.section`
+  px-2.5 py-2 text-xs text-text-muted select-text
+  dark:text-text-quaternary
 `;

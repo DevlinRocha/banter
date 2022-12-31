@@ -7,6 +7,8 @@ module.exports = {
     "./src/components/**/*.{js,ts,jsx,tsx}",
   ],
 
+  darkMode: "class",
+
   theme: {
     extend: {
       borderRadius: {
@@ -18,11 +20,46 @@ module.exports = {
 
         active: "#3BA55D",
 
+        "dark-primary": "#949CF7",
+
+        "dark-secondary": "#4752C4",
+
+        danger: {
+          100: "#D83C3E",
+          200: "#ED4245",
+          300: "#A12D2F",
+        },
+
+        dark: {
+          50: "#4F545C",
+          100: "#36393F",
+          150: "#04040512",
+          200: "#2F3136",
+          300: "#292B2F",
+          400: "#202225",
+          500: "#050506",
+          600: "#18191C",
+        },
+
+        text: {
+          primary: "#B9BBBE",
+          secondary: "#96989D",
+          tertiary: "#DCDDDE",
+          quaternary: "#A3A6AA",
+          quinary: "#4F5660",
+          senary: "#060607",
+          septenary: "#2E3338",
+
+          muted: "#5E6772",
+        },
+
         "url-link": "#0068E0",
 
-        "channel-link": "#505CDC",
+        "url-link-dark": "#00AFF4",
 
-        "channel-link-background": "#5865F2",
+        "channel-link": "#5865F2",
+
+        "channel-link-dark": "#C9CDFB",
       },
 
       fontFamily: {
@@ -68,6 +105,8 @@ module.exports = {
 
         110: "27.5rem",
 
+        115: "28.75rem",
+
         120: "30rem",
 
         140.5: "35.125rem",
@@ -84,7 +123,11 @@ module.exports = {
   safelist: [
     "text-url-link",
     "text-channel-link",
-    "bg-channel-link-background/[0.15]",
-    "hover:bg-channel-link-background/100",
+    "bg-channel-link/[.15]",
+    "hover:bg-channel-link",
+    "dark:text-url-link-dark",
+    "dark:text-channel-link-dark",
+    "dark:bg-channel-link/[.3]",
+    "dark:hover:bg-channel-link",
   ],
 };

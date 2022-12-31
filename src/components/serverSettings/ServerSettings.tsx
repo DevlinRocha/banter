@@ -69,6 +69,7 @@ export default function ServerSettings() {
 
 const Container = tw.div`
   flex flex-none w-screen h-screen select-none
+  dark:bg-dark-100
 `;
 
 const SettingsContainer = tw.div`

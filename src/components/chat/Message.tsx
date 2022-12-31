@@ -11,6 +11,7 @@ import {
   MemberData,
   setMemberPreview,
 } from "../../features/servers";
+import { useUserSettingsState } from "../../features/userSettings";
 import { useAppDispatch } from "../../redux/hooks";
 import { useParseLinks } from "../../utilities/functions";
 
@@ -33,7 +34,8 @@ export default function Message(props: MessageProps) {
   const [senderStyle, setSenderStyle] = useState<object>({});
   const avatarRef = useRef<HTMLDivElement>(null);
   const messageRef = useRef<HTMLHeadingElement>(null);
-  const { channels, members, memberProfileCardOpen } = useServersState();
+  const { members, memberProfileCardOpen } = useServersState();
+  const { theme } = useUserSettingsState();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -134,7 +136,7 @@ export default function Message(props: MessageProps) {
 
   useEffect(() => {
     if (!sender.roles || sender.roles.length <= 0)
-      return setSenderStyle({ color: "#060607" });
+      return setSenderStyle({ color: theme === "dark" ? "#FFF" : "#060607" });
 
     const senderStyle = {
       color: sender.roles[0].color,
@@ -205,8 +207,9 @@ const Container = tw.li`
 `;
 
 const MessageContainer = tw.div`
-  flex w-full mt-[17px] py-0.5 pr-12 pl-4
+  flex w-full mt-3 py-0.5 pr-12 pl-4
   hover:bg-gray-50
+  dark:hover:bg-dark-150
 `;
 
 const ProfilePictureContainer = tw.div`
@@ -227,11 +230,13 @@ const ProfilePicture = tw(Image)`
 
 const MessageInfo = tw.div`
   flex flex-wrap
+  dark:text-text-quaternary
 `;
 
 const Username = tw.h2`
   mr-1 text-gray-900 font-semibold cursor-pointer break-all
   hover:underline hover:decoration-gray-900
+  dark:text-white
 `;
 
 const MessageDate = tw.span`
@@ -240,6 +245,7 @@ const MessageDate = tw.span`
 
 const Content = tw.div`
   font-medium text-gray-800
+  dark:text-text-tertiary
 `;
 
 const MessageAccessories = tw.div`

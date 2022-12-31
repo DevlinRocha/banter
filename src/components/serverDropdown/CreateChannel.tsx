@@ -9,7 +9,7 @@ import { useServersState } from "../../features/servers";
 
 export default function CreateChannel() {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [isInputEmpty, setIsInputEmpty] = useState(false);
+  const [isInputEmpty, setIsInputEmpty] = useState(true);
   const { server } = useServersState();
   const [channelType, setChannelType] = useState("text");
   const dispatch = useAppDispatch();
@@ -67,17 +67,13 @@ export default function CreateChannel() {
     return input.replace(/\s+/g, "-").toLowerCase();
   }
 
-  function capitalize(string: string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-
   return (
     <Backdrop onClick={closeWindow}>
       <Container onClick={stopPropagation}>
         <HeadingContainer>
-          <Heading>Create {capitalize(channelType)} Channel</Heading>
+          <Heading>Create Channel</Heading>
 
-          <Body>Post images, GIFS, stickers, opinions, and puns</Body>
+          <Body>Send messages, images, GIFs, opinions, and puns</Body>
 
           <CloseIcon onClick={closeWindow}>
             <StyledImage
@@ -133,19 +129,22 @@ const Backdrop = tw.div`
 `;
 
 const Container = tw.div`
-  fixed flex flex-col top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-110 bg-white rounded-md
+  fixed flex flex-col top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-115 bg-white rounded-xl
+  dark:bg-dark-100
 `;
 
 const HeadingContainer = tw.div`
-  pt-6 px-4 text-center
+  p-4
 `;
 
 const Heading = tw.h2`
-  w-full text-2xl font-bold
+  w-full my-1 text-xl font-medium leading-6
+  dark:text-white
 `;
 
 const Body = tw.p`
-  w-full mt-2 text-gray-500
+  w-full text-gray-500
+  dark:text-text-primary
 `;
 
 const CloseIcon = tw.button`
@@ -156,32 +155,36 @@ const StyledImage = tw(Image)`
 `;
 
 const ContentContainer = tw.div`
-  my-4 pr-2 pl-4
+  mb-4 px-4
 `;
 
 const FormContainer = tw.form`
-  mt-6
 `;
 
 const ContentLabel = tw.label`
-  mb-4 text-xs text-gray-800 font-semibold
+  text-xs text-gray-800 font-semibold
+  dark:text-text-tertiary
 `;
 
 const ContentInput = tw.input`
-  w-full h-10 p-2.5 border rounded-middle text-gray-800 font-medium
+  w-full h-10 p-2.5 mt-1 rounded-middle text-gray-800 font-medium outline-none
+  dark:bg-dark-400 dark:text-white
+  dark:placeholder:text-text-secondary
 `;
 
 const FooterContainer = tw.div`
-  flex justify-end items-center p-4 bg-gray-50 text-sm font-medium
+  flex justify-end items-center p-4 bg-gray-50 text-sm font-medium rounded-b-xl
+  dark:bg-dark-200
 `;
 
 const CancelButton = tw.button`
   w-24 h-9.5 px-1 py-0.5 text-sm font-medium text-gray-500
   hover:underline
+  dark:text-white
 `;
 
 const CreateButton = tw.button`
   w-fit h-9.5 px-4 py-0.5 bg-indigo-500 text-white rounded-middle
   ${(props: CreateButtonProps) =>
-    props.isInputEmpty ? "opacity-50 cursor-not-allowed" : null}
+    props.isInputEmpty && "opacity-50 cursor-not-allowed"}
 `;

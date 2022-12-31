@@ -121,6 +121,7 @@ const Home: NextPage = () => {
 
 const PageContainer = tw.div`
   flex w-screen h-screen overflow-hidden select-none
+  dark:bg-dark-100
 `;
 
 export default Home;

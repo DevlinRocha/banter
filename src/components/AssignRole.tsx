@@ -102,6 +102,7 @@ interface ContainerProps {
 
 const Container = tw.div`
   absolute w-[250px] min-h-[78px] max-h-[256px] p-2 bg-white border rounded
+  dark:bg-dark-100 dark:border-dark-50/[.48]
   ${(props: ContainerProps) => (props.$roles ? "h-[256px]" : "h-[78px]")}
 `;
 
@@ -112,6 +113,7 @@ const ResultsContainer = tw.div`
 const RoleContainer = tw.li`
   flex items-center w-[232px] px-2 py-2.5 mb-1 font-medium rounded-md cursor-pointer
   hover:bg-gray-100
+  dark:hover:bg-text-tertiary
 `;
 
 const RoleColor = tw.div`
@@ -120,6 +122,7 @@ const RoleColor = tw.div`
 
 const RoleName = tw.span`
   ml-2 font-medium truncate
+  dark:text-text-tertiary
 `;
 
 const NoResultsContainer = tw.div`
@@ -128,4 +131,5 @@ const NoResultsContainer = tw.div`
 
 const Heading = tw.h4`
   font-semibold
+  dark:text-white
 `;

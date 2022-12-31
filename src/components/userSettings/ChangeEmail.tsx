@@ -133,7 +133,7 @@ const FieldHeading = tw.h5`
 `;
 
 const FieldInput = tw.input`
-  flex w-full h-10 p-2.5 text-gray-800 font-medium border border-gray-300 outline-0 rounded-middle
+  flex w-full h-10 p-2.5 text-gray-800 font-medium border border-gray-300 outline-none rounded-middle
 `;
 
 const ButtonContainer = tw.div`

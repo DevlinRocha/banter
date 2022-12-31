@@ -151,7 +151,7 @@ export default function ServerRoles() {
         <CreateRoleButton onClick={createRole}>Create Role</CreateRoleButton>
       </ServerSettings>
 
-      <Divider></Divider>
+      <Divider />
 
       {server.roles &&
         server.roles.map((role, index) => {
@@ -180,6 +180,7 @@ const EditContainer = tw.main`
 
 const Heading = tw.h2`
   mb-5 font-semibold
+  dark:text-white
 `;
 
 const ServerSettings = tw.section`
@@ -188,6 +189,7 @@ const ServerSettings = tw.section`
 
 const SubHeading = tw.h3`
   mb-2 text-2xl text-gray-800 font-semibold
+  dark:text-white
 `;
 
 const SubTextContainer = tw.div`
@@ -196,10 +198,11 @@ const SubTextContainer = tw.div`
 
 const SubText = tw.span`
   text-sm text-gray-600 font-medium
+  dark:text-text-primary
 `;
 
 const CreateRoleButton = tw.button`
-  w-fit h-[34px] px-4 py-0.5 bg-blue-600 rounded-middle text-sm text-white font-medium
+  w-fit h-[34px] px-4 py-0.5 bg-channel-link rounded-middle text-sm text-white font-medium
 `;
 
 const Divider = tw.div`
@@ -209,6 +212,7 @@ const Divider = tw.div`
 const RoleContainer = tw.div`
   flex w-[700px] h-15 items-center rounded border-y border-gray-100 cursor-pointer
   hover:bg-gray-100
+  dark:border-dark-50/[.48]
 `;
 
 const RoleColor = tw.div`
@@ -216,4 +220,5 @@ const RoleColor = tw.div`
 `;
 
 const RoleName = tw.span`
+  dark:text-white
 `;

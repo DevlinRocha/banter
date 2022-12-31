@@ -5,6 +5,7 @@ import {
   useServersState,
   MessageData,
 } from "../../features/servers";
+import { useUserSettingsState } from "../../features/userSettings";
 import tw from "tailwind-styled-components";
 import Message from "./Message";
 import { query, collection, onSnapshot } from "firebase/firestore";
@@ -12,6 +13,7 @@ import { db } from "../../../firebase";
 
 export default function Messages() {
   const { server, channel, messages } = useServersState();
+  const { theme } = useUserSettingsState();
   const scrollRef = useRef<any>();
   const dispatch = useAppDispatch();
 
@@ -80,14 +82,19 @@ export default function Messages() {
   }, [channel.channelID]);
 
   return (
-    <Container>
+    <Container
+      style={{
+        scrollbarColor:
+          theme === "dark" ? "#202225 #2F3136" : "#E3E5E8 #F2F3F5",
+      }}
+    >
       <List>
         <WelcomeMessage>
           <Heading>Welcome to #{channel.name}!</Heading>
           <Subtext>This is the start of the #{channel.name} channel.</Subtext>
         </WelcomeMessage>
 
-        <Separator />
+        {messages.length > 0 && <Separator />}
 
         {messages.map((message, index) => {
           return <Message message={message} key={index} />;
@@ -113,16 +120,19 @@ const WelcomeMessage = tw.div`
 
 const Heading = tw.h1`
   my-2 font-bold text-double text-ellipsis
+  dark:text-white
 `;
 
 const Subtext = tw.span`
   text-gray-500
+  dark:text-text-primary
 `;
 
 const Separator = tw.div`
-  flex h-0 mr-3.5 ml-4 border-t border-gray-300
+  flex h-0 mr-3.5 mt-2 mb-2 ml-4 border-t border-gray-300
+  dark:border-dark-50/[.48]
 `;
 
 const Scroll = tw.span`
-  w-px h-4
+  w-px h-3
 `;

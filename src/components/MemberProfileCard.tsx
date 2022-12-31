@@ -13,6 +13,7 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { useUserState } from "../features/user";
 import { db, setServerRole } from "../../firebase";
 import addRoleIcon from "../../assets/addRoleIcon.svg";
+import addRoleIconDark from "../../assets/addRoleIconDark.svg";
 import {
   setAssignRoleOpen,
   setAssignRolePosition,
@@ -20,12 +21,14 @@ import {
 } from "../features/serverSettings";
 import AssignRole from "./AssignRole";
 import { parseURLs } from "../utilities/functions";
+import { useUserSettingsState } from "../features/userSettings";
 
 export default function MemberProfileCard() {
   const { user } = useUserState();
   const { server, member, memberPreview, memberProfileCardPosition } =
     useServersState();
   const { assignRoleOpen, assignRoleHeight } = useServerSettingsState();
+  const { theme } = useUserSettingsState();
   const dispatch = useAppDispatch();
   const containerRef = useRef<HTMLElement | null>(null);
   const skippedRender = useRef(false);
@@ -64,6 +67,7 @@ export default function MemberProfileCard() {
 
   useEffect(() => {
     if (!memberPreview.userID) return;
+
     const unsubscribe = onSnapshot(
       doc(db, "users", memberPreview.userID),
       (doc) => {
@@ -172,62 +176,62 @@ export default function MemberProfileCard() {
             />
           </ProfilePicture>
 
-          <UsernameContainer>
-            <Username>{member.username}</Username>
-
-            <Tag>#{member.tag}</Tag>
-          </UsernameContainer>
-
           <ProfileContainer>
+            <UsernameContainer>
+              <Username>{member.username}</Username>
+
+              <Tag>#{member.tag}</Tag>
+            </UsernameContainer>
+
             <Divider />
 
-            {member.about && (
-              <HeadingContainer>
-                <ProfileHeading>ABOUT ME</ProfileHeading>
+            <ProfileDetails>
+              {member.about && (
+                <HeadingContainer>
+                  <ProfileHeading>ABOUT ME</ProfileHeading>
 
-                <AboutMeContainer>{parseURLs(member.about)}</AboutMeContainer>
-              </HeadingContainer>
-            )}
+                  <AboutMeContainer>{parseURLs(member.about)}</AboutMeContainer>
+                </HeadingContainer>
+              )}
 
-            <Roles>
-              <ProfileHeading>
-                {member.roles.length > 0
-                  ? member.roles.length > 1
-                    ? "ROLES"
-                    : "ROLE"
-                  : "NO ROLES"}
-              </ProfileHeading>
+              <Roles>
+                <ProfileHeading>
+                  {member.roles.length > 0
+                    ? member.roles.length > 1
+                      ? "ROLES"
+                      : "ROLE"
+                    : "NO ROLES"}
+                </ProfileHeading>
 
-              <RolesList>
-                {member.roles.map((role, index) => {
-                  const RoleColorStyle = {
-                    backgroundColor: role.color,
-                  };
+                <RolesList>
+                  {member.roles.map((role, index) => {
+                    const RoleColorStyle = {
+                      backgroundColor: role.color,
+                    };
 
-                  return (
-                    <RoleContainer
-                      onClick={() => removeRole(member, role.roleID)}
-                      key={index}
-                    >
-                      <RoleColor style={RoleColorStyle} />
-                      <RoleName>{role.name}</RoleName>
-                    </RoleContainer>
-                  );
-                })}
-                <AddRoleIconContainer ref={addRoleIconRef}>
-                  {user.roles.serverOwner ? (
-                    <AddRoleIcon
-                      onClick={handleClick}
-                      src={addRoleIcon}
-                      width={24}
-                      height={22}
-                    />
-                  ) : (
-                    ""
-                  )}
-                </AddRoleIconContainer>
-              </RolesList>
-            </Roles>
+                    return (
+                      <RoleContainer
+                        onClick={() => removeRole(member, role.roleID)}
+                        key={index}
+                      >
+                        <RoleColor style={RoleColorStyle} />
+                        <RoleName>{role.name}</RoleName>
+                      </RoleContainer>
+                    );
+                  })}
+                  <AddRoleIconContainer ref={addRoleIconRef}>
+                    {user.roles.serverOwner && (
+                      <AddRoleIcon
+                        onClick={handleClick}
+                        src={theme === "dark" ? addRoleIconDark : addRoleIcon}
+                        width={24}
+                        height={22}
+                      />
+                    )}
+                  </AddRoleIconContainer>
+                </RolesList>
+              </Roles>
+            </ProfileDetails>
           </ProfileContainer>
         </Container>
       )}
@@ -241,11 +245,13 @@ const Backdrop = tw.div`
 `;
 
 const Container = tw.section`
-  absolute flex flex-col w-[18.75rem] bg-white rounded drop-shadow-xl
+  absolute flex flex-col w-[21.25rem] bg-gray-200 rounded-lg drop-shadow-xl
+  dark:bg-dark-300 dark:text-white
 `;
 
 const ProfileContainer = tw.section`
-  flex flex-col p-4 pt-0
+  flex flex-col m-4 mt-16 bg-white rounded-lg
+  dark:bg-dark-400
 `;
 
 const Banner = tw.span`
@@ -253,7 +259,8 @@ const Banner = tw.span`
 `;
 
 const ProfilePicture = tw.div`
-  absolute top-4 left-4 flex border-[7px] border-white rounded-full
+  absolute top-4 left-4 flex border-[7px] border-gray-200 rounded-full
+  dark:text-white dark:border-dark-300
 `;
 
 const StyledImage = tw(Image)`
@@ -261,7 +268,7 @@ const StyledImage = tw(Image)`
 `;
 
 const UsernameContainer = tw.div`
-  pt-16 pb-4 pl-4 text-xl font-medium select-text
+  p-3 pb-0 text-xl font-semibold select-text
 `;
 
 const Username = tw.span`
@@ -270,18 +277,25 @@ const Username = tw.span`
 
 const Tag = tw.span`
   text-gray-600
+  dark:text-text-primary
 `;
 
 const Divider = tw.div`
-  w-full h-px mb-4 bg-gray-200
+  h-px m-3 mb-0 bg-gray-200
+  dark:bg-dark-50/[.48]
+`;
+
+const ProfileDetails = tw.div`
+  pl-4
+  dark:text-text-tertiary
 `;
 
 const HeadingContainer = tw.div`
-  mb-4
+  pt-3
 `;
 
 const Roles = tw.div`
-  flex flex-col
+  flex flex-col pt-3
 `;
 
 const RolesList = tw.div`
@@ -291,10 +305,11 @@ const RolesList = tw.div`
 const RoleContainer = tw.div`
   flex h-6 items-center p-1 mr-1 mb-1 rounded bg-gray-100 cursor-pointer
   hover:bg-gray-100
+  dark:bg-dark-300
 `;
 
 const RoleColor = tw.div`
-  w-3 h-3 mr-2.5 rounded-full
+  w-3 h-3 mx-1 rounded-full
 `;
 
 const RoleName = tw.span`
@@ -302,7 +317,8 @@ const RoleName = tw.span`
 `;
 
 const ProfileHeading = tw.h3`
-  mb-2 text-gray-600 text-xs font-bold
+  mb-2 text-[#060607] text-xs font-bold
+  dark:text-white
 `;
 
 const AboutMeContainer = tw.div`
@@ -316,9 +332,4 @@ const AddRoleIconContainer = tw.div`
 const AddRoleIcon = tw(Image)`
   rounded select-text whitespace-pre-wrap
   hover:cursor-pointer
-`;
-
-const LinkText = tw.a`
-  text-blue-600
-  hover:underline
 `;

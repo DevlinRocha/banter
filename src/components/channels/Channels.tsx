@@ -134,6 +134,7 @@ interface ChannelProps {
 
 const Container = tw.nav`
   flex flex-col bg-gray-100 w-60 h-full
+  dark:bg-dark-200
 `;
 
 const ChannelListContainer = tw.div`
@@ -143,10 +144,12 @@ const ChannelListContainer = tw.div`
 
 const Header = tw.header`
   flex flex-none justify-between items-center w-60 h-12 mb-4 px-4 border-b border-gray-300 cursor-pointer
+  dark:border-0 dark:shadow-[0_1px_0_0_rgba(4,4,5,0.2),0_1.5px_0_0_rgba(6,6,7,0.05),0_2px_0_0_rgba(4,4,5,0.05)]
 `;
 
 const Heading = tw.h1`
   font-semibold truncate
+  dark:text-white
 `;
 
 const StyledImage = tw(Image)`
@@ -156,17 +159,17 @@ const ChannelList = tw.ol`
 `;
 
 const ChannelContainer = tw.li`
-  flex cursor-pointer py-1 pr-2 mx-2 pl-2 rounded-md
+  flex items-center cursor-pointer py-1 pr-2 mx-2 pl-2 max-h-8 rounded-md
   ${(props: ChannelProps) =>
     props.path.includes(props.channel.channelID)
-      ? "bg-gray-500/[0.24]"
-      : "hover:bg-gray-500/[0.08]"}
+      ? "bg-gray-500/[0.24] dark:text-white"
+      : "hover:bg-gray-500/[0.08] dark:text-text-secondary"}
 `;
 
 const ChannelIcon = tw.span`
-  mr-1.5 text-gray-500 font-bold
+  mr-1.5 text-gray-500 font-bold text-2xl font-thin
 `;
 
 const ChannelName = tw.span`
-  truncate
+  font-medium truncate
 `;

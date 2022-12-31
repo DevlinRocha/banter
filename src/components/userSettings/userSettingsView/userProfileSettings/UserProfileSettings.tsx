@@ -76,7 +76,7 @@ export default function UserProfileSettings() {
           </SettingsContainer>
 
           <SettingsContainer>
-            <SettingsHeading>PROFILE COLOR</SettingsHeading>
+            <SettingsHeading>BANNER COLOR</SettingsHeading>
 
             <ColorInputsContainer>
               <ColorInputContainer>
@@ -99,6 +99,10 @@ export default function UserProfileSettings() {
 
           <AboutContainer>
             <SettingsHeading>ABOUT ME</SettingsHeading>
+
+            <SettingsSubheading>
+              You can use links if you{"'"}d like.
+            </SettingsSubheading>
 
             <AboutMe
               onChange={handleAboutChange}
@@ -126,10 +130,12 @@ const Container = tw.main`
 
 const Heading = tw.h1`
   mb-5 text-xl font-semibold w-165
+  dark:text-white
 `;
 
 const Separator = tw.div`
   w-full mb-6 pb-1 border-b border-gray-200
+  dark:border-dark-50/[.48]
 `;
 
 const ContentContainer = tw.div`
@@ -142,9 +148,15 @@ const CustomizationContainer = tw.div`
 
 const SettingsContainer = tw.div`
   mb-6 pb-6 border-b
+  dark:border-dark-50/[.48]
 `;
 const SettingsHeading = tw.h5`
   mb-2 text-xs text-gray-600 font-semibold
+  dark:text-text-primary
+`;
+
+const SettingsSubheading = tw.div`
+  mb-4 text-sm text-text-primary
 `;
 
 const AvatarButtonsContainer = tw.div`
@@ -156,6 +168,7 @@ const ChangeAvatarButton = tw.button`
 
 const RemoveAvatarButton = tw(ChangeAvatarButton)`
   bg-white text-sm text-gray-500
+  dark:bg-dark-100 dark:text-white
 `;
 
 const ColorInputsContainer = tw.div`
@@ -176,6 +189,7 @@ const ColorButton = tw(ColorInput)`
 
 const ColorInputLabel = tw.label`
   mt-1 text-xs text-gray-600
+  dark:text-text-primary
 `;
 
 const AboutContainer = tw(SettingsContainer)`
@@ -183,7 +197,8 @@ const AboutContainer = tw(SettingsContainer)`
 `;
 
 const AboutMe = tw.textarea`
-  w-full p-2.5 pr-8 bg-gray-50 border border-gray-300 rounded-middle resize-none
+  w-full p-2.5 pr-8 bg-gray-50 rounded-middle resize-none
+  dark:bg-dark-400 dark:text-text-tertiary
 `;
 
 const UserProfileCardContainer = tw.div`

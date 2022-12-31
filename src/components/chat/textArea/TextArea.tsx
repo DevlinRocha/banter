@@ -3,9 +3,9 @@ import { createMessage, uploadMessageImagePreview } from "../../../../firebase";
 import tw from "tailwind-styled-components";
 import { useServersState } from "../../../features/servers";
 import { useUserState } from "../../../features/user";
-import uploadImageIcon from "../../../../assets/uploadImageIcon.svg";
 import Image from "next/image";
-import gifButton from "../../../../assets/gifButton.svg";
+import UploadImageIcon from "./UploadImageIcon";
+import GifIcon from "./GifIcon";
 import { useAppDispatch } from "../../../redux/hooks";
 import { setSendGifOpen, useSendGifState } from "../../../features/sendGif";
 
@@ -107,7 +107,7 @@ export default function TextArea() {
 
         <FormContainer>
           <AttachButtonContainer>
-            <AttachButton src={uploadImageIcon} width={24} height={24} />
+            <AttachButton />
             <FileInput type="file" onChange={uploadImage} />
           </AttachButtonContainer>
 
@@ -120,7 +120,7 @@ export default function TextArea() {
           />
 
           <GifButtonContainer onClick={openGif}>
-            <GifButton src={gifButton} width={24} height={24} />
+            <GifButton />
           </GifButtonContainer>
         </FormContainer>
       </MessageContainer>
@@ -134,6 +134,7 @@ const Container = tw.div`
 
 const MessageContainer = tw.div`
   flex flex-col w-full bg-gray-200/50 rounded-lg
+  dark:bg-dark-50/40
 `;
 
 const MessageImagePreviewContainer = tw.div`
@@ -165,12 +166,10 @@ const FormContainer = tw.form`
 `;
 
 const AttachButtonContainer = tw.div`
-  relative flex items-center w-10
+  relative flex items-center w-12
 `;
 
-const AttachButton = tw(Image)`
-  transition-all ease-linear flex-none rounded-full fill-white cursor-pointer
-  group-hover:rounded-full group-hover:fill-active
+const AttachButton = tw(UploadImageIcon)`
 `;
 
 const FileInput = tw.input`
@@ -179,15 +178,14 @@ const FileInput = tw.input`
 `;
 
 const TextInput = tw.div`
-  py-2.5 w-full h-full bg-transparent font-medium text-gray-800 outline-0 outline-hidden break-all whitespace-pre-wrap
-  focus:outline-0 focus:outline-hidden
-  empty:before:content-[attr(placeholder)] empty:before:text-[#5E6772]
+  py-2.5 w-full h-full bg-transparent font-medium text-gray-800 outline-none break-all whitespace-pre-wrap
+  empty:before:content-[attr(placeholder)] empty:before:text-text-muted
+  dark:text-text-tertiary
 `;
 
 const GifButtonContainer = tw.div`
   flex flex-none items-center w-max h-max cursor-pointer
 `;
 
-const GifButton = tw(Image)`
-  w-full h-full
+const GifButton = tw(GifIcon)`
 `;
