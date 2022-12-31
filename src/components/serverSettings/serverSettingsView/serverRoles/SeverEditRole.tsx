@@ -209,10 +209,12 @@ const Header = tw.div`
 
 const Heading = tw.h1`
   mb-5 font-semibold truncate leading-5
+  dark:text-white
 `;
 
 const Separator = tw.div`
   w-full mb-6 pb-1 border-b border-gray-200
+  dark:border-dark-50/[.48]
 `;
 
 const ContentContainer = tw.div`
@@ -225,13 +227,16 @@ const CustomizationContainer = tw.div`
 
 const SettingsContainer = tw.div`
   mb-6 pb-6 border-b
+  dark:border-dark-50/[.48]
 `;
 const SettingsHeading = tw.h5`
   mb-2 text-xs text-gray-600 font-semibold
+  dark:text-text-primary
 `;
 
 const SettingsText = tw.span`
   flex mb-2 text-sm text-gray-800
+  dark:text-text-primary
 `;
 
 const ColorInputsContainer = tw.div`
@@ -252,6 +257,7 @@ const DefaultColorButton = tw(ColorInput)`
 
 const ColorInputLabel = tw.label`
   mt-1 text-xs text-gray-600
+  dark:text-text-primary
 `;
 
 const SmallColorsContainer = tw.div`
@@ -272,7 +278,8 @@ const SmallColorButton = tw.button`
 `;
 
 const RoleName = tw.input`
-  w-full h-10 p-2.5 pr-8 bg-gray-50 border border-gray-300 rounded-middle resize-none
+  w-full h-10 p-2.5 pr-8 bg-gray-50 rounded-middle resize-none
+  dark:bg-dark-400 dark:text-text-tertiary
 `;
 
 const RedText = tw.span`
@@ -285,6 +292,7 @@ const PermissionsContainer = tw.div`
 
 const PermissionLabel = tw.label`
   min-w-[187px] max-w-[402px] font-medium cursor-pointer
+  dark:text-white
 `;
 
 const PermissionInput = tw.input`
