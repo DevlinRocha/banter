@@ -190,6 +190,7 @@ const Container = tw.main`
 
 const Heading = tw.h2`
   mb-5 text-xl font-semibold
+  dark:text-white
 `;
 
 const ServerSettings = tw.section`
@@ -198,6 +199,7 @@ const ServerSettings = tw.section`
 
 const SubHeading = tw.h5`
   mb-2 text-xs text-gray-800 font-semibold
+  dark:text-white
 `;
 
 const SubTextContainer = tw.div`
@@ -206,6 +208,7 @@ const SubTextContainer = tw.div`
 
 const SubText = tw.span`
   text-sm text-gray-600 font-medium
+  dark:text-text-primary
 `;
 
 const Divider = tw.div`
@@ -222,10 +225,12 @@ const SettingsContainer = tw.div`
 
 const SettingContainer = tw.div`
   flex items-center mb-2 p-2.5 rounded-middle cursor-pointer
+  dark:bg-dark-50/40 dark:text-white
 `;
 
 const SettingInput = tw.input`
-  w-min h-min ml-2 cursor-pointer scale-[1.75]
+  w-5 h-5 cursor-pointer accent-black
+  dark:accent-white
 `;
 
 const SettingInputLabel = tw.label`
@@ -236,4 +241,5 @@ const SettingLabelText = tw.span`
 `;
 
 const SettingLabelSubText = tw(SettingLabelText)`
+  dark:text-text-primary
 `;
