@@ -67,6 +67,7 @@ export default function MemberProfileCard() {
 
   useEffect(() => {
     if (!memberPreview.userID) return;
+
     const unsubscribe = onSnapshot(
       doc(db, "users", memberPreview.userID),
       (doc) => {
@@ -304,10 +305,11 @@ const RolesList = tw.div`
 const RoleContainer = tw.div`
   flex h-6 items-center p-1 mr-1 mb-1 rounded bg-gray-100 cursor-pointer
   hover:bg-gray-100
+  dark:bg-dark-300
 `;
 
 const RoleColor = tw.div`
-  w-3 h-3 mr-2.5 rounded-full
+  w-3 h-3 mx-1 rounded-full
 `;
 
 const RoleName = tw.span`

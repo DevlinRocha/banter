@@ -225,8 +225,8 @@ const SubText = tw.span`
 `;
 
 const LinkText = tw.span`
-  text-blue-600 font-semibold cursor-pointer
-  hover:underline hover:decoration-blue-600
+  text-url-link font-semibold cursor-pointer
+  hover:underline
 `;
 
 const FooterContainer = tw.div`

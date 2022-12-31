@@ -117,6 +117,6 @@ const AboutMeContainer = tw.div`
 `;
 
 const LinkText = tw.a`
-  text-blue-600
+  text-url-link
   hover:underline
 `;
