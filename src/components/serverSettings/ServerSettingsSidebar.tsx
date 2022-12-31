@@ -45,7 +45,8 @@ export default function ServerSettingsSidebar() {
         <SettingsList>
           <ListItem
             className={`${
-              serverSettingsScreen === "Overview" && "bg-gray-300"
+              serverSettingsScreen === "Overview" &&
+              "bg-gray-300 dark:bg-dark-50/60 dark:text-white dark:hover:text-white"
             }`}
             onClick={() => changeServerSettings("Overview")}
           >
@@ -53,7 +54,10 @@ export default function ServerSettingsSidebar() {
           </ListItem>
 
           <ListItem
-            className={`${serverSettingsScreen === "Roles" && "bg-gray-300"}`}
+            className={`${
+              serverSettingsScreen === "Roles" &&
+              "bg-gray-300 dark:bg-dark-50/60 dark:text-white dark:hover:text-white"
+            }`}
             onClick={() => changeServerSettings("Roles")}
           >
             Roles
@@ -61,7 +65,8 @@ export default function ServerSettingsSidebar() {
 
           <ListItem
             className={`${
-              serverSettingsScreen === "Moderation" && "bg-gray-300"
+              serverSettingsScreen === "Moderation" &&
+              "bg-gray-300 dark:bg-dark-50/60 dark:text-white dark:hover:text-white"
             }`}
             onClick={() => changeServerSettings("Moderation")}
           >
@@ -85,6 +90,7 @@ export default function ServerSettingsSidebar() {
 
 const Container = tw.div`
   flex flex-col items-end w-1/2 bg-gray-100
+  dark:bg-dark-200
 `;
 
 const NavContainer = tw.nav`
@@ -96,15 +102,18 @@ const SettingsList = tw.ol`
 
 const ListHeading = tw.h3`
   px-2.5 pb-1.5 text-xs font-bold
+  dark:text-text-secondary
 `;
 
 const ListItem = tw.li`
   px-2.5 py-1.5 mb-0.5 font-medium rounded-md cursor-pointer
   hover:bg-gray-200
+  dark:text-text-primary dark:hover:bg-dark-50/40 dark:hover:text-tertiary
 `;
 
 const Divider = tw.div`
   h-px mx-2.5 my-2 bg-gray-200
+  dark:bg-dark-50/[.48]
 `;
 
 const DeleteServer = tw(ListItem)`
