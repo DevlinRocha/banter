@@ -131,4 +131,5 @@ const NoResultsContainer = tw.div`
 
 const Heading = tw.h4`
   font-semibold
+  dark:text-white
 `;
