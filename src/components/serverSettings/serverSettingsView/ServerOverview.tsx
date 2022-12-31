@@ -143,6 +143,7 @@ const Container = tw.main`
 
 const Heading = tw.h2`
   mb-5 text-xl font-semibold
+  dark:text-white
 `;
 
 const ServerSettings = tw.section`
@@ -155,6 +156,7 @@ const UploadIconContainer = tw.div`
 
 const SubText = tw.a`
   mt-2.5 text-sm text-gray-600 font-semibold leading-[14px] cursor-pointer
+  dark:text-text-primary
 `;
 
 const Divider = tw.div`
@@ -192,10 +194,12 @@ const UploadImageContainer = tw.div`
 
 const UploadImageText = tw.span`
   mb-2 text-sm text-gray-600 font-medium
+  dark:text-text-primary
 `;
 
 const UploadImageButton = tw.button`
   relative mt-2 px-4 py-0.5 w-fit h-[38px] text-sm text-gray-500 border border-gray-500 rounded-[3px]
+  dark:border-dark-50 dark:text-white
 `;
 
 const FileInput = tw.input`
@@ -218,8 +222,10 @@ const ServerNameInputContainer = tw.div`
 
 const ServerNameInputLabel = tw.label`
   mb-2 text-xs text-gray-800 font-semibold
+  dark:text-text-primary
 `;
 
 const ServerNameInput = tw.input`
-  w-full h-10 p-2.5 border border-gray-300 rounded-middle text-gray-800 font-medium bg-gray-50
+  w-full h-10 p-2.5 rounded-middle text-gray-800 font-medium bg-gray-50
+  dark:bg-dark-400 dark:text-text-tertiary
 `;
