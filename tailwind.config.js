@@ -55,9 +55,11 @@ module.exports = {
 
         "url-link": "#0068E0",
 
-        "channel-link": "#505CDC",
+        "url-link-dark": "#00AFF4",
 
-        "channel-link-background": "#5865F2",
+        "channel-link": "#5865F2",
+
+        "channel-link-dark": "#C9CDFB",
       },
 
       fontFamily: {
@@ -121,7 +123,11 @@ module.exports = {
   safelist: [
     "text-url-link",
     "text-channel-link",
-    "bg-channel-link-background/[0.15]",
-    "hover:bg-channel-link-background/100",
+    "bg-channel-link/[.15]",
+    "hover:bg-channel-link",
+    "dark:text-url-link-dark",
+    "dark:text-channel-link-dark",
+    "dark:bg-channel-link/[.3]",
+    "dark:hover:bg-channel-link",
   ],
 };
