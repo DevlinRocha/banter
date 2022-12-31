@@ -84,11 +84,14 @@ export function useParseLinks(message: string, link = true) {
 const LinkText = tw.a`
   text-url-link
   hover:underline
+  dark:text-url-link-dark
 `;
 
 const ChannelLinkText = tw.a`
-  text-channel-link bg-channel-link-background/[0.15] rounded-[3px] px-0.5 cursor-pointer
-  hover:text-white hover:bg-channel-link-background/100
+  text-channel-link bg-channel-link/[.15] rounded-[3px] px-0.5 cursor-pointer
+  hover:text-white hover:bg-channel-link
+  dark:bg-channel-link/[.3] dark:text-channel-link-dark
+  dark:hover:text-white dark:hover:bg-channel-link
 `;
 
 const DummyLinkText = tw.span`
@@ -96,5 +99,5 @@ const DummyLinkText = tw.span`
 `;
 
 const DummyChannelLinkText = tw.span`
-  text-channel-link bg-channel-link-background/[0.15] rounded-[3px] px-0.5 cursor-pointer
+  text-channel-link bg-channel-link/[0.15] rounded-[3px] px-0.5 cursor-pointer
 `;
