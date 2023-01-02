@@ -49,6 +49,8 @@ export default function Register() {
   }, []);
 
   function handleContext(e: MouseEvent) {
+    const element = e.target as HTMLElement;
+    if (element.tagName === "INPUT") return;
     e.preventDefault();
   }
 
