@@ -48,8 +48,12 @@ export default function Register() {
     };
   }, []);
 
+  function handleContext(e: MouseEvent) {
+    e.preventDefault();
+  }
+
   return (
-    <Container>
+    <Container onContextMenu={handleContext}>
       <LoginForm></LoginForm>
     </Container>
   );

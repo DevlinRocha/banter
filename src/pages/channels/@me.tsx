@@ -98,8 +98,12 @@ const Home: NextPage = () => {
     router.push("/login");
   }
 
+  function handleContext(e: MouseEvent) {
+    e.preventDefault();
+  }
+
   return (
-    <PageContainer>
+    <PageContainer onContextMenu={handleContext}>
       <Head>
         <title>{channel.name ? channel.name : "Banter"}</title>
 
