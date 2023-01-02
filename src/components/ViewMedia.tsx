@@ -15,8 +15,12 @@ export default function ViewMedia() {
     e.stopPropagation();
   }
 
+  function handleContext(e: MouseEvent) {
+    e.stopPropagation();
+  }
+
   return (
-    <Backdrop onClick={closeWindow}>
+    <Backdrop onClick={closeWindow} onContextMenu={handleContext}>
       <Container onClick={stopPropagation}>
         {viewMedia.type === "image" && viewMedia.src && (
           <StyledImage
