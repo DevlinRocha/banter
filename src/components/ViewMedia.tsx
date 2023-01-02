@@ -11,17 +11,13 @@ export default function ViewMedia() {
     dispatch(setViewMediaOpen(false));
   }
 
-  function stopPropagation(e: React.MouseEvent<HTMLDivElement>) {
-    e.stopPropagation();
-  }
-
-  function handleContext(e: MouseEvent) {
+  function stopPropagation(e: MouseEvent) {
     e.stopPropagation();
   }
 
   return (
-    <Backdrop onClick={closeWindow} onContextMenu={handleContext}>
-      <Container onClick={stopPropagation}>
+    <Backdrop onClick={closeWindow}>
+      <Container onClick={stopPropagation} onContextMenu={stopPropagation}>
         {viewMedia.type === "image" && viewMedia.src && (
           <StyledImage
             onClick={closeWindow}
