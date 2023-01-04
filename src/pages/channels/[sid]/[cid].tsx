@@ -140,8 +140,14 @@ const Home: NextPage = () => {
     router.push("/login");
   }
 
+  function handleContext(e: MouseEvent) {
+    const element = e.target as HTMLElement;
+    if (element.tagName === "INPUT") return;
+    e.preventDefault();
+  }
+
   return (
-    <PageContainer>
+    <PageContainer onContextMenu={handleContext}>
       <Head>
         <title>{channel.name ? channel.name : "Banter"}</title>
 
