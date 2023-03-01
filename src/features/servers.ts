@@ -17,6 +17,7 @@ export interface ChannelData {
   type: string;
   path: string;
   channelID: string;
+  messageCount: number;
 }
 
 export interface MessageData {
@@ -28,6 +29,7 @@ export interface MessageData {
   edited: boolean;
   image: string;
   video: string;
+  messageCount: number;
 }
 
 export interface MemberData {
@@ -135,6 +137,7 @@ const initialState: ServersState = {
     type: "text",
     path: "",
     channelID: "",
+    messageCount: 0,
   },
 
   voiceChannel: {
@@ -142,6 +145,7 @@ const initialState: ServersState = {
     type: "voice",
     path: "",
     channelID: "",
+    messageCount: 0,
   },
 
   messages: [],
@@ -219,6 +223,10 @@ export const serversSlice = createSlice({
       state.channel = action.payload;
     },
 
+    incrementMessageCount(state) {
+      state.channel.messageCount++;
+    },
+
     setVoiceChannel(state, action) {
       state.voiceChannel = action.payload;
     },
@@ -282,6 +290,7 @@ export const {
   setServerContentFilter,
   setChannels,
   setChannel,
+  incrementMessageCount,
   setVoiceChannel,
   setMessages,
   setMembers,
