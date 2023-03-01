@@ -8,7 +8,14 @@ import {
 import { useUserSettingsState } from "../../features/userSettings";
 import tw from "tailwind-styled-components";
 import Message from "./Message";
-import { query, collection, onSnapshot } from "firebase/firestore";
+import {
+  query,
+  collection,
+  onSnapshot,
+  limit,
+  orderBy,
+  startAt,
+} from "firebase/firestore";
 import { db } from "../../../firebase";
 
 export default function Messages() {
@@ -29,17 +36,15 @@ export default function Messages() {
     const q = query(
       collection(
         db,
-
         "servers",
-
         server.serverID,
-
         "channels",
-
         channel.channelID,
-
         "messages"
-      )
+      ),
+      orderBy("messageCount"),
+      startAt(channel.messageCount - 49),
+      limit(50)
     );
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -50,27 +55,17 @@ export default function Messages() {
 
         const message: MessageData = {
           content: docData.content,
-
           userID: docData.userID,
-
           date: docData.date,
-
           timestamp: docData.timestamp,
-
           reactions: docData.reactions,
-
           edited: docData.edited,
-
           image: docData.image,
-
           video: docData.video,
+          messageCount: docData.messageCount,
         };
 
         messageList.push(message);
-      });
-
-      messageList.sort((a, b) => {
-        return a.timestamp - b.timestamp;
       });
 
       dispatch(setMessages(messageList));
