@@ -279,6 +279,7 @@ export async function createMessage(
   channelID: string,
   userID: string,
   content: string,
+  messageCount: number,
   image?: File
 ) {
   // Compatibility shim for older browsers, such as IE8 and earlier:
@@ -287,6 +288,8 @@ export async function createMessage(
       return new Date().getTime();
     };
   }
+
+  updateChannelDatabase(serverID, channelID, "messageCount", messageCount);
 
   try {
     const docRef = await addDoc(
@@ -298,6 +301,7 @@ export async function createMessage(
         reactions: [],
         timestamp: Date.now(),
         userID: userID,
+        messageCount,
       }
     );
 
@@ -446,6 +450,7 @@ export async function createChannel(
     {
       name: channelName,
       type: type,
+      messageCount: 0,
     }
   );
 
@@ -581,6 +586,17 @@ async function updateServerDatabase(
   newValue: string | RoleData[]
 ) {
   await updateDoc(doc(db, "servers", serverID), {
+    [property]: newValue,
+  });
+}
+
+async function updateChannelDatabase(
+  serverID: string,
+  channelID: string,
+  property: string,
+  newValue: string | number | RoleData[]
+) {
+  await updateDoc(doc(db, "servers", serverID, "channels", channelID), {
     [property]: newValue,
   });
 }

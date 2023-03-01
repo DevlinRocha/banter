@@ -38,14 +38,11 @@ export default function Channels() {
 
         const channel: ChannelData = {
           name: docData.name,
-
           topic: docData.topic,
-
           type: docData.type,
-
           path: `/channels/${server.serverID}/${doc.id}/`,
-
           channelID: doc.id,
+          messageCount: docData.messageCount,
         };
 
         channelList.push(channel);
@@ -69,14 +66,11 @@ export default function Channels() {
 
         const channel: ChannelData = {
           name: docData?.name,
-
           topic: docData?.topic,
-
           type: docData?.type,
-
           path: `${server.serverID}/${doc.id}/`,
-
           channelID: doc.id,
+          messageCount: docData?.messageCount,
         };
         dispatch(setChannel(channel));
       }
