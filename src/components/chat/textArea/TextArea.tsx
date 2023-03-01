@@ -1,7 +1,10 @@
 import { useRef, useState } from "react";
 import { createMessage, uploadMessageImagePreview } from "../../../../firebase";
 import tw from "tailwind-styled-components";
-import { useServersState } from "../../../features/servers";
+import {
+  incrementMessageCount,
+  useServersState,
+} from "../../../features/servers";
 import { useUserState } from "../../../features/user";
 import Image from "next/image";
 import UploadImageIcon from "./UploadImageIcon";
@@ -58,9 +61,11 @@ export default function TextArea() {
       channel.channelID,
       user.userID,
       content,
+      channel.messageCount + 1,
       messageImage
     );
 
+    dispatch(incrementMessageCount());
     setMessageImageURL("");
   }
 
