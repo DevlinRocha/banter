@@ -21,7 +21,7 @@ import { db } from "../../../firebase";
 export default function Messages() {
   const { server, channel, messages } = useServersState();
   const { theme } = useUserSettingsState();
-  const scrollRef = useRef<any>();
+  const scrollRef = useRef<HTMLElement>();
   const dispatch = useAppDispatch();
 
   useLayoutEffect(() => {
